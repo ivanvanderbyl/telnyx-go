@@ -1,0 +1,3 @@
+package: telnyx
+generate:
+  models: false

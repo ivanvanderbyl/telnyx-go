@@ -1,0 +1,16 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  gen:
+    cmds:
+      - oapi-codegen --config gen-models.yaml openapi.yaml > models.gen.go
+      # - oapi-codegen --config gen-client.yaml schema.yaml > client.gen.go

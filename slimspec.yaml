@@ -1,0 +1,274 @@
+openapi: 3.1.0
+info:
+  version: 2.0.0
+  title: Telnyx API
+  x-endpoint-cost: light
+  description: Notifications and Notification Settings.
+  license:
+    name: MIT
+    identifier: mit
+    url: 'https://opensource.org/licenses/MIT'
+  contact:
+    email: support@telnyx.com
+servers:
+  - url: https://api.telnyx.com/v2
+    description: Version 2.0.0 of the Telnyx API
+security:
+  - bearerAuth: []
+paths:
+  /call_events:
+    get:
+      summary: List call events
+      description: >
+        Filters call events by given filter parameters. Events are ordered by
+        `event_timestamp`. If filter for `call_leg_id` or `call_session_id` is
+        not present, it only filters events from the last 24 hours.
+
+
+        **Note**: Only one `filter[event_timestamp]` can be passed.
+      x-latency-category: responsive
+      x-group-parameters: 'true'
+      operationId: ListCallEvents
+      tags:
+        - Debugging
+      parameters:
+        - $ref: '#/components/parameters/FilterCallLegId'
+        - $ref: '#/components/parameters/FilterCallSessionId'
+        - $ref: '#/components/parameters/FilterCallEventStatus'
+        - $ref: '#/components/parameters/FilterCallEventType'
+        - $ref: '#/components/parameters/FilterCallEventTimestampGreaterThan'
+        - $ref: '#/components/parameters/FilterCallEventTimestampGreaterThanOrEqualTo'
+        - $ref: '#/components/parameters/FilterCallEventTimestampLessThan'
+        - $ref: '#/components/parameters/FilterCallEventTimestampLessThanOrEqualTo'
+        - $ref: '#/components/parameters/FilterCallEventTimestampEqualTo'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListCallEventsResponse'
+        default:
+          $ref: '#/components/responses/GenericErrorResponse'
+
+
+components:
+  responses:
+    GenericErrorResponse:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    ListCallEventsResponse:
+      description: Successful response with a list of call events.
+      content:
+        application/json:
+          schema:
+            type: object
+            title: List Call Events Response
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CallEvent'
+              meta:
+                $ref: '#/components/schemas/PaginationMeta'
+  schemas:
+    Errors:
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      required:
+        - code
+        - title
+      properties:
+        code:
+          type: string
+          format: int
+        title:
+          type: string
+        detail:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              description: JSON pointer (RFC6901) to the offending entity.
+              type: string
+              format: json-pointer
+            parameter:
+              description: Indicates which query parameter caused the error.
+              type: string
+        meta:
+          type: object
+    PaginationMeta:
+      type: object
+      properties:
+        total_pages:
+          type: integer
+          example: 3
+        total_results:
+          type: integer
+          example: 55
+        page_number:
+          type: integer
+          example: 2
+        page_size:
+          type: integer
+          example: 25
+    CallEvent:
+      type: object
+      title: Call Event
+      required:
+        - record_type
+        - call_leg_id
+        - call_session_id
+        - event_timestamp
+        - name
+        - type
+        - metadata
+      properties:
+        record_type:
+          type: string
+          enum:
+            - call_event
+          example: call_event
+        call_leg_id:
+          type: string
+          description: Uniquely identifies an individual call leg.
+          example: 308fe500-5213-11e9-ace7-02420a0f0668
+        call_session_id:
+          type: string
+          description: >-
+            Uniquely identifies the call control session. A session may include
+            multiple call leg events.
+          example: 308fec30-5213-11e9-9d3f-02420a0f0668
+        event_timestamp:
+          type: string
+          description: Event timestamp
+          example: '2019-03-29T11:10:19.127783Z'
+        name:
+          type: string
+          description: Event name
+          example: call.hangup
+        type:
+          type: string
+          description: Event type
+          enum:
+            - command
+            - webhook
+          example: webhook
+        metadata:
+          type: object
+          description: >-
+            Event metadata, which includes raw event, and extra information
+            based on event type
+      example:
+        record_type: call_event
+        call_leg_id: 308fe500-5213-11e9-ace7-02420a0f0668
+        call_session_id: 308fec30-5213-11e9-9d3f-02420a0f0668
+        event_timestamp: '2019-03-29T11:10:19.127783Z'
+        name: call.hangup
+        type: webhook
+        metadata: {}
+  parameters:
+    FilterCallLegId:
+      name: filter[call_leg_id]
+      in: query
+      description: The unique identifier of an individual call leg.
+      required: false
+      schema:
+        type: string
+        format: uuid
+    FilterCallSessionId:
+      name: filter[call_session_id]
+      in: query
+      description: >-
+        The unique identifier of the call control session. A session may include
+        multiple call leg events.
+      required: false
+      schema:
+        type: string
+        format: uuid
+    FilterCallEventStatus:
+      name: filter[status]
+      in: query
+      description: Event status
+      required: false
+      schema:
+        type: string
+        enum:
+          - delivered
+          - failed
+        example: delivered
+    FilterCallEventType:
+      name: filter[type]
+      in: query
+      description: Event type
+      required: false
+      schema:
+        type: string
+        enum:
+          - command
+          - webhook
+        example: webhook
+    FilterCallEventTimestampGreaterThan:
+      name: filter[event_timestamp][gt]
+      in: query
+      description: 'Event timestamp: greater than'
+      required: false
+      schema:
+        type: string
+        example: '2019-03-29T11:10:00Z'
+    FilterCallEventTimestampGreaterThanOrEqualTo:
+      name: filter[event_timestamp][gte]
+      in: query
+      description: 'Event timestamp: greater than or equal'
+      required: false
+      schema:
+        type: string
+        example: '2019-03-29T11:10:00Z'
+    FilterCallEventTimestampLessThan:
+      name: filter[event_timestamp][lt]
+      in: query
+      description: 'Event timestamp: lower than'
+      required: false
+      schema:
+        type: string
+        example: '2019-03-29T11:10:00Z'
+    FilterCallEventTimestampLessThanOrEqualTo:
+      name: filter[event_timestamp][lte]
+      in: query
+      description: 'Event timestamp: lower than or equal'
+      required: false
+      schema:
+        type: string
+        example: '2019-03-29T11:10:00Z'
+    FilterCallEventTimestampEqualTo:
+      name: filter[event_timestamp][eq]
+      in: query
+      description: 'Event timestamp: equal'
+      required: false
+      schema:
+        type: string
+        example: '2019-03-29T11:10:00Z'
+    PageNumber:
+      name: page[number]
+      in: query
+      description: The page number to load
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: page[size]
+      in: query
+      description: The size of the page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 20
+
