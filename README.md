@@ -37,3 +37,5 @@ func do() error {
     return errors.New("not found")
   }
 }
+
+Also see [cmd](./cmd) for more examples.
