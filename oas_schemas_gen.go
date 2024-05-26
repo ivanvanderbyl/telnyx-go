@@ -6723,6 +6723,165 @@ func (s *CreateNumberPoolMessageRequestType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/CreateOutboundVoiceProfileRequest
+type CreateOutboundVoiceProfileRequest struct {
+	// A user-supplied name to help with organization.
+	Name        string         `json:"name"`
+	TrafficType OptTrafficType `json:"traffic_type"`
+	ServicePlan OptServicePlan `json:"service_plan"`
+	// Must be no more than your global concurrent call limit. Null means no limit.
+	ConcurrentCallLimit OptNilInt `json:"concurrent_call_limit"`
+	// Specifies whether the outbound voice profile can be used. Disabled profiles will result in
+	// outbound calls being blocked for the associated Connections.
+	Enabled            OptBool               `json:"enabled"`
+	Tags               []string              `json:"tags"`
+	UsagePaymentMethod OptUsagePaymentMethod `json:"usage_payment_method"`
+	// The list of destinations you want to be able to call using this outbound voice profile formatted
+	// in alpha2.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// Maximum rate (price per minute) for a Destination to be allowed when making outbound calls.
+	MaxDestinationRate OptFloat64 `json:"max_destination_rate"`
+	// The maximum amount of usage charges, in USD, you want Telnyx to allow on this outbound voice
+	// profile in a day before disallowing new calls.
+	DailySpendLimit OptString `json:"daily_spend_limit"`
+	// Specifies whether to enforce the daily_spend_limit on this outbound voice profile.
+	DailySpendLimitEnabled OptBool                  `json:"daily_spend_limit_enabled"`
+	CallRecording          OptOutboundCallRecording `json:"call_recording"`
+	// The ID of the billing group associated with the outbound proflile. Defaults to null (for no group
+	// assigned).
+	BillingGroupID OptNilUUID `json:"billing_group_id"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateOutboundVoiceProfileRequest) GetName() string {
+	return s.Name
+}
+
+// GetTrafficType returns the value of TrafficType.
+func (s *CreateOutboundVoiceProfileRequest) GetTrafficType() OptTrafficType {
+	return s.TrafficType
+}
+
+// GetServicePlan returns the value of ServicePlan.
+func (s *CreateOutboundVoiceProfileRequest) GetServicePlan() OptServicePlan {
+	return s.ServicePlan
+}
+
+// GetConcurrentCallLimit returns the value of ConcurrentCallLimit.
+func (s *CreateOutboundVoiceProfileRequest) GetConcurrentCallLimit() OptNilInt {
+	return s.ConcurrentCallLimit
+}
+
+// GetEnabled returns the value of Enabled.
+func (s *CreateOutboundVoiceProfileRequest) GetEnabled() OptBool {
+	return s.Enabled
+}
+
+// GetTags returns the value of Tags.
+func (s *CreateOutboundVoiceProfileRequest) GetTags() []string {
+	return s.Tags
+}
+
+// GetUsagePaymentMethod returns the value of UsagePaymentMethod.
+func (s *CreateOutboundVoiceProfileRequest) GetUsagePaymentMethod() OptUsagePaymentMethod {
+	return s.UsagePaymentMethod
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *CreateOutboundVoiceProfileRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetMaxDestinationRate returns the value of MaxDestinationRate.
+func (s *CreateOutboundVoiceProfileRequest) GetMaxDestinationRate() OptFloat64 {
+	return s.MaxDestinationRate
+}
+
+// GetDailySpendLimit returns the value of DailySpendLimit.
+func (s *CreateOutboundVoiceProfileRequest) GetDailySpendLimit() OptString {
+	return s.DailySpendLimit
+}
+
+// GetDailySpendLimitEnabled returns the value of DailySpendLimitEnabled.
+func (s *CreateOutboundVoiceProfileRequest) GetDailySpendLimitEnabled() OptBool {
+	return s.DailySpendLimitEnabled
+}
+
+// GetCallRecording returns the value of CallRecording.
+func (s *CreateOutboundVoiceProfileRequest) GetCallRecording() OptOutboundCallRecording {
+	return s.CallRecording
+}
+
+// GetBillingGroupID returns the value of BillingGroupID.
+func (s *CreateOutboundVoiceProfileRequest) GetBillingGroupID() OptNilUUID {
+	return s.BillingGroupID
+}
+
+// SetName sets the value of Name.
+func (s *CreateOutboundVoiceProfileRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetTrafficType sets the value of TrafficType.
+func (s *CreateOutboundVoiceProfileRequest) SetTrafficType(val OptTrafficType) {
+	s.TrafficType = val
+}
+
+// SetServicePlan sets the value of ServicePlan.
+func (s *CreateOutboundVoiceProfileRequest) SetServicePlan(val OptServicePlan) {
+	s.ServicePlan = val
+}
+
+// SetConcurrentCallLimit sets the value of ConcurrentCallLimit.
+func (s *CreateOutboundVoiceProfileRequest) SetConcurrentCallLimit(val OptNilInt) {
+	s.ConcurrentCallLimit = val
+}
+
+// SetEnabled sets the value of Enabled.
+func (s *CreateOutboundVoiceProfileRequest) SetEnabled(val OptBool) {
+	s.Enabled = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CreateOutboundVoiceProfileRequest) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetUsagePaymentMethod sets the value of UsagePaymentMethod.
+func (s *CreateOutboundVoiceProfileRequest) SetUsagePaymentMethod(val OptUsagePaymentMethod) {
+	s.UsagePaymentMethod = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *CreateOutboundVoiceProfileRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetMaxDestinationRate sets the value of MaxDestinationRate.
+func (s *CreateOutboundVoiceProfileRequest) SetMaxDestinationRate(val OptFloat64) {
+	s.MaxDestinationRate = val
+}
+
+// SetDailySpendLimit sets the value of DailySpendLimit.
+func (s *CreateOutboundVoiceProfileRequest) SetDailySpendLimit(val OptString) {
+	s.DailySpendLimit = val
+}
+
+// SetDailySpendLimitEnabled sets the value of DailySpendLimitEnabled.
+func (s *CreateOutboundVoiceProfileRequest) SetDailySpendLimitEnabled(val OptBool) {
+	s.DailySpendLimitEnabled = val
+}
+
+// SetCallRecording sets the value of CallRecording.
+func (s *CreateOutboundVoiceProfileRequest) SetCallRecording(val OptOutboundCallRecording) {
+	s.CallRecording = val
+}
+
+// SetBillingGroupID sets the value of BillingGroupID.
+func (s *CreateOutboundVoiceProfileRequest) SetBillingGroupID(val OptNilUUID) {
+	s.BillingGroupID = val
+}
+
 type CreatePhoneNumbersJobUpdateEmergencySettingsAccepted struct {
 	Data OptPhoneNumbersJob `json:"data"`
 }
@@ -8020,6 +8179,21 @@ func (s *CreateVerifyProfileSMSRequest) SetWhitelistedDestinations(val []string)
 func (s *CreateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
 	s.DefaultVerificationTimeoutSecs = val
 }
+
+// CreateVoiceProfileNotFound is response for CreateVoiceProfile operation.
+type CreateVoiceProfileNotFound struct{}
+
+func (*CreateVoiceProfileNotFound) createVoiceProfileRes() {}
+
+// CreateVoiceProfileUnauthorized is response for CreateVoiceProfile operation.
+type CreateVoiceProfileUnauthorized struct{}
+
+func (*CreateVoiceProfileUnauthorized) createVoiceProfileRes() {}
+
+// CreateVoiceProfileUnprocessableEntity is response for CreateVoiceProfile operation.
+type CreateVoiceProfileUnprocessableEntity struct{}
+
+func (*CreateVoiceProfileUnprocessableEntity) createVoiceProfileRes() {}
 
 type CreatedAt string
 
@@ -11752,6 +11926,7 @@ func (*GenericErrorResponseStatusCode) registerCallRes()                        
 func (*GenericErrorResponseStatusCode) rejectCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                          {}
 func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                           {}
+func (*GenericErrorResponseStatusCode) retrieveNumberOrderDocumentRes()                  {}
 func (*GenericErrorResponseStatusCode) retrieveOrderPhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumberRes()                          {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumbersJobRes()                      {}
@@ -11777,6 +11952,7 @@ func (*GenericErrorResponseStatusCode) updateClientStateRes()                   
 func (*GenericErrorResponseStatusCode) updateCustomStorageCredentialsRes()               {}
 func (*GenericErrorResponseStatusCode) updateNetworkRes()                                {}
 func (*GenericErrorResponseStatusCode) updateNotificationChannelRes()                    {}
+func (*GenericErrorResponseStatusCode) updateNumberOrderDocumentRes()                    {}
 func (*GenericErrorResponseStatusCode) updateNumberOrderPhoneNumberRes()                 {}
 func (*GenericErrorResponseStatusCode) updatePhoneNumberMessagingSettingsRes()           {}
 func (*GenericErrorResponseStatusCode) updatePhoneNumberRes()                            {}
@@ -13953,6 +14129,43 @@ func (s *ListOtaUpdatesFilterType) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ListOutboundVoiceProfilesResponse struct {
+	Data []OutboundVoiceProfile `json:"data"`
+	Meta OptPaginationMeta      `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListOutboundVoiceProfilesResponse) GetData() []OutboundVoiceProfile {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListOutboundVoiceProfilesResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListOutboundVoiceProfilesResponse) SetData(val []OutboundVoiceProfile) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListOutboundVoiceProfilesResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListOutboundVoiceProfilesResponse) listOutboundVoiceProfilesRes() {}
+
+// ListOutboundVoiceProfilesUnauthorized is response for ListOutboundVoiceProfiles operation.
+type ListOutboundVoiceProfilesUnauthorized struct{}
+
+func (*ListOutboundVoiceProfilesUnauthorized) listOutboundVoiceProfilesRes() {}
+
+// ListOutboundVoiceProfilesUnprocessableEntity is response for ListOutboundVoiceProfiles operation.
+type ListOutboundVoiceProfilesUnprocessableEntity struct{}
+
+func (*ListOutboundVoiceProfilesUnprocessableEntity) listOutboundVoiceProfilesRes() {}
 
 type ListPhoneNumbersFilterStatus string
 
@@ -16747,6 +16960,156 @@ func (s *NumberLookupType) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+// Ref: #/components/schemas/NumberOrderDocument
+type NumberOrderDocument struct {
+	ID         OptUUID   `json:"id"`
+	RecordType OptString `json:"record_type"`
+	// The id of the file to associate as a number order document.
+	FileID OptString `json:"file_id"`
+	// Unique id for a requirement.
+	RequirementsID OptString `json:"requirements_id"`
+	// A customer reference string for customer look ups.
+	CustomerReference OptString                             `json:"customer_reference"`
+	RequirementType   OptNumberOrderDocumentRequirementType `json:"requirement_type"`
+	// An ISO 8901 datetime string denoting when the number order document was uploaded.
+	CreatedAt OptString `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *NumberOrderDocument) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *NumberOrderDocument) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetFileID returns the value of FileID.
+func (s *NumberOrderDocument) GetFileID() OptString {
+	return s.FileID
+}
+
+// GetRequirementsID returns the value of RequirementsID.
+func (s *NumberOrderDocument) GetRequirementsID() OptString {
+	return s.RequirementsID
+}
+
+// GetCustomerReference returns the value of CustomerReference.
+func (s *NumberOrderDocument) GetCustomerReference() OptString {
+	return s.CustomerReference
+}
+
+// GetRequirementType returns the value of RequirementType.
+func (s *NumberOrderDocument) GetRequirementType() OptNumberOrderDocumentRequirementType {
+	return s.RequirementType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *NumberOrderDocument) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *NumberOrderDocument) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *NumberOrderDocument) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetFileID sets the value of FileID.
+func (s *NumberOrderDocument) SetFileID(val OptString) {
+	s.FileID = val
+}
+
+// SetRequirementsID sets the value of RequirementsID.
+func (s *NumberOrderDocument) SetRequirementsID(val OptString) {
+	s.RequirementsID = val
+}
+
+// SetCustomerReference sets the value of CustomerReference.
+func (s *NumberOrderDocument) SetCustomerReference(val OptString) {
+	s.CustomerReference = val
+}
+
+// SetRequirementType sets the value of RequirementType.
+func (s *NumberOrderDocument) SetRequirementType(val OptNumberOrderDocumentRequirementType) {
+	s.RequirementType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *NumberOrderDocument) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+type NumberOrderDocumentRequirementType string
+
+const (
+	NumberOrderDocumentRequirementTypeAddressProof   NumberOrderDocumentRequirementType = "address_proof"
+	NumberOrderDocumentRequirementTypeIdentification NumberOrderDocumentRequirementType = "identification"
+	NumberOrderDocumentRequirementTypeRegForm        NumberOrderDocumentRequirementType = "reg_form"
+)
+
+// AllValues returns all NumberOrderDocumentRequirementType values.
+func (NumberOrderDocumentRequirementType) AllValues() []NumberOrderDocumentRequirementType {
+	return []NumberOrderDocumentRequirementType{
+		NumberOrderDocumentRequirementTypeAddressProof,
+		NumberOrderDocumentRequirementTypeIdentification,
+		NumberOrderDocumentRequirementTypeRegForm,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NumberOrderDocumentRequirementType) MarshalText() ([]byte, error) {
+	switch s {
+	case NumberOrderDocumentRequirementTypeAddressProof:
+		return []byte(s), nil
+	case NumberOrderDocumentRequirementTypeIdentification:
+		return []byte(s), nil
+	case NumberOrderDocumentRequirementTypeRegForm:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NumberOrderDocumentRequirementType) UnmarshalText(data []byte) error {
+	switch NumberOrderDocumentRequirementType(data) {
+	case NumberOrderDocumentRequirementTypeAddressProof:
+		*s = NumberOrderDocumentRequirementTypeAddressProof
+		return nil
+	case NumberOrderDocumentRequirementTypeIdentification:
+		*s = NumberOrderDocumentRequirementTypeIdentification
+		return nil
+	case NumberOrderDocumentRequirementTypeRegForm:
+		*s = NumberOrderDocumentRequirementTypeRegForm
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type NumberOrderDocumentResponse struct {
+	Data OptNumberOrderDocument `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *NumberOrderDocumentResponse) GetData() OptNumberOrderDocument {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *NumberOrderDocumentResponse) SetData(val OptNumberOrderDocument) {
+	s.Data = val
+}
+
+func (*NumberOrderDocumentResponse) retrieveNumberOrderDocumentRes() {}
+func (*NumberOrderDocumentResponse) updateNumberOrderDocumentRes()   {}
 
 // Ref: #/components/schemas/NumberOrderPhoneNumber
 type NumberOrderPhoneNumber struct {
@@ -26256,6 +26619,98 @@ func (o OptNumberLookupType) Or(d NumberLookupType) NumberLookupType {
 	return d
 }
 
+// NewOptNumberOrderDocument returns new OptNumberOrderDocument with value set to v.
+func NewOptNumberOrderDocument(v NumberOrderDocument) OptNumberOrderDocument {
+	return OptNumberOrderDocument{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNumberOrderDocument is optional NumberOrderDocument.
+type OptNumberOrderDocument struct {
+	Value NumberOrderDocument
+	Set   bool
+}
+
+// IsSet returns true if OptNumberOrderDocument was set.
+func (o OptNumberOrderDocument) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNumberOrderDocument) Reset() {
+	var v NumberOrderDocument
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNumberOrderDocument) SetTo(v NumberOrderDocument) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNumberOrderDocument) Get() (v NumberOrderDocument, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNumberOrderDocument) Or(d NumberOrderDocument) NumberOrderDocument {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNumberOrderDocumentRequirementType returns new OptNumberOrderDocumentRequirementType with value set to v.
+func NewOptNumberOrderDocumentRequirementType(v NumberOrderDocumentRequirementType) OptNumberOrderDocumentRequirementType {
+	return OptNumberOrderDocumentRequirementType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNumberOrderDocumentRequirementType is optional NumberOrderDocumentRequirementType.
+type OptNumberOrderDocumentRequirementType struct {
+	Value NumberOrderDocumentRequirementType
+	Set   bool
+}
+
+// IsSet returns true if OptNumberOrderDocumentRequirementType was set.
+func (o OptNumberOrderDocumentRequirementType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNumberOrderDocumentRequirementType) Reset() {
+	var v NumberOrderDocumentRequirementType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNumberOrderDocumentRequirementType) SetTo(v NumberOrderDocumentRequirementType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNumberOrderDocumentRequirementType) Get() (v NumberOrderDocumentRequirementType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNumberOrderDocumentRequirementType) Or(d NumberOrderDocumentRequirementType) NumberOrderDocumentRequirementType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNumberOrderPhoneNumber returns new OptNumberOrderPhoneNumber with value set to v.
 func NewOptNumberOrderPhoneNumber(v NumberOrderPhoneNumber) OptNumberOrderPhoneNumber {
 	return OptNumberOrderPhoneNumber{
@@ -30214,6 +30669,52 @@ func (o OptSortConnection) Or(d SortConnection) SortConnection {
 	return d
 }
 
+// NewOptSortOutboundVoiceProfile returns new OptSortOutboundVoiceProfile with value set to v.
+func NewOptSortOutboundVoiceProfile(v SortOutboundVoiceProfile) OptSortOutboundVoiceProfile {
+	return OptSortOutboundVoiceProfile{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSortOutboundVoiceProfile is optional SortOutboundVoiceProfile.
+type OptSortOutboundVoiceProfile struct {
+	Value SortOutboundVoiceProfile
+	Set   bool
+}
+
+// IsSet returns true if OptSortOutboundVoiceProfile was set.
+func (o OptSortOutboundVoiceProfile) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSortOutboundVoiceProfile) Reset() {
+	var v SortOutboundVoiceProfile
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSortOutboundVoiceProfile) SetTo(v SortOutboundVoiceProfile) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSortOutboundVoiceProfile) Get() (v SortOutboundVoiceProfile, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSortOutboundVoiceProfile) Or(d SortOutboundVoiceProfile) SortOutboundVoiceProfile {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptSoundModifications returns new OptSoundModifications with value set to v.
 func NewOptSoundModifications(v SoundModifications) OptSoundModifications {
 	return OptSoundModifications{
@@ -32738,6 +33239,52 @@ func (o OptUpdateConferenceRequestAnnounceMethod) Get() (v UpdateConferenceReque
 
 // Or returns value if set, or given parameter if does not.
 func (o OptUpdateConferenceRequestAnnounceMethod) Or(d UpdateConferenceRequestAnnounceMethod) UpdateConferenceRequestAnnounceMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateNumberOrderDocumentRequestRequirementType returns new OptUpdateNumberOrderDocumentRequestRequirementType with value set to v.
+func NewOptUpdateNumberOrderDocumentRequestRequirementType(v UpdateNumberOrderDocumentRequestRequirementType) OptUpdateNumberOrderDocumentRequestRequirementType {
+	return OptUpdateNumberOrderDocumentRequestRequirementType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateNumberOrderDocumentRequestRequirementType is optional UpdateNumberOrderDocumentRequestRequirementType.
+type OptUpdateNumberOrderDocumentRequestRequirementType struct {
+	Value UpdateNumberOrderDocumentRequestRequirementType
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateNumberOrderDocumentRequestRequirementType was set.
+func (o OptUpdateNumberOrderDocumentRequestRequirementType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateNumberOrderDocumentRequestRequirementType) Reset() {
+	var v UpdateNumberOrderDocumentRequestRequirementType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateNumberOrderDocumentRequestRequirementType) SetTo(v UpdateNumberOrderDocumentRequestRequirementType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateNumberOrderDocumentRequestRequirementType) Get() (v UpdateNumberOrderDocumentRequestRequirementType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateNumberOrderDocumentRequestRequirementType) Or(d UpdateNumberOrderDocumentRequestRequirementType) UpdateNumberOrderDocumentRequestRequirementType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -35740,6 +36287,7 @@ func (s *OutboundVoiceProfileResponse) SetData(val OptOutboundVoiceProfile) {
 	s.Data = val
 }
 
+func (*OutboundVoiceProfileResponse) createVoiceProfileRes()         {}
 func (*OutboundVoiceProfileResponse) deleteOutboundVoiceProfileRes() {}
 func (*OutboundVoiceProfileResponse) getOutboundVoiceProfileRes()    {}
 func (*OutboundVoiceProfileResponse) updateOutboundVoiceProfileRes() {}
@@ -43490,6 +44038,117 @@ func (s *SortConnection) UnmarshalText(data []byte) error {
 	}
 }
 
+type SortOutboundVoiceProfile string
+
+const (
+	SortOutboundVoiceProfileEnabled                 SortOutboundVoiceProfile = "enabled"
+	SortOutboundVoiceProfileMinusEnabled            SortOutboundVoiceProfile = "-enabled"
+	SortOutboundVoiceProfileCreatedAt               SortOutboundVoiceProfile = "created_at"
+	SortOutboundVoiceProfileMinusCreatedAt          SortOutboundVoiceProfile = "-created_at"
+	SortOutboundVoiceProfileName                    SortOutboundVoiceProfile = "name"
+	SortOutboundVoiceProfileMinusName               SortOutboundVoiceProfile = "-name"
+	SortOutboundVoiceProfileServicePlan             SortOutboundVoiceProfile = "service_plan"
+	SortOutboundVoiceProfileMinusServicePlan        SortOutboundVoiceProfile = "-service_plan"
+	SortOutboundVoiceProfileTrafficType             SortOutboundVoiceProfile = "traffic_type"
+	SortOutboundVoiceProfileMinusTrafficType        SortOutboundVoiceProfile = "-traffic_type"
+	SortOutboundVoiceProfileUsagePaymentMethod      SortOutboundVoiceProfile = "usage_payment_method"
+	SortOutboundVoiceProfileMinusUsagePaymentMethod SortOutboundVoiceProfile = "-usage_payment_method"
+)
+
+// AllValues returns all SortOutboundVoiceProfile values.
+func (SortOutboundVoiceProfile) AllValues() []SortOutboundVoiceProfile {
+	return []SortOutboundVoiceProfile{
+		SortOutboundVoiceProfileEnabled,
+		SortOutboundVoiceProfileMinusEnabled,
+		SortOutboundVoiceProfileCreatedAt,
+		SortOutboundVoiceProfileMinusCreatedAt,
+		SortOutboundVoiceProfileName,
+		SortOutboundVoiceProfileMinusName,
+		SortOutboundVoiceProfileServicePlan,
+		SortOutboundVoiceProfileMinusServicePlan,
+		SortOutboundVoiceProfileTrafficType,
+		SortOutboundVoiceProfileMinusTrafficType,
+		SortOutboundVoiceProfileUsagePaymentMethod,
+		SortOutboundVoiceProfileMinusUsagePaymentMethod,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SortOutboundVoiceProfile) MarshalText() ([]byte, error) {
+	switch s {
+	case SortOutboundVoiceProfileEnabled:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileMinusEnabled:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileCreatedAt:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileMinusCreatedAt:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileName:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileMinusName:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileServicePlan:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileMinusServicePlan:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileTrafficType:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileMinusTrafficType:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileUsagePaymentMethod:
+		return []byte(s), nil
+	case SortOutboundVoiceProfileMinusUsagePaymentMethod:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SortOutboundVoiceProfile) UnmarshalText(data []byte) error {
+	switch SortOutboundVoiceProfile(data) {
+	case SortOutboundVoiceProfileEnabled:
+		*s = SortOutboundVoiceProfileEnabled
+		return nil
+	case SortOutboundVoiceProfileMinusEnabled:
+		*s = SortOutboundVoiceProfileMinusEnabled
+		return nil
+	case SortOutboundVoiceProfileCreatedAt:
+		*s = SortOutboundVoiceProfileCreatedAt
+		return nil
+	case SortOutboundVoiceProfileMinusCreatedAt:
+		*s = SortOutboundVoiceProfileMinusCreatedAt
+		return nil
+	case SortOutboundVoiceProfileName:
+		*s = SortOutboundVoiceProfileName
+		return nil
+	case SortOutboundVoiceProfileMinusName:
+		*s = SortOutboundVoiceProfileMinusName
+		return nil
+	case SortOutboundVoiceProfileServicePlan:
+		*s = SortOutboundVoiceProfileServicePlan
+		return nil
+	case SortOutboundVoiceProfileMinusServicePlan:
+		*s = SortOutboundVoiceProfileMinusServicePlan
+		return nil
+	case SortOutboundVoiceProfileTrafficType:
+		*s = SortOutboundVoiceProfileTrafficType
+		return nil
+	case SortOutboundVoiceProfileMinusTrafficType:
+		*s = SortOutboundVoiceProfileMinusTrafficType
+		return nil
+	case SortOutboundVoiceProfileUsagePaymentMethod:
+		*s = SortOutboundVoiceProfileUsagePaymentMethod
+		return nil
+	case SortOutboundVoiceProfileMinusUsagePaymentMethod:
+		*s = SortOutboundVoiceProfileMinusUsagePaymentMethod
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Use this field to modify sound effects, for example adjust the pitch.
 // Ref: #/components/schemas/SoundModifications
 type SoundModifications struct {
@@ -48564,6 +49223,139 @@ func (s *UpdateNotificationChannelOK) SetData(val OptNotificationChannel) {
 }
 
 func (*UpdateNotificationChannelOK) updateNotificationChannelRes() {}
+
+// Ref: #/components/schemas/UpdateNumberOrderDocumentRequest
+type UpdateNumberOrderDocumentRequest struct {
+	ID         OptUUID   `json:"id"`
+	RecordType OptString `json:"record_type"`
+	// The id of the file to associate as a number order document.
+	FileID OptString `json:"file_id"`
+	// Unique id for a requirement.
+	RequirementsID OptString `json:"requirements_id"`
+	// A customer reference string for customer look ups.
+	CustomerReference OptString                                          `json:"customer_reference"`
+	RequirementType   OptUpdateNumberOrderDocumentRequestRequirementType `json:"requirement_type"`
+	// An ISO 8901 datetime string denoting when the number order document was uploaded.
+	CreatedAt OptString `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *UpdateNumberOrderDocumentRequest) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *UpdateNumberOrderDocumentRequest) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetFileID returns the value of FileID.
+func (s *UpdateNumberOrderDocumentRequest) GetFileID() OptString {
+	return s.FileID
+}
+
+// GetRequirementsID returns the value of RequirementsID.
+func (s *UpdateNumberOrderDocumentRequest) GetRequirementsID() OptString {
+	return s.RequirementsID
+}
+
+// GetCustomerReference returns the value of CustomerReference.
+func (s *UpdateNumberOrderDocumentRequest) GetCustomerReference() OptString {
+	return s.CustomerReference
+}
+
+// GetRequirementType returns the value of RequirementType.
+func (s *UpdateNumberOrderDocumentRequest) GetRequirementType() OptUpdateNumberOrderDocumentRequestRequirementType {
+	return s.RequirementType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *UpdateNumberOrderDocumentRequest) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *UpdateNumberOrderDocumentRequest) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *UpdateNumberOrderDocumentRequest) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetFileID sets the value of FileID.
+func (s *UpdateNumberOrderDocumentRequest) SetFileID(val OptString) {
+	s.FileID = val
+}
+
+// SetRequirementsID sets the value of RequirementsID.
+func (s *UpdateNumberOrderDocumentRequest) SetRequirementsID(val OptString) {
+	s.RequirementsID = val
+}
+
+// SetCustomerReference sets the value of CustomerReference.
+func (s *UpdateNumberOrderDocumentRequest) SetCustomerReference(val OptString) {
+	s.CustomerReference = val
+}
+
+// SetRequirementType sets the value of RequirementType.
+func (s *UpdateNumberOrderDocumentRequest) SetRequirementType(val OptUpdateNumberOrderDocumentRequestRequirementType) {
+	s.RequirementType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *UpdateNumberOrderDocumentRequest) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+type UpdateNumberOrderDocumentRequestRequirementType string
+
+const (
+	UpdateNumberOrderDocumentRequestRequirementTypeAddressProof   UpdateNumberOrderDocumentRequestRequirementType = "address_proof"
+	UpdateNumberOrderDocumentRequestRequirementTypeIdentification UpdateNumberOrderDocumentRequestRequirementType = "identification"
+	UpdateNumberOrderDocumentRequestRequirementTypeRegForm        UpdateNumberOrderDocumentRequestRequirementType = "reg_form"
+)
+
+// AllValues returns all UpdateNumberOrderDocumentRequestRequirementType values.
+func (UpdateNumberOrderDocumentRequestRequirementType) AllValues() []UpdateNumberOrderDocumentRequestRequirementType {
+	return []UpdateNumberOrderDocumentRequestRequirementType{
+		UpdateNumberOrderDocumentRequestRequirementTypeAddressProof,
+		UpdateNumberOrderDocumentRequestRequirementTypeIdentification,
+		UpdateNumberOrderDocumentRequestRequirementTypeRegForm,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateNumberOrderDocumentRequestRequirementType) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateNumberOrderDocumentRequestRequirementTypeAddressProof:
+		return []byte(s), nil
+	case UpdateNumberOrderDocumentRequestRequirementTypeIdentification:
+		return []byte(s), nil
+	case UpdateNumberOrderDocumentRequestRequirementTypeRegForm:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateNumberOrderDocumentRequestRequirementType) UnmarshalText(data []byte) error {
+	switch UpdateNumberOrderDocumentRequestRequirementType(data) {
+	case UpdateNumberOrderDocumentRequestRequirementTypeAddressProof:
+		*s = UpdateNumberOrderDocumentRequestRequirementTypeAddressProof
+		return nil
+	case UpdateNumberOrderDocumentRequestRequirementTypeIdentification:
+		*s = UpdateNumberOrderDocumentRequestRequirementTypeIdentification
+		return nil
+	case UpdateNumberOrderDocumentRequestRequirementTypeRegForm:
+		*s = UpdateNumberOrderDocumentRequestRequirementTypeRegForm
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/UpdateNumberOrderPhoneNumberRequest
 type UpdateNumberOrderPhoneNumberRequest struct {

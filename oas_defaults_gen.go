@@ -297,6 +297,33 @@ func (s *CreateNumberPoolMessageRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *CreateOutboundVoiceProfileRequest) setDefaults() {
+	{
+		val := TrafficType("conversational")
+		s.TrafficType.SetTo(val)
+	}
+	{
+		val := ServicePlan("global")
+		s.ServicePlan.SetTo(val)
+	}
+	{
+		val := bool(true)
+		s.Enabled.SetTo(val)
+	}
+	{
+		val := UsagePaymentMethod("rate-deck")
+		s.UsagePaymentMethod.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.DailySpendLimitEnabled.SetTo(val)
+	}
+	{
+		s.BillingGroupID.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *CreateShortCodeMessageRequest) setDefaults() {
 	{
 		val := bool(true)

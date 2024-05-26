@@ -484,6 +484,20 @@ func encodeCreateVerifyProfileRequest(
 	return nil
 }
 
+func encodeCreateVoiceProfileRequest(
+	req *CreateOutboundVoiceProfileRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeDeleteRecordingsRequest(
 	req []string,
 	r *http.Request,
@@ -1925,6 +1939,20 @@ func encodeUpdateNetworkRequest(
 
 func encodeUpdateNotificationChannelRequest(
 	req *NotificationChannel,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateNumberOrderDocumentRequest(
+	req *UpdateNumberOrderDocumentRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

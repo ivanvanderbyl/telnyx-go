@@ -2366,6 +2366,127 @@ func (s CreateNumberPoolMessageRequestType) Validate() error {
 	}
 }
 
+func (s *CreateOutboundVoiceProfileRequest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:    3,
+			MinLengthSet: true,
+			MaxLength:    0,
+			MaxLengthSet: false,
+			Email:        false,
+			Hostname:     false,
+			Regex:        nil,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.TrafficType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "traffic_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ServicePlan.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "service_plan",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.UsagePaymentMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "usage_payment_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.MaxDestinationRate.Get(); ok {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max_destination_rate",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.CallRecording.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "call_recording",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *CreatePhoneNumbersJobUpdateEmergencySettingsAccepted) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -5419,6 +5540,43 @@ func (s ListOtaUpdatesFilterType) Validate() error {
 	}
 }
 
+func (s *ListOutboundVoiceProfilesResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s ListPhoneNumbersFilterStatus) Validate() error {
 	switch s {
 	case "purchase_pending":
@@ -6700,6 +6858,79 @@ func (s NumberLookupType) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *NumberOrderDocument) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.RequirementType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "requirement_type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s NumberOrderDocumentRequirementType) Validate() error {
+	switch s {
+	case "address_proof":
+		return nil
+	case "identification":
+		return nil
+	case "reg_form":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *NumberOrderDocumentResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *NumberOrderPhoneNumber) Validate() error {
@@ -9985,6 +10216,37 @@ func (s SortConnection) Validate() error {
 	}
 }
 
+func (s SortOutboundVoiceProfile) Validate() error {
+	switch s {
+	case "enabled":
+		return nil
+	case "-enabled":
+		return nil
+	case "created_at":
+		return nil
+	case "-created_at":
+		return nil
+	case "name":
+		return nil
+	case "-name":
+		return nil
+	case "service_plan":
+		return nil
+	case "-service_plan":
+		return nil
+	case "traffic_type":
+		return nil
+	case "-traffic_type":
+		return nil
+	case "usage_payment_method":
+		return nil
+	case "-usage_payment_method":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *SoundModifications) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -11794,6 +12056,49 @@ func (s *UpdateNotificationChannelOK) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s *UpdateNumberOrderDocumentRequest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.RequirementType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "requirement_type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s UpdateNumberOrderDocumentRequestRequirementType) Validate() error {
+	switch s {
+	case "address_proof":
+		return nil
+	case "identification":
+		return nil
+	case "reg_form":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *UpdateOutboundVoiceProfileRequest) Validate() error {

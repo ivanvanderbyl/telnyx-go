@@ -125,6 +125,10 @@ type CreateVerifyProfileRes interface {
 	createVerifyProfileRes()
 }
 
+type CreateVoiceProfileRes interface {
+	createVoiceProfileRes()
+}
+
 type DeleteCallControlApplicationRes interface {
 	deleteCallControlApplicationRes()
 }
@@ -481,6 +485,10 @@ type ListOtaUpdatesRes interface {
 	listOtaUpdatesRes()
 }
 
+type ListOutboundVoiceProfilesRes interface {
+	listOutboundVoiceProfilesRes()
+}
+
 type ListPhoneNumbersJobsRes interface {
 	listPhoneNumbersJobsRes()
 }
@@ -591,6 +599,10 @@ type RetrieveCallFromQueueRes interface {
 
 type RetrieveCallStatusRes interface {
 	retrieveCallStatusRes()
+}
+
+type RetrieveNumberOrderDocumentRes interface {
+	retrieveNumberOrderDocumentRes()
 }
 
 type RetrieveOrderPhoneNumbersRes interface {
@@ -707,6 +719,10 @@ type UpdateNetworkRes interface {
 
 type UpdateNotificationChannelRes interface {
 	updateNotificationChannelRes()
+}
+
+type UpdateNumberOrderDocumentRes interface {
+	updateNumberOrderDocumentRes()
 }
 
 type UpdateNumberOrderPhoneNumberRes interface {

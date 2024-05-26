@@ -894,6 +894,29 @@ type ListOtaUpdatesParams struct {
 	FilterType OptListOtaUpdatesFilterType
 }
 
+// ListOutboundVoiceProfilesParams is parameters of ListOutboundVoiceProfiles operation.
+type ListOutboundVoiceProfilesParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Optional filter on outbound voice profile name.
+	FilterNameContains OptString
+	// Specifies the sort order for results. By default sorting direction is ascending. To have the
+	// results sorted in descending order add the <code>-</code> prefix.<br/><br/>
+	// That is: <ul>
+	// <li>
+	// <code>name</code>: sorts the result by the
+	// <code>name</code> field in ascending order.
+	// </li>
+	// <li>
+	// <code>-name</code>: sorts the result by the
+	// <code>name</code> field in descending order.
+	// </li>
+	// </ul> <br/>.
+	Sort OptSortOutboundVoiceProfile
+}
+
 // ListPhoneNumbersParams is parameters of ListPhoneNumbers operation.
 type ListPhoneNumbersParams struct {
 	// The page number to load.
@@ -1195,6 +1218,12 @@ type RetrieveCallStatusParams struct {
 	CallControlID string
 }
 
+// RetrieveNumberOrderDocumentParams is parameters of RetrieveNumberOrderDocument operation.
+type RetrieveNumberOrderDocumentParams struct {
+	// The number order document ID.
+	NumberOrderDocumentID string
+}
+
 // RetrievePhoneNumberParams is parameters of RetrievePhoneNumber operation.
 type RetrievePhoneNumberParams struct {
 	// Identifies the resource.
@@ -1401,6 +1430,12 @@ type UpdateNetworkParams struct {
 type UpdateNotificationChannelParams struct {
 	// Identifies the resource.
 	ID uuid.UUID
+}
+
+// UpdateNumberOrderDocumentParams is parameters of UpdateNumberOrderDocument operation.
+type UpdateNumberOrderDocumentParams struct {
+	// The number order document ID.
+	NumberOrderDocumentID string
 }
 
 // UpdateNumberOrderPhoneNumberParams is parameters of UpdateNumberOrderPhoneNumber operation.

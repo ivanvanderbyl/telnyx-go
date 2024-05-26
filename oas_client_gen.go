@@ -222,6 +222,12 @@ type Invoker interface {
 	//
 	// POST /verify_profiles
 	CreateVerifyProfile(ctx context.Context, request *CreateVerifyProfileReq) (CreateVerifyProfileRes, error)
+	// CreateVoiceProfile invokes CreateVoiceProfile operation.
+	//
+	// Create an outbound voice profile.
+	//
+	// POST /outbound_voice_profiles
+	CreateVoiceProfile(ctx context.Context, request *CreateOutboundVoiceProfileRequest) (CreateVoiceProfileRes, error)
 	// DeleteCallControlApplication invokes DeleteCallControlApplication operation.
 	//
 	// Deletes a call control application.
@@ -823,6 +829,12 @@ type Invoker interface {
 	//
 	// GET /ota_updates
 	ListOtaUpdates(ctx context.Context, params ListOtaUpdatesParams) (ListOtaUpdatesRes, error)
+	// ListOutboundVoiceProfiles invokes ListOutboundVoiceProfiles operation.
+	//
+	// Get all outbound voice profiles belonging to the user that match the given filters.
+	//
+	// GET /outbound_voice_profiles
+	ListOutboundVoiceProfiles(ctx context.Context, params ListOutboundVoiceProfilesParams) (ListOutboundVoiceProfilesRes, error)
 	// ListPhoneNumbers invokes ListPhoneNumbers operation.
 	//
 	// List phone numbers.
@@ -1016,6 +1028,12 @@ type Invoker interface {
 	//
 	// GET /calls/{call_control_id}
 	RetrieveCallStatus(ctx context.Context, params RetrieveCallStatusParams) (RetrieveCallStatusRes, error)
+	// RetrieveNumberOrderDocument invokes RetrieveNumberOrderDocument operation.
+	//
+	// Gets a single number order document.
+	//
+	// GET /number_order_documents/{number_order_document_id}
+	RetrieveNumberOrderDocument(ctx context.Context, params RetrieveNumberOrderDocumentParams) (RetrieveNumberOrderDocumentRes, error)
 	// RetrieveOrderPhoneNumbers invokes RetrieveOrderPhoneNumbers operation.
 	//
 	// Get a list of phone numbers associated to orders.
@@ -1433,6 +1451,12 @@ type Invoker interface {
 	//
 	// PATCH /notification_channels/{id}
 	UpdateNotificationChannel(ctx context.Context, request *NotificationChannel, params UpdateNotificationChannelParams) (UpdateNotificationChannelRes, error)
+	// UpdateNumberOrderDocument invokes UpdateNumberOrderDocument operation.
+	//
+	// Updates a number order document.
+	//
+	// PATCH /number_order_documents/{number_order_document_id}
+	UpdateNumberOrderDocument(ctx context.Context, request *UpdateNumberOrderDocumentRequest, params UpdateNumberOrderDocumentParams) (UpdateNumberOrderDocumentRes, error)
 	// UpdateNumberOrderPhoneNumber invokes UpdateNumberOrderPhoneNumber operation.
 	//
 	// Updates a number order phone number.
@@ -4190,6 +4214,87 @@ func (c *Client) sendCreateVerifyProfile(ctx context.Context, request *CreateVer
 	defer resp.Body.Close()
 
 	result, err := decodeCreateVerifyProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateVoiceProfile invokes CreateVoiceProfile operation.
+//
+// Create an outbound voice profile.
+//
+// POST /outbound_voice_profiles
+func (c *Client) CreateVoiceProfile(ctx context.Context, request *CreateOutboundVoiceProfileRequest) (CreateVoiceProfileRes, error) {
+	res, err := c.sendCreateVoiceProfile(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateVoiceProfile(ctx context.Context, request *CreateOutboundVoiceProfileRequest) (res CreateVoiceProfileRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/outbound_voice_profiles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVoiceProfileRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateVoiceProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateVoiceProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -14721,6 +14826,146 @@ func (c *Client) sendListOtaUpdates(ctx context.Context, params ListOtaUpdatesPa
 	return result, nil
 }
 
+// ListOutboundVoiceProfiles invokes ListOutboundVoiceProfiles operation.
+//
+// Get all outbound voice profiles belonging to the user that match the given filters.
+//
+// GET /outbound_voice_profiles
+func (c *Client) ListOutboundVoiceProfiles(ctx context.Context, params ListOutboundVoiceProfilesParams) (ListOutboundVoiceProfilesRes, error) {
+	res, err := c.sendListOutboundVoiceProfiles(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListOutboundVoiceProfiles(ctx context.Context, params ListOutboundVoiceProfilesParams) (res ListOutboundVoiceProfilesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/outbound_voice_profiles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[name][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNameContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Sort.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListOutboundVoiceProfiles", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListOutboundVoiceProfilesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListPhoneNumbers invokes ListPhoneNumbers operation.
 //
 // List phone numbers.
@@ -18547,6 +18792,93 @@ func (c *Client) sendRetrieveCallStatus(ctx context.Context, params RetrieveCall
 	return result, nil
 }
 
+// RetrieveNumberOrderDocument invokes RetrieveNumberOrderDocument operation.
+//
+// Gets a single number order document.
+//
+// GET /number_order_documents/{number_order_document_id}
+func (c *Client) RetrieveNumberOrderDocument(ctx context.Context, params RetrieveNumberOrderDocumentParams) (RetrieveNumberOrderDocumentRes, error) {
+	res, err := c.sendRetrieveNumberOrderDocument(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveNumberOrderDocument(ctx context.Context, params RetrieveNumberOrderDocumentParams) (res RetrieveNumberOrderDocumentRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/number_order_documents/"
+	{
+		// Encode "number_order_document_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "number_order_document_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NumberOrderDocumentID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveNumberOrderDocument", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveNumberOrderDocumentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // RetrieveOrderPhoneNumbers invokes RetrieveOrderPhoneNumbers operation.
 //
 // Get a list of phone numbers associated to orders.
@@ -21816,6 +22148,105 @@ func (c *Client) sendUpdateNotificationChannel(ctx context.Context, request *Not
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateNotificationChannelResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNumberOrderDocument invokes UpdateNumberOrderDocument operation.
+//
+// Updates a number order document.
+//
+// PATCH /number_order_documents/{number_order_document_id}
+func (c *Client) UpdateNumberOrderDocument(ctx context.Context, request *UpdateNumberOrderDocumentRequest, params UpdateNumberOrderDocumentParams) (UpdateNumberOrderDocumentRes, error) {
+	res, err := c.sendUpdateNumberOrderDocument(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateNumberOrderDocument(ctx context.Context, request *UpdateNumberOrderDocumentRequest, params UpdateNumberOrderDocumentParams) (res UpdateNumberOrderDocumentRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/number_order_documents/"
+	{
+		// Encode "number_order_document_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "number_order_document_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NumberOrderDocumentID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateNumberOrderDocumentRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateNumberOrderDocument", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateNumberOrderDocumentResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
