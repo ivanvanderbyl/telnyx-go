@@ -4636,6 +4636,208 @@ func (s *CnamListing) SetCnamListingDetails(val OptString) {
 	s.CnamListingDetails = val
 }
 
+// This object represents an Over the Air (OTA) update request. It allows tracking the current status
+// of a operation that apply settings in a particular SIM card. <br/><br/>.
+// Ref: #/components/schemas/CompleteOTAUpdate
+type CompleteOTAUpdate struct {
+	// Identifies the resource.
+	ID         OptUUID   `json:"id"`
+	RecordType OptString `json:"record_type"`
+	// The identification UUID of the related SIM card resource.
+	SimCardID OptUUID `json:"sim_card_id"`
+	// Represents the type of the operation requested. This will relate directly to the source of the
+	// request.
+	Type   OptCompleteOTAUpdateType   `json:"type"`
+	Status OptCompleteOTAUpdateStatus `json:"status"`
+	// A JSON object representation of the operation. The information present here will relate directly
+	// to the source of the OTA request.
+	Settings OptCompleteOTAUpdateSettings `json:"settings"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *CompleteOTAUpdate) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CompleteOTAUpdate) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetSimCardID returns the value of SimCardID.
+func (s *CompleteOTAUpdate) GetSimCardID() OptUUID {
+	return s.SimCardID
+}
+
+// GetType returns the value of Type.
+func (s *CompleteOTAUpdate) GetType() OptCompleteOTAUpdateType {
+	return s.Type
+}
+
+// GetStatus returns the value of Status.
+func (s *CompleteOTAUpdate) GetStatus() OptCompleteOTAUpdateStatus {
+	return s.Status
+}
+
+// GetSettings returns the value of Settings.
+func (s *CompleteOTAUpdate) GetSettings() OptCompleteOTAUpdateSettings {
+	return s.Settings
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CompleteOTAUpdate) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *CompleteOTAUpdate) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *CompleteOTAUpdate) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CompleteOTAUpdate) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetSimCardID sets the value of SimCardID.
+func (s *CompleteOTAUpdate) SetSimCardID(val OptUUID) {
+	s.SimCardID = val
+}
+
+// SetType sets the value of Type.
+func (s *CompleteOTAUpdate) SetType(val OptCompleteOTAUpdateType) {
+	s.Type = val
+}
+
+// SetStatus sets the value of Status.
+func (s *CompleteOTAUpdate) SetStatus(val OptCompleteOTAUpdateStatus) {
+	s.Status = val
+}
+
+// SetSettings sets the value of Settings.
+func (s *CompleteOTAUpdate) SetSettings(val OptCompleteOTAUpdateSettings) {
+	s.Settings = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CompleteOTAUpdate) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *CompleteOTAUpdate) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// A JSON object representation of the operation. The information present here will relate directly
+// to the source of the OTA request.
+type CompleteOTAUpdateSettings struct {
+	MobileNetworkOperatorsPreferences MobileNetworkOperatorsPreferencesResponse `json:"mobile_network_operators_preferences"`
+}
+
+// GetMobileNetworkOperatorsPreferences returns the value of MobileNetworkOperatorsPreferences.
+func (s *CompleteOTAUpdateSettings) GetMobileNetworkOperatorsPreferences() MobileNetworkOperatorsPreferencesResponse {
+	return s.MobileNetworkOperatorsPreferences
+}
+
+// SetMobileNetworkOperatorsPreferences sets the value of MobileNetworkOperatorsPreferences.
+func (s *CompleteOTAUpdateSettings) SetMobileNetworkOperatorsPreferences(val MobileNetworkOperatorsPreferencesResponse) {
+	s.MobileNetworkOperatorsPreferences = val
+}
+
+type CompleteOTAUpdateStatus string
+
+const (
+	CompleteOTAUpdateStatusInProgress CompleteOTAUpdateStatus = "in-progress"
+	CompleteOTAUpdateStatusCompleted  CompleteOTAUpdateStatus = "completed"
+	CompleteOTAUpdateStatusFailed     CompleteOTAUpdateStatus = "failed"
+)
+
+// AllValues returns all CompleteOTAUpdateStatus values.
+func (CompleteOTAUpdateStatus) AllValues() []CompleteOTAUpdateStatus {
+	return []CompleteOTAUpdateStatus{
+		CompleteOTAUpdateStatusInProgress,
+		CompleteOTAUpdateStatusCompleted,
+		CompleteOTAUpdateStatusFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CompleteOTAUpdateStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case CompleteOTAUpdateStatusInProgress:
+		return []byte(s), nil
+	case CompleteOTAUpdateStatusCompleted:
+		return []byte(s), nil
+	case CompleteOTAUpdateStatusFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CompleteOTAUpdateStatus) UnmarshalText(data []byte) error {
+	switch CompleteOTAUpdateStatus(data) {
+	case CompleteOTAUpdateStatusInProgress:
+		*s = CompleteOTAUpdateStatusInProgress
+		return nil
+	case CompleteOTAUpdateStatusCompleted:
+		*s = CompleteOTAUpdateStatusCompleted
+		return nil
+	case CompleteOTAUpdateStatusFailed:
+		*s = CompleteOTAUpdateStatusFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Represents the type of the operation requested. This will relate directly to the source of the
+// request.
+type CompleteOTAUpdateType string
+
+const (
+	CompleteOTAUpdateTypeSimCardNetworkPreferences CompleteOTAUpdateType = "sim_card_network_preferences"
+)
+
+// AllValues returns all CompleteOTAUpdateType values.
+func (CompleteOTAUpdateType) AllValues() []CompleteOTAUpdateType {
+	return []CompleteOTAUpdateType{
+		CompleteOTAUpdateTypeSimCardNetworkPreferences,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CompleteOTAUpdateType) MarshalText() ([]byte, error) {
+	switch s {
+	case CompleteOTAUpdateTypeSimCardNetworkPreferences:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CompleteOTAUpdateType) UnmarshalText(data []byte) error {
+	switch CompleteOTAUpdateType(data) {
+	case CompleteOTAUpdateTypeSimCardNetworkPreferences:
+		*s = CompleteOTAUpdateTypeSimCardNetworkPreferences
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/ConferenceRecordingResource
 type ConferenceRecordingResource struct {
 	// The id of the account the resource belongs to.
@@ -11447,6 +11649,7 @@ func (*GenericErrorResponseStatusCode) getMobileNetworkOperatorsRes()           
 func (*GenericErrorResponseStatusCode) getNetworkRes()                                   {}
 func (*GenericErrorResponseStatusCode) getNotificationChannelRes()                       {}
 func (*GenericErrorResponseStatusCode) getNumberOrderPhoneNumberRes()                    {}
+func (*GenericErrorResponseStatusCode) getOtaUpdateRes()                                 {}
 func (*GenericErrorResponseStatusCode) getPhoneNumberMessagingSettingsRes()              {}
 func (*GenericErrorResponseStatusCode) getPhoneNumberVoiceSettingsRes()                  {}
 func (*GenericErrorResponseStatusCode) getRecordingRes()                                 {}
@@ -14274,6 +14477,117 @@ func (s *ListPortoutComments) SetMeta(val OptMetadata) {
 
 func (*ListPortoutComments) findPortoutCommentsRes() {}
 
+type ListPortoutRequestFilterStatus string
+
+const (
+	ListPortoutRequestFilterStatusPending         ListPortoutRequestFilterStatus = "pending"
+	ListPortoutRequestFilterStatusAuthorized      ListPortoutRequestFilterStatus = "authorized"
+	ListPortoutRequestFilterStatusPorted          ListPortoutRequestFilterStatus = "ported"
+	ListPortoutRequestFilterStatusRejected        ListPortoutRequestFilterStatus = "rejected"
+	ListPortoutRequestFilterStatusRejectedPending ListPortoutRequestFilterStatus = "rejected-pending"
+	ListPortoutRequestFilterStatusCanceled        ListPortoutRequestFilterStatus = "canceled"
+)
+
+// AllValues returns all ListPortoutRequestFilterStatus values.
+func (ListPortoutRequestFilterStatus) AllValues() []ListPortoutRequestFilterStatus {
+	return []ListPortoutRequestFilterStatus{
+		ListPortoutRequestFilterStatusPending,
+		ListPortoutRequestFilterStatusAuthorized,
+		ListPortoutRequestFilterStatusPorted,
+		ListPortoutRequestFilterStatusRejected,
+		ListPortoutRequestFilterStatusRejectedPending,
+		ListPortoutRequestFilterStatusCanceled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPortoutRequestFilterStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPortoutRequestFilterStatusPending:
+		return []byte(s), nil
+	case ListPortoutRequestFilterStatusAuthorized:
+		return []byte(s), nil
+	case ListPortoutRequestFilterStatusPorted:
+		return []byte(s), nil
+	case ListPortoutRequestFilterStatusRejected:
+		return []byte(s), nil
+	case ListPortoutRequestFilterStatusRejectedPending:
+		return []byte(s), nil
+	case ListPortoutRequestFilterStatusCanceled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPortoutRequestFilterStatus) UnmarshalText(data []byte) error {
+	switch ListPortoutRequestFilterStatus(data) {
+	case ListPortoutRequestFilterStatusPending:
+		*s = ListPortoutRequestFilterStatusPending
+		return nil
+	case ListPortoutRequestFilterStatusAuthorized:
+		*s = ListPortoutRequestFilterStatusAuthorized
+		return nil
+	case ListPortoutRequestFilterStatusPorted:
+		*s = ListPortoutRequestFilterStatusPorted
+		return nil
+	case ListPortoutRequestFilterStatusRejected:
+		*s = ListPortoutRequestFilterStatusRejected
+		return nil
+	case ListPortoutRequestFilterStatusRejectedPending:
+		*s = ListPortoutRequestFilterStatusRejectedPending
+		return nil
+	case ListPortoutRequestFilterStatusCanceled:
+		*s = ListPortoutRequestFilterStatusCanceled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ListPortoutRequestNotFound is response for ListPortoutRequest operation.
+type ListPortoutRequestNotFound struct{}
+
+func (*ListPortoutRequestNotFound) listPortoutRequestRes() {}
+
+// ListPortoutRequestUnauthorized is response for ListPortoutRequest operation.
+type ListPortoutRequestUnauthorized struct{}
+
+func (*ListPortoutRequestUnauthorized) listPortoutRequestRes() {}
+
+// ListPortoutRequestUnprocessableEntity is response for ListPortoutRequest operation.
+type ListPortoutRequestUnprocessableEntity struct{}
+
+func (*ListPortoutRequestUnprocessableEntity) listPortoutRequestRes() {}
+
+type ListPortoutResponse struct {
+	Data []PortoutDetails `json:"data"`
+	Meta OptMetadata      `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPortoutResponse) GetData() []PortoutDetails {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPortoutResponse) GetMeta() OptMetadata {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPortoutResponse) SetData(val []PortoutDetails) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPortoutResponse) SetMeta(val OptMetadata) {
+	s.Meta = val
+}
+
+func (*ListPortoutResponse) listPortoutRequestRes() {}
+
 type ListQueueCallsResponse struct {
 	Data []QueueCall       `json:"data"`
 	Meta OptPaginationMeta `json:"meta"`
@@ -15289,6 +15603,49 @@ func (s *MobileNetworkOperator) SetMnc(val OptString) {
 func (s *MobileNetworkOperator) SetNetworkPreferencesEnabled(val OptBool) {
 	s.NetworkPreferencesEnabled = val
 }
+
+// Ref: #/components/schemas/MobileNetworkOperatorPreferencesResponse
+type MobileNetworkOperatorPreferencesResponse struct {
+	// The mobile network operator resource identification UUID.
+	MobileNetworkOperatorID OptUUID `json:"mobile_network_operator_id"`
+	// The mobile network operator resource name.
+	MobileNetworkOperatorName OptString `json:"mobile_network_operator_name"`
+	// It determines what is the priority of a specific network operator that should be assumed by a SIM
+	// card when connecting to a network. The highest priority is 0, the second highest is 1 and so on.
+	Priority OptInt `json:"priority"`
+}
+
+// GetMobileNetworkOperatorID returns the value of MobileNetworkOperatorID.
+func (s *MobileNetworkOperatorPreferencesResponse) GetMobileNetworkOperatorID() OptUUID {
+	return s.MobileNetworkOperatorID
+}
+
+// GetMobileNetworkOperatorName returns the value of MobileNetworkOperatorName.
+func (s *MobileNetworkOperatorPreferencesResponse) GetMobileNetworkOperatorName() OptString {
+	return s.MobileNetworkOperatorName
+}
+
+// GetPriority returns the value of Priority.
+func (s *MobileNetworkOperatorPreferencesResponse) GetPriority() OptInt {
+	return s.Priority
+}
+
+// SetMobileNetworkOperatorID sets the value of MobileNetworkOperatorID.
+func (s *MobileNetworkOperatorPreferencesResponse) SetMobileNetworkOperatorID(val OptUUID) {
+	s.MobileNetworkOperatorID = val
+}
+
+// SetMobileNetworkOperatorName sets the value of MobileNetworkOperatorName.
+func (s *MobileNetworkOperatorPreferencesResponse) SetMobileNetworkOperatorName(val OptString) {
+	s.MobileNetworkOperatorName = val
+}
+
+// SetPriority sets the value of Priority.
+func (s *MobileNetworkOperatorPreferencesResponse) SetPriority(val OptInt) {
+	s.Priority = val
+}
+
+type MobileNetworkOperatorsPreferencesResponse []MobileNetworkOperatorPreferencesResponse
 
 type Name string
 
@@ -16528,6 +16885,22 @@ func (s *NumberOrderPhoneNumberStatus) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type OTAUpdateResponse struct {
+	Data OptCompleteOTAUpdate `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *OTAUpdateResponse) GetData() OptCompleteOTAUpdate {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *OTAUpdateResponse) SetData(val OptCompleteOTAUpdate) {
+	s.Data = val
+}
+
+func (*OTAUpdateResponse) getOtaUpdateRes() {}
 
 // NewOptAccountSid returns new OptAccountSid with value set to v.
 func NewOptAccountSid(v AccountSid) OptAccountSid {
@@ -19191,6 +19564,190 @@ func (o OptCnamListing) Get() (v CnamListing, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCnamListing) Or(d CnamListing) CnamListing {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCompleteOTAUpdate returns new OptCompleteOTAUpdate with value set to v.
+func NewOptCompleteOTAUpdate(v CompleteOTAUpdate) OptCompleteOTAUpdate {
+	return OptCompleteOTAUpdate{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCompleteOTAUpdate is optional CompleteOTAUpdate.
+type OptCompleteOTAUpdate struct {
+	Value CompleteOTAUpdate
+	Set   bool
+}
+
+// IsSet returns true if OptCompleteOTAUpdate was set.
+func (o OptCompleteOTAUpdate) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCompleteOTAUpdate) Reset() {
+	var v CompleteOTAUpdate
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCompleteOTAUpdate) SetTo(v CompleteOTAUpdate) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCompleteOTAUpdate) Get() (v CompleteOTAUpdate, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCompleteOTAUpdate) Or(d CompleteOTAUpdate) CompleteOTAUpdate {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCompleteOTAUpdateSettings returns new OptCompleteOTAUpdateSettings with value set to v.
+func NewOptCompleteOTAUpdateSettings(v CompleteOTAUpdateSettings) OptCompleteOTAUpdateSettings {
+	return OptCompleteOTAUpdateSettings{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCompleteOTAUpdateSettings is optional CompleteOTAUpdateSettings.
+type OptCompleteOTAUpdateSettings struct {
+	Value CompleteOTAUpdateSettings
+	Set   bool
+}
+
+// IsSet returns true if OptCompleteOTAUpdateSettings was set.
+func (o OptCompleteOTAUpdateSettings) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCompleteOTAUpdateSettings) Reset() {
+	var v CompleteOTAUpdateSettings
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCompleteOTAUpdateSettings) SetTo(v CompleteOTAUpdateSettings) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCompleteOTAUpdateSettings) Get() (v CompleteOTAUpdateSettings, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCompleteOTAUpdateSettings) Or(d CompleteOTAUpdateSettings) CompleteOTAUpdateSettings {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCompleteOTAUpdateStatus returns new OptCompleteOTAUpdateStatus with value set to v.
+func NewOptCompleteOTAUpdateStatus(v CompleteOTAUpdateStatus) OptCompleteOTAUpdateStatus {
+	return OptCompleteOTAUpdateStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCompleteOTAUpdateStatus is optional CompleteOTAUpdateStatus.
+type OptCompleteOTAUpdateStatus struct {
+	Value CompleteOTAUpdateStatus
+	Set   bool
+}
+
+// IsSet returns true if OptCompleteOTAUpdateStatus was set.
+func (o OptCompleteOTAUpdateStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCompleteOTAUpdateStatus) Reset() {
+	var v CompleteOTAUpdateStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCompleteOTAUpdateStatus) SetTo(v CompleteOTAUpdateStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCompleteOTAUpdateStatus) Get() (v CompleteOTAUpdateStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCompleteOTAUpdateStatus) Or(d CompleteOTAUpdateStatus) CompleteOTAUpdateStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCompleteOTAUpdateType returns new OptCompleteOTAUpdateType with value set to v.
+func NewOptCompleteOTAUpdateType(v CompleteOTAUpdateType) OptCompleteOTAUpdateType {
+	return OptCompleteOTAUpdateType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCompleteOTAUpdateType is optional CompleteOTAUpdateType.
+type OptCompleteOTAUpdateType struct {
+	Value CompleteOTAUpdateType
+	Set   bool
+}
+
+// IsSet returns true if OptCompleteOTAUpdateType was set.
+func (o OptCompleteOTAUpdateType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCompleteOTAUpdateType) Reset() {
+	var v CompleteOTAUpdateType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCompleteOTAUpdateType) SetTo(v CompleteOTAUpdateType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCompleteOTAUpdateType) Get() (v CompleteOTAUpdateType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCompleteOTAUpdateType) Or(d CompleteOTAUpdateType) CompleteOTAUpdateType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -23749,6 +24306,52 @@ func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) Get() (v ListPorting
 
 // Or returns value if set, or given parameter if does not.
 func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) Or(d ListPortingPhoneNumbersFilterPortingOrderStatus) ListPortingPhoneNumbersFilterPortingOrderStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListPortoutRequestFilterStatus returns new OptListPortoutRequestFilterStatus with value set to v.
+func NewOptListPortoutRequestFilterStatus(v ListPortoutRequestFilterStatus) OptListPortoutRequestFilterStatus {
+	return OptListPortoutRequestFilterStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPortoutRequestFilterStatus is optional ListPortoutRequestFilterStatus.
+type OptListPortoutRequestFilterStatus struct {
+	Value ListPortoutRequestFilterStatus
+	Set   bool
+}
+
+// IsSet returns true if OptListPortoutRequestFilterStatus was set.
+func (o OptListPortoutRequestFilterStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPortoutRequestFilterStatus) Reset() {
+	var v ListPortoutRequestFilterStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPortoutRequestFilterStatus) SetTo(v ListPortoutRequestFilterStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPortoutRequestFilterStatus) Get() (v ListPortoutRequestFilterStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPortoutRequestFilterStatus) Or(d ListPortoutRequestFilterStatus) ListPortoutRequestFilterStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}

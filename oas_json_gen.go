@@ -7282,6 +7282,330 @@ func (s *CnamListing) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *CompleteOTAUpdate) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CompleteOTAUpdate) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		if s.SimCardID.Set {
+			e.FieldStart("sim_card_id")
+			s.SimCardID.Encode(e)
+		}
+	}
+	{
+		if s.Type.Set {
+			e.FieldStart("type")
+			s.Type.Encode(e)
+		}
+	}
+	{
+		if s.Status.Set {
+			e.FieldStart("status")
+			s.Status.Encode(e)
+		}
+	}
+	{
+		if s.Settings.Set {
+			e.FieldStart("settings")
+			s.Settings.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCompleteOTAUpdate = [8]string{
+	0: "id",
+	1: "record_type",
+	2: "sim_card_id",
+	3: "type",
+	4: "status",
+	5: "settings",
+	6: "created_at",
+	7: "updated_at",
+}
+
+// Decode decodes CompleteOTAUpdate from json.
+func (s *CompleteOTAUpdate) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CompleteOTAUpdate to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "sim_card_id":
+			if err := func() error {
+				s.SimCardID.Reset()
+				if err := s.SimCardID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"sim_card_id\"")
+			}
+		case "type":
+			if err := func() error {
+				s.Type.Reset()
+				if err := s.Type.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "status":
+			if err := func() error {
+				s.Status.Reset()
+				if err := s.Status.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"status\"")
+			}
+		case "settings":
+			if err := func() error {
+				s.Settings.Reset()
+				if err := s.Settings.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"settings\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CompleteOTAUpdate")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CompleteOTAUpdate) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CompleteOTAUpdate) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CompleteOTAUpdateSettings) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CompleteOTAUpdateSettings) encodeFields(e *jx.Encoder) {
+	{
+		if s.MobileNetworkOperatorsPreferences != nil {
+			e.FieldStart("mobile_network_operators_preferences")
+			s.MobileNetworkOperatorsPreferences.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCompleteOTAUpdateSettings = [1]string{
+	0: "mobile_network_operators_preferences",
+}
+
+// Decode decodes CompleteOTAUpdateSettings from json.
+func (s *CompleteOTAUpdateSettings) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CompleteOTAUpdateSettings to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "mobile_network_operators_preferences":
+			if err := func() error {
+				if err := s.MobileNetworkOperatorsPreferences.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"mobile_network_operators_preferences\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CompleteOTAUpdateSettings")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CompleteOTAUpdateSettings) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CompleteOTAUpdateSettings) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CompleteOTAUpdateStatus as json.
+func (s CompleteOTAUpdateStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CompleteOTAUpdateStatus from json.
+func (s *CompleteOTAUpdateStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CompleteOTAUpdateStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CompleteOTAUpdateStatus(v) {
+	case CompleteOTAUpdateStatusInProgress:
+		*s = CompleteOTAUpdateStatusInProgress
+	case CompleteOTAUpdateStatusCompleted:
+		*s = CompleteOTAUpdateStatusCompleted
+	case CompleteOTAUpdateStatusFailed:
+		*s = CompleteOTAUpdateStatusFailed
+	default:
+		*s = CompleteOTAUpdateStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CompleteOTAUpdateStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CompleteOTAUpdateStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CompleteOTAUpdateType as json.
+func (s CompleteOTAUpdateType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CompleteOTAUpdateType from json.
+func (s *CompleteOTAUpdateType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CompleteOTAUpdateType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CompleteOTAUpdateType(v) {
+	case CompleteOTAUpdateTypeSimCardNetworkPreferences:
+		*s = CompleteOTAUpdateTypeSimCardNetworkPreferences
+	default:
+		*s = CompleteOTAUpdateType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CompleteOTAUpdateType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CompleteOTAUpdateType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ConferenceRecordingResource) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -23121,6 +23445,97 @@ func (s *ListPortoutComments) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *ListPortoutResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListPortoutResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Meta.Set {
+			e.FieldStart("meta")
+			s.Meta.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfListPortoutResponse = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes ListPortoutResponse from json.
+func (s *ListPortoutResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListPortoutResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]PortoutDetails, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem PortoutDetails
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			if err := func() error {
+				s.Meta.Reset()
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListPortoutResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListPortoutResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListPortoutResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListQueueCallsResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -25845,6 +26260,158 @@ func (s *MobileNetworkOperator) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *MobileNetworkOperatorPreferencesResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *MobileNetworkOperatorPreferencesResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.MobileNetworkOperatorID.Set {
+			e.FieldStart("mobile_network_operator_id")
+			s.MobileNetworkOperatorID.Encode(e)
+		}
+	}
+	{
+		if s.MobileNetworkOperatorName.Set {
+			e.FieldStart("mobile_network_operator_name")
+			s.MobileNetworkOperatorName.Encode(e)
+		}
+	}
+	{
+		if s.Priority.Set {
+			e.FieldStart("priority")
+			s.Priority.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfMobileNetworkOperatorPreferencesResponse = [3]string{
+	0: "mobile_network_operator_id",
+	1: "mobile_network_operator_name",
+	2: "priority",
+}
+
+// Decode decodes MobileNetworkOperatorPreferencesResponse from json.
+func (s *MobileNetworkOperatorPreferencesResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode MobileNetworkOperatorPreferencesResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "mobile_network_operator_id":
+			if err := func() error {
+				s.MobileNetworkOperatorID.Reset()
+				if err := s.MobileNetworkOperatorID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"mobile_network_operator_id\"")
+			}
+		case "mobile_network_operator_name":
+			if err := func() error {
+				s.MobileNetworkOperatorName.Reset()
+				if err := s.MobileNetworkOperatorName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"mobile_network_operator_name\"")
+			}
+		case "priority":
+			if err := func() error {
+				s.Priority.Reset()
+				if err := s.Priority.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"priority\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode MobileNetworkOperatorPreferencesResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *MobileNetworkOperatorPreferencesResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *MobileNetworkOperatorPreferencesResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes MobileNetworkOperatorsPreferencesResponse as json.
+func (s MobileNetworkOperatorsPreferencesResponse) Encode(e *jx.Encoder) {
+	unwrapped := []MobileNetworkOperatorPreferencesResponse(s)
+	if unwrapped == nil {
+		e.ArrEmpty()
+		return
+	}
+	if unwrapped != nil {
+		e.ArrStart()
+		for _, elem := range unwrapped {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+}
+
+// Decode decodes MobileNetworkOperatorsPreferencesResponse from json.
+func (s *MobileNetworkOperatorsPreferencesResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode MobileNetworkOperatorsPreferencesResponse to nil")
+	}
+	var unwrapped []MobileNetworkOperatorPreferencesResponse
+	if err := func() error {
+		unwrapped = make([]MobileNetworkOperatorPreferencesResponse, 0)
+		if err := d.Arr(func(d *jx.Decoder) error {
+			var elem MobileNetworkOperatorPreferencesResponse
+			if err := elem.Decode(d); err != nil {
+				return err
+			}
+			unwrapped = append(unwrapped, elem)
+			return nil
+		}); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = MobileNetworkOperatorsPreferencesResponse(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s MobileNetworkOperatorsPreferencesResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *MobileNetworkOperatorsPreferencesResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes Name as json.
 func (s Name) Encode(e *jx.Encoder) {
 	unwrapped := string(s)
@@ -28163,6 +28730,69 @@ func (s *NumberOrderPhoneNumberStatus) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *OTAUpdateResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *OTAUpdateResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfOTAUpdateResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes OTAUpdateResponse from json.
+func (s *OTAUpdateResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OTAUpdateResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode OTAUpdateResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *OTAUpdateResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OTAUpdateResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes AccountSid as json.
 func (o OptAccountSid) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -29976,6 +30606,138 @@ func (s OptCnamListing) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptCnamListing) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CompleteOTAUpdate as json.
+func (o OptCompleteOTAUpdate) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CompleteOTAUpdate from json.
+func (o *OptCompleteOTAUpdate) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCompleteOTAUpdate to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCompleteOTAUpdate) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCompleteOTAUpdate) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CompleteOTAUpdateSettings as json.
+func (o OptCompleteOTAUpdateSettings) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CompleteOTAUpdateSettings from json.
+func (o *OptCompleteOTAUpdateSettings) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCompleteOTAUpdateSettings to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCompleteOTAUpdateSettings) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCompleteOTAUpdateSettings) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CompleteOTAUpdateStatus as json.
+func (o OptCompleteOTAUpdateStatus) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CompleteOTAUpdateStatus from json.
+func (o *OptCompleteOTAUpdateStatus) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCompleteOTAUpdateStatus to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCompleteOTAUpdateStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCompleteOTAUpdateStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CompleteOTAUpdateType as json.
+func (o OptCompleteOTAUpdateType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CompleteOTAUpdateType from json.
+func (o *OptCompleteOTAUpdateType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCompleteOTAUpdateType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCompleteOTAUpdateType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCompleteOTAUpdateType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

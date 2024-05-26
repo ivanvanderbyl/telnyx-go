@@ -416,6 +416,12 @@ type GetNumberOrderPhoneNumberParams struct {
 	NumberOrderPhoneNumberID string
 }
 
+// GetOtaUpdateParams is parameters of GetOtaUpdate operation.
+type GetOtaUpdateParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
 // GetPhoneNumberMessagingSettingsParams is parameters of GetPhoneNumberMessagingSettings operation.
 type GetPhoneNumberMessagingSettingsParams struct {
 	// Identifies the type of resource.
@@ -966,6 +972,20 @@ type ListPortingPhoneNumbersParams struct {
 	FilterActivationStatus OptPortingOrderActivationStatus
 	// Filter results by portability status.
 	FilterPortabilityStatus OptPortabilityStatus
+}
+
+// ListPortoutRequestParams is parameters of ListPortoutRequest operation.
+type ListPortoutRequestParams struct {
+	// Filter by new carrier name.
+	FilterCarrierName OptString
+	// Filter by new carrier spid.
+	FilterSpid OptString
+	// Filter by portout status.
+	FilterStatus OptListPortoutRequestFilterStatus
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
 }
 
 // ListProfilePhoneNumbersParams is parameters of ListProfilePhoneNumbers operation.

@@ -537,6 +537,12 @@ type Invoker interface {
 	//
 	// GET /number_order_phone_numbers/{number_order_phone_number_id}
 	GetNumberOrderPhoneNumber(ctx context.Context, params GetNumberOrderPhoneNumberParams) (GetNumberOrderPhoneNumberRes, error)
+	// GetOtaUpdate invokes GetOtaUpdate operation.
+	//
+	// This API returns the details of an Over the Air (OTA) update.
+	//
+	// GET /ota_updates/{id}
+	GetOtaUpdate(ctx context.Context, params GetOtaUpdateParams) (GetOtaUpdateRes, error)
 	// GetPhoneNumberMessagingSettings invokes GetPhoneNumberMessagingSettings operation.
 	//
 	// Retrieve a phone number with messaging settings.
@@ -829,6 +835,12 @@ type Invoker interface {
 	//
 	// GET /porting_phone_numbers
 	ListPortingPhoneNumbers(ctx context.Context, params ListPortingPhoneNumbersParams) (ListPortingPhoneNumbersRes, error)
+	// ListPortoutRequest invokes ListPortoutRequest operation.
+	//
+	// Returns the portout requests according to filters.
+	//
+	// GET /portouts
+	ListPortoutRequest(ctx context.Context, params ListPortoutRequestParams) (ListPortoutRequestRes, error)
 	// ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
 	//
 	// List all Verify profile message templates.
@@ -8976,6 +8988,93 @@ func (c *Client) sendGetNumberOrderPhoneNumber(ctx context.Context, params GetNu
 	return result, nil
 }
 
+// GetOtaUpdate invokes GetOtaUpdate operation.
+//
+// This API returns the details of an Over the Air (OTA) update.
+//
+// GET /ota_updates/{id}
+func (c *Client) GetOtaUpdate(ctx context.Context, params GetOtaUpdateParams) (GetOtaUpdateRes, error) {
+	res, err := c.sendGetOtaUpdate(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetOtaUpdate(ctx context.Context, params GetOtaUpdateParams) (res GetOtaUpdateRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/ota_updates/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetOtaUpdate", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetOtaUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetPhoneNumberMessagingSettings invokes GetPhoneNumberMessagingSettings operation.
 //
 // Retrieve a phone number with messaging settings.
@@ -15310,6 +15409,163 @@ func (c *Client) sendListPortingPhoneNumbers(ctx context.Context, params ListPor
 	defer resp.Body.Close()
 
 	result, err := decodeListPortingPhoneNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListPortoutRequest invokes ListPortoutRequest operation.
+//
+// Returns the portout requests according to filters.
+//
+// GET /portouts
+func (c *Client) ListPortoutRequest(ctx context.Context, params ListPortoutRequestParams) (ListPortoutRequestRes, error) {
+	res, err := c.sendListPortoutRequest(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListPortoutRequest(ctx context.Context, params ListPortoutRequestParams) (res ListPortoutRequestRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/portouts"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[carrier_name]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[carrier_name]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCarrierName.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[spid]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[spid]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterSpid.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListPortoutRequest", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListPortoutRequestResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

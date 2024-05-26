@@ -309,6 +309,10 @@ type GetNumberOrderPhoneNumberRes interface {
 	getNumberOrderPhoneNumberRes()
 }
 
+type GetOtaUpdateRes interface {
+	getOtaUpdateRes()
+}
+
 type GetPhoneNumberMessagingSettingsRes interface {
 	getPhoneNumberMessagingSettingsRes()
 }
@@ -483,6 +487,10 @@ type ListPhoneNumbersWithVoiceSettingsRes interface {
 
 type ListPortingPhoneNumbersRes interface {
 	listPortingPhoneNumbersRes()
+}
+
+type ListPortoutRequestRes interface {
+	listPortoutRequestRes()
 }
 
 type ListProfilePhoneNumbersRes interface {
