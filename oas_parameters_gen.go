@@ -1382,6 +1382,16 @@ type ListRegulatoryRequirementsParams struct {
 	FilterPhoneNumber string
 }
 
+// ListRequirementTypesParams is parameters of ListRequirementTypes operation.
+type ListRequirementTypesParams struct {
+	// Filters requirement types to those whose name contains a certain string.
+	FilterNameContains OptString
+	// Specifies the sort order for results. If you want to sort by a field in ascending order, include
+	// it as a sort parameter. If you want to sort in descending order, prepend a `-` in front of the
+	// field name.
+	Sort OptDocReqsRequirementTypesSort
+}
+
 // ListRequirementsParams is parameters of ListRequirements operation.
 type ListRequirementsParams struct {
 	// Filters results to those applying to a 2-character (ISO 3166-1 alpha-2) country code.
@@ -1619,6 +1629,12 @@ type RetrievePhoneNumberParams struct {
 type RetrievePhoneNumbersJobParams struct {
 	// Identifies the Phone Numbers Job.
 	ID string
+}
+
+// RetrieveRequirementTypeParams is parameters of RetrieveRequirementType operation.
+type RetrieveRequirementTypeParams struct {
+	// Uniquely identifies the requirement_type record.
+	ID uuid.UUID
 }
 
 // RetrieveVerificationParams is parameters of RetrieveVerification operation.

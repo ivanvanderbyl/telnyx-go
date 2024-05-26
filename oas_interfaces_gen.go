@@ -685,6 +685,10 @@ type ListRegulatoryRequirementsRes interface {
 	listRegulatoryRequirementsRes()
 }
 
+type ListRequirementTypesRes interface {
+	listRequirementTypesRes()
+}
+
 type ListRequirementsRes interface {
 	listRequirementsRes()
 }
@@ -811,6 +815,10 @@ type RetrievePhoneNumberRes interface {
 
 type RetrievePhoneNumbersJobRes interface {
 	retrievePhoneNumbersJobRes()
+}
+
+type RetrieveRequirementTypeRes interface {
+	retrieveRequirementTypeRes()
 }
 
 type RetrieveVerificationRes interface {

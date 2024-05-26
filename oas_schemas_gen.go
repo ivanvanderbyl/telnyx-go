@@ -11710,6 +11710,33 @@ func (s *DocReqsActionFilter) UnmarshalText(data []byte) error {
 	}
 }
 
+type DocReqsListRequirementTypesResponse struct {
+	Data DocReqsRequirementTypeList `json:"data"`
+	Meta OptPaginationMeta          `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *DocReqsListRequirementTypesResponse) GetData() DocReqsRequirementTypeList {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *DocReqsListRequirementTypesResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *DocReqsListRequirementTypesResponse) SetData(val DocReqsRequirementTypeList) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *DocReqsListRequirementTypesResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*DocReqsListRequirementTypesResponse) listRequirementTypesRes() {}
+
 type DocReqsPhoneNumberTypeFilter string
 
 const (
@@ -12140,6 +12167,24 @@ func (s *DocReqsRequirementTypeAcceptanceCriteria) SetAcceptableValues(val []str
 	s.AcceptableValues = val
 }
 
+type DocReqsRequirementTypeList []DocReqsRequirementType
+
+type DocReqsRequirementTypeResponse struct {
+	Data OptDocReqsRequirementType `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *DocReqsRequirementTypeResponse) GetData() OptDocReqsRequirementType {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *DocReqsRequirementTypeResponse) SetData(val OptDocReqsRequirementType) {
+	s.Data = val
+}
+
+func (*DocReqsRequirementTypeResponse) retrieveRequirementTypeRes() {}
+
 // Defines the type of this requirement type.
 type DocReqsRequirementTypeType string
 
@@ -12183,6 +12228,54 @@ func (s *DocReqsRequirementTypeType) UnmarshalText(data []byte) error {
 		return nil
 	case DocReqsRequirementTypeTypeTextual:
 		*s = DocReqsRequirementTypeTypeTextual
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DocReqsRequirementTypesSort string
+
+const (
+	DocReqsRequirementTypesSortCreatedAt DocReqsRequirementTypesSort = "created_at"
+	DocReqsRequirementTypesSortName      DocReqsRequirementTypesSort = "name"
+	DocReqsRequirementTypesSortUpdatedAt DocReqsRequirementTypesSort = "updated_at"
+)
+
+// AllValues returns all DocReqsRequirementTypesSort values.
+func (DocReqsRequirementTypesSort) AllValues() []DocReqsRequirementTypesSort {
+	return []DocReqsRequirementTypesSort{
+		DocReqsRequirementTypesSortCreatedAt,
+		DocReqsRequirementTypesSortName,
+		DocReqsRequirementTypesSortUpdatedAt,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsRequirementTypesSort) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsRequirementTypesSortCreatedAt:
+		return []byte(s), nil
+	case DocReqsRequirementTypesSortName:
+		return []byte(s), nil
+	case DocReqsRequirementTypesSortUpdatedAt:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsRequirementTypesSort) UnmarshalText(data []byte) error {
+	switch DocReqsRequirementTypesSort(data) {
+	case DocReqsRequirementTypesSortCreatedAt:
+		*s = DocReqsRequirementTypesSortCreatedAt
+		return nil
+	case DocReqsRequirementTypesSortName:
+		*s = DocReqsRequirementTypesSortName
+		return nil
+	case DocReqsRequirementTypesSortUpdatedAt:
+		*s = DocReqsRequirementTypesSortUpdatedAt
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -14422,6 +14515,7 @@ func (*GenericErrorResponseStatusCode) listPhoneNumbersWithVoiceSettingsRes()   
 func (*GenericErrorResponseStatusCode) listProfilePhoneNumbersRes()                      {}
 func (*GenericErrorResponseStatusCode) listProfilesRes()                                 {}
 func (*GenericErrorResponseStatusCode) listRegulatoryRequirementsRes()                   {}
+func (*GenericErrorResponseStatusCode) listRequirementTypesRes()                         {}
 func (*GenericErrorResponseStatusCode) listRequirementsRes()                             {}
 func (*GenericErrorResponseStatusCode) listVerificationsRes()                            {}
 func (*GenericErrorResponseStatusCode) listVerifiedCallDisplayProfilesRes()              {}
@@ -14443,6 +14537,7 @@ func (*GenericErrorResponseStatusCode) retrieveNumberReservationRes()           
 func (*GenericErrorResponseStatusCode) retrieveOrderPhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumberRes()                          {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumbersJobRes()                      {}
+func (*GenericErrorResponseStatusCode) retrieveRequirementTypeRes()                      {}
 func (*GenericErrorResponseStatusCode) retrieveVerificationRes()                         {}
 func (*GenericErrorResponseStatusCode) sendDTMFRes()                                     {}
 func (*GenericErrorResponseStatusCode) sendMessageRes()                                  {}
@@ -27320,6 +27415,52 @@ func (o OptDocReqsRequirementPhoneNumberType) Or(d DocReqsRequirementPhoneNumber
 	return d
 }
 
+// NewOptDocReqsRequirementType returns new OptDocReqsRequirementType with value set to v.
+func NewOptDocReqsRequirementType(v DocReqsRequirementType) OptDocReqsRequirementType {
+	return OptDocReqsRequirementType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementType is optional DocReqsRequirementType.
+type OptDocReqsRequirementType struct {
+	Value DocReqsRequirementType
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementType was set.
+func (o OptDocReqsRequirementType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementType) Reset() {
+	var v DocReqsRequirementType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementType) SetTo(v DocReqsRequirementType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementType) Get() (v DocReqsRequirementType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementType) Or(d DocReqsRequirementType) DocReqsRequirementType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptDocReqsRequirementTypeAcceptanceCriteria returns new OptDocReqsRequirementTypeAcceptanceCriteria with value set to v.
 func NewOptDocReqsRequirementTypeAcceptanceCriteria(v DocReqsRequirementTypeAcceptanceCriteria) OptDocReqsRequirementTypeAcceptanceCriteria {
 	return OptDocReqsRequirementTypeAcceptanceCriteria{
@@ -27406,6 +27547,52 @@ func (o OptDocReqsRequirementTypeType) Get() (v DocReqsRequirementTypeType, ok b
 
 // Or returns value if set, or given parameter if does not.
 func (o OptDocReqsRequirementTypeType) Or(d DocReqsRequirementTypeType) DocReqsRequirementTypeType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirementTypesSort returns new OptDocReqsRequirementTypesSort with value set to v.
+func NewOptDocReqsRequirementTypesSort(v DocReqsRequirementTypesSort) OptDocReqsRequirementTypesSort {
+	return OptDocReqsRequirementTypesSort{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementTypesSort is optional DocReqsRequirementTypesSort.
+type OptDocReqsRequirementTypesSort struct {
+	Value DocReqsRequirementTypesSort
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementTypesSort was set.
+func (o OptDocReqsRequirementTypesSort) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementTypesSort) Reset() {
+	var v DocReqsRequirementTypesSort
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementTypesSort) SetTo(v DocReqsRequirementTypesSort) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementTypesSort) Get() (v DocReqsRequirementTypesSort, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementTypesSort) Or(d DocReqsRequirementTypesSort) DocReqsRequirementTypesSort {
 	if v, ok := o.Get(); ok {
 		return v
 	}

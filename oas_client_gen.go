@@ -1136,6 +1136,12 @@ type Invoker interface {
 	//
 	// GET /phone_numbers_regulatory_requirements
 	ListRegulatoryRequirements(ctx context.Context, params ListRegulatoryRequirementsParams) (ListRegulatoryRequirementsRes, error)
+	// ListRequirementTypes invokes ListRequirementTypes operation.
+	//
+	// List all requirement types ordered by created_at descending.
+	//
+	// GET /requirement_types
+	ListRequirementTypes(ctx context.Context, params ListRequirementTypesParams) (ListRequirementTypesRes, error)
 	// ListRequirements invokes ListRequirements operation.
 	//
 	// List all requirements with filtering, sorting, and pagination.
@@ -1347,6 +1353,12 @@ type Invoker interface {
 	//
 	// GET /phone_numbers/jobs/{id}
 	RetrievePhoneNumbersJob(ctx context.Context, params RetrievePhoneNumbersJobParams) (RetrievePhoneNumbersJobRes, error)
+	// RetrieveRequirementType invokes RetrieveRequirementType operation.
+	//
+	// Retrieve a requirement type by id.
+	//
+	// GET /requirement_types/{id}
+	RetrieveRequirementType(ctx context.Context, params RetrieveRequirementTypeParams) (RetrieveRequirementTypeRes, error)
 	// RetrieveVerification invokes RetrieveVerification operation.
 	//
 	// Retrieve verification.
@@ -21522,6 +21534,112 @@ func (c *Client) sendListRegulatoryRequirements(ctx context.Context, params List
 	return result, nil
 }
 
+// ListRequirementTypes invokes ListRequirementTypes operation.
+//
+// List all requirement types ordered by created_at descending.
+//
+// GET /requirement_types
+func (c *Client) ListRequirementTypes(ctx context.Context, params ListRequirementTypesParams) (ListRequirementTypesRes, error) {
+	res, err := c.sendListRequirementTypes(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListRequirementTypes(ctx context.Context, params ListRequirementTypesParams) (res ListRequirementTypesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/requirement_types"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[name][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNameContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort[]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort[]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Sort.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListRequirementTypes", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListRequirementTypesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListRequirements invokes ListRequirements operation.
 //
 // List all requirements with filtering, sorting, and pagination.
@@ -24993,6 +25111,93 @@ func (c *Client) sendRetrievePhoneNumbersJob(ctx context.Context, params Retriev
 	defer resp.Body.Close()
 
 	result, err := decodeRetrievePhoneNumbersJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveRequirementType invokes RetrieveRequirementType operation.
+//
+// Retrieve a requirement type by id.
+//
+// GET /requirement_types/{id}
+func (c *Client) RetrieveRequirementType(ctx context.Context, params RetrieveRequirementTypeParams) (RetrieveRequirementTypeRes, error) {
+	res, err := c.sendRetrieveRequirementType(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveRequirementType(ctx context.Context, params RetrieveRequirementTypeParams) (res RetrieveRequirementTypeRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/requirement_types/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveRequirementType", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveRequirementTypeResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

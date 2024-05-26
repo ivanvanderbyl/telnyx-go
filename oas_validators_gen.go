@@ -4870,6 +4870,29 @@ func (s DocReqsActionFilter) Validate() error {
 	}
 }
 
+func (s *DocReqsListRequirementTypesResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Data.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s DocReqsPhoneNumberTypeFilter) Validate() error {
 	switch s {
 	case "local":
@@ -5064,6 +5087,58 @@ func (s *DocReqsRequirementType) Validate() error {
 	return nil
 }
 
+func (s DocReqsRequirementTypeList) Validate() error {
+	alias := ([]DocReqsRequirementType)(s)
+	var failures []validate.FieldError
+	for i, elem := range alias {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  fmt.Sprintf("[%d]", i),
+				Error: err,
+			})
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *DocReqsRequirementTypeResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s DocReqsRequirementTypeType) Validate() error {
 	switch s {
 	case "document":
@@ -5071,6 +5146,19 @@ func (s DocReqsRequirementTypeType) Validate() error {
 	case "address":
 		return nil
 	case "textual":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s DocReqsRequirementTypesSort) Validate() error {
+	switch s {
+	case "created_at":
+		return nil
+	case "name":
+		return nil
+	case "updated_at":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
