@@ -4859,6 +4859,30 @@ func (s *DisplayVerifiedCallsDisplayProfileResponse) Validate() error {
 	return nil
 }
 
+func (s DocReqsActionFilter) Validate() error {
+	switch s {
+	case "ordering":
+		return nil
+	case "porting":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s DocReqsPhoneNumberTypeFilter) Validate() error {
+	switch s {
+	case "local":
+		return nil
+	case "national":
+		return nil
+	case "toll-free":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *DocReqsRequirement) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -4945,6 +4969,28 @@ func (s DocReqsRequirementAction) Validate() error {
 	}
 }
 
+func (s DocReqsRequirementList) Validate() error {
+	alias := ([]DocReqsRequirement)(s)
+	var failures []validate.FieldError
+	for i, elem := range alias {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  fmt.Sprintf("[%d]", i),
+				Error: err,
+			})
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s DocReqsRequirementPhoneNumberType) Validate() error {
 	switch s {
 	case "local":
@@ -5025,6 +5071,21 @@ func (s DocReqsRequirementTypeType) Validate() error {
 	case "address":
 		return nil
 	case "textual":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s DocReqsRequirementsSort) Validate() error {
+	switch s {
+	case "action":
+		return nil
+	case "country_code":
+		return nil
+	case "locality":
+		return nil
+	case "phone_number_type":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -7922,6 +7983,29 @@ func (s *ListRecordingTranscriptionsResponse) Validate() error {
 		}
 		if len(failures) > 0 {
 			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ListRequirementsResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Data.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {

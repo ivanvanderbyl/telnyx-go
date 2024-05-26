@@ -1382,6 +1382,24 @@ type ListRegulatoryRequirementsParams struct {
 	FilterPhoneNumber string
 }
 
+// ListRequirementsParams is parameters of ListRequirements operation.
+type ListRequirementsParams struct {
+	// Filters results to those applying to a 2-character (ISO 3166-1 alpha-2) country code.
+	FilterCountryCode OptString
+	// Filters results to those applying to a specific `phone_number_type`.
+	FilterPhoneNumberType OptDocReqsPhoneNumberTypeFilter
+	// Filters requirements to those applying to a specific action.
+	FilterAction OptDocReqsActionFilter
+	// Specifies the sort order for results. If you want to sort by a field in ascending order, include
+	// it as a sort parameter. If you want to sort in descending order, prepend a `-` in front of the
+	// field name.
+	Sort OptDocReqsRequirementsSort
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
 // ListRoomRecordingsParams is parameters of ListRoomRecordings operation.
 type ListRoomRecordingsParams struct {
 	// ISO 8601 date for filtering room recordings ended on that date.

@@ -11669,6 +11669,95 @@ func (*DisplayVerifiedCallsDisplayProfileResponse) createProfileRes()           
 func (*DisplayVerifiedCallsDisplayProfileResponse) deleteVerifiedCallDisplayProfileRes() {}
 func (*DisplayVerifiedCallsDisplayProfileResponse) displayProfileRes()                   {}
 
+type DocReqsActionFilter string
+
+const (
+	DocReqsActionFilterOrdering DocReqsActionFilter = "ordering"
+	DocReqsActionFilterPorting  DocReqsActionFilter = "porting"
+)
+
+// AllValues returns all DocReqsActionFilter values.
+func (DocReqsActionFilter) AllValues() []DocReqsActionFilter {
+	return []DocReqsActionFilter{
+		DocReqsActionFilterOrdering,
+		DocReqsActionFilterPorting,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsActionFilter) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsActionFilterOrdering:
+		return []byte(s), nil
+	case DocReqsActionFilterPorting:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsActionFilter) UnmarshalText(data []byte) error {
+	switch DocReqsActionFilter(data) {
+	case DocReqsActionFilterOrdering:
+		*s = DocReqsActionFilterOrdering
+		return nil
+	case DocReqsActionFilterPorting:
+		*s = DocReqsActionFilterPorting
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DocReqsPhoneNumberTypeFilter string
+
+const (
+	DocReqsPhoneNumberTypeFilterLocal    DocReqsPhoneNumberTypeFilter = "local"
+	DocReqsPhoneNumberTypeFilterNational DocReqsPhoneNumberTypeFilter = "national"
+	DocReqsPhoneNumberTypeFilterTollFree DocReqsPhoneNumberTypeFilter = "toll-free"
+)
+
+// AllValues returns all DocReqsPhoneNumberTypeFilter values.
+func (DocReqsPhoneNumberTypeFilter) AllValues() []DocReqsPhoneNumberTypeFilter {
+	return []DocReqsPhoneNumberTypeFilter{
+		DocReqsPhoneNumberTypeFilterLocal,
+		DocReqsPhoneNumberTypeFilterNational,
+		DocReqsPhoneNumberTypeFilterTollFree,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsPhoneNumberTypeFilter) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsPhoneNumberTypeFilterLocal:
+		return []byte(s), nil
+	case DocReqsPhoneNumberTypeFilterNational:
+		return []byte(s), nil
+	case DocReqsPhoneNumberTypeFilterTollFree:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsPhoneNumberTypeFilter) UnmarshalText(data []byte) error {
+	switch DocReqsPhoneNumberTypeFilter(data) {
+	case DocReqsPhoneNumberTypeFilterLocal:
+		*s = DocReqsPhoneNumberTypeFilterLocal
+		return nil
+	case DocReqsPhoneNumberTypeFilterNational:
+		*s = DocReqsPhoneNumberTypeFilterNational
+		return nil
+	case DocReqsPhoneNumberTypeFilterTollFree:
+		*s = DocReqsPhoneNumberTypeFilterTollFree
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/DocReqsRequirement
 type DocReqsRequirement struct {
 	// Identifies the type of the resource.
@@ -11830,6 +11919,8 @@ func (s *DocReqsRequirementAction) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type DocReqsRequirementList []DocReqsRequirement
 
 // Indicates the phone_number_type this requirement applies to. Leave blank if this requirement
 // applies to all number_types.
@@ -12092,6 +12183,61 @@ func (s *DocReqsRequirementTypeType) UnmarshalText(data []byte) error {
 		return nil
 	case DocReqsRequirementTypeTypeTextual:
 		*s = DocReqsRequirementTypeTypeTextual
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DocReqsRequirementsSort string
+
+const (
+	DocReqsRequirementsSortAction          DocReqsRequirementsSort = "action"
+	DocReqsRequirementsSortCountryCode     DocReqsRequirementsSort = "country_code"
+	DocReqsRequirementsSortLocality        DocReqsRequirementsSort = "locality"
+	DocReqsRequirementsSortPhoneNumberType DocReqsRequirementsSort = "phone_number_type"
+)
+
+// AllValues returns all DocReqsRequirementsSort values.
+func (DocReqsRequirementsSort) AllValues() []DocReqsRequirementsSort {
+	return []DocReqsRequirementsSort{
+		DocReqsRequirementsSortAction,
+		DocReqsRequirementsSortCountryCode,
+		DocReqsRequirementsSortLocality,
+		DocReqsRequirementsSortPhoneNumberType,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsRequirementsSort) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsRequirementsSortAction:
+		return []byte(s), nil
+	case DocReqsRequirementsSortCountryCode:
+		return []byte(s), nil
+	case DocReqsRequirementsSortLocality:
+		return []byte(s), nil
+	case DocReqsRequirementsSortPhoneNumberType:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsRequirementsSort) UnmarshalText(data []byte) error {
+	switch DocReqsRequirementsSort(data) {
+	case DocReqsRequirementsSortAction:
+		*s = DocReqsRequirementsSortAction
+		return nil
+	case DocReqsRequirementsSortCountryCode:
+		*s = DocReqsRequirementsSortCountryCode
+		return nil
+	case DocReqsRequirementsSortLocality:
+		*s = DocReqsRequirementsSortLocality
+		return nil
+	case DocReqsRequirementsSortPhoneNumberType:
+		*s = DocReqsRequirementsSortPhoneNumberType
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -14276,6 +14422,7 @@ func (*GenericErrorResponseStatusCode) listPhoneNumbersWithVoiceSettingsRes()   
 func (*GenericErrorResponseStatusCode) listProfilePhoneNumbersRes()                      {}
 func (*GenericErrorResponseStatusCode) listProfilesRes()                                 {}
 func (*GenericErrorResponseStatusCode) listRegulatoryRequirementsRes()                   {}
+func (*GenericErrorResponseStatusCode) listRequirementsRes()                             {}
 func (*GenericErrorResponseStatusCode) listVerificationsRes()                            {}
 func (*GenericErrorResponseStatusCode) listVerifiedCallDisplayProfilesRes()              {}
 func (*GenericErrorResponseStatusCode) listVerifiedNumbersRes()                          {}
@@ -18342,6 +18489,33 @@ func (s *ListRegulatoryRequirements) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListRegulatoryRequirements) listRegulatoryRequirementsRes() {}
+
+type ListRequirementsResponse struct {
+	Data DocReqsRequirementList `json:"data"`
+	Meta OptPaginationMeta      `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListRequirementsResponse) GetData() DocReqsRequirementList {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListRequirementsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListRequirementsResponse) SetData(val DocReqsRequirementList) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListRequirementsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListRequirementsResponse) listRequirementsRes() {}
 
 type ListRoomRecordingsResponse struct {
 	Data []RoomRecording   `json:"data"`
@@ -26916,6 +27090,98 @@ func (o OptDisplayName) Or(d DisplayName) DisplayName {
 	return d
 }
 
+// NewOptDocReqsActionFilter returns new OptDocReqsActionFilter with value set to v.
+func NewOptDocReqsActionFilter(v DocReqsActionFilter) OptDocReqsActionFilter {
+	return OptDocReqsActionFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsActionFilter is optional DocReqsActionFilter.
+type OptDocReqsActionFilter struct {
+	Value DocReqsActionFilter
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsActionFilter was set.
+func (o OptDocReqsActionFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsActionFilter) Reset() {
+	var v DocReqsActionFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsActionFilter) SetTo(v DocReqsActionFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsActionFilter) Get() (v DocReqsActionFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsActionFilter) Or(d DocReqsActionFilter) DocReqsActionFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsPhoneNumberTypeFilter returns new OptDocReqsPhoneNumberTypeFilter with value set to v.
+func NewOptDocReqsPhoneNumberTypeFilter(v DocReqsPhoneNumberTypeFilter) OptDocReqsPhoneNumberTypeFilter {
+	return OptDocReqsPhoneNumberTypeFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsPhoneNumberTypeFilter is optional DocReqsPhoneNumberTypeFilter.
+type OptDocReqsPhoneNumberTypeFilter struct {
+	Value DocReqsPhoneNumberTypeFilter
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsPhoneNumberTypeFilter was set.
+func (o OptDocReqsPhoneNumberTypeFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsPhoneNumberTypeFilter) Reset() {
+	var v DocReqsPhoneNumberTypeFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsPhoneNumberTypeFilter) SetTo(v DocReqsPhoneNumberTypeFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsPhoneNumberTypeFilter) Get() (v DocReqsPhoneNumberTypeFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsPhoneNumberTypeFilter) Or(d DocReqsPhoneNumberTypeFilter) DocReqsPhoneNumberTypeFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptDocReqsRequirement returns new OptDocReqsRequirement with value set to v.
 func NewOptDocReqsRequirement(v DocReqsRequirement) OptDocReqsRequirement {
 	return OptDocReqsRequirement{
@@ -27140,6 +27406,52 @@ func (o OptDocReqsRequirementTypeType) Get() (v DocReqsRequirementTypeType, ok b
 
 // Or returns value if set, or given parameter if does not.
 func (o OptDocReqsRequirementTypeType) Or(d DocReqsRequirementTypeType) DocReqsRequirementTypeType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirementsSort returns new OptDocReqsRequirementsSort with value set to v.
+func NewOptDocReqsRequirementsSort(v DocReqsRequirementsSort) OptDocReqsRequirementsSort {
+	return OptDocReqsRequirementsSort{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementsSort is optional DocReqsRequirementsSort.
+type OptDocReqsRequirementsSort struct {
+	Value DocReqsRequirementsSort
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementsSort was set.
+func (o OptDocReqsRequirementsSort) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementsSort) Reset() {
+	var v DocReqsRequirementsSort
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementsSort) SetTo(v DocReqsRequirementsSort) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementsSort) Get() (v DocReqsRequirementsSort, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementsSort) Or(d DocReqsRequirementsSort) DocReqsRequirementsSort {
 	if v, ok := o.Get(); ok {
 		return v
 	}

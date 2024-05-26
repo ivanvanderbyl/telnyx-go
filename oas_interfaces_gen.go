@@ -685,6 +685,10 @@ type ListRegulatoryRequirementsRes interface {
 	listRegulatoryRequirementsRes()
 }
 
+type ListRequirementsRes interface {
+	listRequirementsRes()
+}
+
 type ListTagsRes interface {
 	listTagsRes()
 }
