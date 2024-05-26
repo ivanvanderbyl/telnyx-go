@@ -50,6 +50,12 @@ type DeleteTexmlConferenceParticipantParams struct {
 	CallSid string
 }
 
+// DeleteVerifiedNumberParams is parameters of DeleteVerifiedNumber operation.
+type DeleteVerifiedNumberParams struct {
+	// The phone number being deleted.
+	PhoneNumber string
+}
+
 // DialTexmlConferenceParticipantParams is parameters of DialTexmlConferenceParticipant operation.
 type DialTexmlConferenceParticipantParams struct {
 	// The id of the account the resource belongs to.
@@ -258,12 +264,55 @@ type GetTexmlConferencesParams struct {
 	DateUpdated OptString
 }
 
+// GetUsageReportByApplicationParams is parameters of GetUsageReportByApplication operation.
+type GetUsageReportByApplicationParams struct {
+	// Telnyx product.
+	Product string
+	// Breakout by specified product dimensions.
+	Dimensions []string
+	// Specified product usage values.
+	Metrics []string
+	// The start date for the time range you are interested in. The maximum time range is 31 days.
+	// Format: YYYY-MM-DDTHH:mm:ssZ.
+	StartDate OptString
+	// The end date for the time range you are interested in. The maximum time range is 31 days. Format:
+	// YYYY-MM-DDTHH:mm:ssZ.
+	EndDate OptString
+	// A more user-friendly way to specify the timespan you want to filter by. More options can be found
+	// in the Telnyx API Reference docs.
+	DateRange OptString
+	// Filter records on dimensions.
+	Filter OptString
+	// Return the aggregations for all Managed Accounts under the user making the request.
+	ManagedAccounts OptBool
+	PageNumber      OptInt
+	PageSize        OptInt
+	// Specifies the sort order for results.
+	Sort []string
+	// Specify the response format (csv or json). JSON is returned by default, even if not specified.
+	Format OptGetUsageReportByApplicationFormat
+}
+
 // GetUsageReportSyncParams is parameters of GetUsageReportSync operation.
 type GetUsageReportSyncParams struct {
 	StartDate       OptDateTime
 	EndDate         OptDateTime
 	AggregationType GetUsageReportSyncAggregationType
 	Profiles        []string
+}
+
+// GetUsageReportsParams is parameters of GetUsageReports operation.
+type GetUsageReportsParams struct {
+	// Page number.
+	PageNumber OptInt32
+	// Size of the page.
+	PageSize OptInt32
+}
+
+// GetVerifiedNumberParams is parameters of GetVerifiedNumber operation.
+type GetVerifiedNumberParams struct {
+	// The phone number being requested.
+	PhoneNumber string
 }
 
 // HangupCallParams is parameters of HangupCall operation.
@@ -510,4 +559,10 @@ type UpdateTexmlConferenceParticipantParams struct {
 	ConferenceSid string
 	// The CallSid that identifies the call to update.
 	CallSid string
+}
+
+// VerifyVerificationCodeParams is parameters of VerifyVerificationCode operation.
+type VerifyVerificationCodeParams struct {
+	// The phone number being verified.
+	PhoneNumber string
 }

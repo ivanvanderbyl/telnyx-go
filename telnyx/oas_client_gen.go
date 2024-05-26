@@ -75,6 +75,12 @@ type Invoker interface {
 	//
 	// DELETE /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid}
 	DeleteTexmlConferenceParticipant(ctx context.Context, params DeleteTexmlConferenceParticipantParams) (DeleteTexmlConferenceParticipantRes, error)
+	// DeleteVerifiedNumber invokes DeleteVerifiedNumber operation.
+	//
+	// Delete a verified number.
+	//
+	// DELETE /verified_numbers/{phone_number}
+	DeleteVerifiedNumber(ctx context.Context, params DeleteVerifiedNumberParams) (DeleteVerifiedNumberRes, error)
 	// DialCall invokes DialCall operation.
 	//
 	// Dial a number or SIP URI from a given connection. A successful response will include a
@@ -233,6 +239,12 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Conferences
 	GetTexmlConferences(ctx context.Context, params GetTexmlConferencesParams) (GetTexmlConferencesRes, error)
+	// GetUsageReportByApplication invokes GetUsageReportByApplication operation.
+	//
+	// Get Telnyx usage data by product, broken out by the specified dimensions.
+	//
+	// GET /usage_reports
+	GetUsageReportByApplication(ctx context.Context, params GetUsageReportByApplicationParams) (GetUsageReportByApplicationRes, error)
 	// GetUsageReportSync invokes GetUsageReportSync operation.
 	//
 	// Generate and fetch messaging usage report synchronously. This endpoint will both generate and
@@ -241,6 +253,19 @@ type Invoker interface {
 	//
 	// GET /reports/mdr_usage_reports/sync
 	GetUsageReportSync(ctx context.Context, params GetUsageReportSyncParams) (*MdrGetSyncUsageReportResponse, error)
+	// GetUsageReports invokes GetUsageReports operation.
+	//
+	// Fetch all messaging usage reports. Usage reports are aggregated messaging data for specified time
+	// period and breakdown.
+	//
+	// GET /reports/mdr_usage_reports
+	GetUsageReports(ctx context.Context, params GetUsageReportsParams) (*MdrGetUsageReportsResponse, error)
+	// GetVerifiedNumber invokes GetVerifiedNumber operation.
+	//
+	// Retrieve a verified number.
+	//
+	// GET /verified_numbers/{phone_number}
+	GetVerifiedNumber(ctx context.Context, params GetVerifiedNumberParams) (GetVerifiedNumberRes, error)
 	// HangupCall invokes HangupCall operation.
 	//
 	// Hang up the call.
@@ -729,6 +754,12 @@ type Invoker interface {
 	//
 	// POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid}
 	UpdateTexmlConferenceParticipant(ctx context.Context, request *UpdateConferenceParticipantRequest, params UpdateTexmlConferenceParticipantParams) (UpdateTexmlConferenceParticipantRes, error)
+	// VerifyVerificationCode invokes VerifyVerificationCode operation.
+	//
+	// Submit verification code.
+	//
+	// POST /verified_numbers/{phone_number}/actions/verify
+	VerifyVerificationCode(ctx context.Context, request *VerifyVerificationCodeReq, params VerifyVerificationCodeParams) (VerifyVerificationCodeRes, error)
 }
 
 // Client implements OAS client.
@@ -1550,6 +1581,93 @@ func (c *Client) sendDeleteTexmlConferenceParticipant(ctx context.Context, param
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteTexmlConferenceParticipantResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteVerifiedNumber invokes DeleteVerifiedNumber operation.
+//
+// Delete a verified number.
+//
+// DELETE /verified_numbers/{phone_number}
+func (c *Client) DeleteVerifiedNumber(ctx context.Context, params DeleteVerifiedNumberParams) (DeleteVerifiedNumberRes, error) {
+	res, err := c.sendDeleteVerifiedNumber(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteVerifiedNumber(ctx context.Context, params DeleteVerifiedNumberParams) (res DeleteVerifiedNumberRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verified_numbers/"
+	{
+		// Encode "phone_number" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "phone_number",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PhoneNumber))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteVerifiedNumber", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteVerifiedNumberResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4089,6 +4207,300 @@ func (c *Client) sendGetTexmlConferences(ctx context.Context, params GetTexmlCon
 	return result, nil
 }
 
+// GetUsageReportByApplication invokes GetUsageReportByApplication operation.
+//
+// Get Telnyx usage data by product, broken out by the specified dimensions.
+//
+// GET /usage_reports
+func (c *Client) GetUsageReportByApplication(ctx context.Context, params GetUsageReportByApplicationParams) (GetUsageReportByApplicationRes, error) {
+	res, err := c.sendGetUsageReportByApplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetUsageReportByApplication(ctx context.Context, params GetUsageReportByApplicationParams) (res GetUsageReportByApplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/usage_reports"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "product" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "product",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.Product))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "dimensions" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "dimensions",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Dimensions {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "metrics" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "metrics",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Metrics {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "date_range" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "date_range",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.DateRange.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "managed_accounts" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "managed_accounts",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.ManagedAccounts.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "format" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "format",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Format.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetUsageReportByApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetUsageReportByApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetUsageReportSync invokes GetUsageReportSync operation.
 //
 // Generate and fetch messaging usage report synchronously. This endpoint will both generate and
@@ -4230,6 +4642,200 @@ func (c *Client) sendGetUsageReportSync(ctx context.Context, params GetUsageRepo
 	defer resp.Body.Close()
 
 	result, err := decodeGetUsageReportSyncResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetUsageReports invokes GetUsageReports operation.
+//
+// Fetch all messaging usage reports. Usage reports are aggregated messaging data for specified time
+// period and breakdown.
+//
+// GET /reports/mdr_usage_reports
+func (c *Client) GetUsageReports(ctx context.Context, params GetUsageReportsParams) (*MdrGetUsageReportsResponse, error) {
+	res, err := c.sendGetUsageReports(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetUsageReports(ctx context.Context, params GetUsageReportsParams) (res *MdrGetUsageReportsResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/reports/mdr_usage_reports"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.Int32ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.Int32ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetUsageReports", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetUsageReportsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetVerifiedNumber invokes GetVerifiedNumber operation.
+//
+// Retrieve a verified number.
+//
+// GET /verified_numbers/{phone_number}
+func (c *Client) GetVerifiedNumber(ctx context.Context, params GetVerifiedNumberParams) (GetVerifiedNumberRes, error) {
+	res, err := c.sendGetVerifiedNumber(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetVerifiedNumber(ctx context.Context, params GetVerifiedNumberParams) (res GetVerifiedNumberRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verified_numbers/"
+	{
+		// Encode "phone_number" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "phone_number",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PhoneNumber))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetVerifiedNumber", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetVerifiedNumberResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8363,6 +8969,97 @@ func (c *Client) sendUpdateTexmlConferenceParticipant(ctx context.Context, reque
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateTexmlConferenceParticipantResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// VerifyVerificationCode invokes VerifyVerificationCode operation.
+//
+// Submit verification code.
+//
+// POST /verified_numbers/{phone_number}/actions/verify
+func (c *Client) VerifyVerificationCode(ctx context.Context, request *VerifyVerificationCodeReq, params VerifyVerificationCodeParams) (VerifyVerificationCodeRes, error) {
+	res, err := c.sendVerifyVerificationCode(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendVerifyVerificationCode(ctx context.Context, request *VerifyVerificationCodeReq, params VerifyVerificationCodeParams) (res VerifyVerificationCodeRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/verified_numbers/"
+	{
+		// Encode "phone_number" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "phone_number",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PhoneNumber))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/actions/verify"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeVerifyVerificationCodeRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "VerifyVerificationCode", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeVerifyVerificationCodeResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

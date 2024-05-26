@@ -1,7 +1,7 @@
 
 generator:
   filters:
-    path_regex: /calls|texml|usage_reports/
+    path_regex: /calls|texml|usage_reports|verified_numbers/
   features:
     disable_all: true
     enable:

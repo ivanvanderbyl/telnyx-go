@@ -33,6 +33,10 @@ type DeleteTexmlConferenceParticipantRes interface {
 	deleteTexmlConferenceParticipantRes()
 }
 
+type DeleteVerifiedNumberRes interface {
+	deleteVerifiedNumberRes()
+}
+
 type DialCallRes interface {
 	dialCallRes()
 }
@@ -115,6 +119,14 @@ type GetTexmlConferenceRes interface {
 
 type GetTexmlConferencesRes interface {
 	getTexmlConferencesRes()
+}
+
+type GetUsageReportByApplicationRes interface {
+	getUsageReportByApplicationRes()
+}
+
+type GetVerifiedNumberRes interface {
+	getVerifiedNumberRes()
 }
 
 type HangupCallRes interface {
@@ -247,4 +259,8 @@ type UpdateTexmlConferenceParticipantRes interface {
 
 type UpdateTexmlConferenceRes interface {
 	updateTexmlConferenceRes()
+}
+
+type VerifyVerificationCodeRes interface {
+	verifyVerificationCodeRes()
 }

@@ -3,6 +3,7 @@
 package api
 
 import (
+	"io"
 	"net/url"
 	"time"
 
@@ -4308,6 +4309,14 @@ type DeleteTexmlConferenceParticipantNoContent struct{}
 
 func (*DeleteTexmlConferenceParticipantNoContent) deleteTexmlConferenceParticipantRes() {}
 
+type DeleteVerifiedNumberNotFound Errors
+
+func (*DeleteVerifiedNumberNotFound) deleteVerifiedNumberRes() {}
+
+type DeleteVerifiedNumberUnauthorized Errors
+
+func (*DeleteVerifiedNumberUnauthorized) deleteVerifiedNumberRes() {}
+
 // Ref: #/components/schemas/DialConferenceParticipantRequest
 type DialConferenceParticipantRequest struct {
 	// Whether to play a notification beep to the conference when the participant enters and exits.
@@ -6691,11 +6700,13 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 
 func (*GenericErrorResponseStatusCode) answerCallRes()             {}
 func (*GenericErrorResponseStatusCode) bridgeCallRes()             {}
+func (*GenericErrorResponseStatusCode) deleteVerifiedNumberRes()   {}
 func (*GenericErrorResponseStatusCode) dialCallRes()               {}
 func (*GenericErrorResponseStatusCode) enqueueCallRes()            {}
 func (*GenericErrorResponseStatusCode) gatherCallRes()             {}
 func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()       {}
 func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()       {}
+func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()      {}
 func (*GenericErrorResponseStatusCode) hangupCallRes()             {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()             {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()  {}
@@ -6721,6 +6732,7 @@ func (*GenericErrorResponseStatusCode) stopCallStreamingRes()      {}
 func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()  {}
 func (*GenericErrorResponseStatusCode) transferCallRes()           {}
 func (*GenericErrorResponseStatusCode) updateClientStateRes()      {}
+func (*GenericErrorResponseStatusCode) verifyVerificationCodeRes() {}
 
 type GetAllTexmlApplicationsResponse struct {
 	Data []TexmlApplication `json:"data"`
@@ -6875,6 +6887,72 @@ type GetTexmlApplicationUnauthorized ErrorResponse
 
 func (*GetTexmlApplicationUnauthorized) getTexmlApplicationRes() {}
 
+type GetUsageReportByApplicationBadRequest ErrorResponse
+
+func (*GetUsageReportByApplicationBadRequest) getUsageReportByApplicationRes() {}
+
+type GetUsageReportByApplicationFormat string
+
+const (
+	GetUsageReportByApplicationFormatCsv  GetUsageReportByApplicationFormat = "csv"
+	GetUsageReportByApplicationFormatJSON GetUsageReportByApplicationFormat = "json"
+)
+
+// AllValues returns all GetUsageReportByApplicationFormat values.
+func (GetUsageReportByApplicationFormat) AllValues() []GetUsageReportByApplicationFormat {
+	return []GetUsageReportByApplicationFormat{
+		GetUsageReportByApplicationFormatCsv,
+		GetUsageReportByApplicationFormatJSON,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetUsageReportByApplicationFormat) MarshalText() ([]byte, error) {
+	switch s {
+	case GetUsageReportByApplicationFormatCsv:
+		return []byte(s), nil
+	case GetUsageReportByApplicationFormatJSON:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetUsageReportByApplicationFormat) UnmarshalText(data []byte) error {
+	switch GetUsageReportByApplicationFormat(data) {
+	case GetUsageReportByApplicationFormatCsv:
+		*s = GetUsageReportByApplicationFormatCsv
+		return nil
+	case GetUsageReportByApplicationFormatJSON:
+		*s = GetUsageReportByApplicationFormatJSON
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetUsageReportByApplicationInternalServerError ErrorResponse
+
+func (*GetUsageReportByApplicationInternalServerError) getUsageReportByApplicationRes() {}
+
+// CSV formatted data.
+type GetUsageReportByApplicationOKTextCsv struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s GetUsageReportByApplicationOKTextCsv) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*GetUsageReportByApplicationOKTextCsv) getUsageReportByApplicationRes() {}
+
 type GetUsageReportSyncAggregationType string
 
 const (
@@ -6922,6 +7000,14 @@ func (s *GetUsageReportSyncAggregationType) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type GetVerifiedNumberNotFound Errors
+
+func (*GetVerifiedNumberNotFound) getVerifiedNumberRes() {}
+
+type GetVerifiedNumberUnauthorized Errors
+
+func (*GetVerifiedNumberUnauthorized) getVerifiedNumberRes() {}
 
 // Ref: #/components/schemas/HangupRequest
 type HangupRequest struct {
@@ -7986,6 +8072,32 @@ func (s *MdrGetSyncUsageReportResponse) GetData() OptMdrUsageReportResponse {
 // SetData sets the value of Data.
 func (s *MdrGetSyncUsageReportResponse) SetData(val OptMdrUsageReportResponse) {
 	s.Data = val
+}
+
+// Ref: #/components/schemas/MdrGetUsageReportsResponse
+type MdrGetUsageReportsResponse struct {
+	Data []MdrUsageReportResponse `json:"data"`
+	Meta OptPaginationMeta        `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *MdrGetUsageReportsResponse) GetData() []MdrUsageReportResponse {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *MdrGetUsageReportsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *MdrGetUsageReportsResponse) SetData(val []MdrUsageReportResponse) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *MdrGetUsageReportsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
 }
 
 // Ref: #/components/schemas/MdrUsageRecord
@@ -12182,6 +12294,52 @@ func (o OptGatherUsingSpeakRequestServiceLevel) Or(d GatherUsingSpeakRequestServ
 	return d
 }
 
+// NewOptGetUsageReportByApplicationFormat returns new OptGetUsageReportByApplicationFormat with value set to v.
+func NewOptGetUsageReportByApplicationFormat(v GetUsageReportByApplicationFormat) OptGetUsageReportByApplicationFormat {
+	return OptGetUsageReportByApplicationFormat{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetUsageReportByApplicationFormat is optional GetUsageReportByApplicationFormat.
+type OptGetUsageReportByApplicationFormat struct {
+	Value GetUsageReportByApplicationFormat
+	Set   bool
+}
+
+// IsSet returns true if OptGetUsageReportByApplicationFormat was set.
+func (o OptGetUsageReportByApplicationFormat) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetUsageReportByApplicationFormat) Reset() {
+	var v GetUsageReportByApplicationFormat
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetUsageReportByApplicationFormat) SetTo(v GetUsageReportByApplicationFormat) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetUsageReportByApplicationFormat) Get() (v GetUsageReportByApplicationFormat, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetUsageReportByApplicationFormat) Or(d GetUsageReportByApplicationFormat) GetUsageReportByApplicationFormat {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptInitiateCallRequestAsyncAmdStatusCallbackMethod returns new OptInitiateCallRequestAsyncAmdStatusCallbackMethod with value set to v.
 func NewOptInitiateCallRequestAsyncAmdStatusCallbackMethod(v InitiateCallRequestAsyncAmdStatusCallbackMethod) OptInitiateCallRequestAsyncAmdStatusCallbackMethod {
 	return OptInitiateCallRequestAsyncAmdStatusCallbackMethod{
@@ -13612,6 +13770,52 @@ func (o OptOutboundVoiceProfileId) Get() (v OutboundVoiceProfileId, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptOutboundVoiceProfileId) Or(d OutboundVoiceProfileId) OutboundVoiceProfileId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaginationData returns new OptPaginationData with value set to v.
+func NewOptPaginationData(v PaginationData) OptPaginationData {
+	return OptPaginationData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaginationData is optional PaginationData.
+type OptPaginationData struct {
+	Value PaginationData
+	Set   bool
+}
+
+// IsSet returns true if OptPaginationData was set.
+func (o OptPaginationData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaginationData) Reset() {
+	var v PaginationData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaginationData) SetTo(v PaginationData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaginationData) Get() (v PaginationData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaginationData) Or(d PaginationData) PaginationData {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -16610,7 +16814,151 @@ func (o OptUpdatedAt) Or(d UpdatedAt) UpdatedAt {
 	return d
 }
 
+// NewOptVerifiedNumberRecordType returns new OptVerifiedNumberRecordType with value set to v.
+func NewOptVerifiedNumberRecordType(v VerifiedNumberRecordType) OptVerifiedNumberRecordType {
+	return OptVerifiedNumberRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedNumberRecordType is optional VerifiedNumberRecordType.
+type OptVerifiedNumberRecordType struct {
+	Value VerifiedNumberRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedNumberRecordType was set.
+func (o OptVerifiedNumberRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifiedNumberRecordType) Reset() {
+	var v VerifiedNumberRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedNumberRecordType) SetTo(v VerifiedNumberRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedNumberRecordType) Get() (v VerifiedNumberRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedNumberRecordType) Or(d VerifiedNumberRecordType) VerifiedNumberRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifiedNumberResponse returns new OptVerifiedNumberResponse with value set to v.
+func NewOptVerifiedNumberResponse(v VerifiedNumberResponse) OptVerifiedNumberResponse {
+	return OptVerifiedNumberResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedNumberResponse is optional VerifiedNumberResponse.
+type OptVerifiedNumberResponse struct {
+	Value VerifiedNumberResponse
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedNumberResponse was set.
+func (o OptVerifiedNumberResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifiedNumberResponse) Reset() {
+	var v VerifiedNumberResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedNumberResponse) SetTo(v VerifiedNumberResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedNumberResponse) Get() (v VerifiedNumberResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedNumberResponse) Or(d VerifiedNumberResponse) VerifiedNumberResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 type OutboundVoiceProfileId int64
+
+// Ref: #/components/schemas/PaginationData
+type PaginationData struct {
+	// Total number of pages.
+	TotalPages OptInt `json:"total_pages"`
+	// Total number of results.
+	TotalResults OptInt `json:"total_results"`
+	// Selected page number.
+	PageNumber OptInt `json:"page_number"`
+	// Records per single page.
+	PageSize OptInt `json:"page_size"`
+}
+
+// GetTotalPages returns the value of TotalPages.
+func (s *PaginationData) GetTotalPages() OptInt {
+	return s.TotalPages
+}
+
+// GetTotalResults returns the value of TotalResults.
+func (s *PaginationData) GetTotalResults() OptInt {
+	return s.TotalResults
+}
+
+// GetPageNumber returns the value of PageNumber.
+func (s *PaginationData) GetPageNumber() OptInt {
+	return s.PageNumber
+}
+
+// GetPageSize returns the value of PageSize.
+func (s *PaginationData) GetPageSize() OptInt {
+	return s.PageSize
+}
+
+// SetTotalPages sets the value of TotalPages.
+func (s *PaginationData) SetTotalPages(val OptInt) {
+	s.TotalPages = val
+}
+
+// SetTotalResults sets the value of TotalResults.
+func (s *PaginationData) SetTotalResults(val OptInt) {
+	s.TotalResults = val
+}
+
+// SetPageNumber sets the value of PageNumber.
+func (s *PaginationData) SetPageNumber(val OptInt) {
+	s.PageNumber = val
+}
+
+// SetPageSize sets the value of PageSize.
+func (s *PaginationData) SetPageSize(val OptInt) {
+	s.PageSize = val
+}
 
 // Ref: #/components/schemas/PaginationMeta
 type PaginationMeta struct {
@@ -22889,3 +23237,160 @@ func (s *UsageReportsOptionsResponse) SetData(val []UsageReportsOptionsRecord) {
 }
 
 func (*UsageReportsOptionsResponse) listUsageReportsOptionsRes() {}
+
+// Ref: #/components/schemas/UsageReportsResponse
+type UsageReportsResponse struct {
+	Meta OptPaginationData              `json:"meta"`
+	Data []UsageReportsResponseDataItem `json:"data"`
+}
+
+// GetMeta returns the value of Meta.
+func (s *UsageReportsResponse) GetMeta() OptPaginationData {
+	return s.Meta
+}
+
+// GetData returns the value of Data.
+func (s *UsageReportsResponse) GetData() []UsageReportsResponseDataItem {
+	return s.Data
+}
+
+// SetMeta sets the value of Meta.
+func (s *UsageReportsResponse) SetMeta(val OptPaginationData) {
+	s.Meta = val
+}
+
+// SetData sets the value of Data.
+func (s *UsageReportsResponse) SetData(val []UsageReportsResponseDataItem) {
+	s.Data = val
+}
+
+func (*UsageReportsResponse) getUsageReportByApplicationRes() {}
+
+type UsageReportsResponseDataItem map[string]jx.Raw
+
+func (s *UsageReportsResponseDataItem) init() UsageReportsResponseDataItem {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// The possible verified numbers record types.
+// Ref: #/components/schemas/VerifiedNumberRecordType
+type VerifiedNumberRecordType string
+
+const (
+	VerifiedNumberRecordTypeVerifiedNumber VerifiedNumberRecordType = "verified_number"
+)
+
+// AllValues returns all VerifiedNumberRecordType values.
+func (VerifiedNumberRecordType) AllValues() []VerifiedNumberRecordType {
+	return []VerifiedNumberRecordType{
+		VerifiedNumberRecordTypeVerifiedNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerifiedNumberRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case VerifiedNumberRecordTypeVerifiedNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerifiedNumberRecordType) UnmarshalText(data []byte) error {
+	switch VerifiedNumberRecordType(data) {
+	case VerifiedNumberRecordTypeVerifiedNumber:
+		*s = VerifiedNumberRecordTypeVerifiedNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/VerifiedNumberResponse
+type VerifiedNumberResponse struct {
+	PhoneNumber OptString                   `json:"phone_number"`
+	RecordType  OptVerifiedNumberRecordType `json:"record_type"`
+	VerifiedAt  OptString                   `json:"verified_at"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *VerifiedNumberResponse) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *VerifiedNumberResponse) GetRecordType() OptVerifiedNumberRecordType {
+	return s.RecordType
+}
+
+// GetVerifiedAt returns the value of VerifiedAt.
+func (s *VerifiedNumberResponse) GetVerifiedAt() OptString {
+	return s.VerifiedAt
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *VerifiedNumberResponse) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *VerifiedNumberResponse) SetRecordType(val OptVerifiedNumberRecordType) {
+	s.RecordType = val
+}
+
+// SetVerifiedAt sets the value of VerifiedAt.
+func (s *VerifiedNumberResponse) SetVerifiedAt(val OptString) {
+	s.VerifiedAt = val
+}
+
+// Ref: #/components/schemas/VerifiedNumberResponseDataWrapper
+type VerifiedNumberResponseDataWrapper struct {
+	Data OptVerifiedNumberResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *VerifiedNumberResponseDataWrapper) GetData() OptVerifiedNumberResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *VerifiedNumberResponseDataWrapper) SetData(val OptVerifiedNumberResponse) {
+	s.Data = val
+}
+
+func (*VerifiedNumberResponseDataWrapper) deleteVerifiedNumberRes()   {}
+func (*VerifiedNumberResponseDataWrapper) getVerifiedNumberRes()      {}
+func (*VerifiedNumberResponseDataWrapper) verifyVerificationCodeRes() {}
+
+type VerifyVerificationCodeNotFound Errors
+
+func (*VerifyVerificationCodeNotFound) verifyVerificationCodeRes() {}
+
+type VerifyVerificationCodeReq struct {
+	VerificationCode string `json:"verification_code"`
+}
+
+// GetVerificationCode returns the value of VerificationCode.
+func (s *VerifyVerificationCodeReq) GetVerificationCode() string {
+	return s.VerificationCode
+}
+
+// SetVerificationCode sets the value of VerificationCode.
+func (s *VerifyVerificationCodeReq) SetVerificationCode(val string) {
+	s.VerificationCode = val
+}
+
+type VerifyVerificationCodeUnauthorized Errors
+
+func (*VerifyVerificationCodeUnauthorized) verifyVerificationCodeRes() {}
+
+type VerifyVerificationCodeUnprocessableEntityApplicationJSON jx.Raw
+
+func (*VerifyVerificationCodeUnprocessableEntityApplicationJSON) verifyVerificationCodeRes() {}
