@@ -13,8 +13,6 @@ const (
 	DEFAULT_TOLERANCE = 300 // 5 minutes
 )
 
-type Webhook struct{}
-
 type VerificationError struct {
 	Message string
 	Detail  map[string]string
@@ -24,7 +22,9 @@ func (e *VerificationError) Error() string {
 	return e.Message
 }
 
-func throwSignatureVerificationError(payload, signatureHeader, timestampHeader string) error {
+var _ error = &VerificationError{}
+
+func newSignatureVerificationError(payload, signatureHeader, timestampHeader string) error {
 	return &VerificationError{
 		Message: "Signature is invalid and does not match the payload",
 		Detail: map[string]string{
@@ -35,7 +35,8 @@ func throwSignatureVerificationError(payload, signatureHeader, timestampHeader s
 	}
 }
 
-func (Webhook) ConstructEvent(payload, signatureHeader, timestampHeader, publicKey string, tolerance ...int) (map[string]interface{}, error) {
+// VerifyWebhookPayload constructs an event from a webhook payload, signature header, timestamp header and public key.
+func VerifyWebhookPayload(payload, signatureHeader, timestampHeader, publicKey string, tolerance ...int) (map[string]interface{}, error) {
 	tol := DEFAULT_TOLERANCE
 	if len(tolerance) > 0 {
 		tol = tolerance[0]
@@ -60,25 +61,25 @@ func verifySignature(payload, signatureHeader, timestampHeader, publicKey string
 
 	signature, err := base64.StdEncoding.DecodeString(signatureHeader)
 	if err != nil {
-		return throwSignatureVerificationError(payload, signatureHeader, timestampHeader)
+		return newSignatureVerificationError(payload, signatureHeader, timestampHeader)
 	}
 
 	pubKey, err := base64.StdEncoding.DecodeString(publicKey)
 	if err != nil {
-		return throwSignatureVerificationError(payload, signatureHeader, timestampHeader)
+		return newSignatureVerificationError(payload, signatureHeader, timestampHeader)
 	}
 
 	if len(pubKey) != ed25519.PublicKeySize {
-		return throwSignatureVerificationError(payload, signatureHeader, timestampHeader)
+		return newSignatureVerificationError(payload, signatureHeader, timestampHeader)
 	}
 
 	if !ed25519.Verify(pubKey, payloadBuffer, signature) {
-		return throwSignatureVerificationError(payload, signatureHeader, timestampHeader)
+		return newSignatureVerificationError(payload, signatureHeader, timestampHeader)
 	}
 
 	timestampAge, err := strconv.ParseInt(timestampHeader, 10, 64)
 	if err != nil {
-		return throwSignatureVerificationError(payload, signatureHeader, timestampHeader)
+		return newSignatureVerificationError(payload, signatureHeader, timestampHeader)
 	}
 
 	if tolerance > 0 && (time.Now().Unix()-timestampAge) > int64(tolerance) {
@@ -93,9 +94,4 @@ func verifySignature(payload, signatureHeader, timestampHeader, publicKey string
 	}
 
 	return nil
-}
-
-func parseInt(value string) int64 {
-	result, _ := time.Parse("2006-01-02T15:04:05Z07:00", value)
-	return result.Unix()
 }
