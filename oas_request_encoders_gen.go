@@ -244,6 +244,20 @@ func encodeCreateGroupMmsMessageRequest(
 	return nil
 }
 
+func encodeCreateLoaConfigurationRequest(
+	req *CreateLoaConfigurationReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateLongCodeMessageRequest(
 	req OptCreateLongCodeMessageRequest,
 	r *http.Request,
@@ -368,6 +382,20 @@ func encodeCreateNumberReservationRequest(
 
 func encodeCreatePhoneNumbersJobUpdateEmergencySettingsRequest(
 	req *PhoneNumbersJobUpdateEmergencySettingsRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreatePortingReportRequest(
+	req *CreatePortingReportReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1529,6 +1557,20 @@ func encodePostPortabilityCheckRequest(
 	return nil
 }
 
+func encodePreviewLoaConfigurationParamsRequest(
+	req *PreviewLoaConfigurationParamsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeReferCallRequest(
 	req *ReferRequest,
 	r *http.Request,
@@ -1981,6 +2023,20 @@ func encodeUpdateCustomStorageCredentialsRequest(
 
 func encodeUpdateExternalConnectionPhoneNumberRequest(
 	req *UpdateExternalConnectionPhoneNumberRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateLoaConfigurationRequest(
+	req *UpdateLoaConfigurationReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

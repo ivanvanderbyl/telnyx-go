@@ -57,6 +57,10 @@ type CreateGroupMmsMessageRes interface {
 	createGroupMmsMessageRes()
 }
 
+type CreateLoaConfigurationRes interface {
+	createLoaConfigurationRes()
+}
+
 type CreateLongCodeMessageRes interface {
 	createLongCodeMessageRes()
 }
@@ -87,6 +91,10 @@ type CreateNumberReservationRes interface {
 
 type CreatePhoneNumbersJobUpdateEmergencySettingsRes interface {
 	createPhoneNumbersJobUpdateEmergencySettingsRes()
+}
+
+type CreatePortingReportRes interface {
+	createPortingReportRes()
 }
 
 type CreateProfileRes interface {
@@ -155,6 +163,10 @@ type DeleteDefaultGatewayRes interface {
 
 type DeleteExternalConnectionLogMessageRes interface {
 	deleteExternalConnectionLogMessageRes()
+}
+
+type DeleteLoaConfigurationRes interface {
+	deleteLoaConfigurationRes()
 }
 
 type DeleteNetworkRes interface {
@@ -309,6 +321,10 @@ type GetExternalConnectionPhoneNumberRes interface {
 	getExternalConnectionPhoneNumberRes()
 }
 
+type GetLoaConfigurationRes interface {
+	getLoaConfigurationRes()
+}
+
 type GetMessageRes interface {
 	getMessageRes()
 }
@@ -351,6 +367,10 @@ type GetPhoneNumberVoiceSettingsRes interface {
 
 type GetPortRequestSupportingDocumentsRes interface {
 	getPortRequestSupportingDocumentsRes()
+}
+
+type GetPortingReportRes interface {
+	getPortingReportRes()
 }
 
 type GetRecordingRes interface {
@@ -449,6 +469,10 @@ type LeaveQueueRes interface {
 	leaveQueueRes()
 }
 
+type ListAvailablePhoneNumberBlocksRes interface {
+	listAvailablePhoneNumberBlocksRes()
+}
+
 type ListAvailablePhoneNumbersRes interface {
 	listAvailablePhoneNumbersRes()
 }
@@ -479,6 +503,10 @@ type ListExternalConnectionPhoneNumbersRes interface {
 
 type ListInboundChannelsRes interface {
 	listInboundChannelsRes()
+}
+
+type ListLoaConfigurationsRes interface {
+	listLoaConfigurationsRes()
 }
 
 type ListMessagingHostedNumberOrdersRes interface {
@@ -539,6 +567,10 @@ type ListPortingOrderCommentsRes interface {
 
 type ListPortingPhoneNumbersRes interface {
 	listPortingPhoneNumbersRes()
+}
+
+type ListPortingReportsRes interface {
+	listPortingReportsRes()
 }
 
 type ListPortoutRequestRes interface {
@@ -615,6 +647,14 @@ type PostPortRequestSupportingDocumentsRes interface {
 
 type PostPortabilityCheckRes interface {
 	postPortabilityCheckRes()
+}
+
+type PreviewLoaConfigurationParamsRes interface {
+	previewLoaConfigurationParamsRes()
+}
+
+type PreviewLoaConfigurationRes interface {
+	previewLoaConfigurationRes()
 }
 
 type ReferCallRes interface {
@@ -763,6 +803,10 @@ type UpdateCustomStorageCredentialsRes interface {
 
 type UpdateExternalConnectionPhoneNumberRes interface {
 	updateExternalConnectionPhoneNumberRes()
+}
+
+type UpdateLoaConfigurationRes interface {
+	updateLoaConfigurationRes()
 }
 
 type UpdateNetworkRes interface {

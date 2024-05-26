@@ -10,9 +10,11 @@ import (
 )
 
 var regexMap = map[string]ogenregex.Regexp{
-	"^[A-Z]{2}$":            ogenregex.MustCompile("^[A-Z]{2}$"),
-	"^[A-Za-z0-9 -]{1,30}$": ogenregex.MustCompile("^[A-Za-z0-9 -]{1,30}$"),
-	"^[A-Za-z0-9 ]{1,11}$":  ogenregex.MustCompile("^[A-Za-z0-9 ]{1,11}$"),
+	"^[0-9]{5}(?:-[0-9]{4})?$": ogenregex.MustCompile("^[0-9]{5}(?:-[0-9]{4})?$"),
+	"^[A-Z]{2}$":               ogenregex.MustCompile("^[A-Z]{2}$"),
+	"^[A-Za-z0-9 -]{1,30}$":    ogenregex.MustCompile("^[A-Za-z0-9 -]{1,30}$"),
+	"^[A-Za-z0-9 ]{1,11}$":     ogenregex.MustCompile("^[A-Za-z0-9 ]{1,11}$"),
+	"^\\+\\d{11,15}$":          ogenregex.MustCompile("^\\+\\d{11,15}$"),
 }
 
 type (

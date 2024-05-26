@@ -1020,6 +1020,110 @@ func (s *AvailablePhoneNumber) SetFeatures(val []Feature) {
 	s.Features = val
 }
 
+// Ref: #/components/schemas/AvailablePhoneNumberBlock
+type AvailablePhoneNumberBlock struct {
+	RecordType        OptAvailablePhoneNumberBlockRecordType `json:"record_type"`
+	StartingNumber    OptString                              `json:"starting_number"`
+	Range             OptInt                                 `json:"range"`
+	RegionInformation []RegionInformation                    `json:"region_information"`
+	CostInformation   OptCostInformation                     `json:"cost_information"`
+	Features          []Feature                              `json:"features"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *AvailablePhoneNumberBlock) GetRecordType() OptAvailablePhoneNumberBlockRecordType {
+	return s.RecordType
+}
+
+// GetStartingNumber returns the value of StartingNumber.
+func (s *AvailablePhoneNumberBlock) GetStartingNumber() OptString {
+	return s.StartingNumber
+}
+
+// GetRange returns the value of Range.
+func (s *AvailablePhoneNumberBlock) GetRange() OptInt {
+	return s.Range
+}
+
+// GetRegionInformation returns the value of RegionInformation.
+func (s *AvailablePhoneNumberBlock) GetRegionInformation() []RegionInformation {
+	return s.RegionInformation
+}
+
+// GetCostInformation returns the value of CostInformation.
+func (s *AvailablePhoneNumberBlock) GetCostInformation() OptCostInformation {
+	return s.CostInformation
+}
+
+// GetFeatures returns the value of Features.
+func (s *AvailablePhoneNumberBlock) GetFeatures() []Feature {
+	return s.Features
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *AvailablePhoneNumberBlock) SetRecordType(val OptAvailablePhoneNumberBlockRecordType) {
+	s.RecordType = val
+}
+
+// SetStartingNumber sets the value of StartingNumber.
+func (s *AvailablePhoneNumberBlock) SetStartingNumber(val OptString) {
+	s.StartingNumber = val
+}
+
+// SetRange sets the value of Range.
+func (s *AvailablePhoneNumberBlock) SetRange(val OptInt) {
+	s.Range = val
+}
+
+// SetRegionInformation sets the value of RegionInformation.
+func (s *AvailablePhoneNumberBlock) SetRegionInformation(val []RegionInformation) {
+	s.RegionInformation = val
+}
+
+// SetCostInformation sets the value of CostInformation.
+func (s *AvailablePhoneNumberBlock) SetCostInformation(val OptCostInformation) {
+	s.CostInformation = val
+}
+
+// SetFeatures sets the value of Features.
+func (s *AvailablePhoneNumberBlock) SetFeatures(val []Feature) {
+	s.Features = val
+}
+
+type AvailablePhoneNumberBlockRecordType string
+
+const (
+	AvailablePhoneNumberBlockRecordTypeAvailablePhoneNumberBlock AvailablePhoneNumberBlockRecordType = "available_phone_number_block"
+)
+
+// AllValues returns all AvailablePhoneNumberBlockRecordType values.
+func (AvailablePhoneNumberBlockRecordType) AllValues() []AvailablePhoneNumberBlockRecordType {
+	return []AvailablePhoneNumberBlockRecordType{
+		AvailablePhoneNumberBlockRecordTypeAvailablePhoneNumberBlock,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AvailablePhoneNumberBlockRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case AvailablePhoneNumberBlockRecordTypeAvailablePhoneNumberBlock:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AvailablePhoneNumberBlockRecordType) UnmarshalText(data []byte) error {
+	switch AvailablePhoneNumberBlockRecordType(data) {
+	case AvailablePhoneNumberBlockRecordTypeAvailablePhoneNumberBlock:
+		*s = AvailablePhoneNumberBlockRecordTypeAvailablePhoneNumberBlock
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type AvailablePhoneNumberRecordType string
 
 const (
@@ -6559,6 +6663,200 @@ func (s *CreateGroupMMSMessageRequest) SetUseProfileWebhooks(val OptBool) {
 	s.UseProfileWebhooks = val
 }
 
+// CreateLoaConfigurationInternalServerError is response for CreateLoaConfiguration operation.
+type CreateLoaConfigurationInternalServerError struct{}
+
+func (*CreateLoaConfigurationInternalServerError) createLoaConfigurationRes() {}
+
+// The parameters for creating a new LOA configuration.
+type CreateLoaConfigurationReq struct {
+	// The name of the LOA configuration.
+	Name string `json:"name"`
+	// The logo of the LOA configuration.
+	Logo CreateLoaConfigurationReqLogo `json:"logo"`
+	// The name of the company.
+	CompanyName string `json:"company_name"`
+	// The address of the company.
+	Address CreateLoaConfigurationReqAddress `json:"address"`
+	// The contact information of the company.
+	Contact CreateLoaConfigurationReqContact `json:"contact"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateLoaConfigurationReq) GetName() string {
+	return s.Name
+}
+
+// GetLogo returns the value of Logo.
+func (s *CreateLoaConfigurationReq) GetLogo() CreateLoaConfigurationReqLogo {
+	return s.Logo
+}
+
+// GetCompanyName returns the value of CompanyName.
+func (s *CreateLoaConfigurationReq) GetCompanyName() string {
+	return s.CompanyName
+}
+
+// GetAddress returns the value of Address.
+func (s *CreateLoaConfigurationReq) GetAddress() CreateLoaConfigurationReqAddress {
+	return s.Address
+}
+
+// GetContact returns the value of Contact.
+func (s *CreateLoaConfigurationReq) GetContact() CreateLoaConfigurationReqContact {
+	return s.Contact
+}
+
+// SetName sets the value of Name.
+func (s *CreateLoaConfigurationReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetLogo sets the value of Logo.
+func (s *CreateLoaConfigurationReq) SetLogo(val CreateLoaConfigurationReqLogo) {
+	s.Logo = val
+}
+
+// SetCompanyName sets the value of CompanyName.
+func (s *CreateLoaConfigurationReq) SetCompanyName(val string) {
+	s.CompanyName = val
+}
+
+// SetAddress sets the value of Address.
+func (s *CreateLoaConfigurationReq) SetAddress(val CreateLoaConfigurationReqAddress) {
+	s.Address = val
+}
+
+// SetContact sets the value of Contact.
+func (s *CreateLoaConfigurationReq) SetContact(val CreateLoaConfigurationReqContact) {
+	s.Contact = val
+}
+
+// The address of the company.
+type CreateLoaConfigurationReqAddress struct {
+	// The street address of the company.
+	StreetAddress string `json:"street_address"`
+	// The extended address of the company.
+	ExtendedAddress OptString `json:"extended_address"`
+	// The locality of the company.
+	City OptString `json:"city"`
+	// The administrative area of the company.
+	State OptString `json:"state"`
+	// The postal code of the company.
+	ZipCode OptString `json:"zip_code"`
+	// The country code of the company.
+	CountryCode string `json:"country_code"`
+}
+
+// GetStreetAddress returns the value of StreetAddress.
+func (s *CreateLoaConfigurationReqAddress) GetStreetAddress() string {
+	return s.StreetAddress
+}
+
+// GetExtendedAddress returns the value of ExtendedAddress.
+func (s *CreateLoaConfigurationReqAddress) GetExtendedAddress() OptString {
+	return s.ExtendedAddress
+}
+
+// GetCity returns the value of City.
+func (s *CreateLoaConfigurationReqAddress) GetCity() OptString {
+	return s.City
+}
+
+// GetState returns the value of State.
+func (s *CreateLoaConfigurationReqAddress) GetState() OptString {
+	return s.State
+}
+
+// GetZipCode returns the value of ZipCode.
+func (s *CreateLoaConfigurationReqAddress) GetZipCode() OptString {
+	return s.ZipCode
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *CreateLoaConfigurationReqAddress) GetCountryCode() string {
+	return s.CountryCode
+}
+
+// SetStreetAddress sets the value of StreetAddress.
+func (s *CreateLoaConfigurationReqAddress) SetStreetAddress(val string) {
+	s.StreetAddress = val
+}
+
+// SetExtendedAddress sets the value of ExtendedAddress.
+func (s *CreateLoaConfigurationReqAddress) SetExtendedAddress(val OptString) {
+	s.ExtendedAddress = val
+}
+
+// SetCity sets the value of City.
+func (s *CreateLoaConfigurationReqAddress) SetCity(val OptString) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *CreateLoaConfigurationReqAddress) SetState(val OptString) {
+	s.State = val
+}
+
+// SetZipCode sets the value of ZipCode.
+func (s *CreateLoaConfigurationReqAddress) SetZipCode(val OptString) {
+	s.ZipCode = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *CreateLoaConfigurationReqAddress) SetCountryCode(val string) {
+	s.CountryCode = val
+}
+
+// The contact information of the company.
+type CreateLoaConfigurationReqContact struct {
+	// The email address of the contact.
+	Email string `json:"email"`
+	// The phone number of the contact.
+	PhoneNumber string `json:"phone_number"`
+}
+
+// GetEmail returns the value of Email.
+func (s *CreateLoaConfigurationReqContact) GetEmail() string {
+	return s.Email
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *CreateLoaConfigurationReqContact) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// SetEmail sets the value of Email.
+func (s *CreateLoaConfigurationReqContact) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *CreateLoaConfigurationReqContact) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// The logo of the LOA configuration.
+type CreateLoaConfigurationReqLogo struct {
+	// The document identification.
+	DocumentID uuid.UUID `json:"document_id"`
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *CreateLoaConfigurationReqLogo) GetDocumentID() uuid.UUID {
+	return s.DocumentID
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *CreateLoaConfigurationReqLogo) SetDocumentID(val uuid.UUID) {
+	s.DocumentID = val
+}
+
+// CreateLoaConfigurationUnprocessableEntity is response for CreateLoaConfiguration operation.
+type CreateLoaConfigurationUnprocessableEntity struct{}
+
+func (*CreateLoaConfigurationUnprocessableEntity) createLoaConfigurationRes() {}
+
 // Ref: #/components/schemas/CreateLongCodeMessageRequest
 type CreateLongCodeMessageRequest struct {
 	// Phone number, in +E.164 format, used to send the message.
@@ -7589,6 +7887,22 @@ func (s *CreatePortOutSupportingDocumentsResponse) SetData(val []PortOutSupporti
 
 func (*CreatePortOutSupportingDocumentsResponse) postPortRequestSupportingDocumentsRes() {}
 
+type CreatePortingLOAConfiguration struct {
+	Data OptPortingLOAConfiguration `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreatePortingLOAConfiguration) GetData() OptPortingLOAConfiguration {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreatePortingLOAConfiguration) SetData(val OptPortingLOAConfiguration) {
+	s.Data = val
+}
+
+func (*CreatePortingLOAConfiguration) createLoaConfigurationRes() {}
+
 // Ref: #/components/schemas/CreatePortingOrderComment
 type CreatePortingOrderComment struct {
 	Body OptString `json:"body"`
@@ -7603,6 +7917,134 @@ func (s *CreatePortingOrderComment) GetBody() OptString {
 func (s *CreatePortingOrderComment) SetBody(val OptString) {
 	s.Body = val
 }
+
+type CreatePortingReport struct {
+	Data OptPortingReport `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreatePortingReport) GetData() OptPortingReport {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreatePortingReport) SetData(val OptPortingReport) {
+	s.Data = val
+}
+
+func (*CreatePortingReport) createPortingReportRes() {}
+
+// CreatePortingReportInternalServerError is response for CreatePortingReport operation.
+type CreatePortingReportInternalServerError struct{}
+
+func (*CreatePortingReportInternalServerError) createPortingReportRes() {}
+
+// The parameters for generating a new porting related report.
+type CreatePortingReportReq struct {
+	// Identifies the type of report.
+	ReportType CreatePortingReportReqReportType `json:"report_type"`
+	Params     CreatePortingReportReqParams     `json:"params"`
+}
+
+// GetReportType returns the value of ReportType.
+func (s *CreatePortingReportReq) GetReportType() CreatePortingReportReqReportType {
+	return s.ReportType
+}
+
+// GetParams returns the value of Params.
+func (s *CreatePortingReportReq) GetParams() CreatePortingReportReqParams {
+	return s.Params
+}
+
+// SetReportType sets the value of ReportType.
+func (s *CreatePortingReportReq) SetReportType(val CreatePortingReportReqReportType) {
+	s.ReportType = val
+}
+
+// SetParams sets the value of Params.
+func (s *CreatePortingReportReq) SetParams(val CreatePortingReportReqParams) {
+	s.Params = val
+}
+
+// CreatePortingReportReqParams represents sum type.
+type CreatePortingReportReqParams struct {
+	Type                         CreatePortingReportReqParamsType // switch on this field
+	ExportPortingOrdersCSVReport ExportPortingOrdersCSVReport
+}
+
+// CreatePortingReportReqParamsType is oneOf type of CreatePortingReportReqParams.
+type CreatePortingReportReqParamsType string
+
+// Possible values for CreatePortingReportReqParamsType.
+const (
+	ExportPortingOrdersCSVReportCreatePortingReportReqParams CreatePortingReportReqParamsType = "ExportPortingOrdersCSVReport"
+)
+
+// IsExportPortingOrdersCSVReport reports whether CreatePortingReportReqParams is ExportPortingOrdersCSVReport.
+func (s CreatePortingReportReqParams) IsExportPortingOrdersCSVReport() bool {
+	return s.Type == ExportPortingOrdersCSVReportCreatePortingReportReqParams
+}
+
+// SetExportPortingOrdersCSVReport sets CreatePortingReportReqParams to ExportPortingOrdersCSVReport.
+func (s *CreatePortingReportReqParams) SetExportPortingOrdersCSVReport(v ExportPortingOrdersCSVReport) {
+	s.Type = ExportPortingOrdersCSVReportCreatePortingReportReqParams
+	s.ExportPortingOrdersCSVReport = v
+}
+
+// GetExportPortingOrdersCSVReport returns ExportPortingOrdersCSVReport and true boolean if CreatePortingReportReqParams is ExportPortingOrdersCSVReport.
+func (s CreatePortingReportReqParams) GetExportPortingOrdersCSVReport() (v ExportPortingOrdersCSVReport, ok bool) {
+	if !s.IsExportPortingOrdersCSVReport() {
+		return v, false
+	}
+	return s.ExportPortingOrdersCSVReport, true
+}
+
+// NewExportPortingOrdersCSVReportCreatePortingReportReqParams returns new CreatePortingReportReqParams from ExportPortingOrdersCSVReport.
+func NewExportPortingOrdersCSVReportCreatePortingReportReqParams(v ExportPortingOrdersCSVReport) CreatePortingReportReqParams {
+	var s CreatePortingReportReqParams
+	s.SetExportPortingOrdersCSVReport(v)
+	return s
+}
+
+// Identifies the type of report.
+type CreatePortingReportReqReportType string
+
+const (
+	CreatePortingReportReqReportTypeExportPortingOrdersCsv CreatePortingReportReqReportType = "export_porting_orders_csv"
+)
+
+// AllValues returns all CreatePortingReportReqReportType values.
+func (CreatePortingReportReqReportType) AllValues() []CreatePortingReportReqReportType {
+	return []CreatePortingReportReqReportType{
+		CreatePortingReportReqReportTypeExportPortingOrdersCsv,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreatePortingReportReqReportType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreatePortingReportReqReportTypeExportPortingOrdersCsv:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreatePortingReportReqReportType) UnmarshalText(data []byte) error {
+	switch CreatePortingReportReqReportType(data) {
+	case CreatePortingReportReqReportTypeExportPortingOrdersCsv:
+		*s = CreatePortingReportReqReportTypeExportPortingOrdersCsv
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// CreatePortingReportUnprocessableEntity is response for CreatePortingReport operation.
+type CreatePortingReportUnprocessableEntity struct{}
+
+func (*CreatePortingReportUnprocessableEntity) createPortingReportRes() {}
 
 // CreateProfileVerificationRequestCreated is response for CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestCreated struct{}
@@ -9483,6 +9925,21 @@ type DeleteExternalConnectionLogMessageUnauthorized struct{}
 
 func (*DeleteExternalConnectionLogMessageUnauthorized) deleteExternalConnectionLogMessageRes() {}
 
+// DeleteLoaConfigurationInternalServerError is response for DeleteLoaConfiguration operation.
+type DeleteLoaConfigurationInternalServerError struct{}
+
+func (*DeleteLoaConfigurationInternalServerError) deleteLoaConfigurationRes() {}
+
+// DeleteLoaConfigurationNoContent is response for DeleteLoaConfiguration operation.
+type DeleteLoaConfigurationNoContent struct{}
+
+func (*DeleteLoaConfigurationNoContent) deleteLoaConfigurationRes() {}
+
+// DeleteLoaConfigurationNotFound is response for DeleteLoaConfiguration operation.
+type DeleteLoaConfigurationNotFound struct{}
+
+func (*DeleteLoaConfigurationNotFound) deleteLoaConfigurationRes() {}
+
 type DeleteNotificationChannelOK struct {
 	Data OptNotificationChannel `json:"data"`
 }
@@ -10776,6 +11233,23 @@ func (*DisplayVerifiedCallsDisplayProfileResponse) createProfileRes()           
 func (*DisplayVerifiedCallsDisplayProfileResponse) deleteVerifiedCallDisplayProfileRes() {}
 func (*DisplayVerifiedCallsDisplayProfileResponse) displayProfileRes()                   {}
 
+type DownloadLOATemplate struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s DownloadLOATemplate) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*DownloadLOATemplate) previewLoaConfigurationParamsRes() {}
+func (*DownloadLOATemplate) previewLoaConfigurationRes()       {}
+
 // Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
 // Telnyx will be accepted in all formats.
 // Ref: #/components/schemas/DtmfType
@@ -11252,6 +11726,158 @@ func (*Errors) listPhoneNumbersJobsRes()                         {}
 func (*Errors) listVerifiedNumbersRes()                          {}
 func (*Errors) lookupNumberRes()                                 {}
 func (*Errors) retrievePhoneNumbersJobRes()                      {}
+
+// The parameters for generating a porting orders CSV report.
+// Ref: #/components/schemas/ExportPortingOrdersCSVReport
+type ExportPortingOrdersCSVReport struct {
+	// The filters to apply to the export porting order CSV report.
+	Filters ExportPortingOrdersCSVReportFilters `json:"filters"`
+}
+
+// GetFilters returns the value of Filters.
+func (s *ExportPortingOrdersCSVReport) GetFilters() ExportPortingOrdersCSVReportFilters {
+	return s.Filters
+}
+
+// SetFilters sets the value of Filters.
+func (s *ExportPortingOrdersCSVReport) SetFilters(val ExportPortingOrdersCSVReportFilters) {
+	s.Filters = val
+}
+
+// The filters to apply to the export porting order CSV report.
+type ExportPortingOrdersCSVReportFilters struct {
+	// The status of the porting orders to include in the report.
+	StatusIn []ExportPortingOrdersCSVReportFiltersStatusInItem `json:"status__in"`
+	// The customer reference of the porting orders to include in the report.
+	CustomerReferenceIn []string `json:"customer_reference__in"`
+	// The date and time the porting order was created before.
+	CreatedAtLt OptDateTime `json:"created_at__lt"`
+	// The date and time the porting order was created after.
+	CreatedAtGt OptDateTime `json:"created_at__gt"`
+}
+
+// GetStatusIn returns the value of StatusIn.
+func (s *ExportPortingOrdersCSVReportFilters) GetStatusIn() []ExportPortingOrdersCSVReportFiltersStatusInItem {
+	return s.StatusIn
+}
+
+// GetCustomerReferenceIn returns the value of CustomerReferenceIn.
+func (s *ExportPortingOrdersCSVReportFilters) GetCustomerReferenceIn() []string {
+	return s.CustomerReferenceIn
+}
+
+// GetCreatedAtLt returns the value of CreatedAtLt.
+func (s *ExportPortingOrdersCSVReportFilters) GetCreatedAtLt() OptDateTime {
+	return s.CreatedAtLt
+}
+
+// GetCreatedAtGt returns the value of CreatedAtGt.
+func (s *ExportPortingOrdersCSVReportFilters) GetCreatedAtGt() OptDateTime {
+	return s.CreatedAtGt
+}
+
+// SetStatusIn sets the value of StatusIn.
+func (s *ExportPortingOrdersCSVReportFilters) SetStatusIn(val []ExportPortingOrdersCSVReportFiltersStatusInItem) {
+	s.StatusIn = val
+}
+
+// SetCustomerReferenceIn sets the value of CustomerReferenceIn.
+func (s *ExportPortingOrdersCSVReportFilters) SetCustomerReferenceIn(val []string) {
+	s.CustomerReferenceIn = val
+}
+
+// SetCreatedAtLt sets the value of CreatedAtLt.
+func (s *ExportPortingOrdersCSVReportFilters) SetCreatedAtLt(val OptDateTime) {
+	s.CreatedAtLt = val
+}
+
+// SetCreatedAtGt sets the value of CreatedAtGt.
+func (s *ExportPortingOrdersCSVReportFilters) SetCreatedAtGt(val OptDateTime) {
+	s.CreatedAtGt = val
+}
+
+type ExportPortingOrdersCSVReportFiltersStatusInItem string
+
+const (
+	ExportPortingOrdersCSVReportFiltersStatusInItemDraft            ExportPortingOrdersCSVReportFiltersStatusInItem = "draft"
+	ExportPortingOrdersCSVReportFiltersStatusInItemInProcess        ExportPortingOrdersCSVReportFiltersStatusInItem = "in-process"
+	ExportPortingOrdersCSVReportFiltersStatusInItemSubmitted        ExportPortingOrdersCSVReportFiltersStatusInItem = "submitted"
+	ExportPortingOrdersCSVReportFiltersStatusInItemException        ExportPortingOrdersCSVReportFiltersStatusInItem = "exception"
+	ExportPortingOrdersCSVReportFiltersStatusInItemFocDateConfirmed ExportPortingOrdersCSVReportFiltersStatusInItem = "foc-date-confirmed"
+	ExportPortingOrdersCSVReportFiltersStatusInItemCancelPending    ExportPortingOrdersCSVReportFiltersStatusInItem = "cancel-pending"
+	ExportPortingOrdersCSVReportFiltersStatusInItemPorted           ExportPortingOrdersCSVReportFiltersStatusInItem = "ported"
+	ExportPortingOrdersCSVReportFiltersStatusInItemCancelled        ExportPortingOrdersCSVReportFiltersStatusInItem = "cancelled"
+)
+
+// AllValues returns all ExportPortingOrdersCSVReportFiltersStatusInItem values.
+func (ExportPortingOrdersCSVReportFiltersStatusInItem) AllValues() []ExportPortingOrdersCSVReportFiltersStatusInItem {
+	return []ExportPortingOrdersCSVReportFiltersStatusInItem{
+		ExportPortingOrdersCSVReportFiltersStatusInItemDraft,
+		ExportPortingOrdersCSVReportFiltersStatusInItemInProcess,
+		ExportPortingOrdersCSVReportFiltersStatusInItemSubmitted,
+		ExportPortingOrdersCSVReportFiltersStatusInItemException,
+		ExportPortingOrdersCSVReportFiltersStatusInItemFocDateConfirmed,
+		ExportPortingOrdersCSVReportFiltersStatusInItemCancelPending,
+		ExportPortingOrdersCSVReportFiltersStatusInItemPorted,
+		ExportPortingOrdersCSVReportFiltersStatusInItemCancelled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ExportPortingOrdersCSVReportFiltersStatusInItem) MarshalText() ([]byte, error) {
+	switch s {
+	case ExportPortingOrdersCSVReportFiltersStatusInItemDraft:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemInProcess:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemSubmitted:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemException:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemFocDateConfirmed:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemCancelPending:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemPorted:
+		return []byte(s), nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemCancelled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ExportPortingOrdersCSVReportFiltersStatusInItem) UnmarshalText(data []byte) error {
+	switch ExportPortingOrdersCSVReportFiltersStatusInItem(data) {
+	case ExportPortingOrdersCSVReportFiltersStatusInItemDraft:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemDraft
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemInProcess:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemInProcess
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemSubmitted:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemSubmitted
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemException:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemException
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemFocDateConfirmed:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemFocDateConfirmed
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemCancelPending:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemCancelPending
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemPorted:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemPorted
+		return nil
+	case ExportPortingOrdersCSVReportFiltersStatusInItemCancelled:
+		*s = ExportPortingOrdersCSVReportFiltersStatusInItemCancelled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/ExternalConnectionPhoneNumber
 type ExternalConnectionPhoneNumber struct {
@@ -12591,6 +13217,7 @@ func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()                   
 func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                             {}
 func (*GenericErrorResponseStatusCode) hangupCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()                                   {}
+func (*GenericErrorResponseStatusCode) listAvailablePhoneNumberBlocksRes()               {}
 func (*GenericErrorResponseStatusCode) listAvailablePhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) listCommentsRes()                                 {}
 func (*GenericErrorResponseStatusCode) listConnectionActiveCallsRes()                    {}
@@ -12858,6 +13485,16 @@ func (s *GetGcbPhoneNumbersRequestResponse) SetMeta(val OptPaginationMeta) {
 	s.Meta = val
 }
 
+// GetLoaConfigurationInternalServerError is response for GetLoaConfiguration operation.
+type GetLoaConfigurationInternalServerError struct{}
+
+func (*GetLoaConfigurationInternalServerError) getLoaConfigurationRes() {}
+
+// GetLoaConfigurationNotFound is response for GetLoaConfiguration operation.
+type GetLoaConfigurationNotFound struct{}
+
+func (*GetLoaConfigurationNotFound) getLoaConfigurationRes() {}
+
 type GetLogMessageResponse struct {
 	LogMessages []LogMessage `json:"log_messages"`
 }
@@ -12947,6 +13584,16 @@ func (*GetPortRequestSupportingDocumentsNotFound) getPortRequestSupportingDocume
 type GetPortRequestSupportingDocumentsUnauthorized struct{}
 
 func (*GetPortRequestSupportingDocumentsUnauthorized) getPortRequestSupportingDocumentsRes() {}
+
+// GetPortingReportInternalServerError is response for GetPortingReport operation.
+type GetPortingReportInternalServerError struct{}
+
+func (*GetPortingReportInternalServerError) getPortingReportRes() {}
+
+// GetPortingReportNotFound is response for GetPortingReport operation.
+type GetPortingReportNotFound struct{}
+
+func (*GetPortingReportNotFound) getPortingReportRes() {}
 
 type GetRoomRecordingResponse struct {
 	Data OptRoomRecording `json:"data"`
@@ -14300,6 +14947,67 @@ func (s *LeaveQueueRequest) SetCommandID(val OptString) {
 	s.CommandID = val
 }
 
+type ListAvailablePhoneNumberBlocksFilterNumberType string
+
+const (
+	ListAvailablePhoneNumberBlocksFilterNumberTypeTollFree ListAvailablePhoneNumberBlocksFilterNumberType = "toll-free"
+)
+
+// AllValues returns all ListAvailablePhoneNumberBlocksFilterNumberType values.
+func (ListAvailablePhoneNumberBlocksFilterNumberType) AllValues() []ListAvailablePhoneNumberBlocksFilterNumberType {
+	return []ListAvailablePhoneNumberBlocksFilterNumberType{
+		ListAvailablePhoneNumberBlocksFilterNumberTypeTollFree,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListAvailablePhoneNumberBlocksFilterNumberType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListAvailablePhoneNumberBlocksFilterNumberTypeTollFree:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListAvailablePhoneNumberBlocksFilterNumberType) UnmarshalText(data []byte) error {
+	switch ListAvailablePhoneNumberBlocksFilterNumberType(data) {
+	case ListAvailablePhoneNumberBlocksFilterNumberTypeTollFree:
+		*s = ListAvailablePhoneNumberBlocksFilterNumberTypeTollFree
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListAvailablePhoneNumbersBlockResponse struct {
+	Data []AvailablePhoneNumberBlock      `json:"data"`
+	Meta OptAvailablePhoneNumbersMetadata `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListAvailablePhoneNumbersBlockResponse) GetData() []AvailablePhoneNumberBlock {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListAvailablePhoneNumbersBlockResponse) GetMeta() OptAvailablePhoneNumbersMetadata {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListAvailablePhoneNumbersBlockResponse) SetData(val []AvailablePhoneNumberBlock) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListAvailablePhoneNumbersBlockResponse) SetMeta(val OptAvailablePhoneNumbersMetadata) {
+	s.Meta = val
+}
+
+func (*ListAvailablePhoneNumbersBlockResponse) listAvailablePhoneNumberBlocksRes() {}
+
 type ListAvailablePhoneNumbersFilterFeaturesItem string
 
 const (
@@ -14659,6 +15367,16 @@ func (*ListInboundChannelsUnauthorized) listInboundChannelsRes() {}
 type ListInboundChannelsUnprocessableEntity struct{}
 
 func (*ListInboundChannelsUnprocessableEntity) listInboundChannelsRes() {}
+
+// ListLoaConfigurationsInternalServerError is response for ListLoaConfigurations operation.
+type ListLoaConfigurationsInternalServerError struct{}
+
+func (*ListLoaConfigurationsInternalServerError) listLoaConfigurationsRes() {}
+
+// ListLoaConfigurationsUnprocessableEntity is response for ListLoaConfigurations operation.
+type ListLoaConfigurationsUnprocessableEntity struct{}
+
+func (*ListLoaConfigurationsUnprocessableEntity) listLoaConfigurationsRes() {}
 
 type ListLogMessagesResponse struct {
 	LogMessages []LogMessage      `json:"log_messages"`
@@ -15420,6 +16138,33 @@ func (s *ListPhoneNumbersWithVoiceSettingsSort) UnmarshalText(data []byte) error
 	}
 }
 
+type ListPortingLOAConfigurations struct {
+	Data []PortingLOAConfiguration `json:"data"`
+	Meta OptPaginationMeta         `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPortingLOAConfigurations) GetData() []PortingLOAConfiguration {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPortingLOAConfigurations) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPortingLOAConfigurations) SetData(val []PortingLOAConfiguration) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPortingLOAConfigurations) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListPortingLOAConfigurations) listLoaConfigurationsRes() {}
+
 // ListPortingOrderCommentsUnauthorized is response for ListPortingOrderComments operation.
 type ListPortingOrderCommentsUnauthorized struct{}
 
@@ -15592,6 +16337,118 @@ func (*ListPortingPhoneNumbersUnauthorized) listPortingPhoneNumbersRes() {}
 type ListPortingPhoneNumbersUnprocessableEntity struct{}
 
 func (*ListPortingPhoneNumbersUnprocessableEntity) listPortingPhoneNumbersRes() {}
+
+type ListPortingReports struct {
+	Data []PortingReport   `json:"data"`
+	Meta OptPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPortingReports) GetData() []PortingReport {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPortingReports) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPortingReports) SetData(val []PortingReport) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPortingReports) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListPortingReports) listPortingReportsRes() {}
+
+type ListPortingReportsFilterReportType string
+
+const (
+	ListPortingReportsFilterReportTypeExportPortingOrdersCsv ListPortingReportsFilterReportType = "export_porting_orders_csv"
+)
+
+// AllValues returns all ListPortingReportsFilterReportType values.
+func (ListPortingReportsFilterReportType) AllValues() []ListPortingReportsFilterReportType {
+	return []ListPortingReportsFilterReportType{
+		ListPortingReportsFilterReportTypeExportPortingOrdersCsv,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPortingReportsFilterReportType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPortingReportsFilterReportTypeExportPortingOrdersCsv:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPortingReportsFilterReportType) UnmarshalText(data []byte) error {
+	switch ListPortingReportsFilterReportType(data) {
+	case ListPortingReportsFilterReportTypeExportPortingOrdersCsv:
+		*s = ListPortingReportsFilterReportTypeExportPortingOrdersCsv
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListPortingReportsFilterStatus string
+
+const (
+	ListPortingReportsFilterStatusPending   ListPortingReportsFilterStatus = "pending"
+	ListPortingReportsFilterStatusCompleted ListPortingReportsFilterStatus = "completed"
+)
+
+// AllValues returns all ListPortingReportsFilterStatus values.
+func (ListPortingReportsFilterStatus) AllValues() []ListPortingReportsFilterStatus {
+	return []ListPortingReportsFilterStatus{
+		ListPortingReportsFilterStatusPending,
+		ListPortingReportsFilterStatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPortingReportsFilterStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPortingReportsFilterStatusPending:
+		return []byte(s), nil
+	case ListPortingReportsFilterStatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPortingReportsFilterStatus) UnmarshalText(data []byte) error {
+	switch ListPortingReportsFilterStatus(data) {
+	case ListPortingReportsFilterStatusPending:
+		*s = ListPortingReportsFilterStatusPending
+		return nil
+	case ListPortingReportsFilterStatusCompleted:
+		*s = ListPortingReportsFilterStatusCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ListPortingReportsInternalServerError is response for ListPortingReports operation.
+type ListPortingReportsInternalServerError struct{}
+
+func (*ListPortingReportsInternalServerError) listPortingReportsRes() {}
+
+// ListPortingReportsUnprocessableEntity is response for ListPortingReports operation.
+type ListPortingReportsUnprocessableEntity struct{}
+
+func (*ListPortingReportsUnprocessableEntity) listPortingReportsRes() {}
 
 type ListPortoutComments struct {
 	Data []PortoutComment `json:"data"`
@@ -18756,6 +19613,52 @@ func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Get() (v Au
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Or(d AudioTranscriptionRequestMultipartTimestampGranularities) AudioTranscriptionRequestMultipartTimestampGranularities {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAvailablePhoneNumberBlockRecordType returns new OptAvailablePhoneNumberBlockRecordType with value set to v.
+func NewOptAvailablePhoneNumberBlockRecordType(v AvailablePhoneNumberBlockRecordType) OptAvailablePhoneNumberBlockRecordType {
+	return OptAvailablePhoneNumberBlockRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAvailablePhoneNumberBlockRecordType is optional AvailablePhoneNumberBlockRecordType.
+type OptAvailablePhoneNumberBlockRecordType struct {
+	Value AvailablePhoneNumberBlockRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptAvailablePhoneNumberBlockRecordType was set.
+func (o OptAvailablePhoneNumberBlockRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAvailablePhoneNumberBlockRecordType) Reset() {
+	var v AvailablePhoneNumberBlockRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAvailablePhoneNumberBlockRecordType) SetTo(v AvailablePhoneNumberBlockRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAvailablePhoneNumberBlockRecordType) Get() (v AvailablePhoneNumberBlockRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAvailablePhoneNumberBlockRecordType) Or(d AvailablePhoneNumberBlockRecordType) AvailablePhoneNumberBlockRecordType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -25666,6 +26569,52 @@ func (o OptInterfaceStatus) Or(d InterfaceStatus) InterfaceStatus {
 	return d
 }
 
+// NewOptListAvailablePhoneNumberBlocksFilterNumberType returns new OptListAvailablePhoneNumberBlocksFilterNumberType with value set to v.
+func NewOptListAvailablePhoneNumberBlocksFilterNumberType(v ListAvailablePhoneNumberBlocksFilterNumberType) OptListAvailablePhoneNumberBlocksFilterNumberType {
+	return OptListAvailablePhoneNumberBlocksFilterNumberType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListAvailablePhoneNumberBlocksFilterNumberType is optional ListAvailablePhoneNumberBlocksFilterNumberType.
+type OptListAvailablePhoneNumberBlocksFilterNumberType struct {
+	Value ListAvailablePhoneNumberBlocksFilterNumberType
+	Set   bool
+}
+
+// IsSet returns true if OptListAvailablePhoneNumberBlocksFilterNumberType was set.
+func (o OptListAvailablePhoneNumberBlocksFilterNumberType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListAvailablePhoneNumberBlocksFilterNumberType) Reset() {
+	var v ListAvailablePhoneNumberBlocksFilterNumberType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListAvailablePhoneNumberBlocksFilterNumberType) SetTo(v ListAvailablePhoneNumberBlocksFilterNumberType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListAvailablePhoneNumberBlocksFilterNumberType) Get() (v ListAvailablePhoneNumberBlocksFilterNumberType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListAvailablePhoneNumberBlocksFilterNumberType) Or(d ListAvailablePhoneNumberBlocksFilterNumberType) ListAvailablePhoneNumberBlocksFilterNumberType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptListAvailablePhoneNumbersFilterPhoneNumberType returns new OptListAvailablePhoneNumbersFilterPhoneNumberType with value set to v.
 func NewOptListAvailablePhoneNumbersFilterPhoneNumberType(v ListAvailablePhoneNumbersFilterPhoneNumberType) OptListAvailablePhoneNumbersFilterPhoneNumberType {
 	return OptListAvailablePhoneNumbersFilterPhoneNumberType{
@@ -26166,6 +27115,98 @@ func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) Get() (v ListPorting
 
 // Or returns value if set, or given parameter if does not.
 func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) Or(d ListPortingPhoneNumbersFilterPortingOrderStatus) ListPortingPhoneNumbersFilterPortingOrderStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListPortingReportsFilterReportType returns new OptListPortingReportsFilterReportType with value set to v.
+func NewOptListPortingReportsFilterReportType(v ListPortingReportsFilterReportType) OptListPortingReportsFilterReportType {
+	return OptListPortingReportsFilterReportType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPortingReportsFilterReportType is optional ListPortingReportsFilterReportType.
+type OptListPortingReportsFilterReportType struct {
+	Value ListPortingReportsFilterReportType
+	Set   bool
+}
+
+// IsSet returns true if OptListPortingReportsFilterReportType was set.
+func (o OptListPortingReportsFilterReportType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPortingReportsFilterReportType) Reset() {
+	var v ListPortingReportsFilterReportType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPortingReportsFilterReportType) SetTo(v ListPortingReportsFilterReportType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPortingReportsFilterReportType) Get() (v ListPortingReportsFilterReportType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPortingReportsFilterReportType) Or(d ListPortingReportsFilterReportType) ListPortingReportsFilterReportType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListPortingReportsFilterStatus returns new OptListPortingReportsFilterStatus with value set to v.
+func NewOptListPortingReportsFilterStatus(v ListPortingReportsFilterStatus) OptListPortingReportsFilterStatus {
+	return OptListPortingReportsFilterStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPortingReportsFilterStatus is optional ListPortingReportsFilterStatus.
+type OptListPortingReportsFilterStatus struct {
+	Value ListPortingReportsFilterStatus
+	Set   bool
+}
+
+// IsSet returns true if OptListPortingReportsFilterStatus was set.
+func (o OptListPortingReportsFilterStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPortingReportsFilterStatus) Reset() {
+	var v ListPortingReportsFilterStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPortingReportsFilterStatus) SetTo(v ListPortingReportsFilterStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPortingReportsFilterStatus) Get() (v ListPortingReportsFilterStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPortingReportsFilterStatus) Or(d ListPortingReportsFilterStatus) ListPortingReportsFilterStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -30257,6 +31298,236 @@ func (o OptPortabilityStatus) Or(d PortabilityStatus) PortabilityStatus {
 	return d
 }
 
+// NewOptPortingLOAConfiguration returns new OptPortingLOAConfiguration with value set to v.
+func NewOptPortingLOAConfiguration(v PortingLOAConfiguration) OptPortingLOAConfiguration {
+	return OptPortingLOAConfiguration{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingLOAConfiguration is optional PortingLOAConfiguration.
+type OptPortingLOAConfiguration struct {
+	Value PortingLOAConfiguration
+	Set   bool
+}
+
+// IsSet returns true if OptPortingLOAConfiguration was set.
+func (o OptPortingLOAConfiguration) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingLOAConfiguration) Reset() {
+	var v PortingLOAConfiguration
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingLOAConfiguration) SetTo(v PortingLOAConfiguration) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingLOAConfiguration) Get() (v PortingLOAConfiguration, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingLOAConfiguration) Or(d PortingLOAConfiguration) PortingLOAConfiguration {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingLOAConfigurationAddress returns new OptPortingLOAConfigurationAddress with value set to v.
+func NewOptPortingLOAConfigurationAddress(v PortingLOAConfigurationAddress) OptPortingLOAConfigurationAddress {
+	return OptPortingLOAConfigurationAddress{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingLOAConfigurationAddress is optional PortingLOAConfigurationAddress.
+type OptPortingLOAConfigurationAddress struct {
+	Value PortingLOAConfigurationAddress
+	Set   bool
+}
+
+// IsSet returns true if OptPortingLOAConfigurationAddress was set.
+func (o OptPortingLOAConfigurationAddress) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingLOAConfigurationAddress) Reset() {
+	var v PortingLOAConfigurationAddress
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingLOAConfigurationAddress) SetTo(v PortingLOAConfigurationAddress) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingLOAConfigurationAddress) Get() (v PortingLOAConfigurationAddress, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingLOAConfigurationAddress) Or(d PortingLOAConfigurationAddress) PortingLOAConfigurationAddress {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingLOAConfigurationContact returns new OptPortingLOAConfigurationContact with value set to v.
+func NewOptPortingLOAConfigurationContact(v PortingLOAConfigurationContact) OptPortingLOAConfigurationContact {
+	return OptPortingLOAConfigurationContact{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingLOAConfigurationContact is optional PortingLOAConfigurationContact.
+type OptPortingLOAConfigurationContact struct {
+	Value PortingLOAConfigurationContact
+	Set   bool
+}
+
+// IsSet returns true if OptPortingLOAConfigurationContact was set.
+func (o OptPortingLOAConfigurationContact) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingLOAConfigurationContact) Reset() {
+	var v PortingLOAConfigurationContact
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingLOAConfigurationContact) SetTo(v PortingLOAConfigurationContact) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingLOAConfigurationContact) Get() (v PortingLOAConfigurationContact, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingLOAConfigurationContact) Or(d PortingLOAConfigurationContact) PortingLOAConfigurationContact {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingLOAConfigurationLogo returns new OptPortingLOAConfigurationLogo with value set to v.
+func NewOptPortingLOAConfigurationLogo(v PortingLOAConfigurationLogo) OptPortingLOAConfigurationLogo {
+	return OptPortingLOAConfigurationLogo{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingLOAConfigurationLogo is optional PortingLOAConfigurationLogo.
+type OptPortingLOAConfigurationLogo struct {
+	Value PortingLOAConfigurationLogo
+	Set   bool
+}
+
+// IsSet returns true if OptPortingLOAConfigurationLogo was set.
+func (o OptPortingLOAConfigurationLogo) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingLOAConfigurationLogo) Reset() {
+	var v PortingLOAConfigurationLogo
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingLOAConfigurationLogo) SetTo(v PortingLOAConfigurationLogo) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingLOAConfigurationLogo) Get() (v PortingLOAConfigurationLogo, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingLOAConfigurationLogo) Or(d PortingLOAConfigurationLogo) PortingLOAConfigurationLogo {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingLOAConfigurationLogoContentType returns new OptPortingLOAConfigurationLogoContentType with value set to v.
+func NewOptPortingLOAConfigurationLogoContentType(v PortingLOAConfigurationLogoContentType) OptPortingLOAConfigurationLogoContentType {
+	return OptPortingLOAConfigurationLogoContentType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingLOAConfigurationLogoContentType is optional PortingLOAConfigurationLogoContentType.
+type OptPortingLOAConfigurationLogoContentType struct {
+	Value PortingLOAConfigurationLogoContentType
+	Set   bool
+}
+
+// IsSet returns true if OptPortingLOAConfigurationLogoContentType was set.
+func (o OptPortingLOAConfigurationLogoContentType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingLOAConfigurationLogoContentType) Reset() {
+	var v PortingLOAConfigurationLogoContentType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingLOAConfigurationLogoContentType) SetTo(v PortingLOAConfigurationLogoContentType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingLOAConfigurationLogoContentType) Get() (v PortingLOAConfigurationLogoContentType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingLOAConfigurationLogoContentType) Or(d PortingLOAConfigurationLogoContentType) PortingLOAConfigurationLogoContentType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPortingOrderActivationStatus returns new OptPortingOrderActivationStatus with value set to v.
 func NewOptPortingOrderActivationStatus(v PortingOrderActivationStatus) OptPortingOrderActivationStatus {
 	return OptPortingOrderActivationStatus{
@@ -30527,6 +31798,190 @@ func (o OptPortingPhoneNumberRequirementsStatus) Get() (v PortingPhoneNumberRequ
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPortingPhoneNumberRequirementsStatus) Or(d PortingPhoneNumberRequirementsStatus) PortingPhoneNumberRequirementsStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingReport returns new OptPortingReport with value set to v.
+func NewOptPortingReport(v PortingReport) OptPortingReport {
+	return OptPortingReport{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingReport is optional PortingReport.
+type OptPortingReport struct {
+	Value PortingReport
+	Set   bool
+}
+
+// IsSet returns true if OptPortingReport was set.
+func (o OptPortingReport) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingReport) Reset() {
+	var v PortingReport
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingReport) SetTo(v PortingReport) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingReport) Get() (v PortingReport, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingReport) Or(d PortingReport) PortingReport {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingReportParams returns new OptPortingReportParams with value set to v.
+func NewOptPortingReportParams(v PortingReportParams) OptPortingReportParams {
+	return OptPortingReportParams{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingReportParams is optional PortingReportParams.
+type OptPortingReportParams struct {
+	Value PortingReportParams
+	Set   bool
+}
+
+// IsSet returns true if OptPortingReportParams was set.
+func (o OptPortingReportParams) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingReportParams) Reset() {
+	var v PortingReportParams
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingReportParams) SetTo(v PortingReportParams) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingReportParams) Get() (v PortingReportParams, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingReportParams) Or(d PortingReportParams) PortingReportParams {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingReportReportType returns new OptPortingReportReportType with value set to v.
+func NewOptPortingReportReportType(v PortingReportReportType) OptPortingReportReportType {
+	return OptPortingReportReportType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingReportReportType is optional PortingReportReportType.
+type OptPortingReportReportType struct {
+	Value PortingReportReportType
+	Set   bool
+}
+
+// IsSet returns true if OptPortingReportReportType was set.
+func (o OptPortingReportReportType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingReportReportType) Reset() {
+	var v PortingReportReportType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingReportReportType) SetTo(v PortingReportReportType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingReportReportType) Get() (v PortingReportReportType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingReportReportType) Or(d PortingReportReportType) PortingReportReportType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingReportStatus returns new OptPortingReportStatus with value set to v.
+func NewOptPortingReportStatus(v PortingReportStatus) OptPortingReportStatus {
+	return OptPortingReportStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingReportStatus is optional PortingReportStatus.
+type OptPortingReportStatus struct {
+	Value PortingReportStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortingReportStatus was set.
+func (o OptPortingReportStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingReportStatus) Reset() {
+	var v PortingReportStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingReportStatus) SetTo(v PortingReportStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingReportStatus) Get() (v PortingReportStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingReportStatus) Or(d PortingReportStatus) PortingReportStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -41577,6 +43032,297 @@ func (s *PortabilityStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/PortingLOAConfiguration
+type PortingLOAConfiguration struct {
+	// Uniquely identifies the LOA configuration.
+	ID OptUUID `json:"id"`
+	// The name of the company.
+	CompanyName OptString `json:"company_name"`
+	// The organization that owns the LOA configuration.
+	OrganizationID OptString `json:"organization_id"`
+	// The name of the LOA configuration.
+	Name OptString `json:"name"`
+	// The logo to be used in the LOA.
+	Logo OptPortingLOAConfigurationLogo `json:"logo"`
+	// The address of the company.
+	Address OptPortingLOAConfigurationAddress `json:"address"`
+	// The contact information of the company.
+	Contact OptPortingLOAConfigurationContact `json:"contact"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date indicating when the resource was created.
+	CreatedAt OptDateTime `json:"created_at"`
+	// ISO 8601 formatted date indicating when the resource was updated.
+	UpdatedAt OptDateTime `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *PortingLOAConfiguration) GetID() OptUUID {
+	return s.ID
+}
+
+// GetCompanyName returns the value of CompanyName.
+func (s *PortingLOAConfiguration) GetCompanyName() OptString {
+	return s.CompanyName
+}
+
+// GetOrganizationID returns the value of OrganizationID.
+func (s *PortingLOAConfiguration) GetOrganizationID() OptString {
+	return s.OrganizationID
+}
+
+// GetName returns the value of Name.
+func (s *PortingLOAConfiguration) GetName() OptString {
+	return s.Name
+}
+
+// GetLogo returns the value of Logo.
+func (s *PortingLOAConfiguration) GetLogo() OptPortingLOAConfigurationLogo {
+	return s.Logo
+}
+
+// GetAddress returns the value of Address.
+func (s *PortingLOAConfiguration) GetAddress() OptPortingLOAConfigurationAddress {
+	return s.Address
+}
+
+// GetContact returns the value of Contact.
+func (s *PortingLOAConfiguration) GetContact() OptPortingLOAConfigurationContact {
+	return s.Contact
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortingLOAConfiguration) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PortingLOAConfiguration) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *PortingLOAConfiguration) GetUpdatedAt() OptDateTime {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *PortingLOAConfiguration) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetCompanyName sets the value of CompanyName.
+func (s *PortingLOAConfiguration) SetCompanyName(val OptString) {
+	s.CompanyName = val
+}
+
+// SetOrganizationID sets the value of OrganizationID.
+func (s *PortingLOAConfiguration) SetOrganizationID(val OptString) {
+	s.OrganizationID = val
+}
+
+// SetName sets the value of Name.
+func (s *PortingLOAConfiguration) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetLogo sets the value of Logo.
+func (s *PortingLOAConfiguration) SetLogo(val OptPortingLOAConfigurationLogo) {
+	s.Logo = val
+}
+
+// SetAddress sets the value of Address.
+func (s *PortingLOAConfiguration) SetAddress(val OptPortingLOAConfigurationAddress) {
+	s.Address = val
+}
+
+// SetContact sets the value of Contact.
+func (s *PortingLOAConfiguration) SetContact(val OptPortingLOAConfigurationContact) {
+	s.Contact = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortingLOAConfiguration) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PortingLOAConfiguration) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *PortingLOAConfiguration) SetUpdatedAt(val OptDateTime) {
+	s.UpdatedAt = val
+}
+
+// The address of the company.
+type PortingLOAConfigurationAddress struct {
+	// The street address of the company.
+	StreetAddress OptString `json:"street_address"`
+	// The extended address of the company.
+	ExtendedAddress OptString `json:"extended_address"`
+	// The locality of the company.
+	City OptString `json:"city"`
+	// The administrative area of the company.
+	State OptString `json:"state"`
+	// The postal code of the company.
+	ZipCode OptString `json:"zip_code"`
+	// The country code of the company.
+	CountryCode OptString `json:"country_code"`
+}
+
+// GetStreetAddress returns the value of StreetAddress.
+func (s *PortingLOAConfigurationAddress) GetStreetAddress() OptString {
+	return s.StreetAddress
+}
+
+// GetExtendedAddress returns the value of ExtendedAddress.
+func (s *PortingLOAConfigurationAddress) GetExtendedAddress() OptString {
+	return s.ExtendedAddress
+}
+
+// GetCity returns the value of City.
+func (s *PortingLOAConfigurationAddress) GetCity() OptString {
+	return s.City
+}
+
+// GetState returns the value of State.
+func (s *PortingLOAConfigurationAddress) GetState() OptString {
+	return s.State
+}
+
+// GetZipCode returns the value of ZipCode.
+func (s *PortingLOAConfigurationAddress) GetZipCode() OptString {
+	return s.ZipCode
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *PortingLOAConfigurationAddress) GetCountryCode() OptString {
+	return s.CountryCode
+}
+
+// SetStreetAddress sets the value of StreetAddress.
+func (s *PortingLOAConfigurationAddress) SetStreetAddress(val OptString) {
+	s.StreetAddress = val
+}
+
+// SetExtendedAddress sets the value of ExtendedAddress.
+func (s *PortingLOAConfigurationAddress) SetExtendedAddress(val OptString) {
+	s.ExtendedAddress = val
+}
+
+// SetCity sets the value of City.
+func (s *PortingLOAConfigurationAddress) SetCity(val OptString) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *PortingLOAConfigurationAddress) SetState(val OptString) {
+	s.State = val
+}
+
+// SetZipCode sets the value of ZipCode.
+func (s *PortingLOAConfigurationAddress) SetZipCode(val OptString) {
+	s.ZipCode = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *PortingLOAConfigurationAddress) SetCountryCode(val OptString) {
+	s.CountryCode = val
+}
+
+// The contact information of the company.
+type PortingLOAConfigurationContact struct {
+	// The email address of the contact.
+	Email OptString `json:"email"`
+	// The phone number of the contact.
+	PhoneNumber OptString `json:"phone_number"`
+}
+
+// GetEmail returns the value of Email.
+func (s *PortingLOAConfigurationContact) GetEmail() OptString {
+	return s.Email
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *PortingLOAConfigurationContact) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// SetEmail sets the value of Email.
+func (s *PortingLOAConfigurationContact) SetEmail(val OptString) {
+	s.Email = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *PortingLOAConfigurationContact) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// The logo to be used in the LOA.
+type PortingLOAConfigurationLogo struct {
+	// Identifies the document that contains the logo.
+	DocumentID OptUUID `json:"document_id"`
+	// The content type of the logo.
+	ContentType OptPortingLOAConfigurationLogoContentType `json:"content_type"`
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *PortingLOAConfigurationLogo) GetDocumentID() OptUUID {
+	return s.DocumentID
+}
+
+// GetContentType returns the value of ContentType.
+func (s *PortingLOAConfigurationLogo) GetContentType() OptPortingLOAConfigurationLogoContentType {
+	return s.ContentType
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *PortingLOAConfigurationLogo) SetDocumentID(val OptUUID) {
+	s.DocumentID = val
+}
+
+// SetContentType sets the value of ContentType.
+func (s *PortingLOAConfigurationLogo) SetContentType(val OptPortingLOAConfigurationLogoContentType) {
+	s.ContentType = val
+}
+
+// The content type of the logo.
+type PortingLOAConfigurationLogoContentType string
+
+const (
+	PortingLOAConfigurationLogoContentTypeImagePNG PortingLOAConfigurationLogoContentType = "image/png"
+)
+
+// AllValues returns all PortingLOAConfigurationLogoContentType values.
+func (PortingLOAConfigurationLogoContentType) AllValues() []PortingLOAConfigurationLogoContentType {
+	return []PortingLOAConfigurationLogoContentType{
+		PortingLOAConfigurationLogoContentTypeImagePNG,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingLOAConfigurationLogoContentType) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingLOAConfigurationLogoContentTypeImagePNG:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingLOAConfigurationLogoContentType) UnmarshalText(data []byte) error {
+	switch PortingLOAConfigurationLogoContentType(data) {
+	case PortingLOAConfigurationLogoContentTypeImagePNG:
+		*s = PortingLOAConfigurationLogoContentTypeImagePNG
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Activation status.
 // Ref: #/components/schemas/PortingOrderActivationStatus
 type PortingOrderActivationStatus string
@@ -42144,6 +43890,223 @@ func (s *PortingPhoneNumberRequirementsStatus) UnmarshalText(data []byte) error 
 		return nil
 	case PortingPhoneNumberRequirementsStatusApproved:
 		*s = PortingPhoneNumberRequirementsStatusApproved
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/PortingReport
+type PortingReport struct {
+	// Uniquely identifies the report.
+	ID OptUUID `json:"id"`
+	// Identifies the type of report.
+	ReportType OptPortingReportReportType `json:"report_type"`
+	// The current status of the report generation.
+	Status OptPortingReportStatus `json:"status"`
+	Params OptPortingReportParams `json:"params"`
+	// Identifies the document that was uploaded when report was generated. This field is only populated
+	// when the report is under completed status.
+	DocumentID OptUUID `json:"document_id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date indicating when the resource was created.
+	CreatedAt OptDateTime `json:"created_at"`
+	// ISO 8601 formatted date indicating when the resource was updated.
+	UpdatedAt OptDateTime `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *PortingReport) GetID() OptUUID {
+	return s.ID
+}
+
+// GetReportType returns the value of ReportType.
+func (s *PortingReport) GetReportType() OptPortingReportReportType {
+	return s.ReportType
+}
+
+// GetStatus returns the value of Status.
+func (s *PortingReport) GetStatus() OptPortingReportStatus {
+	return s.Status
+}
+
+// GetParams returns the value of Params.
+func (s *PortingReport) GetParams() OptPortingReportParams {
+	return s.Params
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *PortingReport) GetDocumentID() OptUUID {
+	return s.DocumentID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortingReport) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PortingReport) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *PortingReport) GetUpdatedAt() OptDateTime {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *PortingReport) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetReportType sets the value of ReportType.
+func (s *PortingReport) SetReportType(val OptPortingReportReportType) {
+	s.ReportType = val
+}
+
+// SetStatus sets the value of Status.
+func (s *PortingReport) SetStatus(val OptPortingReportStatus) {
+	s.Status = val
+}
+
+// SetParams sets the value of Params.
+func (s *PortingReport) SetParams(val OptPortingReportParams) {
+	s.Params = val
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *PortingReport) SetDocumentID(val OptUUID) {
+	s.DocumentID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortingReport) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PortingReport) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *PortingReport) SetUpdatedAt(val OptDateTime) {
+	s.UpdatedAt = val
+}
+
+// PortingReportParams represents sum type.
+type PortingReportParams struct {
+	Type                         PortingReportParamsType // switch on this field
+	ExportPortingOrdersCSVReport ExportPortingOrdersCSVReport
+}
+
+// PortingReportParamsType is oneOf type of PortingReportParams.
+type PortingReportParamsType string
+
+// Possible values for PortingReportParamsType.
+const (
+	ExportPortingOrdersCSVReportPortingReportParams PortingReportParamsType = "ExportPortingOrdersCSVReport"
+)
+
+// IsExportPortingOrdersCSVReport reports whether PortingReportParams is ExportPortingOrdersCSVReport.
+func (s PortingReportParams) IsExportPortingOrdersCSVReport() bool {
+	return s.Type == ExportPortingOrdersCSVReportPortingReportParams
+}
+
+// SetExportPortingOrdersCSVReport sets PortingReportParams to ExportPortingOrdersCSVReport.
+func (s *PortingReportParams) SetExportPortingOrdersCSVReport(v ExportPortingOrdersCSVReport) {
+	s.Type = ExportPortingOrdersCSVReportPortingReportParams
+	s.ExportPortingOrdersCSVReport = v
+}
+
+// GetExportPortingOrdersCSVReport returns ExportPortingOrdersCSVReport and true boolean if PortingReportParams is ExportPortingOrdersCSVReport.
+func (s PortingReportParams) GetExportPortingOrdersCSVReport() (v ExportPortingOrdersCSVReport, ok bool) {
+	if !s.IsExportPortingOrdersCSVReport() {
+		return v, false
+	}
+	return s.ExportPortingOrdersCSVReport, true
+}
+
+// NewExportPortingOrdersCSVReportPortingReportParams returns new PortingReportParams from ExportPortingOrdersCSVReport.
+func NewExportPortingOrdersCSVReportPortingReportParams(v ExportPortingOrdersCSVReport) PortingReportParams {
+	var s PortingReportParams
+	s.SetExportPortingOrdersCSVReport(v)
+	return s
+}
+
+// Identifies the type of report.
+type PortingReportReportType string
+
+const (
+	PortingReportReportTypeExportPortingOrdersCsv PortingReportReportType = "export_porting_orders_csv"
+)
+
+// AllValues returns all PortingReportReportType values.
+func (PortingReportReportType) AllValues() []PortingReportReportType {
+	return []PortingReportReportType{
+		PortingReportReportTypeExportPortingOrdersCsv,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingReportReportType) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingReportReportTypeExportPortingOrdersCsv:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingReportReportType) UnmarshalText(data []byte) error {
+	switch PortingReportReportType(data) {
+	case PortingReportReportTypeExportPortingOrdersCsv:
+		*s = PortingReportReportTypeExportPortingOrdersCsv
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The current status of the report generation.
+type PortingReportStatus string
+
+const (
+	PortingReportStatusPending   PortingReportStatus = "pending"
+	PortingReportStatusCompleted PortingReportStatus = "completed"
+)
+
+// AllValues returns all PortingReportStatus values.
+func (PortingReportStatus) AllValues() []PortingReportStatus {
+	return []PortingReportStatus{
+		PortingReportStatusPending,
+		PortingReportStatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingReportStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingReportStatusPending:
+		return []byte(s), nil
+	case PortingReportStatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingReportStatus) UnmarshalText(data []byte) error {
+	switch PortingReportStatus(data) {
+	case PortingReportStatusPending:
+		*s = PortingReportStatusPending
+		return nil
+	case PortingReportStatusCompleted:
+		*s = PortingReportStatusCompleted
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -42786,6 +44749,210 @@ func (*PostPortabilityCheckUnauthorized) postPortabilityCheckRes() {}
 type PostPortabilityCheckUnprocessableEntity struct{}
 
 func (*PostPortabilityCheckUnprocessableEntity) postPortabilityCheckRes() {}
+
+// PreviewLoaConfigurationInternalServerError is response for PreviewLoaConfiguration operation.
+type PreviewLoaConfigurationInternalServerError struct{}
+
+func (*PreviewLoaConfigurationInternalServerError) previewLoaConfigurationRes() {}
+
+// PreviewLoaConfigurationNotFound is response for PreviewLoaConfiguration operation.
+type PreviewLoaConfigurationNotFound struct{}
+
+func (*PreviewLoaConfigurationNotFound) previewLoaConfigurationRes() {}
+
+// PreviewLoaConfigurationParamsInternalServerError is response for PreviewLoaConfigurationParams operation.
+type PreviewLoaConfigurationParamsInternalServerError struct{}
+
+func (*PreviewLoaConfigurationParamsInternalServerError) previewLoaConfigurationParamsRes() {}
+
+// The parameters for creating a new LOA configuration.
+type PreviewLoaConfigurationParamsReq struct {
+	// The name of the LOA configuration.
+	Name string `json:"name"`
+	// The logo of the LOA configuration.
+	Logo PreviewLoaConfigurationParamsReqLogo `json:"logo"`
+	// The name of the company.
+	CompanyName string `json:"company_name"`
+	// The address of the company.
+	Address PreviewLoaConfigurationParamsReqAddress `json:"address"`
+	// The contact information of the company.
+	Contact PreviewLoaConfigurationParamsReqContact `json:"contact"`
+}
+
+// GetName returns the value of Name.
+func (s *PreviewLoaConfigurationParamsReq) GetName() string {
+	return s.Name
+}
+
+// GetLogo returns the value of Logo.
+func (s *PreviewLoaConfigurationParamsReq) GetLogo() PreviewLoaConfigurationParamsReqLogo {
+	return s.Logo
+}
+
+// GetCompanyName returns the value of CompanyName.
+func (s *PreviewLoaConfigurationParamsReq) GetCompanyName() string {
+	return s.CompanyName
+}
+
+// GetAddress returns the value of Address.
+func (s *PreviewLoaConfigurationParamsReq) GetAddress() PreviewLoaConfigurationParamsReqAddress {
+	return s.Address
+}
+
+// GetContact returns the value of Contact.
+func (s *PreviewLoaConfigurationParamsReq) GetContact() PreviewLoaConfigurationParamsReqContact {
+	return s.Contact
+}
+
+// SetName sets the value of Name.
+func (s *PreviewLoaConfigurationParamsReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetLogo sets the value of Logo.
+func (s *PreviewLoaConfigurationParamsReq) SetLogo(val PreviewLoaConfigurationParamsReqLogo) {
+	s.Logo = val
+}
+
+// SetCompanyName sets the value of CompanyName.
+func (s *PreviewLoaConfigurationParamsReq) SetCompanyName(val string) {
+	s.CompanyName = val
+}
+
+// SetAddress sets the value of Address.
+func (s *PreviewLoaConfigurationParamsReq) SetAddress(val PreviewLoaConfigurationParamsReqAddress) {
+	s.Address = val
+}
+
+// SetContact sets the value of Contact.
+func (s *PreviewLoaConfigurationParamsReq) SetContact(val PreviewLoaConfigurationParamsReqContact) {
+	s.Contact = val
+}
+
+// The address of the company.
+type PreviewLoaConfigurationParamsReqAddress struct {
+	// The street address of the company.
+	StreetAddress string `json:"street_address"`
+	// The extended address of the company.
+	ExtendedAddress OptString `json:"extended_address"`
+	// The locality of the company.
+	City OptString `json:"city"`
+	// The administrative area of the company.
+	State OptString `json:"state"`
+	// The postal code of the company.
+	ZipCode OptString `json:"zip_code"`
+	// The country code of the company.
+	CountryCode string `json:"country_code"`
+}
+
+// GetStreetAddress returns the value of StreetAddress.
+func (s *PreviewLoaConfigurationParamsReqAddress) GetStreetAddress() string {
+	return s.StreetAddress
+}
+
+// GetExtendedAddress returns the value of ExtendedAddress.
+func (s *PreviewLoaConfigurationParamsReqAddress) GetExtendedAddress() OptString {
+	return s.ExtendedAddress
+}
+
+// GetCity returns the value of City.
+func (s *PreviewLoaConfigurationParamsReqAddress) GetCity() OptString {
+	return s.City
+}
+
+// GetState returns the value of State.
+func (s *PreviewLoaConfigurationParamsReqAddress) GetState() OptString {
+	return s.State
+}
+
+// GetZipCode returns the value of ZipCode.
+func (s *PreviewLoaConfigurationParamsReqAddress) GetZipCode() OptString {
+	return s.ZipCode
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *PreviewLoaConfigurationParamsReqAddress) GetCountryCode() string {
+	return s.CountryCode
+}
+
+// SetStreetAddress sets the value of StreetAddress.
+func (s *PreviewLoaConfigurationParamsReqAddress) SetStreetAddress(val string) {
+	s.StreetAddress = val
+}
+
+// SetExtendedAddress sets the value of ExtendedAddress.
+func (s *PreviewLoaConfigurationParamsReqAddress) SetExtendedAddress(val OptString) {
+	s.ExtendedAddress = val
+}
+
+// SetCity sets the value of City.
+func (s *PreviewLoaConfigurationParamsReqAddress) SetCity(val OptString) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *PreviewLoaConfigurationParamsReqAddress) SetState(val OptString) {
+	s.State = val
+}
+
+// SetZipCode sets the value of ZipCode.
+func (s *PreviewLoaConfigurationParamsReqAddress) SetZipCode(val OptString) {
+	s.ZipCode = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *PreviewLoaConfigurationParamsReqAddress) SetCountryCode(val string) {
+	s.CountryCode = val
+}
+
+// The contact information of the company.
+type PreviewLoaConfigurationParamsReqContact struct {
+	// The email address of the contact.
+	Email string `json:"email"`
+	// The phone number of the contact.
+	PhoneNumber string `json:"phone_number"`
+}
+
+// GetEmail returns the value of Email.
+func (s *PreviewLoaConfigurationParamsReqContact) GetEmail() string {
+	return s.Email
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *PreviewLoaConfigurationParamsReqContact) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// SetEmail sets the value of Email.
+func (s *PreviewLoaConfigurationParamsReqContact) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *PreviewLoaConfigurationParamsReqContact) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// The logo of the LOA configuration.
+type PreviewLoaConfigurationParamsReqLogo struct {
+	// The document identification.
+	DocumentID uuid.UUID `json:"document_id"`
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *PreviewLoaConfigurationParamsReqLogo) GetDocumentID() uuid.UUID {
+	return s.DocumentID
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *PreviewLoaConfigurationParamsReqLogo) SetDocumentID(val uuid.UUID) {
+	s.DocumentID = val
+}
+
+// PreviewLoaConfigurationParamsUnprocessableEntity is response for PreviewLoaConfigurationParams operation.
+type PreviewLoaConfigurationParamsUnprocessableEntity struct{}
+
+func (*PreviewLoaConfigurationParamsUnprocessableEntity) previewLoaConfigurationParamsRes() {}
 
 // Ref: #/components/schemas/QueueCall
 type QueueCall struct {
@@ -45182,6 +47349,22 @@ func (s *ServicePlan) UnmarshalText(data []byte) error {
 	}
 }
 
+type ShowPortingLOAConfiguration struct {
+	Data OptPortingLOAConfiguration `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ShowPortingLOAConfiguration) GetData() OptPortingLOAConfiguration {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ShowPortingLOAConfiguration) SetData(val OptPortingLOAConfiguration) {
+	s.Data = val
+}
+
+func (*ShowPortingLOAConfiguration) getLoaConfigurationRes() {}
+
 type ShowPortingOrdersComment struct {
 	Data OptPortingOrdersComment `json:"data"`
 }
@@ -45197,6 +47380,22 @@ func (s *ShowPortingOrdersComment) SetData(val OptPortingOrdersComment) {
 }
 
 func (*ShowPortingOrdersComment) portingOrdersIDCommentsPostRes() {}
+
+type ShowPortingReport struct {
+	Data OptPortingReport `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ShowPortingReport) GetData() OptPortingReport {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ShowPortingReport) SetData(val OptPortingReport) {
+	s.Data = val
+}
+
+func (*ShowPortingReport) getPortingReportRes() {}
 
 // This object represents an Over the Air (OTA) update request. It allows tracking the current status
 // of a operation that apply settings in a particular SIM card. <br/><br/>.
@@ -51467,6 +53666,205 @@ type UpdateExternalConnectionPhoneNumberUnprocessableEntity struct{}
 func (*UpdateExternalConnectionPhoneNumberUnprocessableEntity) updateExternalConnectionPhoneNumberRes() {
 }
 
+// UpdateLoaConfigurationInternalServerError is response for UpdateLoaConfiguration operation.
+type UpdateLoaConfigurationInternalServerError struct{}
+
+func (*UpdateLoaConfigurationInternalServerError) updateLoaConfigurationRes() {}
+
+// UpdateLoaConfigurationNotFound is response for UpdateLoaConfiguration operation.
+type UpdateLoaConfigurationNotFound struct{}
+
+func (*UpdateLoaConfigurationNotFound) updateLoaConfigurationRes() {}
+
+// The parameters for creating a new LOA configuration.
+type UpdateLoaConfigurationReq struct {
+	// The name of the LOA configuration.
+	Name string `json:"name"`
+	// The logo of the LOA configuration.
+	Logo UpdateLoaConfigurationReqLogo `json:"logo"`
+	// The name of the company.
+	CompanyName string `json:"company_name"`
+	// The address of the company.
+	Address UpdateLoaConfigurationReqAddress `json:"address"`
+	// The contact information of the company.
+	Contact UpdateLoaConfigurationReqContact `json:"contact"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateLoaConfigurationReq) GetName() string {
+	return s.Name
+}
+
+// GetLogo returns the value of Logo.
+func (s *UpdateLoaConfigurationReq) GetLogo() UpdateLoaConfigurationReqLogo {
+	return s.Logo
+}
+
+// GetCompanyName returns the value of CompanyName.
+func (s *UpdateLoaConfigurationReq) GetCompanyName() string {
+	return s.CompanyName
+}
+
+// GetAddress returns the value of Address.
+func (s *UpdateLoaConfigurationReq) GetAddress() UpdateLoaConfigurationReqAddress {
+	return s.Address
+}
+
+// GetContact returns the value of Contact.
+func (s *UpdateLoaConfigurationReq) GetContact() UpdateLoaConfigurationReqContact {
+	return s.Contact
+}
+
+// SetName sets the value of Name.
+func (s *UpdateLoaConfigurationReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetLogo sets the value of Logo.
+func (s *UpdateLoaConfigurationReq) SetLogo(val UpdateLoaConfigurationReqLogo) {
+	s.Logo = val
+}
+
+// SetCompanyName sets the value of CompanyName.
+func (s *UpdateLoaConfigurationReq) SetCompanyName(val string) {
+	s.CompanyName = val
+}
+
+// SetAddress sets the value of Address.
+func (s *UpdateLoaConfigurationReq) SetAddress(val UpdateLoaConfigurationReqAddress) {
+	s.Address = val
+}
+
+// SetContact sets the value of Contact.
+func (s *UpdateLoaConfigurationReq) SetContact(val UpdateLoaConfigurationReqContact) {
+	s.Contact = val
+}
+
+// The address of the company.
+type UpdateLoaConfigurationReqAddress struct {
+	// The street address of the company.
+	StreetAddress string `json:"street_address"`
+	// The extended address of the company.
+	ExtendedAddress OptString `json:"extended_address"`
+	// The locality of the company.
+	City OptString `json:"city"`
+	// The administrative area of the company.
+	State OptString `json:"state"`
+	// The postal code of the company.
+	ZipCode OptString `json:"zip_code"`
+	// The country code of the company.
+	CountryCode string `json:"country_code"`
+}
+
+// GetStreetAddress returns the value of StreetAddress.
+func (s *UpdateLoaConfigurationReqAddress) GetStreetAddress() string {
+	return s.StreetAddress
+}
+
+// GetExtendedAddress returns the value of ExtendedAddress.
+func (s *UpdateLoaConfigurationReqAddress) GetExtendedAddress() OptString {
+	return s.ExtendedAddress
+}
+
+// GetCity returns the value of City.
+func (s *UpdateLoaConfigurationReqAddress) GetCity() OptString {
+	return s.City
+}
+
+// GetState returns the value of State.
+func (s *UpdateLoaConfigurationReqAddress) GetState() OptString {
+	return s.State
+}
+
+// GetZipCode returns the value of ZipCode.
+func (s *UpdateLoaConfigurationReqAddress) GetZipCode() OptString {
+	return s.ZipCode
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *UpdateLoaConfigurationReqAddress) GetCountryCode() string {
+	return s.CountryCode
+}
+
+// SetStreetAddress sets the value of StreetAddress.
+func (s *UpdateLoaConfigurationReqAddress) SetStreetAddress(val string) {
+	s.StreetAddress = val
+}
+
+// SetExtendedAddress sets the value of ExtendedAddress.
+func (s *UpdateLoaConfigurationReqAddress) SetExtendedAddress(val OptString) {
+	s.ExtendedAddress = val
+}
+
+// SetCity sets the value of City.
+func (s *UpdateLoaConfigurationReqAddress) SetCity(val OptString) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *UpdateLoaConfigurationReqAddress) SetState(val OptString) {
+	s.State = val
+}
+
+// SetZipCode sets the value of ZipCode.
+func (s *UpdateLoaConfigurationReqAddress) SetZipCode(val OptString) {
+	s.ZipCode = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *UpdateLoaConfigurationReqAddress) SetCountryCode(val string) {
+	s.CountryCode = val
+}
+
+// The contact information of the company.
+type UpdateLoaConfigurationReqContact struct {
+	// The email address of the contact.
+	Email string `json:"email"`
+	// The phone number of the contact.
+	PhoneNumber string `json:"phone_number"`
+}
+
+// GetEmail returns the value of Email.
+func (s *UpdateLoaConfigurationReqContact) GetEmail() string {
+	return s.Email
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *UpdateLoaConfigurationReqContact) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// SetEmail sets the value of Email.
+func (s *UpdateLoaConfigurationReqContact) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *UpdateLoaConfigurationReqContact) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// The logo of the LOA configuration.
+type UpdateLoaConfigurationReqLogo struct {
+	// The document identification.
+	DocumentID uuid.UUID `json:"document_id"`
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *UpdateLoaConfigurationReqLogo) GetDocumentID() uuid.UUID {
+	return s.DocumentID
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *UpdateLoaConfigurationReqLogo) SetDocumentID(val uuid.UUID) {
+	s.DocumentID = val
+}
+
+// UpdateLoaConfigurationUnprocessableEntity is response for UpdateLoaConfiguration operation.
+type UpdateLoaConfigurationUnprocessableEntity struct{}
+
+func (*UpdateLoaConfigurationUnprocessableEntity) updateLoaConfigurationRes() {}
+
 type UpdateNotificationChannelOK struct {
 	Data OptNotificationChannel `json:"data"`
 }
@@ -52374,6 +54772,22 @@ func (s *UpdatePhoneNumberVoiceSettingsRequestUsagePaymentMethod) UnmarshalText(
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type UpdatePortingLOAConfiguration struct {
+	Data OptPortingLOAConfiguration `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdatePortingLOAConfiguration) GetData() OptPortingLOAConfiguration {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdatePortingLOAConfiguration) SetData(val OptPortingLOAConfiguration) {
+	s.Data = val
+}
+
+func (*UpdatePortingLOAConfiguration) updateLoaConfigurationRes() {}
 
 // UpdatePortoutStatusNotFound is response for UpdatePortoutStatus operation.
 type UpdatePortoutStatusNotFound struct{}

@@ -115,6 +115,12 @@ type Invoker interface {
 	//
 	// POST /messages/group_mms
 	CreateGroupMmsMessage(ctx context.Context, request OptCreateGroupMMSMessageRequest) (CreateGroupMmsMessageRes, error)
+	// CreateLoaConfiguration invokes CreateLoaConfiguration operation.
+	//
+	// Create a LOA configuration.
+	//
+	// POST /porting/loa_configurations
+	CreateLoaConfiguration(ctx context.Context, request *CreateLoaConfigurationReq) (CreateLoaConfigurationRes, error)
 	// CreateLongCodeMessage invokes CreateLongCodeMessage operation.
 	//
 	// Send a long code message.
@@ -164,6 +170,12 @@ type Invoker interface {
 	//
 	// POST /phone_numbers/jobs/update_emergency_settings
 	CreatePhoneNumbersJobUpdateEmergencySettings(ctx context.Context, request *PhoneNumbersJobUpdateEmergencySettingsRequest) (CreatePhoneNumbersJobUpdateEmergencySettingsRes, error)
+	// CreatePortingReport invokes CreatePortingReport operation.
+	//
+	// Generate reports about porting operations.
+	//
+	// POST /porting/reports
+	CreatePortingReport(ctx context.Context, request *CreatePortingReportReq) (CreatePortingReportRes, error)
 	// CreateProfile invokes CreateProfile operation.
 	//
 	// Creates a Verified Calls Display Profile associated with the given Business Identity.
@@ -270,6 +282,12 @@ type Invoker interface {
 	//
 	// DELETE /external_connections/log_messages/{id}
 	DeleteExternalConnectionLogMessage(ctx context.Context, params DeleteExternalConnectionLogMessageParams) (DeleteExternalConnectionLogMessageRes, error)
+	// DeleteLoaConfiguration invokes DeleteLoaConfiguration operation.
+	//
+	// Delete a specific LOA configuration.
+	//
+	// DELETE /porting/loa_configurations/{id}
+	DeleteLoaConfiguration(ctx context.Context, params DeleteLoaConfigurationParams) (DeleteLoaConfigurationRes, error)
 	// DeleteNetwork invokes DeleteNetwork operation.
 	//
 	// Delete a Network.
@@ -532,6 +550,12 @@ type Invoker interface {
 	//
 	// GET /external_connections/{id}/phone_numbers/{phone_number_id}
 	GetExternalConnectionPhoneNumber(ctx context.Context, params GetExternalConnectionPhoneNumberParams) (GetExternalConnectionPhoneNumberRes, error)
+	// GetLoaConfiguration invokes GetLoaConfiguration operation.
+	//
+	// Retrieve a specific LOA configuration.
+	//
+	// GET /porting/loa_configurations/{id}
+	GetLoaConfiguration(ctx context.Context, params GetLoaConfigurationParams) (GetLoaConfigurationRes, error)
 	// GetMessage invokes GetMessage operation.
 	//
 	// Note: This API endpoint can only retrieve messages that are no older than 10 days since their
@@ -611,6 +635,12 @@ type Invoker interface {
 	//
 	// GET /portouts/{id}/supporting_documents
 	GetPortRequestSupportingDocuments(ctx context.Context, params GetPortRequestSupportingDocumentsParams) (GetPortRequestSupportingDocumentsRes, error)
+	// GetPortingReport invokes GetPortingReport operation.
+	//
+	// Retrieve a specific report generated.
+	//
+	// GET /porting/reports/{id}
+	GetPortingReport(ctx context.Context, params GetPortingReportParams) (GetPortingReportRes, error)
 	// GetRecording invokes GetRecording operation.
 	//
 	// Retrieves the details of an existing call recording.
@@ -772,6 +802,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/leave_queue
 	LeaveQueue(ctx context.Context, request *LeaveQueueRequest, params LeaveQueueParams) (LeaveQueueRes, error)
+	// ListAvailablePhoneNumberBlocks invokes ListAvailablePhoneNumberBlocks operation.
+	//
+	// List available phone number blocks.
+	//
+	// GET /available_phone_number_blocks
+	ListAvailablePhoneNumberBlocks(ctx context.Context, params ListAvailablePhoneNumberBlocksParams) (ListAvailablePhoneNumberBlocksRes, error)
 	// ListAvailablePhoneNumbers invokes ListAvailablePhoneNumbers operation.
 	//
 	// List available phone numbers.
@@ -823,6 +859,12 @@ type Invoker interface {
 	//
 	// GET /phone_numbers/inbound_channels
 	ListInboundChannels(ctx context.Context) (ListInboundChannelsRes, error)
+	// ListLoaConfigurations invokes ListLoaConfigurations operation.
+	//
+	// List the LOA configurations.
+	//
+	// GET /porting/loa_configurations
+	ListLoaConfigurations(ctx context.Context, params ListLoaConfigurationsParams) (ListLoaConfigurationsRes, error)
 	// ListMessagingHostedNumberOrders invokes ListMessagingHostedNumberOrders operation.
 	//
 	// List messaging hosted number orders.
@@ -913,6 +955,12 @@ type Invoker interface {
 	//
 	// GET /porting_phone_numbers
 	ListPortingPhoneNumbers(ctx context.Context, params ListPortingPhoneNumbersParams) (ListPortingPhoneNumbersRes, error)
+	// ListPortingReports invokes ListPortingReports operation.
+	//
+	// List the reports generated about porting operations.
+	//
+	// GET /porting/reports
+	ListPortingReports(ctx context.Context, params ListPortingReportsParams) (ListPortingReportsRes, error)
 	// ListPortoutRequest invokes ListPortoutRequest operation.
 	//
 	// Returns the portout requests according to filters.
@@ -1043,6 +1091,18 @@ type Invoker interface {
 	//
 	// POST /portability_checks
 	PostPortabilityCheck(ctx context.Context, request *PostPortabilityCheckReq) (PostPortabilityCheckRes, error)
+	// PreviewLoaConfiguration invokes PreviewLoaConfiguration operation.
+	//
+	// Preview a specific LOA configuration.
+	//
+	// GET /porting/loa_configurations/{id}/preview
+	PreviewLoaConfiguration(ctx context.Context, params PreviewLoaConfigurationParams) (PreviewLoaConfigurationRes, error)
+	// PreviewLoaConfigurationParams invokes PreviewLoaConfigurationParams operation.
+	//
+	// Preview the LOA template that would be generated without need to create LOA configuration.
+	//
+	// POST /porting/loa_configuration/preview
+	PreviewLoaConfigurationParams(ctx context.Context, request *PreviewLoaConfigurationParamsReq) (PreviewLoaConfigurationParamsRes, error)
 	// ReferCall invokes ReferCall operation.
 	//
 	// Initiate a SIP Refer on a Call Control call. You can initiate a SIP Refer at any point in the
@@ -1517,6 +1577,12 @@ type Invoker interface {
 	//
 	// PATCH /external_connections/{id}/phone_numbers/{phone_number_id}
 	UpdateExternalConnectionPhoneNumber(ctx context.Context, request *UpdateExternalConnectionPhoneNumberRequest, params UpdateExternalConnectionPhoneNumberParams) (UpdateExternalConnectionPhoneNumberRes, error)
+	// UpdateLoaConfiguration invokes UpdateLoaConfiguration operation.
+	//
+	// Update a specific LOA configuration.
+	//
+	// PATCH /porting/loa_configurations/{id}
+	UpdateLoaConfiguration(ctx context.Context, request *UpdateLoaConfigurationReq, params UpdateLoaConfigurationParams) (UpdateLoaConfigurationRes, error)
 	// UpdateNetwork invokes UpdateNetwork operation.
 	//
 	// Update a Network.
@@ -2929,6 +2995,87 @@ func (c *Client) sendCreateGroupMmsMessage(ctx context.Context, request OptCreat
 	return result, nil
 }
 
+// CreateLoaConfiguration invokes CreateLoaConfiguration operation.
+//
+// Create a LOA configuration.
+//
+// POST /porting/loa_configurations
+func (c *Client) CreateLoaConfiguration(ctx context.Context, request *CreateLoaConfigurationReq) (CreateLoaConfigurationRes, error) {
+	res, err := c.sendCreateLoaConfiguration(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateLoaConfiguration(ctx context.Context, request *CreateLoaConfigurationReq) (res CreateLoaConfigurationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/porting/loa_configurations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateLoaConfigurationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateLoaConfiguration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateLoaConfigurationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateLongCodeMessage invokes CreateLongCodeMessage operation.
 //
 // Send a long code message.
@@ -3574,6 +3721,87 @@ func (c *Client) sendCreatePhoneNumbersJobUpdateEmergencySettings(ctx context.Co
 	defer resp.Body.Close()
 
 	result, err := decodeCreatePhoneNumbersJobUpdateEmergencySettingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreatePortingReport invokes CreatePortingReport operation.
+//
+// Generate reports about porting operations.
+//
+// POST /porting/reports
+func (c *Client) CreatePortingReport(ctx context.Context, request *CreatePortingReportReq) (CreatePortingReportRes, error) {
+	res, err := c.sendCreatePortingReport(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreatePortingReport(ctx context.Context, request *CreatePortingReportReq) (res CreatePortingReportRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/porting/reports"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreatePortingReportRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreatePortingReport", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreatePortingReportResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4965,6 +5193,93 @@ func (c *Client) sendDeleteExternalConnectionLogMessage(ctx context.Context, par
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteExternalConnectionLogMessageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteLoaConfiguration invokes DeleteLoaConfiguration operation.
+//
+// Delete a specific LOA configuration.
+//
+// DELETE /porting/loa_configurations/{id}
+func (c *Client) DeleteLoaConfiguration(ctx context.Context, params DeleteLoaConfigurationParams) (DeleteLoaConfigurationRes, error) {
+	res, err := c.sendDeleteLoaConfiguration(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteLoaConfiguration(ctx context.Context, params DeleteLoaConfigurationParams) (res DeleteLoaConfigurationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/porting/loa_configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteLoaConfiguration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteLoaConfigurationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8931,6 +9246,93 @@ func (c *Client) sendGetExternalConnectionPhoneNumber(ctx context.Context, param
 	return result, nil
 }
 
+// GetLoaConfiguration invokes GetLoaConfiguration operation.
+//
+// Retrieve a specific LOA configuration.
+//
+// GET /porting/loa_configurations/{id}
+func (c *Client) GetLoaConfiguration(ctx context.Context, params GetLoaConfigurationParams) (GetLoaConfigurationRes, error) {
+	res, err := c.sendGetLoaConfiguration(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetLoaConfiguration(ctx context.Context, params GetLoaConfigurationParams) (res GetLoaConfigurationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/porting/loa_configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetLoaConfiguration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetLoaConfigurationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetMessage invokes GetMessage operation.
 //
 // Note: This API endpoint can only retrieve messages that are no older than 10 days since their
@@ -10171,6 +10573,93 @@ func (c *Client) sendGetPortRequestSupportingDocuments(ctx context.Context, para
 	defer resp.Body.Close()
 
 	result, err := decodeGetPortRequestSupportingDocumentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetPortingReport invokes GetPortingReport operation.
+//
+// Retrieve a specific report generated.
+//
+// GET /porting/reports/{id}
+func (c *Client) GetPortingReport(ctx context.Context, params GetPortingReportParams) (GetPortingReportRes, error) {
+	res, err := c.sendGetPortingReport(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetPortingReport(ctx context.Context, params GetPortingReportParams) (res GetPortingReportRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/porting/reports/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetPortingReport", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetPortingReportResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13264,6 +13753,146 @@ func (c *Client) sendLeaveQueue(ctx context.Context, request *LeaveQueueRequest,
 	return result, nil
 }
 
+// ListAvailablePhoneNumberBlocks invokes ListAvailablePhoneNumberBlocks operation.
+//
+// List available phone number blocks.
+//
+// GET /available_phone_number_blocks
+func (c *Client) ListAvailablePhoneNumberBlocks(ctx context.Context, params ListAvailablePhoneNumberBlocksParams) (ListAvailablePhoneNumberBlocksRes, error) {
+	res, err := c.sendListAvailablePhoneNumberBlocks(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListAvailablePhoneNumberBlocks(ctx context.Context, params ListAvailablePhoneNumberBlocksParams) (res ListAvailablePhoneNumberBlocksRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/available_phone_number_blocks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[locality]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[locality]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterLocality.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[country_code]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[country_code]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCountryCode.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[national_destination_code]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[national_destination_code]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNationalDestinationCode.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[number_type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[number_type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNumberType.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListAvailablePhoneNumberBlocks", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListAvailablePhoneNumberBlocksResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListAvailablePhoneNumbers invokes ListAvailablePhoneNumbers operation.
 //
 // List available phone numbers.
@@ -14537,6 +15166,112 @@ func (c *Client) sendListInboundChannels(ctx context.Context) (res ListInboundCh
 	defer resp.Body.Close()
 
 	result, err := decodeListInboundChannelsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListLoaConfigurations invokes ListLoaConfigurations operation.
+//
+// List the LOA configurations.
+//
+// GET /porting/loa_configurations
+func (c *Client) ListLoaConfigurations(ctx context.Context, params ListLoaConfigurationsParams) (ListLoaConfigurationsRes, error) {
+	res, err := c.sendListLoaConfigurations(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListLoaConfigurations(ctx context.Context, params ListLoaConfigurationsParams) (res ListLoaConfigurationsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/porting/loa_configurations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListLoaConfigurations", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListLoaConfigurationsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -16998,6 +17733,146 @@ func (c *Client) sendListPortingPhoneNumbers(ctx context.Context, params ListPor
 	return result, nil
 }
 
+// ListPortingReports invokes ListPortingReports operation.
+//
+// List the reports generated about porting operations.
+//
+// GET /porting/reports
+func (c *Client) ListPortingReports(ctx context.Context, params ListPortingReportsParams) (ListPortingReportsRes, error) {
+	res, err := c.sendListPortingReports(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListPortingReports(ctx context.Context, params ListPortingReportsParams) (res ListPortingReportsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/porting/reports"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[report_type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[report_type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterReportType.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListPortingReports", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListPortingReportsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListPortoutRequest invokes ListPortoutRequest operation.
 //
 // Returns the portout requests according to filters.
@@ -19366,6 +20241,175 @@ func (c *Client) sendPostPortabilityCheck(ctx context.Context, request *PostPort
 	defer resp.Body.Close()
 
 	result, err := decodePostPortabilityCheckResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PreviewLoaConfiguration invokes PreviewLoaConfiguration operation.
+//
+// Preview a specific LOA configuration.
+//
+// GET /porting/loa_configurations/{id}/preview
+func (c *Client) PreviewLoaConfiguration(ctx context.Context, params PreviewLoaConfigurationParams) (PreviewLoaConfigurationRes, error) {
+	res, err := c.sendPreviewLoaConfiguration(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendPreviewLoaConfiguration(ctx context.Context, params PreviewLoaConfigurationParams) (res PreviewLoaConfigurationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/porting/loa_configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/preview"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PreviewLoaConfiguration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePreviewLoaConfigurationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PreviewLoaConfigurationParams invokes PreviewLoaConfigurationParams operation.
+//
+// Preview the LOA template that would be generated without need to create LOA configuration.
+//
+// POST /porting/loa_configuration/preview
+func (c *Client) PreviewLoaConfigurationParams(ctx context.Context, request *PreviewLoaConfigurationParamsReq) (PreviewLoaConfigurationParamsRes, error) {
+	res, err := c.sendPreviewLoaConfigurationParams(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendPreviewLoaConfigurationParams(ctx context.Context, request *PreviewLoaConfigurationParamsReq) (res PreviewLoaConfigurationParamsRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/porting/loa_configuration/preview"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePreviewLoaConfigurationParamsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PreviewLoaConfigurationParams", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePreviewLoaConfigurationParamsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -23366,6 +24410,105 @@ func (c *Client) sendUpdateExternalConnectionPhoneNumber(ctx context.Context, re
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateExternalConnectionPhoneNumberResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateLoaConfiguration invokes UpdateLoaConfiguration operation.
+//
+// Update a specific LOA configuration.
+//
+// PATCH /porting/loa_configurations/{id}
+func (c *Client) UpdateLoaConfiguration(ctx context.Context, request *UpdateLoaConfigurationReq, params UpdateLoaConfigurationParams) (UpdateLoaConfigurationRes, error) {
+	res, err := c.sendUpdateLoaConfiguration(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateLoaConfiguration(ctx context.Context, request *UpdateLoaConfigurationReq, params UpdateLoaConfigurationParams) (res UpdateLoaConfigurationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/porting/loa_configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateLoaConfigurationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateLoaConfiguration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateLoaConfigurationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

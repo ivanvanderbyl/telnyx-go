@@ -81,6 +81,12 @@ type DeleteExternalConnectionLogMessageParams struct {
 	ID int64
 }
 
+// DeleteLoaConfigurationParams is parameters of DeleteLoaConfiguration operation.
+type DeleteLoaConfigurationParams struct {
+	// Identifies a LOA configuration.
+	ID uuid.UUID
+}
+
 // DeleteNetworkParams is parameters of DeleteNetwork operation.
 type DeleteNetworkParams struct {
 	// Identifies the resource.
@@ -374,6 +380,12 @@ type GetExternalConnectionPhoneNumberParams struct {
 	PhoneNumberID string
 }
 
+// GetLoaConfigurationParams is parameters of GetLoaConfiguration operation.
+type GetLoaConfigurationParams struct {
+	// Identifies a LOA configuration.
+	ID uuid.UUID
+}
+
 // GetMessageParams is parameters of GetMessage operation.
 type GetMessageParams struct {
 	// The id of the message.
@@ -465,6 +477,12 @@ type GetPhoneNumbersParams struct {
 // GetPortRequestSupportingDocumentsParams is parameters of GetPortRequestSupportingDocuments operation.
 type GetPortRequestSupportingDocumentsParams struct {
 	// Portout id.
+	ID uuid.UUID
+}
+
+// GetPortingReportParams is parameters of GetPortingReport operation.
+type GetPortingReportParams struct {
+	// Identifies a report.
 	ID uuid.UUID
 }
 
@@ -713,6 +731,19 @@ type LeaveQueueParams struct {
 	CallControlID string
 }
 
+// ListAvailablePhoneNumberBlocksParams is parameters of ListAvailablePhoneNumberBlocks operation.
+type ListAvailablePhoneNumberBlocksParams struct {
+	// Filter phone numbers by city.
+	FilterLocality OptString
+	// Filter phone numbers by ISO alpha-2 country code.
+	FilterCountryCode OptString
+	// Filter by the national destination code of the number. This filter is only applicable to North
+	// American numbers.
+	FilterNationalDestinationCode OptString
+	// Filter phone numbers by number type.
+	FilterNumberType OptListAvailablePhoneNumberBlocksFilterNumberType
+}
+
 // ListAvailablePhoneNumbersParams is parameters of ListAvailablePhoneNumbers operation.
 type ListAvailablePhoneNumbersParams struct {
 	// Filter numbers starting with a pattern (exclude NDC from start of this filter if used with
@@ -841,6 +872,14 @@ type ListExternalConnectionPhoneNumbersParams struct {
 	FilterCivicAddressIDEq OptUUID
 	// The location ID to filter by.
 	FilterLocationIDEq OptUUID
+}
+
+// ListLoaConfigurationsParams is parameters of ListLoaConfigurations operation.
+type ListLoaConfigurationsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
 }
 
 // ListMessagingHostedNumberOrdersParams is parameters of ListMessagingHostedNumberOrders operation.
@@ -1080,6 +1119,18 @@ type ListPortingPhoneNumbersParams struct {
 	FilterPortabilityStatus OptPortabilityStatus
 }
 
+// ListPortingReportsParams is parameters of ListPortingReports operation.
+type ListPortingReportsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter reports of a specific type.
+	FilterReportType OptListPortingReportsFilterReportType
+	// Filter reports of a specific status.
+	FilterStatus OptListPortingReportsFilterStatus
+}
+
 // ListPortoutRequestParams is parameters of ListPortoutRequest operation.
 type ListPortoutRequestParams struct {
 	// Filter by new carrier name.
@@ -1246,6 +1297,12 @@ type PostPortRequestCommentParams struct {
 // PostPortRequestSupportingDocumentsParams is parameters of PostPortRequestSupportingDocuments operation.
 type PostPortRequestSupportingDocumentsParams struct {
 	// Portout id.
+	ID uuid.UUID
+}
+
+// PreviewLoaConfigurationParams is parameters of PreviewLoaConfiguration operation.
+type PreviewLoaConfigurationParams struct {
+	// Identifies a LOA configuration.
 	ID uuid.UUID
 }
 
@@ -1499,6 +1556,12 @@ type UpdateExternalConnectionPhoneNumberParams struct {
 	ID int64
 	// A phone number's ID via the Telnyx API.
 	PhoneNumberID string
+}
+
+// UpdateLoaConfigurationParams is parameters of UpdateLoaConfiguration operation.
+type UpdateLoaConfigurationParams struct {
+	// Identifies a LOA configuration.
+	ID uuid.UUID
 }
 
 // UpdateNetworkParams is parameters of UpdateNetwork operation.
