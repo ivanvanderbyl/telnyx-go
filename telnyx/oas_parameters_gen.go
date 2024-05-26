@@ -18,6 +18,33 @@ type BridgeCallParams struct {
 	CallControlID string
 }
 
+// BulkCredentialActionParams is parameters of BulkCredentialAction operation.
+type BulkCredentialActionParams struct {
+	// Identifies the action to be taken. Activate will change the status to active. Deactivate will
+	// change the status to inactive.
+	Action BulkCredentialActionAction
+	// Filter by tag, required by bulk operations.
+	FilterTag string
+}
+
+// CreateProfileVerificationRequestParams is parameters of CreateProfileVerificationRequest operation.
+type CreateProfileVerificationRequestParams struct {
+	// Identifies the Verified Calls Display Profile.
+	ID string
+}
+
+// CreateTelephonyCredentialTokenParams is parameters of CreateTelephonyCredentialToken operation.
+type CreateTelephonyCredentialTokenParams struct {
+	// Identifies the resource.
+	ID string
+}
+
+// DeleteCallControlApplicationParams is parameters of DeleteCallControlApplication operation.
+type DeleteCallControlApplicationParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
 // DeleteProfileParams is parameters of DeleteProfile operation.
 type DeleteProfileParams struct {
 	// The identifier of the Verify profile to delete.
@@ -40,6 +67,18 @@ type DeleteTeXMLRecordingTranscriptionParams struct {
 	RecordingTranscriptionSid uuid.UUID
 }
 
+// DeleteTelephonyCredentialParams is parameters of DeleteTelephonyCredential operation.
+type DeleteTelephonyCredentialParams struct {
+	// Identifies the resource.
+	ID string
+}
+
+// DeleteTelephonyCredentialsParams is parameters of DeleteTelephonyCredentials operation.
+type DeleteTelephonyCredentialsParams struct {
+	// Filter by tag, required by bulk operations.
+	FilterTag string
+}
+
 // DeleteTexmlApplicationParams is parameters of DeleteTexmlApplication operation.
 type DeleteTexmlApplicationParams struct {
 	// Identifies the resource.
@@ -56,6 +95,12 @@ type DeleteTexmlConferenceParticipantParams struct {
 	CallSid string
 }
 
+// DeleteVerifiedCallDisplayProfileParams is parameters of DeleteVerifiedCallDisplayProfile operation.
+type DeleteVerifiedCallDisplayProfileParams struct {
+	// Identifies the Verified Calls Display Profile.
+	ID string
+}
+
 // DeleteVerifiedNumberParams is parameters of DeleteVerifiedNumber operation.
 type DeleteVerifiedNumberParams struct {
 	// The phone number being deleted.
@@ -68,6 +113,12 @@ type DialTexmlConferenceParticipantParams struct {
 	AccountSid string
 	// The ConferenceSid that uniquely identifies a conference.
 	ConferenceSid string
+}
+
+// DisplayProfileParams is parameters of DisplayProfile operation.
+type DisplayProfileParams struct {
+	// Identifies the Verified Calls Display Profile.
+	ID string
 }
 
 // EnqueueCallParams is parameters of EnqueueCall operation.
@@ -90,6 +141,24 @@ type FetchTeXMLConferenceRecordingsParams struct {
 	AccountSid string
 	// The ConferenceSid that uniquely identifies a conference.
 	ConferenceSid string
+}
+
+// FindTelephonyCredentialsParams is parameters of FindTelephonyCredentials operation.
+type FindTelephonyCredentialsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter by tag.
+	FilterTag OptString
+	// Filter by name.
+	FilterName OptString
+	// Filter by status.
+	FilterStatus OptString
+	// Filter by resource_id.
+	FilterResourceID OptString
+	// Filter by sip_username.
+	FilterSipUsername OptString
 }
 
 // FindTexmlApplicationsParams is parameters of FindTexmlApplications operation.
@@ -174,6 +243,12 @@ type GetTeXMLRecordingTranscriptionsParams struct {
 	PageToken OptString
 	// The size of the page.
 	PageSize OptInt
+}
+
+// GetTelephonyCredentialParams is parameters of GetTelephonyCredential operation.
+type GetTelephonyCredentialParams struct {
+	// Identifies the resource.
+	ID string
 }
 
 // GetTexmlApplicationParams is parameters of GetTexmlApplication operation.
@@ -327,6 +402,12 @@ type GetVerifyProfileParams struct {
 	VerifyProfileID uuid.UUID
 }
 
+// GetWebhookDeliveryParams is parameters of GetWebhookDelivery operation.
+type GetWebhookDeliveryParams struct {
+	// Uniquely identifies the webhook_delivery.
+	ID uuid.UUID
+}
+
 // HangupCallParams is parameters of HangupCall operation.
 type HangupCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -351,6 +432,44 @@ type LeaveQueueParams struct {
 	CallControlID string
 }
 
+// ListCallControlApplicationsParams is parameters of ListCallControlApplications operation.
+type ListCallControlApplicationsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// If present, applications with <code>application_name</code> containing the given value will be
+	// returned. Matching is not case-sensitive. Requires at least three characters.
+	FilterApplicationNameContains OptString
+	// Identifies the associated outbound voice profile.
+	FilterOutboundVoiceProfileID OptStringInt64
+	// Specifies the sort order for results. By default sorting direction is ascending. To have the
+	// results sorted in descending order add the <code> -</code> prefix.<br/><br/>
+	// That is: <ul>
+	// <li>
+	// <code>connection_name</code>: sorts the result by the
+	// <code>connection_name</code> field in ascending order.
+	// </li>
+	// <li>
+	// <code>-connection_name</code>: sorts the result by the
+	// <code>connection_name</code> field in descending order.
+	// </li>
+	// </ul> <br/> If not given, results are sorted by <code>created_at</code> in descending order.
+	Sort OptSortConnection
+}
+
+// ListConnectionActiveCallsParams is parameters of ListConnectionActiveCalls operation.
+type ListConnectionActiveCallsParams struct {
+	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
+	ConnectionID string
+	// Limit of records per single page.
+	PageLimit OptInt
+	// Opaque identifier of next page.
+	PageAfter OptString
+	// Opaque identifier of previous page.
+	PageBefore OptString
+}
+
 // ListProfilesParams is parameters of ListProfiles operation.
 type ListProfilesParams struct {
 	FilterName OptString
@@ -368,6 +487,14 @@ type ListQueueCallsParams struct {
 	PageSize OptInt
 }
 
+// ListTagsParams is parameters of ListTags operation.
+type ListTagsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
 // ListUsageReportsOptionsParams is parameters of ListUsageReportsOptions operation.
 type ListUsageReportsOptionsParams struct {
 	// Options (dimensions and metrics) for a given product. If none specified, all products will be
@@ -379,6 +506,14 @@ type ListUsageReportsOptionsParams struct {
 type ListVerificationsParams struct {
 	// The phone number associated with the verifications to retrieve.
 	PhoneNumber string
+}
+
+// ListVerifiedCallDisplayProfilesParams is parameters of ListVerifiedCallDisplayProfiles operation.
+type ListVerifiedCallDisplayProfilesParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
 }
 
 // ListVerifiedNumbersParams is parameters of ListVerifiedNumbers operation.
@@ -403,6 +538,14 @@ type NoiseSuppressionStopParams struct {
 type PauseCallRecordingParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// PerformCredentialActionParams is parameters of PerformCredentialAction operation.
+type PerformCredentialActionParams struct {
+	// Identifies the resource.
+	ID string
+	// Identifies the action to be taken.
+	Action PerformCredentialActionAction
 }
 
 // ReferCallParams is parameters of ReferCall operation.
@@ -430,6 +573,12 @@ type ReportsCdrUsageReportsSyncGetParams struct {
 type ResumeCallRecordingParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// RetrieveCallControlApplicationParams is parameters of RetrieveCallControlApplication operation.
+type RetrieveCallControlApplicationParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // RetrieveCallFromQueueParams is parameters of RetrieveCallFromQueue operation.
@@ -544,10 +693,28 @@ type TransferCallParams struct {
 	CallControlID string
 }
 
+// UpdateBulkTelephonyCredentialParams is parameters of UpdateBulkTelephonyCredential operation.
+type UpdateBulkTelephonyCredentialParams struct {
+	// Filter by tag, required by bulk operations.
+	FilterTag string
+}
+
+// UpdateCallControlApplicationParams is parameters of UpdateCallControlApplication operation.
+type UpdateCallControlApplicationParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
 // UpdateClientStateParams is parameters of UpdateClientState operation.
 type UpdateClientStateParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// UpdateProfileParams is parameters of UpdateProfile operation.
+type UpdateProfileParams struct {
+	// Identifies the Verified Calls Display Profile.
+	ID string
 }
 
 // UpdateTeXMLCallRecordingParams is parameters of UpdateTeXMLCallRecording operation.
@@ -558,6 +725,12 @@ type UpdateTeXMLCallRecordingParams struct {
 	CallSid string
 	// Uniquely identifies the recording by id.
 	RecordingSid uuid.UUID
+}
+
+// UpdateTelephonyCredentialParams is parameters of UpdateTelephonyCredential operation.
+type UpdateTelephonyCredentialParams struct {
+	// Identifies the resource.
+	ID string
 }
 
 // UpdateTexmlApplicationParams is parameters of UpdateTexmlApplication operation.

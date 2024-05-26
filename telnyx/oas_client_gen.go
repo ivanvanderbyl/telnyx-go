@@ -27,6 +27,14 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/answer
 	AnswerCall(ctx context.Context, request *AnswerRequest, params AnswerCallParams) (AnswerCallRes, error)
+	// AudioPublicAudioTranscriptionsPost invokes audio_public_audio_transcriptions_post operation.
+	//
+	// Transcribe speech to text. This endpoint is consistent with the [OpenAI Transcription
+	// API](https://platform.openai.com/docs/api-reference/audio/createTranscription) and may be used
+	// with the OpenAI JS or Python SDK.
+	//
+	// POST /ai/audio/transcriptions
+	AudioPublicAudioTranscriptionsPost(ctx context.Context, request *AudioTranscriptionRequestMultipart) (AudioPublicAudioTranscriptionsPostRes, error)
 	// BridgeCall invokes BridgeCall operation.
 	//
 	// Bridge two call control calls.
@@ -36,12 +44,57 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/bridge
 	BridgeCall(ctx context.Context, request *BridgeRequest, params BridgeCallParams) (BridgeCallRes, error)
+	// BulkCredentialAction invokes BulkCredentialAction operation.
+	//
+	// Perform activate or deactivate action on all credentials filtered by the provided tag. Activate
+	// action will change the status to active, making it possible to connect calls with the credential.
+	// Deactivate action will change the status to inactive, making it impossible to connect calls with
+	// the credential.
+	//
+	// POST /actions/{action}/telephony_credentials
+	BulkCredentialAction(ctx context.Context, params BulkCredentialActionParams) (BulkCredentialActionRes, error)
+	// CreateBulkTelephonyCredentials invokes CreateBulkTelephonyCredentials operation.
+	//
+	// Creates several credentials in bulk.
+	//
+	// POST /actions/bulk/telephony_credentials
+	CreateBulkTelephonyCredentials(ctx context.Context, request *BulkCredentialRequest) (CreateBulkTelephonyCredentialsRes, error)
+	// CreateCallControlApplication invokes CreateCallControlApplication operation.
+	//
+	// Create a call control application.
+	//
+	// POST /call_control_applications
+	CreateCallControlApplication(ctx context.Context, request *CreateCallControlApplicationRequest) (CreateCallControlApplicationRes, error)
 	// CreateFlashcallVerification invokes CreateFlashcallVerification operation.
 	//
 	// Trigger Flash call verification.
 	//
 	// POST /verifications/flashcall
 	CreateFlashcallVerification(ctx context.Context, request *CreateVerificationRequestFlashcall) (CreateFlashcallVerificationRes, error)
+	// CreateProfile invokes CreateProfile operation.
+	//
+	// Creates a Verified Calls Display Profile associated with the given Business Identity.
+	//
+	// POST /verified_calls_display_profiles
+	CreateProfile(ctx context.Context, request *CreateVerifiedCallsDisplayProfileRequest) (CreateProfileRes, error)
+	// CreateProfileVerificationRequest invokes CreateProfileVerificationRequest operation.
+	//
+	// Starts a new Verified Calls Display Profile verification process.
+	//
+	// POST /verified_calls_display_profiles/{id}/verification_request
+	CreateProfileVerificationRequest(ctx context.Context, params CreateProfileVerificationRequestParams) (CreateProfileVerificationRequestRes, error)
+	// CreateTelephonyCredential invokes CreateTelephonyCredential operation.
+	//
+	// Create a credential.
+	//
+	// POST /telephony_credentials
+	CreateTelephonyCredential(ctx context.Context, request *TelephonyCredentialCreateRequest) (CreateTelephonyCredentialRes, error)
+	// CreateTelephonyCredentialToken invokes CreateTelephonyCredentialToken operation.
+	//
+	// Create an Access Token (JWT) for the credential.
+	//
+	// POST /telephony_credentials/{id}/token
+	CreateTelephonyCredentialToken(ctx context.Context, params CreateTelephonyCredentialTokenParams) (CreateTelephonyCredentialTokenRes, error)
 	// CreateTexmlApplication invokes CreateTexmlApplication operation.
 	//
 	// Creates a TeXML Application.
@@ -81,6 +134,12 @@ type Invoker interface {
 	//
 	// POST /verify_profiles
 	CreateVerifyProfile(ctx context.Context, request *CreateVerifyProfileReq) (CreateVerifyProfileRes, error)
+	// DeleteCallControlApplication invokes DeleteCallControlApplication operation.
+	//
+	// Deletes a call control application.
+	//
+	// DELETE /call_control_applications/{id}
+	DeleteCallControlApplication(ctx context.Context, params DeleteCallControlApplicationParams) (DeleteCallControlApplicationRes, error)
 	// DeleteProfile invokes DeleteProfile operation.
 	//
 	// Delete Verify profile.
@@ -99,6 +158,18 @@ type Invoker interface {
 	//
 	// DELETE /texml/Accounts/{account_sid}/Transcriptions/{recording_transcription_sid}.json
 	DeleteTeXMLRecordingTranscription(ctx context.Context, params DeleteTeXMLRecordingTranscriptionParams) (DeleteTeXMLRecordingTranscriptionRes, error)
+	// DeleteTelephonyCredential invokes DeleteTelephonyCredential operation.
+	//
+	// Delete an existing credential.
+	//
+	// DELETE /telephony_credentials/{id}
+	DeleteTelephonyCredential(ctx context.Context, params DeleteTelephonyCredentialParams) (DeleteTelephonyCredentialRes, error)
+	// DeleteTelephonyCredentials invokes DeleteTelephonyCredentials operation.
+	//
+	// Delete several credentials in bulk.
+	//
+	// DELETE /actions/bulk/telephony_credentials
+	DeleteTelephonyCredentials(ctx context.Context, params DeleteTelephonyCredentialsParams) (DeleteTelephonyCredentialsRes, error)
 	// DeleteTexmlApplication invokes DeleteTexmlApplication operation.
 	//
 	// Deletes a TeXML Application.
@@ -111,6 +182,14 @@ type Invoker interface {
 	//
 	// DELETE /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid}
 	DeleteTexmlConferenceParticipant(ctx context.Context, params DeleteTexmlConferenceParticipantParams) (DeleteTexmlConferenceParticipantRes, error)
+	// DeleteVerifiedCallDisplayProfile invokes DeleteVerifiedCallDisplayProfile operation.
+	//
+	// Deletes the Verified Calls Display Profile. This action will fail if any verification requests
+	// have been made for this Verified Calls Display Profile. Please contact support@telnyx.com in case
+	// you want to delete a Verified Calls Display Profile in that situation.
+	//
+	// DELETE /verified_calls_display_profiles/{id}
+	DeleteVerifiedCallDisplayProfile(ctx context.Context, params DeleteVerifiedCallDisplayProfileParams) (DeleteVerifiedCallDisplayProfileRes, error)
 	// DeleteVerifiedNumber invokes DeleteVerifiedNumber operation.
 	//
 	// Delete a verified number.
@@ -140,6 +219,12 @@ type Invoker interface {
 	//
 	// POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants
 	DialTexmlConferenceParticipant(ctx context.Context, request *DialConferenceParticipantRequest, params DialTexmlConferenceParticipantParams) (DialTexmlConferenceParticipantRes, error)
+	// DisplayProfile invokes DisplayProfile operation.
+	//
+	// Display the Verified Calls Display Profile.
+	//
+	// GET /verified_calls_display_profiles/{id}
+	DisplayProfile(ctx context.Context, params DisplayProfileParams) (DisplayProfileRes, error)
 	// EnqueueCall invokes EnqueueCall operation.
 	//
 	// Put the call in a queue.
@@ -158,6 +243,12 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings.json
 	FetchTeXMLConferenceRecordings(ctx context.Context, params FetchTeXMLConferenceRecordingsParams) (FetchTeXMLConferenceRecordingsRes, error)
+	// FindTelephonyCredentials invokes FindTelephonyCredentials operation.
+	//
+	// List all On-demand Credentials.
+	//
+	// GET /telephony_credentials
+	FindTelephonyCredentials(ctx context.Context, params FindTelephonyCredentialsParams) (FindTelephonyCredentialsRes, error)
 	// FindTexmlApplications invokes FindTexmlApplications operation.
 	//
 	// Returns a list of your TeXML Applications.
@@ -227,6 +318,12 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Transcriptions.json
 	GetTeXMLRecordingTranscriptions(ctx context.Context, params GetTeXMLRecordingTranscriptionsParams) (GetTeXMLRecordingTranscriptionsRes, error)
+	// GetTelephonyCredential invokes GetTelephonyCredential operation.
+	//
+	// Get the details of an existing On-demand Credential.
+	//
+	// GET /telephony_credentials/{id}
+	GetTelephonyCredential(ctx context.Context, params GetTelephonyCredentialParams) (GetTelephonyCredentialRes, error)
 	// GetTexmlApplication invokes GetTexmlApplication operation.
 	//
 	// Retrieves the details of an existing TeXML Application.
@@ -296,6 +393,12 @@ type Invoker interface {
 	//
 	// GET /reports/mdr_usage_reports
 	GetUsageReports(ctx context.Context, params GetUsageReportsParams) (*MdrGetUsageReportsResponse, error)
+	// GetUserBalance invokes GetUserBalance operation.
+	//
+	// Get user balance details.
+	//
+	// GET /balance
+	GetUserBalance(ctx context.Context) (GetUserBalanceRes, error)
 	// GetVerifiedNumber invokes GetVerifiedNumber operation.
 	//
 	// Retrieve a verified number.
@@ -308,6 +411,12 @@ type Invoker interface {
 	//
 	// GET /verify_profiles/{verify_profile_id}
 	GetVerifyProfile(ctx context.Context, params GetVerifyProfileParams) (GetVerifyProfileRes, error)
+	// GetWebhookDelivery invokes GetWebhookDelivery operation.
+	//
+	// Provides webhook_delivery debug data, such as timestamps, delivery status and attempts.
+	//
+	// GET /webhook_deliveries/{id}
+	GetWebhookDelivery(ctx context.Context, params GetWebhookDeliveryParams) (GetWebhookDeliveryRes, error)
 	// HangupCall invokes HangupCall operation.
 	//
 	// Hang up the call.
@@ -337,6 +446,19 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/leave_queue
 	LeaveQueue(ctx context.Context, request *LeaveQueueRequest, params LeaveQueueParams) (LeaveQueueRes, error)
+	// ListCallControlApplications invokes ListCallControlApplications operation.
+	//
+	// Return a list of call control applications.
+	//
+	// GET /call_control_applications
+	ListCallControlApplications(ctx context.Context, params ListCallControlApplicationsParams) (ListCallControlApplicationsRes, error)
+	// ListConnectionActiveCalls invokes ListConnectionActiveCalls operation.
+	//
+	// Lists all active calls for given connection. Acceptable connections are either SIP connections
+	// with webhook_url or xml_request_url, call control or texml. Returned results are cursor paginated.
+	//
+	// GET /connections/{connection_id}/active_calls
+	ListConnectionActiveCalls(ctx context.Context, params ListConnectionActiveCallsParams) (ListConnectionActiveCallsRes, error)
 	// ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
 	//
 	// List all Verify profile message templates.
@@ -355,6 +477,12 @@ type Invoker interface {
 	//
 	// GET /queues/{queue_name}/calls
 	ListQueueCalls(ctx context.Context, params ListQueueCallsParams) (ListQueueCallsRes, error)
+	// ListTags invokes ListTags operation.
+	//
+	// Returns a list of tags used on Credentials.
+	//
+	// GET /telephony_credentials/tags
+	ListTags(ctx context.Context, params ListTagsParams) (ListTagsRes, error)
 	// ListUsageReportsOptions invokes ListUsageReportsOptions operation.
 	//
 	// Get the Usage Reports options for querying usage, including the products available and their
@@ -368,6 +496,12 @@ type Invoker interface {
 	//
 	// GET /verifications/by_phone_number/{phone_number}
 	ListVerifications(ctx context.Context, params ListVerificationsParams) (ListVerificationsRes, error)
+	// ListVerifiedCallDisplayProfiles invokes ListVerifiedCallDisplayProfiles operation.
+	//
+	// Lists the Verified Calls Display Profiles owned by the current user/organization.
+	//
+	// GET /verified_calls_display_profiles
+	ListVerifiedCallDisplayProfiles(ctx context.Context, params ListVerifiedCallDisplayProfilesParams) (ListVerifiedCallDisplayProfilesRes, error)
 	// ListVerifiedNumbers invokes ListVerifiedNumbers operation.
 	//
 	// Gets a paginated list of Verified Numbers.
@@ -394,6 +528,14 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/record_pause
 	PauseCallRecording(ctx context.Context, request *PauseRecordingRequest, params PauseCallRecordingParams) (PauseCallRecordingRes, error)
+	// PerformCredentialAction invokes PerformCredentialAction operation.
+	//
+	// Perform activate or deactivate action on provided Credential. Activate action will change the
+	// status to active, making it possible to connect calls with the credential. Deactivate action will
+	// change the status to inactive, making it impossible to connect calls with the credential.
+	//
+	// POST /telephony_credentials/{id}/actions/{action}
+	PerformCredentialAction(ctx context.Context, params PerformCredentialActionParams) (PerformCredentialActionRes, error)
 	// ReferCall invokes ReferCall operation.
 	//
 	// Initiate a SIP Refer on a Call Control call. You can initiate a SIP Refer at any point in the
@@ -435,6 +577,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/record_resume
 	ResumeCallRecording(ctx context.Context, request *ResumeRecordingRequest, params ResumeCallRecordingParams) (ResumeCallRecordingRes, error)
+	// RetrieveCallControlApplication invokes RetrieveCallControlApplication operation.
+	//
+	// Retrieves the details of an existing call control application.
+	//
+	// GET /call_control_applications/{id}
+	RetrieveCallControlApplication(ctx context.Context, params RetrieveCallControlApplicationParams) (RetrieveCallControlApplicationRes, error)
 	// RetrieveCallFromQueue invokes RetrieveCallFromQueue operation.
 	//
 	// Retrieve an existing call from an existing queue.
@@ -782,18 +930,47 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/transfer
 	TransferCall(ctx context.Context, request *TransferCallRequest, params TransferCallParams) (TransferCallRes, error)
+	// UpdateBulkTelephonyCredential invokes UpdateBulkTelephonyCredential operation.
+	//
+	// Update several credentials in bulk.
+	//
+	// PATCH /actions/bulk/telephony_credentials
+	UpdateBulkTelephonyCredential(ctx context.Context, request *BulkCredentialRequest, params UpdateBulkTelephonyCredentialParams) (UpdateBulkTelephonyCredentialRes, error)
+	// UpdateCallControlApplication invokes UpdateCallControlApplication operation.
+	//
+	// Updates settings of an existing call control application.
+	//
+	// PATCH /call_control_applications/{id}
+	UpdateCallControlApplication(ctx context.Context, request *UpdateCallControlApplicationRequest, params UpdateCallControlApplicationParams) (UpdateCallControlApplicationRes, error)
 	// UpdateClientState invokes UpdateClientState operation.
 	//
 	// Updates client state.
 	//
 	// PUT /calls/{call_control_id}/actions/client_state_update
 	UpdateClientState(ctx context.Context, request *ClientStateUpdateRequest, params UpdateClientStateParams) (UpdateClientStateRes, error)
+	// UpdateProfile invokes UpdateProfile operation.
+	//
+	// Update an existing Verified Calls Display Profile and allows adding/removing nested Call Reasons
+	// and Phone Numbers. Different attributes can be updated depending on the Verified Calls Display
+	// Profile's status: For the VERIFICATION_STATE_PENDING status, no fields can be updated. For the
+	// VERIFICATION_STATE_VERIFIED status, it is allowed only to add/remove Call Reaons and Phone Numbers.
+	//  For the other statuses, all fields can be updated. All existing Call Reasons and Phone Numbers
+	// must be sent during the request, or the update will fail.
+	//
+	// PATCH /verified_calls_display_profiles/{id}
+	UpdateProfile(ctx context.Context, request *UpdateVerifiedCallsDisplayProfileRequest, params UpdateProfileParams) (UpdateProfileRes, error)
 	// UpdateTeXMLCallRecording invokes UpdateTeXMLCallRecording operation.
 	//
 	// Updates recording resource for particular call.
 	//
 	// POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Recordings/{recording_sid}.json
 	UpdateTeXMLCallRecording(ctx context.Context, request OptTexmlUpdateCallRecordingRequestBody, params UpdateTeXMLCallRecordingParams) (UpdateTeXMLCallRecordingRes, error)
+	// UpdateTelephonyCredential invokes UpdateTelephonyCredential operation.
+	//
+	// Update an existing credential.
+	//
+	// PATCH /telephony_credentials/{id}
+	UpdateTelephonyCredential(ctx context.Context, request *TelephonyCredentialUpdateRequest, params UpdateTelephonyCredentialParams) (UpdateTelephonyCredentialRes, error)
 	// UpdateTexmlApplication invokes UpdateTexmlApplication operation.
 	//
 	// Updates settings of an existing TeXML Application.
@@ -996,6 +1173,89 @@ func (c *Client) sendAnswerCall(ctx context.Context, request *AnswerRequest, par
 	return result, nil
 }
 
+// AudioPublicAudioTranscriptionsPost invokes audio_public_audio_transcriptions_post operation.
+//
+// Transcribe speech to text. This endpoint is consistent with the [OpenAI Transcription
+// API](https://platform.openai.com/docs/api-reference/audio/createTranscription) and may be used
+// with the OpenAI JS or Python SDK.
+//
+// POST /ai/audio/transcriptions
+func (c *Client) AudioPublicAudioTranscriptionsPost(ctx context.Context, request *AudioTranscriptionRequestMultipart) (AudioPublicAudioTranscriptionsPostRes, error) {
+	res, err := c.sendAudioPublicAudioTranscriptionsPost(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendAudioPublicAudioTranscriptionsPost(ctx context.Context, request *AudioTranscriptionRequestMultipart) (res AudioPublicAudioTranscriptionsPostRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/ai/audio/transcriptions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAudioPublicAudioTranscriptionsPostRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "AudioPublicAudioTranscriptionsPost", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAudioPublicAudioTranscriptionsPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // BridgeCall invokes BridgeCall operation.
 //
 // Bridge two call control calls.
@@ -1090,6 +1350,267 @@ func (c *Client) sendBridgeCall(ctx context.Context, request *BridgeRequest, par
 	return result, nil
 }
 
+// BulkCredentialAction invokes BulkCredentialAction operation.
+//
+// Perform activate or deactivate action on all credentials filtered by the provided tag. Activate
+// action will change the status to active, making it possible to connect calls with the credential.
+// Deactivate action will change the status to inactive, making it impossible to connect calls with
+// the credential.
+//
+// POST /actions/{action}/telephony_credentials
+func (c *Client) BulkCredentialAction(ctx context.Context, params BulkCredentialActionParams) (BulkCredentialActionRes, error) {
+	res, err := c.sendBulkCredentialAction(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendBulkCredentialAction(ctx context.Context, params BulkCredentialActionParams) (res BulkCredentialActionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/actions/"
+	{
+		// Encode "action" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "action",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(string(params.Action)))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/telephony_credentials"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[tag]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[tag]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterTag))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "BulkCredentialAction", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeBulkCredentialActionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateBulkTelephonyCredentials invokes CreateBulkTelephonyCredentials operation.
+//
+// Creates several credentials in bulk.
+//
+// POST /actions/bulk/telephony_credentials
+func (c *Client) CreateBulkTelephonyCredentials(ctx context.Context, request *BulkCredentialRequest) (CreateBulkTelephonyCredentialsRes, error) {
+	res, err := c.sendCreateBulkTelephonyCredentials(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateBulkTelephonyCredentials(ctx context.Context, request *BulkCredentialRequest) (res CreateBulkTelephonyCredentialsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/actions/bulk/telephony_credentials"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateBulkTelephonyCredentialsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateBulkTelephonyCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateBulkTelephonyCredentialsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateCallControlApplication invokes CreateCallControlApplication operation.
+//
+// Create a call control application.
+//
+// POST /call_control_applications
+func (c *Client) CreateCallControlApplication(ctx context.Context, request *CreateCallControlApplicationRequest) (CreateCallControlApplicationRes, error) {
+	res, err := c.sendCreateCallControlApplication(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateCallControlApplication(ctx context.Context, request *CreateCallControlApplicationRequest) (res CreateCallControlApplicationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/call_control_applications"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCallControlApplicationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateCallControlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateCallControlApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateFlashcallVerification invokes CreateFlashcallVerification operation.
 //
 // Trigger Flash call verification.
@@ -1155,6 +1676,335 @@ func (c *Client) sendCreateFlashcallVerification(ctx context.Context, request *C
 	defer resp.Body.Close()
 
 	result, err := decodeCreateFlashcallVerificationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateProfile invokes CreateProfile operation.
+//
+// Creates a Verified Calls Display Profile associated with the given Business Identity.
+//
+// POST /verified_calls_display_profiles
+func (c *Client) CreateProfile(ctx context.Context, request *CreateVerifiedCallsDisplayProfileRequest) (CreateProfileRes, error) {
+	res, err := c.sendCreateProfile(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateProfile(ctx context.Context, request *CreateVerifiedCallsDisplayProfileRequest) (res CreateProfileRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verified_calls_display_profiles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateProfileRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateProfileVerificationRequest invokes CreateProfileVerificationRequest operation.
+//
+// Starts a new Verified Calls Display Profile verification process.
+//
+// POST /verified_calls_display_profiles/{id}/verification_request
+func (c *Client) CreateProfileVerificationRequest(ctx context.Context, params CreateProfileVerificationRequestParams) (CreateProfileVerificationRequestRes, error) {
+	res, err := c.sendCreateProfileVerificationRequest(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendCreateProfileVerificationRequest(ctx context.Context, params CreateProfileVerificationRequestParams) (res CreateProfileVerificationRequestRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/verified_calls_display_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/verification_request"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateProfileVerificationRequest", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateProfileVerificationRequestResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateTelephonyCredential invokes CreateTelephonyCredential operation.
+//
+// Create a credential.
+//
+// POST /telephony_credentials
+func (c *Client) CreateTelephonyCredential(ctx context.Context, request *TelephonyCredentialCreateRequest) (CreateTelephonyCredentialRes, error) {
+	res, err := c.sendCreateTelephonyCredential(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateTelephonyCredential(ctx context.Context, request *TelephonyCredentialCreateRequest) (res CreateTelephonyCredentialRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/telephony_credentials"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateTelephonyCredentialRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateTelephonyCredential", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateTelephonyCredentialResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateTelephonyCredentialToken invokes CreateTelephonyCredentialToken operation.
+//
+// Create an Access Token (JWT) for the credential.
+//
+// POST /telephony_credentials/{id}/token
+func (c *Client) CreateTelephonyCredentialToken(ctx context.Context, params CreateTelephonyCredentialTokenParams) (CreateTelephonyCredentialTokenRes, error) {
+	res, err := c.sendCreateTelephonyCredentialToken(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendCreateTelephonyCredentialToken(ctx context.Context, params CreateTelephonyCredentialTokenParams) (res CreateTelephonyCredentialTokenRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/telephony_credentials/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/token"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateTelephonyCredentialToken", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateTelephonyCredentialTokenResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1624,6 +2474,93 @@ func (c *Client) sendCreateVerifyProfile(ctx context.Context, request *CreateVer
 	return result, nil
 }
 
+// DeleteCallControlApplication invokes DeleteCallControlApplication operation.
+//
+// Deletes a call control application.
+//
+// DELETE /call_control_applications/{id}
+func (c *Client) DeleteCallControlApplication(ctx context.Context, params DeleteCallControlApplicationParams) (DeleteCallControlApplicationRes, error) {
+	res, err := c.sendDeleteCallControlApplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteCallControlApplication(ctx context.Context, params DeleteCallControlApplicationParams) (res DeleteCallControlApplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/call_control_applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteCallControlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteCallControlApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // DeleteProfile invokes DeleteProfile operation.
 //
 // Delete Verify profile.
@@ -1925,6 +2862,179 @@ func (c *Client) sendDeleteTeXMLRecordingTranscription(ctx context.Context, para
 	return result, nil
 }
 
+// DeleteTelephonyCredential invokes DeleteTelephonyCredential operation.
+//
+// Delete an existing credential.
+//
+// DELETE /telephony_credentials/{id}
+func (c *Client) DeleteTelephonyCredential(ctx context.Context, params DeleteTelephonyCredentialParams) (DeleteTelephonyCredentialRes, error) {
+	res, err := c.sendDeleteTelephonyCredential(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteTelephonyCredential(ctx context.Context, params DeleteTelephonyCredentialParams) (res DeleteTelephonyCredentialRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/telephony_credentials/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteTelephonyCredential", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteTelephonyCredentialResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteTelephonyCredentials invokes DeleteTelephonyCredentials operation.
+//
+// Delete several credentials in bulk.
+//
+// DELETE /actions/bulk/telephony_credentials
+func (c *Client) DeleteTelephonyCredentials(ctx context.Context, params DeleteTelephonyCredentialsParams) (DeleteTelephonyCredentialsRes, error) {
+	res, err := c.sendDeleteTelephonyCredentials(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteTelephonyCredentials(ctx context.Context, params DeleteTelephonyCredentialsParams) (res DeleteTelephonyCredentialsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/actions/bulk/telephony_credentials"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[tag]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[tag]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterTag))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteTelephonyCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteTelephonyCredentialsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // DeleteTexmlApplication invokes DeleteTexmlApplication operation.
 //
 // Deletes a TeXML Application.
@@ -2130,6 +3240,95 @@ func (c *Client) sendDeleteTexmlConferenceParticipant(ctx context.Context, param
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteTexmlConferenceParticipantResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteVerifiedCallDisplayProfile invokes DeleteVerifiedCallDisplayProfile operation.
+//
+// Deletes the Verified Calls Display Profile. This action will fail if any verification requests
+// have been made for this Verified Calls Display Profile. Please contact support@telnyx.com in case
+// you want to delete a Verified Calls Display Profile in that situation.
+//
+// DELETE /verified_calls_display_profiles/{id}
+func (c *Client) DeleteVerifiedCallDisplayProfile(ctx context.Context, params DeleteVerifiedCallDisplayProfileParams) (DeleteVerifiedCallDisplayProfileRes, error) {
+	res, err := c.sendDeleteVerifiedCallDisplayProfile(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteVerifiedCallDisplayProfile(ctx context.Context, params DeleteVerifiedCallDisplayProfileParams) (res DeleteVerifiedCallDisplayProfileRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verified_calls_display_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteVerifiedCallDisplayProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteVerifiedCallDisplayProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2435,6 +3634,93 @@ func (c *Client) sendDialTexmlConferenceParticipant(ctx context.Context, request
 	return result, nil
 }
 
+// DisplayProfile invokes DisplayProfile operation.
+//
+// Display the Verified Calls Display Profile.
+//
+// GET /verified_calls_display_profiles/{id}
+func (c *Client) DisplayProfile(ctx context.Context, params DisplayProfileParams) (DisplayProfileRes, error) {
+	res, err := c.sendDisplayProfile(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDisplayProfile(ctx context.Context, params DisplayProfileParams) (res DisplayProfileRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verified_calls_display_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DisplayProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDisplayProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // EnqueueCall invokes EnqueueCall operation.
 //
 // Put the call in a queue.
@@ -2733,6 +4019,197 @@ func (c *Client) sendFetchTeXMLConferenceRecordings(ctx context.Context, params 
 	defer resp.Body.Close()
 
 	result, err := decodeFetchTeXMLConferenceRecordingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// FindTelephonyCredentials invokes FindTelephonyCredentials operation.
+//
+// List all On-demand Credentials.
+//
+// GET /telephony_credentials
+func (c *Client) FindTelephonyCredentials(ctx context.Context, params FindTelephonyCredentialsParams) (FindTelephonyCredentialsRes, error) {
+	res, err := c.sendFindTelephonyCredentials(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendFindTelephonyCredentials(ctx context.Context, params FindTelephonyCredentialsParams) (res FindTelephonyCredentialsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/telephony_credentials"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[tag]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[tag]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterTag.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[name]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterName.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[resource_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[resource_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterResourceID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[sip_username]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[sip_username]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterSipUsername.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "FindTelephonyCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeFindTelephonyCredentialsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3674,6 +5151,93 @@ func (c *Client) sendGetTeXMLRecordingTranscriptions(ctx context.Context, params
 	defer resp.Body.Close()
 
 	result, err := decodeGetTeXMLRecordingTranscriptionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetTelephonyCredential invokes GetTelephonyCredential operation.
+//
+// Get the details of an existing On-demand Credential.
+//
+// GET /telephony_credentials/{id}
+func (c *Client) GetTelephonyCredential(ctx context.Context, params GetTelephonyCredentialParams) (GetTelephonyCredentialRes, error) {
+	res, err := c.sendGetTelephonyCredential(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetTelephonyCredential(ctx context.Context, params GetTelephonyCredentialParams) (res GetTelephonyCredentialRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/telephony_credentials/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetTelephonyCredential", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetTelephonyCredentialResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5305,6 +6869,75 @@ func (c *Client) sendGetUsageReports(ctx context.Context, params GetUsageReports
 	return result, nil
 }
 
+// GetUserBalance invokes GetUserBalance operation.
+//
+// Get user balance details.
+//
+// GET /balance
+func (c *Client) GetUserBalance(ctx context.Context) (GetUserBalanceRes, error) {
+	res, err := c.sendGetUserBalance(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetUserBalance(ctx context.Context) (res GetUserBalanceRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/balance"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetUserBalance", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetUserBalanceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetVerifiedNumber invokes GetVerifiedNumber operation.
 //
 // Retrieve a verified number.
@@ -5472,6 +7105,93 @@ func (c *Client) sendGetVerifyProfile(ctx context.Context, params GetVerifyProfi
 	defer resp.Body.Close()
 
 	result, err := decodeGetVerifyProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetWebhookDelivery invokes GetWebhookDelivery operation.
+//
+// Provides webhook_delivery debug data, such as timestamps, delivery status and attempts.
+//
+// GET /webhook_deliveries/{id}
+func (c *Client) GetWebhookDelivery(ctx context.Context, params GetWebhookDeliveryParams) (GetWebhookDeliveryRes, error) {
+	res, err := c.sendGetWebhookDelivery(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetWebhookDelivery(ctx context.Context, params GetWebhookDeliveryParams) (res GetWebhookDeliveryRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/webhook_deliveries/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetWebhookDelivery", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetWebhookDeliveryResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5865,6 +7585,306 @@ func (c *Client) sendLeaveQueue(ctx context.Context, request *LeaveQueueRequest,
 	return result, nil
 }
 
+// ListCallControlApplications invokes ListCallControlApplications operation.
+//
+// Return a list of call control applications.
+//
+// GET /call_control_applications
+func (c *Client) ListCallControlApplications(ctx context.Context, params ListCallControlApplicationsParams) (ListCallControlApplicationsRes, error) {
+	res, err := c.sendListCallControlApplications(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListCallControlApplications(ctx context.Context, params ListCallControlApplicationsParams) (res ListCallControlApplicationsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/call_control_applications"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[application_name][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[application_name][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterApplicationNameContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[outbound_voice_profile_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[outbound_voice_profile_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterOutboundVoiceProfileID.Get(); ok {
+				return e.EncodeValue(conv.StringInt64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Sort.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListCallControlApplications", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListCallControlApplicationsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListConnectionActiveCalls invokes ListConnectionActiveCalls operation.
+//
+// Lists all active calls for given connection. Acceptable connections are either SIP connections
+// with webhook_url or xml_request_url, call control or texml. Returned results are cursor paginated.
+//
+// GET /connections/{connection_id}/active_calls
+func (c *Client) ListConnectionActiveCalls(ctx context.Context, params ListConnectionActiveCallsParams) (ListConnectionActiveCallsRes, error) {
+	res, err := c.sendListConnectionActiveCalls(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListConnectionActiveCalls(ctx context.Context, params ListConnectionActiveCallsParams) (res ListConnectionActiveCallsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/connections/"
+	{
+		// Encode "connection_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "connection_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ConnectionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/active_calls"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[limit]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[limit]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageLimit.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[after]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[after]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageAfter.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[before]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[before]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageBefore.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListConnectionActiveCalls", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListConnectionActiveCallsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
 //
 // List all Verify profile message templates.
@@ -6182,6 +8202,112 @@ func (c *Client) sendListQueueCalls(ctx context.Context, params ListQueueCallsPa
 	return result, nil
 }
 
+// ListTags invokes ListTags operation.
+//
+// Returns a list of tags used on Credentials.
+//
+// GET /telephony_credentials/tags
+func (c *Client) ListTags(ctx context.Context, params ListTagsParams) (ListTagsRes, error) {
+	res, err := c.sendListTags(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListTags(ctx context.Context, params ListTagsParams) (res ListTagsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/telephony_credentials/tags"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListTags", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListTagsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListUsageReportsOptions invokes ListUsageReportsOptions operation.
 //
 // Get the Usage Reports options for querying usage, including the products available and their
@@ -6352,6 +8478,112 @@ func (c *Client) sendListVerifications(ctx context.Context, params ListVerificat
 	defer resp.Body.Close()
 
 	result, err := decodeListVerificationsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListVerifiedCallDisplayProfiles invokes ListVerifiedCallDisplayProfiles operation.
+//
+// Lists the Verified Calls Display Profiles owned by the current user/organization.
+//
+// GET /verified_calls_display_profiles
+func (c *Client) ListVerifiedCallDisplayProfiles(ctx context.Context, params ListVerifiedCallDisplayProfilesParams) (ListVerifiedCallDisplayProfilesRes, error) {
+	res, err := c.sendListVerifiedCallDisplayProfiles(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListVerifiedCallDisplayProfiles(ctx context.Context, params ListVerifiedCallDisplayProfilesParams) (res ListVerifiedCallDisplayProfilesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verified_calls_display_profiles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListVerifiedCallDisplayProfiles", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListVerifiedCallDisplayProfilesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6742,6 +8974,114 @@ func (c *Client) sendPauseCallRecording(ctx context.Context, request *PauseRecor
 	defer resp.Body.Close()
 
 	result, err := decodePauseCallRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PerformCredentialAction invokes PerformCredentialAction operation.
+//
+// Perform activate or deactivate action on provided Credential. Activate action will change the
+// status to active, making it possible to connect calls with the credential. Deactivate action will
+// change the status to inactive, making it impossible to connect calls with the credential.
+//
+// POST /telephony_credentials/{id}/actions/{action}
+func (c *Client) PerformCredentialAction(ctx context.Context, params PerformCredentialActionParams) (PerformCredentialActionRes, error) {
+	res, err := c.sendPerformCredentialAction(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendPerformCredentialAction(ctx context.Context, params PerformCredentialActionParams) (res PerformCredentialActionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/telephony_credentials/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/actions/"
+	{
+		// Encode "action" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "action",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(string(params.Action)))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PerformCredentialAction", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePerformCredentialActionResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -7276,6 +9616,93 @@ func (c *Client) sendResumeCallRecording(ctx context.Context, request *ResumeRec
 	defer resp.Body.Close()
 
 	result, err := decodeResumeCallRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveCallControlApplication invokes RetrieveCallControlApplication operation.
+//
+// Retrieves the details of an existing call control application.
+//
+// GET /call_control_applications/{id}
+func (c *Client) RetrieveCallControlApplication(ctx context.Context, params RetrieveCallControlApplicationParams) (RetrieveCallControlApplicationRes, error) {
+	res, err := c.sendRetrieveCallControlApplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveCallControlApplication(ctx context.Context, params RetrieveCallControlApplicationParams) (res RetrieveCallControlApplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/call_control_applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveCallControlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveCallControlApplicationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9274,6 +11701,194 @@ func (c *Client) sendTransferCall(ctx context.Context, request *TransferCallRequ
 	return result, nil
 }
 
+// UpdateBulkTelephonyCredential invokes UpdateBulkTelephonyCredential operation.
+//
+// Update several credentials in bulk.
+//
+// PATCH /actions/bulk/telephony_credentials
+func (c *Client) UpdateBulkTelephonyCredential(ctx context.Context, request *BulkCredentialRequest, params UpdateBulkTelephonyCredentialParams) (UpdateBulkTelephonyCredentialRes, error) {
+	res, err := c.sendUpdateBulkTelephonyCredential(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateBulkTelephonyCredential(ctx context.Context, request *BulkCredentialRequest, params UpdateBulkTelephonyCredentialParams) (res UpdateBulkTelephonyCredentialRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/actions/bulk/telephony_credentials"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[tag]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[tag]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterTag))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateBulkTelephonyCredentialRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateBulkTelephonyCredential", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateBulkTelephonyCredentialResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateCallControlApplication invokes UpdateCallControlApplication operation.
+//
+// Updates settings of an existing call control application.
+//
+// PATCH /call_control_applications/{id}
+func (c *Client) UpdateCallControlApplication(ctx context.Context, request *UpdateCallControlApplicationRequest, params UpdateCallControlApplicationParams) (UpdateCallControlApplicationRes, error) {
+	res, err := c.sendUpdateCallControlApplication(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateCallControlApplication(ctx context.Context, request *UpdateCallControlApplicationRequest, params UpdateCallControlApplicationParams) (res UpdateCallControlApplicationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/call_control_applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateCallControlApplicationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateCallControlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateCallControlApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateClientState invokes UpdateClientState operation.
 //
 // Updates client state.
@@ -9358,6 +11973,112 @@ func (c *Client) sendUpdateClientState(ctx context.Context, request *ClientState
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateClientStateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateProfile invokes UpdateProfile operation.
+//
+// Update an existing Verified Calls Display Profile and allows adding/removing nested Call Reasons
+// and Phone Numbers. Different attributes can be updated depending on the Verified Calls Display
+// Profile's status: For the VERIFICATION_STATE_PENDING status, no fields can be updated. For the
+// VERIFICATION_STATE_VERIFIED status, it is allowed only to add/remove Call Reaons and Phone Numbers.
+//
+//	For the other statuses, all fields can be updated. All existing Call Reasons and Phone Numbers
+//
+// must be sent during the request, or the update will fail.
+//
+// PATCH /verified_calls_display_profiles/{id}
+func (c *Client) UpdateProfile(ctx context.Context, request *UpdateVerifiedCallsDisplayProfileRequest, params UpdateProfileParams) (UpdateProfileRes, error) {
+	res, err := c.sendUpdateProfile(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateProfile(ctx context.Context, request *UpdateVerifiedCallsDisplayProfileRequest, params UpdateProfileParams) (res UpdateProfileRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verified_calls_display_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateProfileRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9503,6 +12224,96 @@ func (c *Client) sendUpdateTeXMLCallRecording(ctx context.Context, request OptTe
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateTeXMLCallRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateTelephonyCredential invokes UpdateTelephonyCredential operation.
+//
+// Update an existing credential.
+//
+// PATCH /telephony_credentials/{id}
+func (c *Client) UpdateTelephonyCredential(ctx context.Context, request *TelephonyCredentialUpdateRequest, params UpdateTelephonyCredentialParams) (UpdateTelephonyCredentialRes, error) {
+	res, err := c.sendUpdateTelephonyCredential(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateTelephonyCredential(ctx context.Context, request *TelephonyCredentialUpdateRequest, params UpdateTelephonyCredentialParams) (res UpdateTelephonyCredentialRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/telephony_credentials/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateTelephonyCredentialRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateTelephonyCredential", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateTelephonyCredentialResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

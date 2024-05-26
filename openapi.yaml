@@ -19347,11 +19347,6 @@ paths:
             product=wireless:
               value: wireless
               summary: Specify a product if you know what you're looking for
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-            description: Authenticates the request with your Telnyx API V2 KEY
       responses:
         '200':
           description: Successful
@@ -21484,7 +21479,6 @@ components:
         Requires at least three characters.
       schema:
         type: string
-        default: null
     FilterBasicStatusLifecycle:
       name: filter[status]
       description: Filter by a specific status of the resource's lifecycle.
@@ -29690,7 +29684,6 @@ components:
             When set, this will limit the total number of inbound calls to phone
             numbers associated with this connection.
           example: 10
-          default: null
         shaken_stir_enabled:
           type: boolean
           description: >-
@@ -29709,7 +29702,6 @@ components:
             alphanumeric value. Please note TLS encrypted calls are not allowed
             for subdomain calls.
           example: example
-          default: null
         sip_subdomain_receive_settings:
           type: string
           description: >-
@@ -29731,7 +29723,6 @@ components:
             When set, this will limit the total number of outbound calls to
             phone numbers associated with this connection.
           example: 10
-          default: null
         outbound_voice_profile_id:
           type: string
           format: int64
@@ -61961,6 +61952,7 @@ components:
       example: IL
     attempt:
       description: Webhook delivery attempt details.
+      type: object
       properties:
         status:
           type: string
@@ -62276,6 +62268,7 @@ components:
       example: true
       default: true
     webhook_delivery:
+      type: object
       description: Record of all attempts to deliver a webhook.
       properties:
         id:

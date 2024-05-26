@@ -5,12 +5,44 @@ type AnswerCallRes interface {
 	answerCallRes()
 }
 
+type AudioPublicAudioTranscriptionsPostRes interface {
+	audioPublicAudioTranscriptionsPostRes()
+}
+
 type BridgeCallRes interface {
 	bridgeCallRes()
 }
 
+type BulkCredentialActionRes interface {
+	bulkCredentialActionRes()
+}
+
+type CreateBulkTelephonyCredentialsRes interface {
+	createBulkTelephonyCredentialsRes()
+}
+
+type CreateCallControlApplicationRes interface {
+	createCallControlApplicationRes()
+}
+
 type CreateFlashcallVerificationRes interface {
 	createFlashcallVerificationRes()
+}
+
+type CreateProfileRes interface {
+	createProfileRes()
+}
+
+type CreateProfileVerificationRequestRes interface {
+	createProfileVerificationRequestRes()
+}
+
+type CreateTelephonyCredentialRes interface {
+	createTelephonyCredentialRes()
+}
+
+type CreateTelephonyCredentialTokenRes interface {
+	createTelephonyCredentialTokenRes()
 }
 
 type CreateTexmlApplicationRes interface {
@@ -37,6 +69,10 @@ type CreateVerifyProfileRes interface {
 	createVerifyProfileRes()
 }
 
+type DeleteCallControlApplicationRes interface {
+	deleteCallControlApplicationRes()
+}
+
 type DeleteProfileRes interface {
 	deleteProfileRes()
 }
@@ -49,12 +85,24 @@ type DeleteTeXMLRecordingTranscriptionRes interface {
 	deleteTeXMLRecordingTranscriptionRes()
 }
 
+type DeleteTelephonyCredentialRes interface {
+	deleteTelephonyCredentialRes()
+}
+
+type DeleteTelephonyCredentialsRes interface {
+	deleteTelephonyCredentialsRes()
+}
+
 type DeleteTexmlApplicationRes interface {
 	deleteTexmlApplicationRes()
 }
 
 type DeleteTexmlConferenceParticipantRes interface {
 	deleteTexmlConferenceParticipantRes()
+}
+
+type DeleteVerifiedCallDisplayProfileRes interface {
+	deleteVerifiedCallDisplayProfileRes()
 }
 
 type DeleteVerifiedNumberRes interface {
@@ -69,6 +117,10 @@ type DialTexmlConferenceParticipantRes interface {
 	dialTexmlConferenceParticipantRes()
 }
 
+type DisplayProfileRes interface {
+	displayProfileRes()
+}
+
 type EnqueueCallRes interface {
 	enqueueCallRes()
 }
@@ -79,6 +131,10 @@ type FetchTeXMLCallRecordingsRes interface {
 
 type FetchTeXMLConferenceRecordingsRes interface {
 	fetchTeXMLConferenceRecordingsRes()
+}
+
+type FindTelephonyCredentialsRes interface {
+	findTelephonyCredentialsRes()
 }
 
 type FindTexmlApplicationsRes interface {
@@ -111,6 +167,10 @@ type GetTeXMLRecordingTranscriptionRes interface {
 
 type GetTeXMLRecordingTranscriptionsRes interface {
 	getTeXMLRecordingTranscriptionsRes()
+}
+
+type GetTelephonyCredentialRes interface {
+	getTelephonyCredentialRes()
 }
 
 type GetTexmlApplicationRes interface {
@@ -149,12 +209,20 @@ type GetUsageReportByApplicationRes interface {
 	getUsageReportByApplicationRes()
 }
 
+type GetUserBalanceRes interface {
+	getUserBalanceRes()
+}
+
 type GetVerifiedNumberRes interface {
 	getVerifiedNumberRes()
 }
 
 type GetVerifyProfileRes interface {
 	getVerifyProfileRes()
+}
+
+type GetWebhookDeliveryRes interface {
+	getWebhookDeliveryRes()
 }
 
 type HangupCallRes interface {
@@ -165,6 +233,14 @@ type LeaveQueueRes interface {
 	leaveQueueRes()
 }
 
+type ListCallControlApplicationsRes interface {
+	listCallControlApplicationsRes()
+}
+
+type ListConnectionActiveCallsRes interface {
+	listConnectionActiveCallsRes()
+}
+
 type ListProfilesRes interface {
 	listProfilesRes()
 }
@@ -173,12 +249,20 @@ type ListQueueCallsRes interface {
 	listQueueCallsRes()
 }
 
+type ListTagsRes interface {
+	listTagsRes()
+}
+
 type ListUsageReportsOptionsRes interface {
 	listUsageReportsOptionsRes()
 }
 
 type ListVerificationsRes interface {
 	listVerificationsRes()
+}
+
+type ListVerifiedCallDisplayProfilesRes interface {
+	listVerifiedCallDisplayProfilesRes()
 }
 
 type ListVerifiedNumbersRes interface {
@@ -197,6 +281,10 @@ type PauseCallRecordingRes interface {
 	pauseCallRecordingRes()
 }
 
+type PerformCredentialActionRes interface {
+	performCredentialActionRes()
+}
+
 type ReferCallRes interface {
 	referCallRes()
 }
@@ -211,6 +299,10 @@ type RejectCallRes interface {
 
 type ResumeCallRecordingRes interface {
 	resumeCallRecordingRes()
+}
+
+type RetrieveCallControlApplicationRes interface {
+	retrieveCallControlApplicationRes()
 }
 
 type RetrieveCallFromQueueRes interface {
@@ -285,12 +377,28 @@ type TransferCallRes interface {
 	transferCallRes()
 }
 
+type UpdateBulkTelephonyCredentialRes interface {
+	updateBulkTelephonyCredentialRes()
+}
+
+type UpdateCallControlApplicationRes interface {
+	updateCallControlApplicationRes()
+}
+
 type UpdateClientStateRes interface {
 	updateClientStateRes()
 }
 
+type UpdateProfileRes interface {
+	updateProfileRes()
+}
+
 type UpdateTeXMLCallRecordingRes interface {
 	updateTeXMLCallRecordingRes()
+}
+
+type UpdateTelephonyCredentialRes interface {
+	updateTelephonyCredentialRes()
 }
 
 type UpdateTexmlApplicationRes interface {

@@ -10,9 +10,149 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+
+	ht "github.com/ogen-go/ogen/http"
 )
 
 type AccountSid string
+
+// Ref: #/components/schemas/ActiveCall
+type ActiveCall struct {
+	RecordType ActiveCallRecordType `json:"record_type"`
+	// ID that is unique to the call session and can be used to correlate webhook events. Call session is
+	// a group of related call legs that logically belong to the same phone call, e.g. an inbound and
+	// outbound leg of a transferred call.
+	CallSessionID string `json:"call_session_id"`
+	// ID that is unique to the call and can be used to correlate webhook events.
+	CallLegID string `json:"call_leg_id"`
+	// Unique identifier and token for controlling the call.
+	CallControlID string `json:"call_control_id"`
+	// State received from a command.
+	ClientState string `json:"client_state"`
+	// Indicates the duration of the call in seconds.
+	CallDuration int `json:"call_duration"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *ActiveCall) GetRecordType() ActiveCallRecordType {
+	return s.RecordType
+}
+
+// GetCallSessionID returns the value of CallSessionID.
+func (s *ActiveCall) GetCallSessionID() string {
+	return s.CallSessionID
+}
+
+// GetCallLegID returns the value of CallLegID.
+func (s *ActiveCall) GetCallLegID() string {
+	return s.CallLegID
+}
+
+// GetCallControlID returns the value of CallControlID.
+func (s *ActiveCall) GetCallControlID() string {
+	return s.CallControlID
+}
+
+// GetClientState returns the value of ClientState.
+func (s *ActiveCall) GetClientState() string {
+	return s.ClientState
+}
+
+// GetCallDuration returns the value of CallDuration.
+func (s *ActiveCall) GetCallDuration() int {
+	return s.CallDuration
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *ActiveCall) SetRecordType(val ActiveCallRecordType) {
+	s.RecordType = val
+}
+
+// SetCallSessionID sets the value of CallSessionID.
+func (s *ActiveCall) SetCallSessionID(val string) {
+	s.CallSessionID = val
+}
+
+// SetCallLegID sets the value of CallLegID.
+func (s *ActiveCall) SetCallLegID(val string) {
+	s.CallLegID = val
+}
+
+// SetCallControlID sets the value of CallControlID.
+func (s *ActiveCall) SetCallControlID(val string) {
+	s.CallControlID = val
+}
+
+// SetClientState sets the value of ClientState.
+func (s *ActiveCall) SetClientState(val string) {
+	s.ClientState = val
+}
+
+// SetCallDuration sets the value of CallDuration.
+func (s *ActiveCall) SetCallDuration(val int) {
+	s.CallDuration = val
+}
+
+type ActiveCallRecordType string
+
+const (
+	ActiveCallRecordTypeCall ActiveCallRecordType = "call"
+)
+
+// AllValues returns all ActiveCallRecordType values.
+func (ActiveCallRecordType) AllValues() []ActiveCallRecordType {
+	return []ActiveCallRecordType{
+		ActiveCallRecordTypeCall,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ActiveCallRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case ActiveCallRecordTypeCall:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ActiveCallRecordType) UnmarshalText(data []byte) error {
+	switch ActiveCallRecordType(data) {
+	case ActiveCallRecordTypeCall:
+		*s = ActiveCallRecordTypeCall
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ActiveCallsResponse struct {
+	Data []ActiveCall            `json:"data"`
+	Meta OptCursorPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ActiveCallsResponse) GetData() []ActiveCall {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ActiveCallsResponse) GetMeta() OptCursorPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ActiveCallsResponse) SetData(val []ActiveCall) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ActiveCallsResponse) SetMeta(val OptCursorPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ActiveCallsResponse) listConnectionActiveCallsRes() {}
 
 // `Latency` directs Telnyx to route media through the site with the lowest round-trip time to the
 // user's connection. Telnyx calculates this time using ICMP ping messages. This can be disabled by
@@ -393,6 +533,373 @@ func (s *AnswerRequestWebhookURLMethod) UnmarshalText(data []byte) error {
 
 type ApplicationName string
 
+// Webhook delivery attempt details.
+// Ref: #/components/schemas/attempt
+type Attempt struct {
+	Status OptAttemptStatus `json:"status"`
+	// ISO 8601 timestamp indicating when the attempt was initiated.
+	StartedAt OptDateTime `json:"started_at"`
+	// ISO 8601 timestamp indicating when the attempt has finished.
+	FinishedAt OptDateTime `json:"finished_at"`
+	HTTP       HTTP        `json:"http"`
+	// Webhook delivery error codes.
+	Errors []int `json:"errors"`
+}
+
+// GetStatus returns the value of Status.
+func (s *Attempt) GetStatus() OptAttemptStatus {
+	return s.Status
+}
+
+// GetStartedAt returns the value of StartedAt.
+func (s *Attempt) GetStartedAt() OptDateTime {
+	return s.StartedAt
+}
+
+// GetFinishedAt returns the value of FinishedAt.
+func (s *Attempt) GetFinishedAt() OptDateTime {
+	return s.FinishedAt
+}
+
+// GetHTTP returns the value of HTTP.
+func (s *Attempt) GetHTTP() HTTP {
+	return s.HTTP
+}
+
+// GetErrors returns the value of Errors.
+func (s *Attempt) GetErrors() []int {
+	return s.Errors
+}
+
+// SetStatus sets the value of Status.
+func (s *Attempt) SetStatus(val OptAttemptStatus) {
+	s.Status = val
+}
+
+// SetStartedAt sets the value of StartedAt.
+func (s *Attempt) SetStartedAt(val OptDateTime) {
+	s.StartedAt = val
+}
+
+// SetFinishedAt sets the value of FinishedAt.
+func (s *Attempt) SetFinishedAt(val OptDateTime) {
+	s.FinishedAt = val
+}
+
+// SetHTTP sets the value of HTTP.
+func (s *Attempt) SetHTTP(val HTTP) {
+	s.HTTP = val
+}
+
+// SetErrors sets the value of Errors.
+func (s *Attempt) SetErrors(val []int) {
+	s.Errors = val
+}
+
+type AttemptStatus string
+
+const (
+	AttemptStatusDelivered AttemptStatus = "delivered"
+	AttemptStatusFailed    AttemptStatus = "failed"
+)
+
+// AllValues returns all AttemptStatus values.
+func (AttemptStatus) AllValues() []AttemptStatus {
+	return []AttemptStatus{
+		AttemptStatusDelivered,
+		AttemptStatusFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AttemptStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case AttemptStatusDelivered:
+		return []byte(s), nil
+	case AttemptStatusFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AttemptStatus) UnmarshalText(data []byte) error {
+	switch AttemptStatus(data) {
+	case AttemptStatusDelivered:
+		*s = AttemptStatusDelivered
+		return nil
+	case AttemptStatusFailed:
+		*s = AttemptStatusFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/AudioTranscriptionRequest
+type AudioTranscriptionRequestMultipart struct {
+	// The audio file object to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg,
+	//  wav, or webm. File uploads are limited to 100 MB.
+	File ht.MultipartFile `json:"file"`
+	// ID of the model to use. Only `distil-whisper/distil-large-v2` is currently available.
+	Model AudioTranscriptionRequestMultipartModel `json:"model"`
+	// The format of the transcript output. Use `verbose_json` to take advantage of timestamps.
+	ResponseFormat OptAudioTranscriptionRequestMultipartResponseFormat `json:"response_format"`
+	// The timestamp granularities to populate for this transcription. `response_format` must be set
+	// verbose_json to use timestamp granularities. Currently `segment` is supported.
+	TimestampGranularities OptAudioTranscriptionRequestMultipartTimestampGranularities `json:"timestamp_granularities[]"`
+}
+
+// GetFile returns the value of File.
+func (s *AudioTranscriptionRequestMultipart) GetFile() ht.MultipartFile {
+	return s.File
+}
+
+// GetModel returns the value of Model.
+func (s *AudioTranscriptionRequestMultipart) GetModel() AudioTranscriptionRequestMultipartModel {
+	return s.Model
+}
+
+// GetResponseFormat returns the value of ResponseFormat.
+func (s *AudioTranscriptionRequestMultipart) GetResponseFormat() OptAudioTranscriptionRequestMultipartResponseFormat {
+	return s.ResponseFormat
+}
+
+// GetTimestampGranularities returns the value of TimestampGranularities.
+func (s *AudioTranscriptionRequestMultipart) GetTimestampGranularities() OptAudioTranscriptionRequestMultipartTimestampGranularities {
+	return s.TimestampGranularities
+}
+
+// SetFile sets the value of File.
+func (s *AudioTranscriptionRequestMultipart) SetFile(val ht.MultipartFile) {
+	s.File = val
+}
+
+// SetModel sets the value of Model.
+func (s *AudioTranscriptionRequestMultipart) SetModel(val AudioTranscriptionRequestMultipartModel) {
+	s.Model = val
+}
+
+// SetResponseFormat sets the value of ResponseFormat.
+func (s *AudioTranscriptionRequestMultipart) SetResponseFormat(val OptAudioTranscriptionRequestMultipartResponseFormat) {
+	s.ResponseFormat = val
+}
+
+// SetTimestampGranularities sets the value of TimestampGranularities.
+func (s *AudioTranscriptionRequestMultipart) SetTimestampGranularities(val OptAudioTranscriptionRequestMultipartTimestampGranularities) {
+	s.TimestampGranularities = val
+}
+
+// ID of the model to use. Only `distil-whisper/distil-large-v2` is currently available.
+type AudioTranscriptionRequestMultipartModel string
+
+const (
+	AudioTranscriptionRequestMultipartModelDistilWhisperDistilLargeV2 AudioTranscriptionRequestMultipartModel = "distil-whisper/distil-large-v2"
+)
+
+// AllValues returns all AudioTranscriptionRequestMultipartModel values.
+func (AudioTranscriptionRequestMultipartModel) AllValues() []AudioTranscriptionRequestMultipartModel {
+	return []AudioTranscriptionRequestMultipartModel{
+		AudioTranscriptionRequestMultipartModelDistilWhisperDistilLargeV2,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AudioTranscriptionRequestMultipartModel) MarshalText() ([]byte, error) {
+	switch s {
+	case AudioTranscriptionRequestMultipartModelDistilWhisperDistilLargeV2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AudioTranscriptionRequestMultipartModel) UnmarshalText(data []byte) error {
+	switch AudioTranscriptionRequestMultipartModel(data) {
+	case AudioTranscriptionRequestMultipartModelDistilWhisperDistilLargeV2:
+		*s = AudioTranscriptionRequestMultipartModelDistilWhisperDistilLargeV2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The format of the transcript output. Use `verbose_json` to take advantage of timestamps.
+type AudioTranscriptionRequestMultipartResponseFormat string
+
+const (
+	AudioTranscriptionRequestMultipartResponseFormatJSON        AudioTranscriptionRequestMultipartResponseFormat = "json"
+	AudioTranscriptionRequestMultipartResponseFormatVerboseJSON AudioTranscriptionRequestMultipartResponseFormat = "verbose_json"
+)
+
+// AllValues returns all AudioTranscriptionRequestMultipartResponseFormat values.
+func (AudioTranscriptionRequestMultipartResponseFormat) AllValues() []AudioTranscriptionRequestMultipartResponseFormat {
+	return []AudioTranscriptionRequestMultipartResponseFormat{
+		AudioTranscriptionRequestMultipartResponseFormatJSON,
+		AudioTranscriptionRequestMultipartResponseFormatVerboseJSON,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AudioTranscriptionRequestMultipartResponseFormat) MarshalText() ([]byte, error) {
+	switch s {
+	case AudioTranscriptionRequestMultipartResponseFormatJSON:
+		return []byte(s), nil
+	case AudioTranscriptionRequestMultipartResponseFormatVerboseJSON:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AudioTranscriptionRequestMultipartResponseFormat) UnmarshalText(data []byte) error {
+	switch AudioTranscriptionRequestMultipartResponseFormat(data) {
+	case AudioTranscriptionRequestMultipartResponseFormatJSON:
+		*s = AudioTranscriptionRequestMultipartResponseFormatJSON
+		return nil
+	case AudioTranscriptionRequestMultipartResponseFormatVerboseJSON:
+		*s = AudioTranscriptionRequestMultipartResponseFormatVerboseJSON
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The timestamp granularities to populate for this transcription. `response_format` must be set
+// verbose_json to use timestamp granularities. Currently `segment` is supported.
+type AudioTranscriptionRequestMultipartTimestampGranularities string
+
+const (
+	AudioTranscriptionRequestMultipartTimestampGranularitiesSegment AudioTranscriptionRequestMultipartTimestampGranularities = "segment"
+)
+
+// AllValues returns all AudioTranscriptionRequestMultipartTimestampGranularities values.
+func (AudioTranscriptionRequestMultipartTimestampGranularities) AllValues() []AudioTranscriptionRequestMultipartTimestampGranularities {
+	return []AudioTranscriptionRequestMultipartTimestampGranularities{
+		AudioTranscriptionRequestMultipartTimestampGranularitiesSegment,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AudioTranscriptionRequestMultipartTimestampGranularities) MarshalText() ([]byte, error) {
+	switch s {
+	case AudioTranscriptionRequestMultipartTimestampGranularitiesSegment:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AudioTranscriptionRequestMultipartTimestampGranularities) UnmarshalText(data []byte) error {
+	switch AudioTranscriptionRequestMultipartTimestampGranularities(data) {
+	case AudioTranscriptionRequestMultipartTimestampGranularitiesSegment:
+		*s = AudioTranscriptionRequestMultipartTimestampGranularitiesSegment
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/AudioTranscriptionResponse
+type AudioTranscriptionResponse struct {
+	// The transcribed text for the audio file.
+	Text string `json:"text"`
+	// The duration of the audio file in seconds. This is only included if `response_format` is set to
+	// `verbose_json`.
+	Duration OptFloat64 `json:"duration"`
+	// Segments of the transcribed text and their corresponding details. This is only included if
+	// `response_format` is set to `verbose_json`.
+	Segments []AudioTranscriptionResponseSegments `json:"segments"`
+}
+
+// GetText returns the value of Text.
+func (s *AudioTranscriptionResponse) GetText() string {
+	return s.Text
+}
+
+// GetDuration returns the value of Duration.
+func (s *AudioTranscriptionResponse) GetDuration() OptFloat64 {
+	return s.Duration
+}
+
+// GetSegments returns the value of Segments.
+func (s *AudioTranscriptionResponse) GetSegments() []AudioTranscriptionResponseSegments {
+	return s.Segments
+}
+
+// SetText sets the value of Text.
+func (s *AudioTranscriptionResponse) SetText(val string) {
+	s.Text = val
+}
+
+// SetDuration sets the value of Duration.
+func (s *AudioTranscriptionResponse) SetDuration(val OptFloat64) {
+	s.Duration = val
+}
+
+// SetSegments sets the value of Segments.
+func (s *AudioTranscriptionResponse) SetSegments(val []AudioTranscriptionResponseSegments) {
+	s.Segments = val
+}
+
+func (*AudioTranscriptionResponse) audioPublicAudioTranscriptionsPostRes() {}
+
+// Ref: #/components/schemas/AudioTranscriptionResponseSegments
+type AudioTranscriptionResponseSegments struct {
+	// Unique identifier of the segment.
+	ID float64 `json:"id"`
+	// Start time of the segment in seconds.
+	Start float64 `json:"start"`
+	// End time of the segment in seconds.
+	End float64 `json:"end"`
+	// Text content of the segment.
+	Text string `json:"text"`
+}
+
+// GetID returns the value of ID.
+func (s *AudioTranscriptionResponseSegments) GetID() float64 {
+	return s.ID
+}
+
+// GetStart returns the value of Start.
+func (s *AudioTranscriptionResponseSegments) GetStart() float64 {
+	return s.Start
+}
+
+// GetEnd returns the value of End.
+func (s *AudioTranscriptionResponseSegments) GetEnd() float64 {
+	return s.End
+}
+
+// GetText returns the value of Text.
+func (s *AudioTranscriptionResponseSegments) GetText() string {
+	return s.Text
+}
+
+// SetID sets the value of ID.
+func (s *AudioTranscriptionResponseSegments) SetID(val float64) {
+	s.ID = val
+}
+
+// SetStart sets the value of Start.
+func (s *AudioTranscriptionResponseSegments) SetStart(val float64) {
+	s.Start = val
+}
+
+// SetEnd sets the value of End.
+func (s *AudioTranscriptionResponseSegments) SetEnd(val float64) {
+	s.End = val
+}
+
+// SetText sets the value of Text.
+func (s *AudioTranscriptionResponseSegments) SetText(val string) {
+	s.Text = val
+}
+
 type BearerAuth struct {
 	Token string
 }
@@ -517,6 +1024,148 @@ func (s *BridgeRequest) SetPlayRingtone(val OptBool) {
 	s.PlayRingtone = val
 }
 
+type BulkCredentialActionAction string
+
+const (
+	BulkCredentialActionActionActivate   BulkCredentialActionAction = "activate"
+	BulkCredentialActionActionDeactivate BulkCredentialActionAction = "deactivate"
+)
+
+// AllValues returns all BulkCredentialActionAction values.
+func (BulkCredentialActionAction) AllValues() []BulkCredentialActionAction {
+	return []BulkCredentialActionAction{
+		BulkCredentialActionActionActivate,
+		BulkCredentialActionActionDeactivate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BulkCredentialActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case BulkCredentialActionActionActivate:
+		return []byte(s), nil
+	case BulkCredentialActionActionDeactivate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BulkCredentialActionAction) UnmarshalText(data []byte) error {
+	switch BulkCredentialActionAction(data) {
+	case BulkCredentialActionActionActivate:
+		*s = BulkCredentialActionActionActivate
+		return nil
+	case BulkCredentialActionActionDeactivate:
+		*s = BulkCredentialActionActionDeactivate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// BulkCredentialActionNotFound is response for BulkCredentialAction operation.
+type BulkCredentialActionNotFound struct{}
+
+func (*BulkCredentialActionNotFound) bulkCredentialActionRes() {}
+
+// BulkCredentialActionUnauthorized is response for BulkCredentialAction operation.
+type BulkCredentialActionUnauthorized struct{}
+
+func (*BulkCredentialActionUnauthorized) bulkCredentialActionRes() {}
+
+// BulkCredentialActionUnprocessableEntity is response for BulkCredentialAction operation.
+type BulkCredentialActionUnprocessableEntity struct{}
+
+func (*BulkCredentialActionUnprocessableEntity) bulkCredentialActionRes() {}
+
+// Ref: #/components/schemas/BulkCredentialRequest
+type BulkCredentialRequest struct {
+	// A default name for all credentials.
+	Name OptString `json:"name"`
+	// Tags a credential for bulk operations. A single tag can hold at maximum 1000 credentials.
+	Tag string `json:"tag"`
+	// Amount of credentials to be created. A single tag can hold at maximum 1000 credentials.
+	Amount OptInt `json:"amount"`
+	// Identifies the connection this credential is associated with.
+	ConnectionID string `json:"connection_id"`
+}
+
+// GetName returns the value of Name.
+func (s *BulkCredentialRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetTag returns the value of Tag.
+func (s *BulkCredentialRequest) GetTag() string {
+	return s.Tag
+}
+
+// GetAmount returns the value of Amount.
+func (s *BulkCredentialRequest) GetAmount() OptInt {
+	return s.Amount
+}
+
+// GetConnectionID returns the value of ConnectionID.
+func (s *BulkCredentialRequest) GetConnectionID() string {
+	return s.ConnectionID
+}
+
+// SetName sets the value of Name.
+func (s *BulkCredentialRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetTag sets the value of Tag.
+func (s *BulkCredentialRequest) SetTag(val string) {
+	s.Tag = val
+}
+
+// SetAmount sets the value of Amount.
+func (s *BulkCredentialRequest) SetAmount(val OptInt) {
+	s.Amount = val
+}
+
+// SetConnectionID sets the value of ConnectionID.
+func (s *BulkCredentialRequest) SetConnectionID(val string) {
+	s.ConnectionID = val
+}
+
+type BulkCredentialResponse struct {
+	Data OptBulkCredentialResponseData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *BulkCredentialResponse) GetData() OptBulkCredentialResponseData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *BulkCredentialResponse) SetData(val OptBulkCredentialResponseData) {
+	s.Data = val
+}
+
+func (*BulkCredentialResponse) bulkCredentialActionRes()           {}
+func (*BulkCredentialResponse) createBulkTelephonyCredentialsRes() {}
+func (*BulkCredentialResponse) deleteTelephonyCredentialsRes()     {}
+func (*BulkCredentialResponse) updateBulkTelephonyCredentialRes()  {}
+
+type BulkCredentialResponseData struct {
+	// Amount of credentials affected.
+	Credentials OptInt `json:"credentials"`
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *BulkCredentialResponseData) GetCredentials() OptInt {
+	return s.Credentials
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *BulkCredentialResponseData) SetCredentials(val OptInt) {
+	s.Credentials = val
+}
+
 // Ref: #/components/schemas/Call
 type Call struct {
 	RecordType CallRecordType `json:"record_type"`
@@ -607,6 +1256,536 @@ func (s *Call) SetCallDuration(val OptInt) {
 	s.CallDuration = val
 }
 
+// Ref: #/components/schemas/CallControlApplication
+type CallControlApplication struct {
+	// Specifies whether the connection can be used.
+	Active OptBool `json:"active"`
+	// `Latency` directs Telnyx to route media through the site with the lowest round-trip time to the
+	// user's connection. Telnyx calculates this time using ICMP ping messages. This can be disabled by
+	// specifying a site to handle all media.
+	AnchorsiteOverride OptCallControlApplicationAnchorsiteOverride `json:"anchorsite_override"`
+	// A user-assigned name to help manage the application.
+	ApplicationName OptString `json:"application_name"`
+	// ISO 8601 formatted date of when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+	// Telnyx will be accepted in all formats.
+	DtmfType OptCallControlApplicationDtmfType `json:"dtmf_type"`
+	// Specifies whether calls to phone numbers associated with this connection should hangup after
+	// timing out.
+	FirstCommandTimeout OptBool `json:"first_command_timeout"`
+	// Specifies how many seconds to wait before timing out a dial command.
+	FirstCommandTimeoutSecs OptInt                              `json:"first_command_timeout_secs"`
+	ID                      OptStringInt64                      `json:"id"`
+	Inbound                 OptCallControlApplicationInbound    `json:"inbound"`
+	Outbound                OptCallControlApplicationOutbound   `json:"outbound"`
+	RecordType              OptCallControlApplicationRecordType `json:"record_type"`
+	// ISO 8601 formatted date of when the resource was last updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// Determines which webhook format will be used, Telnyx API v1 or v2.
+	WebhookAPIVersion OptCallControlApplicationWebhookAPIVersion `json:"webhook_api_version"`
+	// The failover URL where webhooks related to this connection will be sent if sending to the primary
+	// URL fails. Must include a scheme, such as `https`.
+	WebhookEventFailoverURL OptNilString `json:"webhook_event_failover_url"`
+	// The URL where webhooks related to this connection will be sent. Must include a scheme, such as
+	// `https`.
+	WebhookEventURL    OptString `json:"webhook_event_url"`
+	WebhookTimeoutSecs OptNilInt `json:"webhook_timeout_secs"`
+}
+
+// GetActive returns the value of Active.
+func (s *CallControlApplication) GetActive() OptBool {
+	return s.Active
+}
+
+// GetAnchorsiteOverride returns the value of AnchorsiteOverride.
+func (s *CallControlApplication) GetAnchorsiteOverride() OptCallControlApplicationAnchorsiteOverride {
+	return s.AnchorsiteOverride
+}
+
+// GetApplicationName returns the value of ApplicationName.
+func (s *CallControlApplication) GetApplicationName() OptString {
+	return s.ApplicationName
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CallControlApplication) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetDtmfType returns the value of DtmfType.
+func (s *CallControlApplication) GetDtmfType() OptCallControlApplicationDtmfType {
+	return s.DtmfType
+}
+
+// GetFirstCommandTimeout returns the value of FirstCommandTimeout.
+func (s *CallControlApplication) GetFirstCommandTimeout() OptBool {
+	return s.FirstCommandTimeout
+}
+
+// GetFirstCommandTimeoutSecs returns the value of FirstCommandTimeoutSecs.
+func (s *CallControlApplication) GetFirstCommandTimeoutSecs() OptInt {
+	return s.FirstCommandTimeoutSecs
+}
+
+// GetID returns the value of ID.
+func (s *CallControlApplication) GetID() OptStringInt64 {
+	return s.ID
+}
+
+// GetInbound returns the value of Inbound.
+func (s *CallControlApplication) GetInbound() OptCallControlApplicationInbound {
+	return s.Inbound
+}
+
+// GetOutbound returns the value of Outbound.
+func (s *CallControlApplication) GetOutbound() OptCallControlApplicationOutbound {
+	return s.Outbound
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CallControlApplication) GetRecordType() OptCallControlApplicationRecordType {
+	return s.RecordType
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *CallControlApplication) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetWebhookAPIVersion returns the value of WebhookAPIVersion.
+func (s *CallControlApplication) GetWebhookAPIVersion() OptCallControlApplicationWebhookAPIVersion {
+	return s.WebhookAPIVersion
+}
+
+// GetWebhookEventFailoverURL returns the value of WebhookEventFailoverURL.
+func (s *CallControlApplication) GetWebhookEventFailoverURL() OptNilString {
+	return s.WebhookEventFailoverURL
+}
+
+// GetWebhookEventURL returns the value of WebhookEventURL.
+func (s *CallControlApplication) GetWebhookEventURL() OptString {
+	return s.WebhookEventURL
+}
+
+// GetWebhookTimeoutSecs returns the value of WebhookTimeoutSecs.
+func (s *CallControlApplication) GetWebhookTimeoutSecs() OptNilInt {
+	return s.WebhookTimeoutSecs
+}
+
+// SetActive sets the value of Active.
+func (s *CallControlApplication) SetActive(val OptBool) {
+	s.Active = val
+}
+
+// SetAnchorsiteOverride sets the value of AnchorsiteOverride.
+func (s *CallControlApplication) SetAnchorsiteOverride(val OptCallControlApplicationAnchorsiteOverride) {
+	s.AnchorsiteOverride = val
+}
+
+// SetApplicationName sets the value of ApplicationName.
+func (s *CallControlApplication) SetApplicationName(val OptString) {
+	s.ApplicationName = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CallControlApplication) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetDtmfType sets the value of DtmfType.
+func (s *CallControlApplication) SetDtmfType(val OptCallControlApplicationDtmfType) {
+	s.DtmfType = val
+}
+
+// SetFirstCommandTimeout sets the value of FirstCommandTimeout.
+func (s *CallControlApplication) SetFirstCommandTimeout(val OptBool) {
+	s.FirstCommandTimeout = val
+}
+
+// SetFirstCommandTimeoutSecs sets the value of FirstCommandTimeoutSecs.
+func (s *CallControlApplication) SetFirstCommandTimeoutSecs(val OptInt) {
+	s.FirstCommandTimeoutSecs = val
+}
+
+// SetID sets the value of ID.
+func (s *CallControlApplication) SetID(val OptStringInt64) {
+	s.ID = val
+}
+
+// SetInbound sets the value of Inbound.
+func (s *CallControlApplication) SetInbound(val OptCallControlApplicationInbound) {
+	s.Inbound = val
+}
+
+// SetOutbound sets the value of Outbound.
+func (s *CallControlApplication) SetOutbound(val OptCallControlApplicationOutbound) {
+	s.Outbound = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CallControlApplication) SetRecordType(val OptCallControlApplicationRecordType) {
+	s.RecordType = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *CallControlApplication) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetWebhookAPIVersion sets the value of WebhookAPIVersion.
+func (s *CallControlApplication) SetWebhookAPIVersion(val OptCallControlApplicationWebhookAPIVersion) {
+	s.WebhookAPIVersion = val
+}
+
+// SetWebhookEventFailoverURL sets the value of WebhookEventFailoverURL.
+func (s *CallControlApplication) SetWebhookEventFailoverURL(val OptNilString) {
+	s.WebhookEventFailoverURL = val
+}
+
+// SetWebhookEventURL sets the value of WebhookEventURL.
+func (s *CallControlApplication) SetWebhookEventURL(val OptString) {
+	s.WebhookEventURL = val
+}
+
+// SetWebhookTimeoutSecs sets the value of WebhookTimeoutSecs.
+func (s *CallControlApplication) SetWebhookTimeoutSecs(val OptNilInt) {
+	s.WebhookTimeoutSecs = val
+}
+
+// `Latency` directs Telnyx to route media through the site with the lowest round-trip time to the
+// user's connection. Telnyx calculates this time using ICMP ping messages. This can be disabled by
+// specifying a site to handle all media.
+type CallControlApplicationAnchorsiteOverride string
+
+const (
+	CallControlApplicationAnchorsiteOverrideLatency   CallControlApplicationAnchorsiteOverride = "\"Latency\""
+	CallControlApplicationAnchorsiteOverrideChicagoIL CallControlApplicationAnchorsiteOverride = "\"Chicago, IL\""
+	CallControlApplicationAnchorsiteOverrideAshburnVA CallControlApplicationAnchorsiteOverride = "\"Ashburn, VA\""
+	CallControlApplicationAnchorsiteOverrideSanJoseCA CallControlApplicationAnchorsiteOverride = "\"San Jose, CA\""
+)
+
+// AllValues returns all CallControlApplicationAnchorsiteOverride values.
+func (CallControlApplicationAnchorsiteOverride) AllValues() []CallControlApplicationAnchorsiteOverride {
+	return []CallControlApplicationAnchorsiteOverride{
+		CallControlApplicationAnchorsiteOverrideLatency,
+		CallControlApplicationAnchorsiteOverrideChicagoIL,
+		CallControlApplicationAnchorsiteOverrideAshburnVA,
+		CallControlApplicationAnchorsiteOverrideSanJoseCA,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CallControlApplicationAnchorsiteOverride) MarshalText() ([]byte, error) {
+	switch s {
+	case CallControlApplicationAnchorsiteOverrideLatency:
+		return []byte(s), nil
+	case CallControlApplicationAnchorsiteOverrideChicagoIL:
+		return []byte(s), nil
+	case CallControlApplicationAnchorsiteOverrideAshburnVA:
+		return []byte(s), nil
+	case CallControlApplicationAnchorsiteOverrideSanJoseCA:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CallControlApplicationAnchorsiteOverride) UnmarshalText(data []byte) error {
+	switch CallControlApplicationAnchorsiteOverride(data) {
+	case CallControlApplicationAnchorsiteOverrideLatency:
+		*s = CallControlApplicationAnchorsiteOverrideLatency
+		return nil
+	case CallControlApplicationAnchorsiteOverrideChicagoIL:
+		*s = CallControlApplicationAnchorsiteOverrideChicagoIL
+		return nil
+	case CallControlApplicationAnchorsiteOverrideAshburnVA:
+		*s = CallControlApplicationAnchorsiteOverrideAshburnVA
+		return nil
+	case CallControlApplicationAnchorsiteOverrideSanJoseCA:
+		*s = CallControlApplicationAnchorsiteOverrideSanJoseCA
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+// Telnyx will be accepted in all formats.
+type CallControlApplicationDtmfType string
+
+const (
+	CallControlApplicationDtmfTypeRFC2833 CallControlApplicationDtmfType = "RFC 2833"
+	CallControlApplicationDtmfTypeInband  CallControlApplicationDtmfType = "Inband"
+	CallControlApplicationDtmfTypeSIPINFO CallControlApplicationDtmfType = "SIP INFO"
+)
+
+// AllValues returns all CallControlApplicationDtmfType values.
+func (CallControlApplicationDtmfType) AllValues() []CallControlApplicationDtmfType {
+	return []CallControlApplicationDtmfType{
+		CallControlApplicationDtmfTypeRFC2833,
+		CallControlApplicationDtmfTypeInband,
+		CallControlApplicationDtmfTypeSIPINFO,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CallControlApplicationDtmfType) MarshalText() ([]byte, error) {
+	switch s {
+	case CallControlApplicationDtmfTypeRFC2833:
+		return []byte(s), nil
+	case CallControlApplicationDtmfTypeInband:
+		return []byte(s), nil
+	case CallControlApplicationDtmfTypeSIPINFO:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CallControlApplicationDtmfType) UnmarshalText(data []byte) error {
+	switch CallControlApplicationDtmfType(data) {
+	case CallControlApplicationDtmfTypeRFC2833:
+		*s = CallControlApplicationDtmfTypeRFC2833
+		return nil
+	case CallControlApplicationDtmfTypeInband:
+		*s = CallControlApplicationDtmfTypeInband
+		return nil
+	case CallControlApplicationDtmfTypeSIPINFO:
+		*s = CallControlApplicationDtmfTypeSIPINFO
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CallControlApplicationInbound
+type CallControlApplicationInbound struct {
+	// When set, this will limit the total number of inbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit OptInt `json:"channel_limit"`
+	// When enabled Telnyx will include Shaken/Stir data in the Webhook for new inbound calls.
+	ShakenStirEnabled OptBool `json:"shaken_stir_enabled"`
+	// Specifies a subdomain that can be used to receive Inbound calls to a Connection, in the same way a
+	// phone number is used, from a SIP endpoint. Example: the subdomain "example.sip.telnyx.com" can be
+	// called from any SIP endpoint by using the SIP URI "sip:@example.sip.telnyx.com" where the user
+	// part can be any alphanumeric value. Please note TLS encrypted calls are not allowed for subdomain
+	// calls.
+	SipSubdomain OptString `json:"sip_subdomain"`
+	// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+	// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+	SipSubdomainReceiveSettings OptCallControlApplicationInboundSipSubdomainReceiveSettings `json:"sip_subdomain_receive_settings"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *CallControlApplicationInbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetShakenStirEnabled returns the value of ShakenStirEnabled.
+func (s *CallControlApplicationInbound) GetShakenStirEnabled() OptBool {
+	return s.ShakenStirEnabled
+}
+
+// GetSipSubdomain returns the value of SipSubdomain.
+func (s *CallControlApplicationInbound) GetSipSubdomain() OptString {
+	return s.SipSubdomain
+}
+
+// GetSipSubdomainReceiveSettings returns the value of SipSubdomainReceiveSettings.
+func (s *CallControlApplicationInbound) GetSipSubdomainReceiveSettings() OptCallControlApplicationInboundSipSubdomainReceiveSettings {
+	return s.SipSubdomainReceiveSettings
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *CallControlApplicationInbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetShakenStirEnabled sets the value of ShakenStirEnabled.
+func (s *CallControlApplicationInbound) SetShakenStirEnabled(val OptBool) {
+	s.ShakenStirEnabled = val
+}
+
+// SetSipSubdomain sets the value of SipSubdomain.
+func (s *CallControlApplicationInbound) SetSipSubdomain(val OptString) {
+	s.SipSubdomain = val
+}
+
+// SetSipSubdomainReceiveSettings sets the value of SipSubdomainReceiveSettings.
+func (s *CallControlApplicationInbound) SetSipSubdomainReceiveSettings(val OptCallControlApplicationInboundSipSubdomainReceiveSettings) {
+	s.SipSubdomainReceiveSettings = val
+}
+
+// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+type CallControlApplicationInboundSipSubdomainReceiveSettings string
+
+const (
+	CallControlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections CallControlApplicationInboundSipSubdomainReceiveSettings = "only_my_connections"
+	CallControlApplicationInboundSipSubdomainReceiveSettingsFromAnyone        CallControlApplicationInboundSipSubdomainReceiveSettings = "from_anyone"
+)
+
+// AllValues returns all CallControlApplicationInboundSipSubdomainReceiveSettings values.
+func (CallControlApplicationInboundSipSubdomainReceiveSettings) AllValues() []CallControlApplicationInboundSipSubdomainReceiveSettings {
+	return []CallControlApplicationInboundSipSubdomainReceiveSettings{
+		CallControlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections,
+		CallControlApplicationInboundSipSubdomainReceiveSettingsFromAnyone,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CallControlApplicationInboundSipSubdomainReceiveSettings) MarshalText() ([]byte, error) {
+	switch s {
+	case CallControlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		return []byte(s), nil
+	case CallControlApplicationInboundSipSubdomainReceiveSettingsFromAnyone:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CallControlApplicationInboundSipSubdomainReceiveSettings) UnmarshalText(data []byte) error {
+	switch CallControlApplicationInboundSipSubdomainReceiveSettings(data) {
+	case CallControlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		*s = CallControlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections
+		return nil
+	case CallControlApplicationInboundSipSubdomainReceiveSettingsFromAnyone:
+		*s = CallControlApplicationInboundSipSubdomainReceiveSettingsFromAnyone
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CallControlApplicationOutbound
+type CallControlApplicationOutbound struct {
+	// When set, this will limit the total number of outbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit OptInt `json:"channel_limit"`
+	// Identifies the associated outbound voice profile.
+	OutboundVoiceProfileID OptStringInt64 `json:"outbound_voice_profile_id"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *CallControlApplicationOutbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetOutboundVoiceProfileID returns the value of OutboundVoiceProfileID.
+func (s *CallControlApplicationOutbound) GetOutboundVoiceProfileID() OptStringInt64 {
+	return s.OutboundVoiceProfileID
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *CallControlApplicationOutbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetOutboundVoiceProfileID sets the value of OutboundVoiceProfileID.
+func (s *CallControlApplicationOutbound) SetOutboundVoiceProfileID(val OptStringInt64) {
+	s.OutboundVoiceProfileID = val
+}
+
+type CallControlApplicationRecordType string
+
+const (
+	CallControlApplicationRecordTypeCallControlApplication CallControlApplicationRecordType = "call_control_application"
+)
+
+// AllValues returns all CallControlApplicationRecordType values.
+func (CallControlApplicationRecordType) AllValues() []CallControlApplicationRecordType {
+	return []CallControlApplicationRecordType{
+		CallControlApplicationRecordTypeCallControlApplication,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CallControlApplicationRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case CallControlApplicationRecordTypeCallControlApplication:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CallControlApplicationRecordType) UnmarshalText(data []byte) error {
+	switch CallControlApplicationRecordType(data) {
+	case CallControlApplicationRecordTypeCallControlApplication:
+		*s = CallControlApplicationRecordTypeCallControlApplication
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CallControlApplicationResponse struct {
+	Data OptCallControlApplication `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CallControlApplicationResponse) GetData() OptCallControlApplication {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CallControlApplicationResponse) SetData(val OptCallControlApplication) {
+	s.Data = val
+}
+
+func (*CallControlApplicationResponse) createCallControlApplicationRes()   {}
+func (*CallControlApplicationResponse) deleteCallControlApplicationRes()   {}
+func (*CallControlApplicationResponse) retrieveCallControlApplicationRes() {}
+func (*CallControlApplicationResponse) updateCallControlApplicationRes()   {}
+
+// Determines which webhook format will be used, Telnyx API v1 or v2.
+type CallControlApplicationWebhookAPIVersion string
+
+const (
+	CallControlApplicationWebhookAPIVersion1 CallControlApplicationWebhookAPIVersion = "1"
+	CallControlApplicationWebhookAPIVersion2 CallControlApplicationWebhookAPIVersion = "2"
+)
+
+// AllValues returns all CallControlApplicationWebhookAPIVersion values.
+func (CallControlApplicationWebhookAPIVersion) AllValues() []CallControlApplicationWebhookAPIVersion {
+	return []CallControlApplicationWebhookAPIVersion{
+		CallControlApplicationWebhookAPIVersion1,
+		CallControlApplicationWebhookAPIVersion2,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CallControlApplicationWebhookAPIVersion) MarshalText() ([]byte, error) {
+	switch s {
+	case CallControlApplicationWebhookAPIVersion1:
+		return []byte(s), nil
+	case CallControlApplicationWebhookAPIVersion2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CallControlApplicationWebhookAPIVersion) UnmarshalText(data []byte) error {
+	switch CallControlApplicationWebhookAPIVersion(data) {
+	case CallControlApplicationWebhookAPIVersion1:
+		*s = CallControlApplicationWebhookAPIVersion1
+		return nil
+	case CallControlApplicationWebhookAPIVersion2:
+		*s = CallControlApplicationWebhookAPIVersion2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type CallControlCommandResponse struct {
 	Data OptCallControlCommandResult `json:"data"`
 }
@@ -667,6 +1846,156 @@ func (s *CallControlCommandResult) SetResult(val OptString) {
 }
 
 type CallControlId string
+
+type CallReasons []CallReasonsItem
+
+// The Call Reason to be displayed to the call recipient.
+type CallReasonsItem struct {
+	RecordType OptString `json:"record_type"`
+	ID         OptUUID   `json:"id"`
+	// The Call Reason text to be displayed to the call recipient.
+	Reason OptString `json:"reason"`
+	// The approval status of this individual call reason in Google.
+	GoogleVerificationStatus OptCallReasonsItemGoogleVerificationStatus `json:"google_verification_status"`
+	// Additional information about the decision, if available.
+	GoogleApprovalInfo OptString `json:"google_approval_info"`
+	DisplayProfileID   OptUUID   `json:"display_profile_id"`
+	// Marks the Phone Number to be removed from the Display Profile.
+	Delete OptBool `json:"delete"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CallReasonsItem) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *CallReasonsItem) GetID() OptUUID {
+	return s.ID
+}
+
+// GetReason returns the value of Reason.
+func (s *CallReasonsItem) GetReason() OptString {
+	return s.Reason
+}
+
+// GetGoogleVerificationStatus returns the value of GoogleVerificationStatus.
+func (s *CallReasonsItem) GetGoogleVerificationStatus() OptCallReasonsItemGoogleVerificationStatus {
+	return s.GoogleVerificationStatus
+}
+
+// GetGoogleApprovalInfo returns the value of GoogleApprovalInfo.
+func (s *CallReasonsItem) GetGoogleApprovalInfo() OptString {
+	return s.GoogleApprovalInfo
+}
+
+// GetDisplayProfileID returns the value of DisplayProfileID.
+func (s *CallReasonsItem) GetDisplayProfileID() OptUUID {
+	return s.DisplayProfileID
+}
+
+// GetDelete returns the value of Delete.
+func (s *CallReasonsItem) GetDelete() OptBool {
+	return s.Delete
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CallReasonsItem) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *CallReasonsItem) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetReason sets the value of Reason.
+func (s *CallReasonsItem) SetReason(val OptString) {
+	s.Reason = val
+}
+
+// SetGoogleVerificationStatus sets the value of GoogleVerificationStatus.
+func (s *CallReasonsItem) SetGoogleVerificationStatus(val OptCallReasonsItemGoogleVerificationStatus) {
+	s.GoogleVerificationStatus = val
+}
+
+// SetGoogleApprovalInfo sets the value of GoogleApprovalInfo.
+func (s *CallReasonsItem) SetGoogleApprovalInfo(val OptString) {
+	s.GoogleApprovalInfo = val
+}
+
+// SetDisplayProfileID sets the value of DisplayProfileID.
+func (s *CallReasonsItem) SetDisplayProfileID(val OptUUID) {
+	s.DisplayProfileID = val
+}
+
+// SetDelete sets the value of Delete.
+func (s *CallReasonsItem) SetDelete(val OptBool) {
+	s.Delete = val
+}
+
+// The approval status of this individual call reason in Google.
+type CallReasonsItemGoogleVerificationStatus string
+
+const (
+	CallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED CallReasonsItemGoogleVerificationStatus = "STATE_UNSPECIFIED"
+	CallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL  CallReasonsItemGoogleVerificationStatus = "PENDING_APPROVAL"
+	CallReasonsItemGoogleVerificationStatusAPPROVED         CallReasonsItemGoogleVerificationStatus = "APPROVED"
+	CallReasonsItemGoogleVerificationStatusDENIED           CallReasonsItemGoogleVerificationStatus = "DENIED"
+	CallReasonsItemGoogleVerificationStatusPENDINGREMOVAL   CallReasonsItemGoogleVerificationStatus = "PENDING_REMOVAL"
+)
+
+// AllValues returns all CallReasonsItemGoogleVerificationStatus values.
+func (CallReasonsItemGoogleVerificationStatus) AllValues() []CallReasonsItemGoogleVerificationStatus {
+	return []CallReasonsItemGoogleVerificationStatus{
+		CallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED,
+		CallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL,
+		CallReasonsItemGoogleVerificationStatusAPPROVED,
+		CallReasonsItemGoogleVerificationStatusDENIED,
+		CallReasonsItemGoogleVerificationStatusPENDINGREMOVAL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CallReasonsItemGoogleVerificationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case CallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		return []byte(s), nil
+	case CallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL:
+		return []byte(s), nil
+	case CallReasonsItemGoogleVerificationStatusAPPROVED:
+		return []byte(s), nil
+	case CallReasonsItemGoogleVerificationStatusDENIED:
+		return []byte(s), nil
+	case CallReasonsItemGoogleVerificationStatusPENDINGREMOVAL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CallReasonsItemGoogleVerificationStatus) UnmarshalText(data []byte) error {
+	switch CallReasonsItemGoogleVerificationStatus(data) {
+	case CallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		*s = CallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED
+		return nil
+	case CallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL:
+		*s = CallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL
+		return nil
+	case CallReasonsItemGoogleVerificationStatusAPPROVED:
+		*s = CallReasonsItemGoogleVerificationStatusAPPROVED
+		return nil
+	case CallReasonsItemGoogleVerificationStatusDENIED:
+		*s = CallReasonsItemGoogleVerificationStatusDENIED
+		return nil
+	case CallReasonsItemGoogleVerificationStatusPENDINGREMOVAL:
+		*s = CallReasonsItemGoogleVerificationStatusPENDINGREMOVAL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 type CallRecordType string
 
@@ -3767,6 +5096,323 @@ func (s *ConferenceStatus) UnmarshalText(data []byte) error {
 
 type ConnectionActive bool
 
+// CreateBulkTelephonyCredentialsUnprocessableEntity is response for CreateBulkTelephonyCredentials operation.
+type CreateBulkTelephonyCredentialsUnprocessableEntity struct{}
+
+func (*CreateBulkTelephonyCredentialsUnprocessableEntity) createBulkTelephonyCredentialsRes() {}
+
+// Ref: #/components/schemas/CreateCallControlApplicationRequest
+type CreateCallControlApplicationRequest struct {
+	// A user-assigned name to help manage the application.
+	ApplicationName string `json:"application_name"`
+	// The URL where webhooks related to this connection will be sent. Must include a scheme, such as
+	// 'https'.
+	WebhookEventURL string `json:"webhook_event_url"`
+	// Specifies whether the connection can be used.
+	Active OptBool `json:"active"`
+	// <code>Latency</code> directs Telnyx to route media through the site with the lowest round-trip
+	// time to the user's connection. Telnyx calculates this time using ICMP ping messages. This can be
+	// disabled by specifying a site to handle all media.
+	AnchorsiteOverride OptCreateCallControlApplicationRequestAnchorsiteOverride `json:"anchorsite_override"`
+	// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+	// Telnyx will be accepted in all formats.
+	DtmfType OptCreateCallControlApplicationRequestDtmfType `json:"dtmf_type"`
+	// Specifies whether calls to phone numbers associated with this connection should hangup after
+	// timing out.
+	FirstCommandTimeout OptBool `json:"first_command_timeout"`
+	// Specifies how many seconds to wait before timing out a dial command.
+	FirstCommandTimeoutSecs OptInt                            `json:"first_command_timeout_secs"`
+	Inbound                 OptCallControlApplicationInbound  `json:"inbound"`
+	Outbound                OptCallControlApplicationOutbound `json:"outbound"`
+	// Determines which webhook format will be used, Telnyx API v1 or v2.
+	WebhookAPIVersion OptCreateCallControlApplicationRequestWebhookAPIVersion `json:"webhook_api_version"`
+	// The failover URL where webhooks related to this connection will be sent if sending to the primary
+	// URL fails. Must include a scheme, such as 'https'.
+	WebhookEventFailoverURL OptNilString `json:"webhook_event_failover_url"`
+	// Specifies how many seconds to wait before timing out a webhook.
+	WebhookTimeoutSecs OptNilInt `json:"webhook_timeout_secs"`
+}
+
+// GetApplicationName returns the value of ApplicationName.
+func (s *CreateCallControlApplicationRequest) GetApplicationName() string {
+	return s.ApplicationName
+}
+
+// GetWebhookEventURL returns the value of WebhookEventURL.
+func (s *CreateCallControlApplicationRequest) GetWebhookEventURL() string {
+	return s.WebhookEventURL
+}
+
+// GetActive returns the value of Active.
+func (s *CreateCallControlApplicationRequest) GetActive() OptBool {
+	return s.Active
+}
+
+// GetAnchorsiteOverride returns the value of AnchorsiteOverride.
+func (s *CreateCallControlApplicationRequest) GetAnchorsiteOverride() OptCreateCallControlApplicationRequestAnchorsiteOverride {
+	return s.AnchorsiteOverride
+}
+
+// GetDtmfType returns the value of DtmfType.
+func (s *CreateCallControlApplicationRequest) GetDtmfType() OptCreateCallControlApplicationRequestDtmfType {
+	return s.DtmfType
+}
+
+// GetFirstCommandTimeout returns the value of FirstCommandTimeout.
+func (s *CreateCallControlApplicationRequest) GetFirstCommandTimeout() OptBool {
+	return s.FirstCommandTimeout
+}
+
+// GetFirstCommandTimeoutSecs returns the value of FirstCommandTimeoutSecs.
+func (s *CreateCallControlApplicationRequest) GetFirstCommandTimeoutSecs() OptInt {
+	return s.FirstCommandTimeoutSecs
+}
+
+// GetInbound returns the value of Inbound.
+func (s *CreateCallControlApplicationRequest) GetInbound() OptCallControlApplicationInbound {
+	return s.Inbound
+}
+
+// GetOutbound returns the value of Outbound.
+func (s *CreateCallControlApplicationRequest) GetOutbound() OptCallControlApplicationOutbound {
+	return s.Outbound
+}
+
+// GetWebhookAPIVersion returns the value of WebhookAPIVersion.
+func (s *CreateCallControlApplicationRequest) GetWebhookAPIVersion() OptCreateCallControlApplicationRequestWebhookAPIVersion {
+	return s.WebhookAPIVersion
+}
+
+// GetWebhookEventFailoverURL returns the value of WebhookEventFailoverURL.
+func (s *CreateCallControlApplicationRequest) GetWebhookEventFailoverURL() OptNilString {
+	return s.WebhookEventFailoverURL
+}
+
+// GetWebhookTimeoutSecs returns the value of WebhookTimeoutSecs.
+func (s *CreateCallControlApplicationRequest) GetWebhookTimeoutSecs() OptNilInt {
+	return s.WebhookTimeoutSecs
+}
+
+// SetApplicationName sets the value of ApplicationName.
+func (s *CreateCallControlApplicationRequest) SetApplicationName(val string) {
+	s.ApplicationName = val
+}
+
+// SetWebhookEventURL sets the value of WebhookEventURL.
+func (s *CreateCallControlApplicationRequest) SetWebhookEventURL(val string) {
+	s.WebhookEventURL = val
+}
+
+// SetActive sets the value of Active.
+func (s *CreateCallControlApplicationRequest) SetActive(val OptBool) {
+	s.Active = val
+}
+
+// SetAnchorsiteOverride sets the value of AnchorsiteOverride.
+func (s *CreateCallControlApplicationRequest) SetAnchorsiteOverride(val OptCreateCallControlApplicationRequestAnchorsiteOverride) {
+	s.AnchorsiteOverride = val
+}
+
+// SetDtmfType sets the value of DtmfType.
+func (s *CreateCallControlApplicationRequest) SetDtmfType(val OptCreateCallControlApplicationRequestDtmfType) {
+	s.DtmfType = val
+}
+
+// SetFirstCommandTimeout sets the value of FirstCommandTimeout.
+func (s *CreateCallControlApplicationRequest) SetFirstCommandTimeout(val OptBool) {
+	s.FirstCommandTimeout = val
+}
+
+// SetFirstCommandTimeoutSecs sets the value of FirstCommandTimeoutSecs.
+func (s *CreateCallControlApplicationRequest) SetFirstCommandTimeoutSecs(val OptInt) {
+	s.FirstCommandTimeoutSecs = val
+}
+
+// SetInbound sets the value of Inbound.
+func (s *CreateCallControlApplicationRequest) SetInbound(val OptCallControlApplicationInbound) {
+	s.Inbound = val
+}
+
+// SetOutbound sets the value of Outbound.
+func (s *CreateCallControlApplicationRequest) SetOutbound(val OptCallControlApplicationOutbound) {
+	s.Outbound = val
+}
+
+// SetWebhookAPIVersion sets the value of WebhookAPIVersion.
+func (s *CreateCallControlApplicationRequest) SetWebhookAPIVersion(val OptCreateCallControlApplicationRequestWebhookAPIVersion) {
+	s.WebhookAPIVersion = val
+}
+
+// SetWebhookEventFailoverURL sets the value of WebhookEventFailoverURL.
+func (s *CreateCallControlApplicationRequest) SetWebhookEventFailoverURL(val OptNilString) {
+	s.WebhookEventFailoverURL = val
+}
+
+// SetWebhookTimeoutSecs sets the value of WebhookTimeoutSecs.
+func (s *CreateCallControlApplicationRequest) SetWebhookTimeoutSecs(val OptNilInt) {
+	s.WebhookTimeoutSecs = val
+}
+
+// <code>Latency</code> directs Telnyx to route media through the site with the lowest round-trip
+// time to the user's connection. Telnyx calculates this time using ICMP ping messages. This can be
+// disabled by specifying a site to handle all media.
+type CreateCallControlApplicationRequestAnchorsiteOverride string
+
+const (
+	CreateCallControlApplicationRequestAnchorsiteOverrideLatency   CreateCallControlApplicationRequestAnchorsiteOverride = "\"Latency\""
+	CreateCallControlApplicationRequestAnchorsiteOverrideChicagoIL CreateCallControlApplicationRequestAnchorsiteOverride = "\"Chicago, IL\""
+	CreateCallControlApplicationRequestAnchorsiteOverrideAshburnVA CreateCallControlApplicationRequestAnchorsiteOverride = "\"Ashburn, VA\""
+	CreateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA CreateCallControlApplicationRequestAnchorsiteOverride = "\"San Jose, CA\""
+)
+
+// AllValues returns all CreateCallControlApplicationRequestAnchorsiteOverride values.
+func (CreateCallControlApplicationRequestAnchorsiteOverride) AllValues() []CreateCallControlApplicationRequestAnchorsiteOverride {
+	return []CreateCallControlApplicationRequestAnchorsiteOverride{
+		CreateCallControlApplicationRequestAnchorsiteOverrideLatency,
+		CreateCallControlApplicationRequestAnchorsiteOverrideChicagoIL,
+		CreateCallControlApplicationRequestAnchorsiteOverrideAshburnVA,
+		CreateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCallControlApplicationRequestAnchorsiteOverride) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCallControlApplicationRequestAnchorsiteOverrideLatency:
+		return []byte(s), nil
+	case CreateCallControlApplicationRequestAnchorsiteOverrideChicagoIL:
+		return []byte(s), nil
+	case CreateCallControlApplicationRequestAnchorsiteOverrideAshburnVA:
+		return []byte(s), nil
+	case CreateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCallControlApplicationRequestAnchorsiteOverride) UnmarshalText(data []byte) error {
+	switch CreateCallControlApplicationRequestAnchorsiteOverride(data) {
+	case CreateCallControlApplicationRequestAnchorsiteOverrideLatency:
+		*s = CreateCallControlApplicationRequestAnchorsiteOverrideLatency
+		return nil
+	case CreateCallControlApplicationRequestAnchorsiteOverrideChicagoIL:
+		*s = CreateCallControlApplicationRequestAnchorsiteOverrideChicagoIL
+		return nil
+	case CreateCallControlApplicationRequestAnchorsiteOverrideAshburnVA:
+		*s = CreateCallControlApplicationRequestAnchorsiteOverrideAshburnVA
+		return nil
+	case CreateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA:
+		*s = CreateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+// Telnyx will be accepted in all formats.
+type CreateCallControlApplicationRequestDtmfType string
+
+const (
+	CreateCallControlApplicationRequestDtmfTypeRFC2833 CreateCallControlApplicationRequestDtmfType = "RFC 2833"
+	CreateCallControlApplicationRequestDtmfTypeInband  CreateCallControlApplicationRequestDtmfType = "Inband"
+	CreateCallControlApplicationRequestDtmfTypeSIPINFO CreateCallControlApplicationRequestDtmfType = "SIP INFO"
+)
+
+// AllValues returns all CreateCallControlApplicationRequestDtmfType values.
+func (CreateCallControlApplicationRequestDtmfType) AllValues() []CreateCallControlApplicationRequestDtmfType {
+	return []CreateCallControlApplicationRequestDtmfType{
+		CreateCallControlApplicationRequestDtmfTypeRFC2833,
+		CreateCallControlApplicationRequestDtmfTypeInband,
+		CreateCallControlApplicationRequestDtmfTypeSIPINFO,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCallControlApplicationRequestDtmfType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCallControlApplicationRequestDtmfTypeRFC2833:
+		return []byte(s), nil
+	case CreateCallControlApplicationRequestDtmfTypeInband:
+		return []byte(s), nil
+	case CreateCallControlApplicationRequestDtmfTypeSIPINFO:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCallControlApplicationRequestDtmfType) UnmarshalText(data []byte) error {
+	switch CreateCallControlApplicationRequestDtmfType(data) {
+	case CreateCallControlApplicationRequestDtmfTypeRFC2833:
+		*s = CreateCallControlApplicationRequestDtmfTypeRFC2833
+		return nil
+	case CreateCallControlApplicationRequestDtmfTypeInband:
+		*s = CreateCallControlApplicationRequestDtmfTypeInband
+		return nil
+	case CreateCallControlApplicationRequestDtmfTypeSIPINFO:
+		*s = CreateCallControlApplicationRequestDtmfTypeSIPINFO
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Determines which webhook format will be used, Telnyx API v1 or v2.
+type CreateCallControlApplicationRequestWebhookAPIVersion string
+
+const (
+	CreateCallControlApplicationRequestWebhookAPIVersion1 CreateCallControlApplicationRequestWebhookAPIVersion = "1"
+	CreateCallControlApplicationRequestWebhookAPIVersion2 CreateCallControlApplicationRequestWebhookAPIVersion = "2"
+)
+
+// AllValues returns all CreateCallControlApplicationRequestWebhookAPIVersion values.
+func (CreateCallControlApplicationRequestWebhookAPIVersion) AllValues() []CreateCallControlApplicationRequestWebhookAPIVersion {
+	return []CreateCallControlApplicationRequestWebhookAPIVersion{
+		CreateCallControlApplicationRequestWebhookAPIVersion1,
+		CreateCallControlApplicationRequestWebhookAPIVersion2,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCallControlApplicationRequestWebhookAPIVersion) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCallControlApplicationRequestWebhookAPIVersion1:
+		return []byte(s), nil
+	case CreateCallControlApplicationRequestWebhookAPIVersion2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCallControlApplicationRequestWebhookAPIVersion) UnmarshalText(data []byte) error {
+	switch CreateCallControlApplicationRequestWebhookAPIVersion(data) {
+	case CreateCallControlApplicationRequestWebhookAPIVersion1:
+		*s = CreateCallControlApplicationRequestWebhookAPIVersion1
+		return nil
+	case CreateCallControlApplicationRequestWebhookAPIVersion2:
+		*s = CreateCallControlApplicationRequestWebhookAPIVersion2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// CreateCallControlApplicationUnprocessableEntity is response for CreateCallControlApplication operation.
+type CreateCallControlApplicationUnprocessableEntity struct{}
+
+func (*CreateCallControlApplicationUnprocessableEntity) createCallControlApplicationRes() {}
+
+// CreateProfileVerificationRequestCreated is response for CreateProfileVerificationRequest operation.
+type CreateProfileVerificationRequestCreated struct{}
+
+func (*CreateProfileVerificationRequestCreated) createProfileVerificationRequestRes() {}
+
 // Ref: #/components/schemas/CreateTeXMLSecretRequest
 type CreateTeXMLSecretRequest struct {
 	// Name used as a reference for the secret, if the name already exists within the account its value
@@ -3871,6 +5517,32 @@ func (s *CreateTeXMLSecretResultValue) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type CreateTelephonyCredentialTokenCreated struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s CreateTelephonyCredentialTokenCreated) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*CreateTelephonyCredentialTokenCreated) createTelephonyCredentialTokenRes() {}
+
+// CreateTelephonyCredentialTokenNotFound is response for CreateTelephonyCredentialToken operation.
+type CreateTelephonyCredentialTokenNotFound struct{}
+
+func (*CreateTelephonyCredentialTokenNotFound) createTelephonyCredentialTokenRes() {}
+
+// CreateTelephonyCredentialUnprocessableEntity is response for CreateTelephonyCredential operation.
+type CreateTelephonyCredentialUnprocessableEntity struct{}
+
+func (*CreateTelephonyCredentialUnprocessableEntity) createTelephonyCredentialRes() {}
 
 type CreateTexmlApplicationNotFound ErrorResponse
 
@@ -4405,6 +6077,77 @@ func (*CreateVerificationResponse) createFlashcallVerificationRes() {}
 func (*CreateVerificationResponse) createVerificationCallRes()      {}
 func (*CreateVerificationResponse) createVerificationSmsRes()       {}
 
+// Ref: #/components/schemas/CreateVerifiedCallsDisplayProfileRequest
+type CreateVerifiedCallsDisplayProfileRequest struct {
+	// The ID of the business identity that owns the record.
+	BusinessIdentityID uuid.UUID      `json:"business_identity_id"`
+	Name               Name           `json:"name"`
+	DisplayName        OptDisplayName `json:"display_name"`
+	LogoURL            OptLogoURL     `json:"logo_url"`
+	CallReasons        CallReasons    `json:"call_reasons"`
+	PhoneNumbers       PhoneNumbers   `json:"phone_numbers"`
+}
+
+// GetBusinessIdentityID returns the value of BusinessIdentityID.
+func (s *CreateVerifiedCallsDisplayProfileRequest) GetBusinessIdentityID() uuid.UUID {
+	return s.BusinessIdentityID
+}
+
+// GetName returns the value of Name.
+func (s *CreateVerifiedCallsDisplayProfileRequest) GetName() Name {
+	return s.Name
+}
+
+// GetDisplayName returns the value of DisplayName.
+func (s *CreateVerifiedCallsDisplayProfileRequest) GetDisplayName() OptDisplayName {
+	return s.DisplayName
+}
+
+// GetLogoURL returns the value of LogoURL.
+func (s *CreateVerifiedCallsDisplayProfileRequest) GetLogoURL() OptLogoURL {
+	return s.LogoURL
+}
+
+// GetCallReasons returns the value of CallReasons.
+func (s *CreateVerifiedCallsDisplayProfileRequest) GetCallReasons() CallReasons {
+	return s.CallReasons
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *CreateVerifiedCallsDisplayProfileRequest) GetPhoneNumbers() PhoneNumbers {
+	return s.PhoneNumbers
+}
+
+// SetBusinessIdentityID sets the value of BusinessIdentityID.
+func (s *CreateVerifiedCallsDisplayProfileRequest) SetBusinessIdentityID(val uuid.UUID) {
+	s.BusinessIdentityID = val
+}
+
+// SetName sets the value of Name.
+func (s *CreateVerifiedCallsDisplayProfileRequest) SetName(val Name) {
+	s.Name = val
+}
+
+// SetDisplayName sets the value of DisplayName.
+func (s *CreateVerifiedCallsDisplayProfileRequest) SetDisplayName(val OptDisplayName) {
+	s.DisplayName = val
+}
+
+// SetLogoURL sets the value of LogoURL.
+func (s *CreateVerifiedCallsDisplayProfileRequest) SetLogoURL(val OptLogoURL) {
+	s.LogoURL = val
+}
+
+// SetCallReasons sets the value of CallReasons.
+func (s *CreateVerifiedCallsDisplayProfileRequest) SetCallReasons(val CallReasons) {
+	s.CallReasons = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *CreateVerifiedCallsDisplayProfileRequest) SetPhoneNumbers(val PhoneNumbers) {
+	s.PhoneNumbers = val
+}
+
 type CreateVerifiedNumberReq struct {
 	PhoneNumber string `json:"phone_number"`
 	// Verification method.
@@ -4737,6 +6480,73 @@ func (s *CreateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val Op
 
 type CreatedAt string
 
+// Ref: #/components/schemas/Cursor
+type Cursor struct {
+	// Opaque identifier of next page.
+	After OptString `json:"after"`
+	// Opaque identifier of previous page.
+	Before OptString `json:"before"`
+}
+
+// GetAfter returns the value of After.
+func (s *Cursor) GetAfter() OptString {
+	return s.After
+}
+
+// GetBefore returns the value of Before.
+func (s *Cursor) GetBefore() OptString {
+	return s.Before
+}
+
+// SetAfter sets the value of After.
+func (s *Cursor) SetAfter(val OptString) {
+	s.After = val
+}
+
+// SetBefore sets the value of Before.
+func (s *Cursor) SetBefore(val OptString) {
+	s.Before = val
+}
+
+// Ref: #/components/schemas/CursorPaginationMeta
+type CursorPaginationMeta struct {
+	Cursors OptCursor `json:"cursors"`
+	// Path to next page.
+	Next OptString `json:"next"`
+	// Path to previous page.
+	Previous OptString `json:"previous"`
+}
+
+// GetCursors returns the value of Cursors.
+func (s *CursorPaginationMeta) GetCursors() OptCursor {
+	return s.Cursors
+}
+
+// GetNext returns the value of Next.
+func (s *CursorPaginationMeta) GetNext() OptString {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *CursorPaginationMeta) GetPrevious() OptString {
+	return s.Previous
+}
+
+// SetCursors sets the value of Cursors.
+func (s *CursorPaginationMeta) SetCursors(val OptCursor) {
+	s.Cursors = val
+}
+
+// SetNext sets the value of Next.
+func (s *CursorPaginationMeta) SetNext(val OptString) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *CursorPaginationMeta) SetPrevious(val OptString) {
+	s.Previous = val
+}
+
 // Ref: #/components/schemas/CustomSipHeader
 type CustomSipHeader struct {
 	// The name of the header to add.
@@ -4767,6 +6577,16 @@ func (s *CustomSipHeader) SetValue(val string) {
 
 type DateTimeRFC2822 string
 
+// DeleteCallControlApplicationNotFound is response for DeleteCallControlApplication operation.
+type DeleteCallControlApplicationNotFound struct{}
+
+func (*DeleteCallControlApplicationNotFound) deleteCallControlApplicationRes() {}
+
+// DeleteCallControlApplicationUnprocessableEntity is response for DeleteCallControlApplication operation.
+type DeleteCallControlApplicationUnprocessableEntity struct{}
+
+func (*DeleteCallControlApplicationUnprocessableEntity) deleteCallControlApplicationRes() {}
+
 // DeleteTeXMLCallRecordingNoContent is response for DeleteTeXMLCallRecording operation.
 type DeleteTeXMLCallRecordingNoContent struct{}
 
@@ -4776,6 +6596,26 @@ func (*DeleteTeXMLCallRecordingNoContent) deleteTeXMLCallRecordingRes() {}
 type DeleteTeXMLRecordingTranscriptionNoContent struct{}
 
 func (*DeleteTeXMLRecordingTranscriptionNoContent) deleteTeXMLRecordingTranscriptionRes() {}
+
+// DeleteTelephonyCredentialNotFound is response for DeleteTelephonyCredential operation.
+type DeleteTelephonyCredentialNotFound struct{}
+
+func (*DeleteTelephonyCredentialNotFound) deleteTelephonyCredentialRes() {}
+
+// DeleteTelephonyCredentialUnauthorized is response for DeleteTelephonyCredential operation.
+type DeleteTelephonyCredentialUnauthorized struct{}
+
+func (*DeleteTelephonyCredentialUnauthorized) deleteTelephonyCredentialRes() {}
+
+// DeleteTelephonyCredentialUnprocessableEntity is response for DeleteTelephonyCredential operation.
+type DeleteTelephonyCredentialUnprocessableEntity struct{}
+
+func (*DeleteTelephonyCredentialUnprocessableEntity) deleteTelephonyCredentialRes() {}
+
+// DeleteTelephonyCredentialsUnprocessableEntity is response for DeleteTelephonyCredentials operation.
+type DeleteTelephonyCredentialsUnprocessableEntity struct{}
+
+func (*DeleteTelephonyCredentialsUnprocessableEntity) deleteTelephonyCredentialsRes() {}
 
 type DeleteTexmlApplicationBadRequest ErrorResponse
 
@@ -5963,6 +7803,26 @@ func (s *DialogflowConfig) SetPartialAutomatedAgentReply(val OptBool) {
 	s.PartialAutomatedAgentReply = val
 }
 
+type DisplayName string
+
+type DisplayVerifiedCallsDisplayProfileResponse struct {
+	Data OptVerifiedCallsDisplayProfile `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *DisplayVerifiedCallsDisplayProfileResponse) GetData() OptVerifiedCallsDisplayProfile {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *DisplayVerifiedCallsDisplayProfileResponse) SetData(val OptVerifiedCallsDisplayProfile) {
+	s.Data = val
+}
+
+func (*DisplayVerifiedCallsDisplayProfileResponse) createProfileRes()                    {}
+func (*DisplayVerifiedCallsDisplayProfileResponse) deleteVerifiedCallDisplayProfileRes() {}
+func (*DisplayVerifiedCallsDisplayProfileResponse) displayProfileRes()                   {}
+
 // Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
 // Telnyx will be accepted in all formats.
 // Ref: #/components/schemas/DtmfType
@@ -6299,6 +8159,21 @@ func (s *Errors) SetErrors(val []Error) {
 
 func (*Errors) createVerifiedNumberRes() {}
 func (*Errors) listVerifiedNumbersRes()  {}
+
+// FindTelephonyCredentialsBadRequest is response for FindTelephonyCredentials operation.
+type FindTelephonyCredentialsBadRequest struct{}
+
+func (*FindTelephonyCredentialsBadRequest) findTelephonyCredentialsRes() {}
+
+// FindTelephonyCredentialsNotFound is response for FindTelephonyCredentials operation.
+type FindTelephonyCredentialsNotFound struct{}
+
+func (*FindTelephonyCredentialsNotFound) findTelephonyCredentialsRes() {}
+
+// FindTelephonyCredentialsUnauthorized is response for FindTelephonyCredentials operation.
+type FindTelephonyCredentialsUnauthorized struct{}
+
+func (*FindTelephonyCredentialsUnauthorized) findTelephonyCredentialsRes() {}
 
 type FindTexmlApplicationsBadRequest ErrorResponse
 
@@ -7189,23 +9064,30 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 func (*GenericErrorResponseStatusCode) answerCallRes()                          {}
 func (*GenericErrorResponseStatusCode) bridgeCallRes()                          {}
 func (*GenericErrorResponseStatusCode) createFlashcallVerificationRes()         {}
+func (*GenericErrorResponseStatusCode) createProfileRes()                       {}
+func (*GenericErrorResponseStatusCode) createProfileVerificationRequestRes()    {}
 func (*GenericErrorResponseStatusCode) createVerificationCallRes()              {}
 func (*GenericErrorResponseStatusCode) createVerificationSmsRes()               {}
 func (*GenericErrorResponseStatusCode) createVerifiedNumberRes()                {}
 func (*GenericErrorResponseStatusCode) createVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) deleteProfileRes()                       {}
+func (*GenericErrorResponseStatusCode) deleteVerifiedCallDisplayProfileRes()    {}
 func (*GenericErrorResponseStatusCode) deleteVerifiedNumberRes()                {}
 func (*GenericErrorResponseStatusCode) dialCallRes()                            {}
+func (*GenericErrorResponseStatusCode) displayProfileRes()                      {}
 func (*GenericErrorResponseStatusCode) enqueueCallRes()                         {}
 func (*GenericErrorResponseStatusCode) gatherCallRes()                          {}
 func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()                    {}
 func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()                    {}
+func (*GenericErrorResponseStatusCode) getUserBalanceRes()                      {}
 func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()                   {}
 func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                    {}
 func (*GenericErrorResponseStatusCode) hangupCallRes()                          {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()                          {}
+func (*GenericErrorResponseStatusCode) listConnectionActiveCallsRes()           {}
 func (*GenericErrorResponseStatusCode) listProfilesRes()                        {}
 func (*GenericErrorResponseStatusCode) listVerificationsRes()                   {}
+func (*GenericErrorResponseStatusCode) listVerifiedCallDisplayProfilesRes()     {}
 func (*GenericErrorResponseStatusCode) listVerifiedNumbersRes()                 {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()               {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStopRes()                {}
@@ -7231,9 +9113,37 @@ func (*GenericErrorResponseStatusCode) stopCallStreamingRes()                   
 func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()               {}
 func (*GenericErrorResponseStatusCode) transferCallRes()                        {}
 func (*GenericErrorResponseStatusCode) updateClientStateRes()                   {}
+func (*GenericErrorResponseStatusCode) updateProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) updateVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeByPhoneNumberRes() {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeRes()              {}
+
+type GetAllTelephonyCredentialResponse struct {
+	Data []TelephonyCredential `json:"data"`
+	Meta OptPaginationMeta     `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *GetAllTelephonyCredentialResponse) GetData() []TelephonyCredential {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *GetAllTelephonyCredentialResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *GetAllTelephonyCredentialResponse) SetData(val []TelephonyCredential) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *GetAllTelephonyCredentialResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*GetAllTelephonyCredentialResponse) findTelephonyCredentialsRes() {}
 
 type GetAllTexmlApplicationsResponse struct {
 	Data []TexmlApplication `json:"data"`
@@ -7376,6 +9286,21 @@ func (s *GetParticipantsResponse) SetData(val OptParticipantResourceIndex) {
 
 func (*GetParticipantsResponse) getTexmlConferenceParticipantsRes() {}
 
+// GetTelephonyCredentialBadRequest is response for GetTelephonyCredential operation.
+type GetTelephonyCredentialBadRequest struct{}
+
+func (*GetTelephonyCredentialBadRequest) getTelephonyCredentialRes() {}
+
+// GetTelephonyCredentialNotFound is response for GetTelephonyCredential operation.
+type GetTelephonyCredentialNotFound struct{}
+
+func (*GetTelephonyCredentialNotFound) getTelephonyCredentialRes() {}
+
+// GetTelephonyCredentialUnauthorized is response for GetTelephonyCredential operation.
+type GetTelephonyCredentialUnauthorized struct{}
+
+func (*GetTelephonyCredentialUnauthorized) getTelephonyCredentialRes() {}
+
 type GetTexmlApplicationBadRequest ErrorResponse
 
 func (*GetTexmlApplicationBadRequest) getTexmlApplicationRes() {}
@@ -7509,6 +9434,51 @@ func (*GetVerifiedNumberNotFound) getVerifiedNumberRes() {}
 type GetVerifiedNumberUnauthorized Errors
 
 func (*GetVerifiedNumberUnauthorized) getVerifiedNumberRes() {}
+
+// GetWebhookDeliveryNotFound is response for GetWebhookDelivery operation.
+type GetWebhookDeliveryNotFound struct{}
+
+func (*GetWebhookDeliveryNotFound) getWebhookDeliveryRes() {}
+
+type GetWebhookDeliveryOK struct {
+	Data OptWebhookDelivery `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetWebhookDeliveryOK) GetData() OptWebhookDelivery {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetWebhookDeliveryOK) SetData(val OptWebhookDelivery) {
+	s.Data = val
+}
+
+func (*GetWebhookDeliveryOK) getWebhookDeliveryRes() {}
+
+// GetWebhookDeliveryUnauthorized is response for GetWebhookDelivery operation.
+type GetWebhookDeliveryUnauthorized struct{}
+
+func (*GetWebhookDeliveryUnauthorized) getWebhookDeliveryRes() {}
+
+type HTTP jx.Raw
+
+// Ref: #/components/schemas/HTTPValidationError
+type HTTPValidationError struct {
+	Detail []ValidationError `json:"detail"`
+}
+
+// GetDetail returns the value of Detail.
+func (s *HTTPValidationError) GetDetail() []ValidationError {
+	return s.Detail
+}
+
+// SetDetail sets the value of Detail.
+func (s *HTTPValidationError) SetDetail(val []ValidationError) {
+	s.Detail = val
+}
+
+func (*HTTPValidationError) audioPublicAudioTranscriptionsPostRes() {}
 
 // Ref: #/components/schemas/HangupRequest
 type HangupRequest struct {
@@ -8460,6 +10430,43 @@ func (s *LeaveQueueRequest) SetCommandID(val OptString) {
 	s.CommandID = val
 }
 
+// ListCallControlApplicationsBadRequest is response for ListCallControlApplications operation.
+type ListCallControlApplicationsBadRequest struct{}
+
+func (*ListCallControlApplicationsBadRequest) listCallControlApplicationsRes() {}
+
+// ListCallControlApplicationsNotFound is response for ListCallControlApplications operation.
+type ListCallControlApplicationsNotFound struct{}
+
+func (*ListCallControlApplicationsNotFound) listCallControlApplicationsRes() {}
+
+type ListCallControlApplicationsResponse struct {
+	Data []CallControlApplication `json:"data"`
+	Meta OptPaginationMeta        `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListCallControlApplicationsResponse) GetData() []CallControlApplication {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListCallControlApplicationsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListCallControlApplicationsResponse) SetData(val []CallControlApplication) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListCallControlApplicationsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListCallControlApplicationsResponse) listCallControlApplicationsRes() {}
+
 type ListQueueCallsResponse struct {
 	Data []QueueCall       `json:"data"`
 	Meta OptPaginationMeta `json:"meta"`
@@ -8486,6 +10493,73 @@ func (s *ListQueueCallsResponse) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListQueueCallsResponse) listQueueCallsRes() {}
+
+// ListTagsBadRequest is response for ListTags operation.
+type ListTagsBadRequest struct{}
+
+func (*ListTagsBadRequest) listTagsRes() {}
+
+// ListTagsNotFound is response for ListTags operation.
+type ListTagsNotFound struct{}
+
+func (*ListTagsNotFound) listTagsRes() {}
+
+type ListTagsResponse struct {
+	Data []ListTagsResponseDataItem `json:"data"`
+	Meta OptPaginationMeta          `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListTagsResponse) GetData() []ListTagsResponseDataItem {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListTagsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListTagsResponse) SetData(val []ListTagsResponseDataItem) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListTagsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListTagsResponse) listTagsRes() {}
+
+type ListTagsResponseDataItem struct {
+	Tag    OptString `json:"tag"`
+	Amount OptInt    `json:"amount"`
+}
+
+// GetTag returns the value of Tag.
+func (s *ListTagsResponseDataItem) GetTag() OptString {
+	return s.Tag
+}
+
+// GetAmount returns the value of Amount.
+func (s *ListTagsResponseDataItem) GetAmount() OptInt {
+	return s.Amount
+}
+
+// SetTag sets the value of Tag.
+func (s *ListTagsResponseDataItem) SetTag(val OptString) {
+	s.Tag = val
+}
+
+// SetAmount sets the value of Amount.
+func (s *ListTagsResponseDataItem) SetAmount(val OptInt) {
+	s.Amount = val
+}
+
+// ListTagsUnauthorized is response for ListTags operation.
+type ListTagsUnauthorized struct{}
+
+func (*ListTagsUnauthorized) listTagsRes() {}
 
 type ListUsageReportsOptionsBadRequest ErrorResponse
 
@@ -8522,6 +10596,33 @@ func (s *ListVerificationsResponse) SetMeta(val Meta) {
 }
 
 func (*ListVerificationsResponse) listVerificationsRes() {}
+
+type ListVerifiedCallsDisplayProfilesResponse struct {
+	Data []VerifiedCallsDisplayProfile `json:"data"`
+	Meta OptPaginationMeta             `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListVerifiedCallsDisplayProfilesResponse) GetData() []VerifiedCallsDisplayProfile {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListVerifiedCallsDisplayProfilesResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListVerifiedCallsDisplayProfilesResponse) SetData(val []VerifiedCallsDisplayProfile) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListVerifiedCallsDisplayProfilesResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListVerifiedCallsDisplayProfilesResponse) listVerifiedCallDisplayProfilesRes() {}
 
 // A paginated list of Verified Numbers.
 // Ref: #/components/schemas/ListVerifiedNumbersResponse
@@ -8602,6 +10703,8 @@ func (s *ListVerifyProfilesResponse) SetMeta(val Meta) {
 }
 
 func (*ListVerifyProfilesResponse) listProfilesRes() {}
+
+type LogoURL string
 
 // Ref: #/components/schemas/Loopcount
 // Loopcount represents sum type.
@@ -9171,6 +11274,8 @@ func (s *MetaResponse) SetURL(val OptString) {
 	s.URL = val
 }
 
+type Name string
+
 // Ref: #/components/schemas/NewParticipantResource
 type NewParticipantResource struct {
 	// The id of the account the resource belongs to.
@@ -9727,6 +11832,144 @@ func (o OptApplicationName) Or(d ApplicationName) ApplicationName {
 	return d
 }
 
+// NewOptAttemptStatus returns new OptAttemptStatus with value set to v.
+func NewOptAttemptStatus(v AttemptStatus) OptAttemptStatus {
+	return OptAttemptStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAttemptStatus is optional AttemptStatus.
+type OptAttemptStatus struct {
+	Value AttemptStatus
+	Set   bool
+}
+
+// IsSet returns true if OptAttemptStatus was set.
+func (o OptAttemptStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAttemptStatus) Reset() {
+	var v AttemptStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAttemptStatus) SetTo(v AttemptStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAttemptStatus) Get() (v AttemptStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAttemptStatus) Or(d AttemptStatus) AttemptStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAudioTranscriptionRequestMultipartResponseFormat returns new OptAudioTranscriptionRequestMultipartResponseFormat with value set to v.
+func NewOptAudioTranscriptionRequestMultipartResponseFormat(v AudioTranscriptionRequestMultipartResponseFormat) OptAudioTranscriptionRequestMultipartResponseFormat {
+	return OptAudioTranscriptionRequestMultipartResponseFormat{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAudioTranscriptionRequestMultipartResponseFormat is optional AudioTranscriptionRequestMultipartResponseFormat.
+type OptAudioTranscriptionRequestMultipartResponseFormat struct {
+	Value AudioTranscriptionRequestMultipartResponseFormat
+	Set   bool
+}
+
+// IsSet returns true if OptAudioTranscriptionRequestMultipartResponseFormat was set.
+func (o OptAudioTranscriptionRequestMultipartResponseFormat) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAudioTranscriptionRequestMultipartResponseFormat) Reset() {
+	var v AudioTranscriptionRequestMultipartResponseFormat
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAudioTranscriptionRequestMultipartResponseFormat) SetTo(v AudioTranscriptionRequestMultipartResponseFormat) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAudioTranscriptionRequestMultipartResponseFormat) Get() (v AudioTranscriptionRequestMultipartResponseFormat, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAudioTranscriptionRequestMultipartResponseFormat) Or(d AudioTranscriptionRequestMultipartResponseFormat) AudioTranscriptionRequestMultipartResponseFormat {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAudioTranscriptionRequestMultipartTimestampGranularities returns new OptAudioTranscriptionRequestMultipartTimestampGranularities with value set to v.
+func NewOptAudioTranscriptionRequestMultipartTimestampGranularities(v AudioTranscriptionRequestMultipartTimestampGranularities) OptAudioTranscriptionRequestMultipartTimestampGranularities {
+	return OptAudioTranscriptionRequestMultipartTimestampGranularities{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAudioTranscriptionRequestMultipartTimestampGranularities is optional AudioTranscriptionRequestMultipartTimestampGranularities.
+type OptAudioTranscriptionRequestMultipartTimestampGranularities struct {
+	Value AudioTranscriptionRequestMultipartTimestampGranularities
+	Set   bool
+}
+
+// IsSet returns true if OptAudioTranscriptionRequestMultipartTimestampGranularities was set.
+func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAudioTranscriptionRequestMultipartTimestampGranularities) Reset() {
+	var v AudioTranscriptionRequestMultipartTimestampGranularities
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAudioTranscriptionRequestMultipartTimestampGranularities) SetTo(v AudioTranscriptionRequestMultipartTimestampGranularities) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Get() (v AudioTranscriptionRequestMultipartTimestampGranularities, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Or(d AudioTranscriptionRequestMultipartTimestampGranularities) AudioTranscriptionRequestMultipartTimestampGranularities {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
 	return OptBool{
@@ -9773,6 +12016,52 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
+// NewOptBulkCredentialResponseData returns new OptBulkCredentialResponseData with value set to v.
+func NewOptBulkCredentialResponseData(v BulkCredentialResponseData) OptBulkCredentialResponseData {
+	return OptBulkCredentialResponseData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBulkCredentialResponseData is optional BulkCredentialResponseData.
+type OptBulkCredentialResponseData struct {
+	Value BulkCredentialResponseData
+	Set   bool
+}
+
+// IsSet returns true if OptBulkCredentialResponseData was set.
+func (o OptBulkCredentialResponseData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBulkCredentialResponseData) Reset() {
+	var v BulkCredentialResponseData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBulkCredentialResponseData) SetTo(v BulkCredentialResponseData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBulkCredentialResponseData) Get() (v BulkCredentialResponseData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBulkCredentialResponseData) Or(d BulkCredentialResponseData) BulkCredentialResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCall returns new OptCall with value set to v.
 func NewOptCall(v Call) OptCall {
 	return OptCall{
@@ -9813,6 +12102,374 @@ func (o OptCall) Get() (v Call, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCall) Or(d Call) Call {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplication returns new OptCallControlApplication with value set to v.
+func NewOptCallControlApplication(v CallControlApplication) OptCallControlApplication {
+	return OptCallControlApplication{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplication is optional CallControlApplication.
+type OptCallControlApplication struct {
+	Value CallControlApplication
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplication was set.
+func (o OptCallControlApplication) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplication) Reset() {
+	var v CallControlApplication
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplication) SetTo(v CallControlApplication) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplication) Get() (v CallControlApplication, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplication) Or(d CallControlApplication) CallControlApplication {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationAnchorsiteOverride returns new OptCallControlApplicationAnchorsiteOverride with value set to v.
+func NewOptCallControlApplicationAnchorsiteOverride(v CallControlApplicationAnchorsiteOverride) OptCallControlApplicationAnchorsiteOverride {
+	return OptCallControlApplicationAnchorsiteOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationAnchorsiteOverride is optional CallControlApplicationAnchorsiteOverride.
+type OptCallControlApplicationAnchorsiteOverride struct {
+	Value CallControlApplicationAnchorsiteOverride
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationAnchorsiteOverride was set.
+func (o OptCallControlApplicationAnchorsiteOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationAnchorsiteOverride) Reset() {
+	var v CallControlApplicationAnchorsiteOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationAnchorsiteOverride) SetTo(v CallControlApplicationAnchorsiteOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationAnchorsiteOverride) Get() (v CallControlApplicationAnchorsiteOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationAnchorsiteOverride) Or(d CallControlApplicationAnchorsiteOverride) CallControlApplicationAnchorsiteOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationDtmfType returns new OptCallControlApplicationDtmfType with value set to v.
+func NewOptCallControlApplicationDtmfType(v CallControlApplicationDtmfType) OptCallControlApplicationDtmfType {
+	return OptCallControlApplicationDtmfType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationDtmfType is optional CallControlApplicationDtmfType.
+type OptCallControlApplicationDtmfType struct {
+	Value CallControlApplicationDtmfType
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationDtmfType was set.
+func (o OptCallControlApplicationDtmfType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationDtmfType) Reset() {
+	var v CallControlApplicationDtmfType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationDtmfType) SetTo(v CallControlApplicationDtmfType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationDtmfType) Get() (v CallControlApplicationDtmfType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationDtmfType) Or(d CallControlApplicationDtmfType) CallControlApplicationDtmfType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationInbound returns new OptCallControlApplicationInbound with value set to v.
+func NewOptCallControlApplicationInbound(v CallControlApplicationInbound) OptCallControlApplicationInbound {
+	return OptCallControlApplicationInbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationInbound is optional CallControlApplicationInbound.
+type OptCallControlApplicationInbound struct {
+	Value CallControlApplicationInbound
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationInbound was set.
+func (o OptCallControlApplicationInbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationInbound) Reset() {
+	var v CallControlApplicationInbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationInbound) SetTo(v CallControlApplicationInbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationInbound) Get() (v CallControlApplicationInbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationInbound) Or(d CallControlApplicationInbound) CallControlApplicationInbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationInboundSipSubdomainReceiveSettings returns new OptCallControlApplicationInboundSipSubdomainReceiveSettings with value set to v.
+func NewOptCallControlApplicationInboundSipSubdomainReceiveSettings(v CallControlApplicationInboundSipSubdomainReceiveSettings) OptCallControlApplicationInboundSipSubdomainReceiveSettings {
+	return OptCallControlApplicationInboundSipSubdomainReceiveSettings{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationInboundSipSubdomainReceiveSettings is optional CallControlApplicationInboundSipSubdomainReceiveSettings.
+type OptCallControlApplicationInboundSipSubdomainReceiveSettings struct {
+	Value CallControlApplicationInboundSipSubdomainReceiveSettings
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationInboundSipSubdomainReceiveSettings was set.
+func (o OptCallControlApplicationInboundSipSubdomainReceiveSettings) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationInboundSipSubdomainReceiveSettings) Reset() {
+	var v CallControlApplicationInboundSipSubdomainReceiveSettings
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationInboundSipSubdomainReceiveSettings) SetTo(v CallControlApplicationInboundSipSubdomainReceiveSettings) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationInboundSipSubdomainReceiveSettings) Get() (v CallControlApplicationInboundSipSubdomainReceiveSettings, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationInboundSipSubdomainReceiveSettings) Or(d CallControlApplicationInboundSipSubdomainReceiveSettings) CallControlApplicationInboundSipSubdomainReceiveSettings {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationOutbound returns new OptCallControlApplicationOutbound with value set to v.
+func NewOptCallControlApplicationOutbound(v CallControlApplicationOutbound) OptCallControlApplicationOutbound {
+	return OptCallControlApplicationOutbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationOutbound is optional CallControlApplicationOutbound.
+type OptCallControlApplicationOutbound struct {
+	Value CallControlApplicationOutbound
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationOutbound was set.
+func (o OptCallControlApplicationOutbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationOutbound) Reset() {
+	var v CallControlApplicationOutbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationOutbound) SetTo(v CallControlApplicationOutbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationOutbound) Get() (v CallControlApplicationOutbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationOutbound) Or(d CallControlApplicationOutbound) CallControlApplicationOutbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationRecordType returns new OptCallControlApplicationRecordType with value set to v.
+func NewOptCallControlApplicationRecordType(v CallControlApplicationRecordType) OptCallControlApplicationRecordType {
+	return OptCallControlApplicationRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationRecordType is optional CallControlApplicationRecordType.
+type OptCallControlApplicationRecordType struct {
+	Value CallControlApplicationRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationRecordType was set.
+func (o OptCallControlApplicationRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationRecordType) Reset() {
+	var v CallControlApplicationRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationRecordType) SetTo(v CallControlApplicationRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationRecordType) Get() (v CallControlApplicationRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationRecordType) Or(d CallControlApplicationRecordType) CallControlApplicationRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallControlApplicationWebhookAPIVersion returns new OptCallControlApplicationWebhookAPIVersion with value set to v.
+func NewOptCallControlApplicationWebhookAPIVersion(v CallControlApplicationWebhookAPIVersion) OptCallControlApplicationWebhookAPIVersion {
+	return OptCallControlApplicationWebhookAPIVersion{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallControlApplicationWebhookAPIVersion is optional CallControlApplicationWebhookAPIVersion.
+type OptCallControlApplicationWebhookAPIVersion struct {
+	Value CallControlApplicationWebhookAPIVersion
+	Set   bool
+}
+
+// IsSet returns true if OptCallControlApplicationWebhookAPIVersion was set.
+func (o OptCallControlApplicationWebhookAPIVersion) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallControlApplicationWebhookAPIVersion) Reset() {
+	var v CallControlApplicationWebhookAPIVersion
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallControlApplicationWebhookAPIVersion) SetTo(v CallControlApplicationWebhookAPIVersion) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallControlApplicationWebhookAPIVersion) Get() (v CallControlApplicationWebhookAPIVersion, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallControlApplicationWebhookAPIVersion) Or(d CallControlApplicationWebhookAPIVersion) CallControlApplicationWebhookAPIVersion {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -9905,6 +12562,52 @@ func (o OptCallControlId) Get() (v CallControlId, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCallControlId) Or(d CallControlId) CallControlId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCallReasonsItemGoogleVerificationStatus returns new OptCallReasonsItemGoogleVerificationStatus with value set to v.
+func NewOptCallReasonsItemGoogleVerificationStatus(v CallReasonsItemGoogleVerificationStatus) OptCallReasonsItemGoogleVerificationStatus {
+	return OptCallReasonsItemGoogleVerificationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallReasonsItemGoogleVerificationStatus is optional CallReasonsItemGoogleVerificationStatus.
+type OptCallReasonsItemGoogleVerificationStatus struct {
+	Value CallReasonsItemGoogleVerificationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptCallReasonsItemGoogleVerificationStatus was set.
+func (o OptCallReasonsItemGoogleVerificationStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallReasonsItemGoogleVerificationStatus) Reset() {
+	var v CallReasonsItemGoogleVerificationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallReasonsItemGoogleVerificationStatus) SetTo(v CallReasonsItemGoogleVerificationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallReasonsItemGoogleVerificationStatus) Get() (v CallReasonsItemGoogleVerificationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallReasonsItemGoogleVerificationStatus) Or(d CallReasonsItemGoogleVerificationStatus) CallReasonsItemGoogleVerificationStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -11475,6 +14178,144 @@ func (o OptConnectionActive) Or(d ConnectionActive) ConnectionActive {
 	return d
 }
 
+// NewOptCreateCallControlApplicationRequestAnchorsiteOverride returns new OptCreateCallControlApplicationRequestAnchorsiteOverride with value set to v.
+func NewOptCreateCallControlApplicationRequestAnchorsiteOverride(v CreateCallControlApplicationRequestAnchorsiteOverride) OptCreateCallControlApplicationRequestAnchorsiteOverride {
+	return OptCreateCallControlApplicationRequestAnchorsiteOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateCallControlApplicationRequestAnchorsiteOverride is optional CreateCallControlApplicationRequestAnchorsiteOverride.
+type OptCreateCallControlApplicationRequestAnchorsiteOverride struct {
+	Value CreateCallControlApplicationRequestAnchorsiteOverride
+	Set   bool
+}
+
+// IsSet returns true if OptCreateCallControlApplicationRequestAnchorsiteOverride was set.
+func (o OptCreateCallControlApplicationRequestAnchorsiteOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateCallControlApplicationRequestAnchorsiteOverride) Reset() {
+	var v CreateCallControlApplicationRequestAnchorsiteOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateCallControlApplicationRequestAnchorsiteOverride) SetTo(v CreateCallControlApplicationRequestAnchorsiteOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateCallControlApplicationRequestAnchorsiteOverride) Get() (v CreateCallControlApplicationRequestAnchorsiteOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateCallControlApplicationRequestAnchorsiteOverride) Or(d CreateCallControlApplicationRequestAnchorsiteOverride) CreateCallControlApplicationRequestAnchorsiteOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateCallControlApplicationRequestDtmfType returns new OptCreateCallControlApplicationRequestDtmfType with value set to v.
+func NewOptCreateCallControlApplicationRequestDtmfType(v CreateCallControlApplicationRequestDtmfType) OptCreateCallControlApplicationRequestDtmfType {
+	return OptCreateCallControlApplicationRequestDtmfType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateCallControlApplicationRequestDtmfType is optional CreateCallControlApplicationRequestDtmfType.
+type OptCreateCallControlApplicationRequestDtmfType struct {
+	Value CreateCallControlApplicationRequestDtmfType
+	Set   bool
+}
+
+// IsSet returns true if OptCreateCallControlApplicationRequestDtmfType was set.
+func (o OptCreateCallControlApplicationRequestDtmfType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateCallControlApplicationRequestDtmfType) Reset() {
+	var v CreateCallControlApplicationRequestDtmfType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateCallControlApplicationRequestDtmfType) SetTo(v CreateCallControlApplicationRequestDtmfType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateCallControlApplicationRequestDtmfType) Get() (v CreateCallControlApplicationRequestDtmfType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateCallControlApplicationRequestDtmfType) Or(d CreateCallControlApplicationRequestDtmfType) CreateCallControlApplicationRequestDtmfType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateCallControlApplicationRequestWebhookAPIVersion returns new OptCreateCallControlApplicationRequestWebhookAPIVersion with value set to v.
+func NewOptCreateCallControlApplicationRequestWebhookAPIVersion(v CreateCallControlApplicationRequestWebhookAPIVersion) OptCreateCallControlApplicationRequestWebhookAPIVersion {
+	return OptCreateCallControlApplicationRequestWebhookAPIVersion{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateCallControlApplicationRequestWebhookAPIVersion is optional CreateCallControlApplicationRequestWebhookAPIVersion.
+type OptCreateCallControlApplicationRequestWebhookAPIVersion struct {
+	Value CreateCallControlApplicationRequestWebhookAPIVersion
+	Set   bool
+}
+
+// IsSet returns true if OptCreateCallControlApplicationRequestWebhookAPIVersion was set.
+func (o OptCreateCallControlApplicationRequestWebhookAPIVersion) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateCallControlApplicationRequestWebhookAPIVersion) Reset() {
+	var v CreateCallControlApplicationRequestWebhookAPIVersion
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateCallControlApplicationRequestWebhookAPIVersion) SetTo(v CreateCallControlApplicationRequestWebhookAPIVersion) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateCallControlApplicationRequestWebhookAPIVersion) Get() (v CreateCallControlApplicationRequestWebhookAPIVersion, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateCallControlApplicationRequestWebhookAPIVersion) Or(d CreateCallControlApplicationRequestWebhookAPIVersion) CreateCallControlApplicationRequestWebhookAPIVersion {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateTeXMLSecretResult returns new OptCreateTeXMLSecretResult with value set to v.
 func NewOptCreateTeXMLSecretResult(v CreateTeXMLSecretResult) OptCreateTeXMLSecretResult {
 	return OptCreateTeXMLSecretResult{
@@ -11977,6 +14818,98 @@ func (o OptCreatedAt) Get() (v CreatedAt, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreatedAt) Or(d CreatedAt) CreatedAt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCursor returns new OptCursor with value set to v.
+func NewOptCursor(v Cursor) OptCursor {
+	return OptCursor{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCursor is optional Cursor.
+type OptCursor struct {
+	Value Cursor
+	Set   bool
+}
+
+// IsSet returns true if OptCursor was set.
+func (o OptCursor) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCursor) Reset() {
+	var v Cursor
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCursor) SetTo(v Cursor) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCursor) Get() (v Cursor, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCursor) Or(d Cursor) Cursor {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCursorPaginationMeta returns new OptCursorPaginationMeta with value set to v.
+func NewOptCursorPaginationMeta(v CursorPaginationMeta) OptCursorPaginationMeta {
+	return OptCursorPaginationMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCursorPaginationMeta is optional CursorPaginationMeta.
+type OptCursorPaginationMeta struct {
+	Value CursorPaginationMeta
+	Set   bool
+}
+
+// IsSet returns true if OptCursorPaginationMeta was set.
+func (o OptCursorPaginationMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCursorPaginationMeta) Reset() {
+	var v CursorPaginationMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCursorPaginationMeta) SetTo(v CursorPaginationMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCursorPaginationMeta) Get() (v CursorPaginationMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCursorPaginationMeta) Or(d CursorPaginationMeta) CursorPaginationMeta {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -12669,6 +15602,52 @@ func (o OptDialogflowConfig) Get() (v DialogflowConfig, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptDialogflowConfig) Or(d DialogflowConfig) DialogflowConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDisplayName returns new OptDisplayName with value set to v.
+func NewOptDisplayName(v DisplayName) OptDisplayName {
+	return OptDisplayName{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDisplayName is optional DisplayName.
+type OptDisplayName struct {
+	Value DisplayName
+	Set   bool
+}
+
+// IsSet returns true if OptDisplayName was set.
+func (o OptDisplayName) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDisplayName) Reset() {
+	var v DisplayName
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDisplayName) SetTo(v DisplayName) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDisplayName) Get() (v DisplayName, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDisplayName) Or(d DisplayName) DisplayName {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -13779,6 +16758,52 @@ func (o OptIntId) Or(d IntId) IntId {
 	return d
 }
 
+// NewOptLogoURL returns new OptLogoURL with value set to v.
+func NewOptLogoURL(v LogoURL) OptLogoURL {
+	return OptLogoURL{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLogoURL is optional LogoURL.
+type OptLogoURL struct {
+	Value LogoURL
+	Set   bool
+}
+
+// IsSet returns true if OptLogoURL was set.
+func (o OptLogoURL) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLogoURL) Reset() {
+	var v LogoURL
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLogoURL) SetTo(v LogoURL) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLogoURL) Get() (v LogoURL, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLogoURL) Or(d LogoURL) LogoURL {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptLoopcount returns new OptLoopcount with value set to v.
 func NewOptLoopcount(v Loopcount) OptLoopcount {
 	return OptLoopcount{
@@ -14158,6 +17183,69 @@ func (o OptNilConferenceSid) Get() (v ConferenceSid, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilConferenceSid) Or(d ConferenceSid) ConferenceSid {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilInt returns new OptNilInt with value set to v.
+func NewOptNilInt(v int) OptNilInt {
+	return OptNilInt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilInt is optional nullable int.
+type OptNilInt struct {
+	Value int
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilInt was set.
+func (o OptNilInt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilInt) Reset() {
+	var v int
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilInt) SetTo(v int) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilInt) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilInt) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v int
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilInt) Get() (v int, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilInt) Or(d int) int {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -14864,6 +17952,52 @@ func (o OptParticipantResourceStatus) Or(d ParticipantResourceStatus) Participan
 	return d
 }
 
+// NewOptPhoneNumbersItemGoogleVerificationStatus returns new OptPhoneNumbersItemGoogleVerificationStatus with value set to v.
+func NewOptPhoneNumbersItemGoogleVerificationStatus(v PhoneNumbersItemGoogleVerificationStatus) OptPhoneNumbersItemGoogleVerificationStatus {
+	return OptPhoneNumbersItemGoogleVerificationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPhoneNumbersItemGoogleVerificationStatus is optional PhoneNumbersItemGoogleVerificationStatus.
+type OptPhoneNumbersItemGoogleVerificationStatus struct {
+	Value PhoneNumbersItemGoogleVerificationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPhoneNumbersItemGoogleVerificationStatus was set.
+func (o OptPhoneNumbersItemGoogleVerificationStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPhoneNumbersItemGoogleVerificationStatus) Reset() {
+	var v PhoneNumbersItemGoogleVerificationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPhoneNumbersItemGoogleVerificationStatus) SetTo(v PhoneNumbersItemGoogleVerificationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPhoneNumbersItemGoogleVerificationStatus) Get() (v PhoneNumbersItemGoogleVerificationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPhoneNumbersItemGoogleVerificationStatus) Or(d PhoneNumbersItemGoogleVerificationStatus) PhoneNumbersItemGoogleVerificationStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPlayAudioUrlRequestAudioType returns new OptPlayAudioUrlRequestAudioType with value set to v.
 func NewOptPlayAudioUrlRequestAudioType(v PlayAudioUrlRequestAudioType) OptPlayAudioUrlRequestAudioType {
 	return OptPlayAudioUrlRequestAudioType{
@@ -15226,6 +18360,52 @@ func (o OptSortApplication) Get() (v SortApplication, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptSortApplication) Or(d SortApplication) SortApplication {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptSortConnection returns new OptSortConnection with value set to v.
+func NewOptSortConnection(v SortConnection) OptSortConnection {
+	return OptSortConnection{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSortConnection is optional SortConnection.
+type OptSortConnection struct {
+	Value SortConnection
+	Set   bool
+}
+
+// IsSet returns true if OptSortConnection was set.
+func (o OptSortConnection) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSortConnection) Reset() {
+	var v SortConnection
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSortConnection) SetTo(v SortConnection) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSortConnection) Get() (v SortConnection, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSortConnection) Or(d SortConnection) SortConnection {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -15824,6 +19004,52 @@ func (o OptStringInt64) Get() (v int64, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStringInt64) Or(d int64) int64 {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTelephonyCredential returns new OptTelephonyCredential with value set to v.
+func NewOptTelephonyCredential(v TelephonyCredential) OptTelephonyCredential {
+	return OptTelephonyCredential{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTelephonyCredential is optional TelephonyCredential.
+type OptTelephonyCredential struct {
+	Value TelephonyCredential
+	Set   bool
+}
+
+// IsSet returns true if OptTelephonyCredential was set.
+func (o OptTelephonyCredential) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTelephonyCredential) Reset() {
+	var v TelephonyCredential
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTelephonyCredential) SetTo(v TelephonyCredential) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTelephonyCredential) Get() (v TelephonyCredential, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTelephonyCredential) Or(d TelephonyCredential) TelephonyCredential {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -17072,6 +20298,144 @@ func (o OptUUID) Or(d uuid.UUID) uuid.UUID {
 	return d
 }
 
+// NewOptUpdateCallControlApplicationRequestAnchorsiteOverride returns new OptUpdateCallControlApplicationRequestAnchorsiteOverride with value set to v.
+func NewOptUpdateCallControlApplicationRequestAnchorsiteOverride(v UpdateCallControlApplicationRequestAnchorsiteOverride) OptUpdateCallControlApplicationRequestAnchorsiteOverride {
+	return OptUpdateCallControlApplicationRequestAnchorsiteOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateCallControlApplicationRequestAnchorsiteOverride is optional UpdateCallControlApplicationRequestAnchorsiteOverride.
+type OptUpdateCallControlApplicationRequestAnchorsiteOverride struct {
+	Value UpdateCallControlApplicationRequestAnchorsiteOverride
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateCallControlApplicationRequestAnchorsiteOverride was set.
+func (o OptUpdateCallControlApplicationRequestAnchorsiteOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateCallControlApplicationRequestAnchorsiteOverride) Reset() {
+	var v UpdateCallControlApplicationRequestAnchorsiteOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateCallControlApplicationRequestAnchorsiteOverride) SetTo(v UpdateCallControlApplicationRequestAnchorsiteOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateCallControlApplicationRequestAnchorsiteOverride) Get() (v UpdateCallControlApplicationRequestAnchorsiteOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateCallControlApplicationRequestAnchorsiteOverride) Or(d UpdateCallControlApplicationRequestAnchorsiteOverride) UpdateCallControlApplicationRequestAnchorsiteOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateCallControlApplicationRequestDtmfType returns new OptUpdateCallControlApplicationRequestDtmfType with value set to v.
+func NewOptUpdateCallControlApplicationRequestDtmfType(v UpdateCallControlApplicationRequestDtmfType) OptUpdateCallControlApplicationRequestDtmfType {
+	return OptUpdateCallControlApplicationRequestDtmfType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateCallControlApplicationRequestDtmfType is optional UpdateCallControlApplicationRequestDtmfType.
+type OptUpdateCallControlApplicationRequestDtmfType struct {
+	Value UpdateCallControlApplicationRequestDtmfType
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateCallControlApplicationRequestDtmfType was set.
+func (o OptUpdateCallControlApplicationRequestDtmfType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateCallControlApplicationRequestDtmfType) Reset() {
+	var v UpdateCallControlApplicationRequestDtmfType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateCallControlApplicationRequestDtmfType) SetTo(v UpdateCallControlApplicationRequestDtmfType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateCallControlApplicationRequestDtmfType) Get() (v UpdateCallControlApplicationRequestDtmfType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateCallControlApplicationRequestDtmfType) Or(d UpdateCallControlApplicationRequestDtmfType) UpdateCallControlApplicationRequestDtmfType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateCallControlApplicationRequestWebhookAPIVersion returns new OptUpdateCallControlApplicationRequestWebhookAPIVersion with value set to v.
+func NewOptUpdateCallControlApplicationRequestWebhookAPIVersion(v UpdateCallControlApplicationRequestWebhookAPIVersion) OptUpdateCallControlApplicationRequestWebhookAPIVersion {
+	return OptUpdateCallControlApplicationRequestWebhookAPIVersion{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateCallControlApplicationRequestWebhookAPIVersion is optional UpdateCallControlApplicationRequestWebhookAPIVersion.
+type OptUpdateCallControlApplicationRequestWebhookAPIVersion struct {
+	Value UpdateCallControlApplicationRequestWebhookAPIVersion
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateCallControlApplicationRequestWebhookAPIVersion was set.
+func (o OptUpdateCallControlApplicationRequestWebhookAPIVersion) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateCallControlApplicationRequestWebhookAPIVersion) Reset() {
+	var v UpdateCallControlApplicationRequestWebhookAPIVersion
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateCallControlApplicationRequestWebhookAPIVersion) SetTo(v UpdateCallControlApplicationRequestWebhookAPIVersion) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateCallControlApplicationRequestWebhookAPIVersion) Get() (v UpdateCallControlApplicationRequestWebhookAPIVersion, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateCallControlApplicationRequestWebhookAPIVersion) Or(d UpdateCallControlApplicationRequestWebhookAPIVersion) UpdateCallControlApplicationRequestWebhookAPIVersion {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUpdateCallRequestFallbackMethod returns new OptUpdateCallRequestFallbackMethod with value set to v.
 func NewOptUpdateCallRequestFallbackMethod(v UpdateCallRequestFallbackMethod) OptUpdateCallRequestFallbackMethod {
 	return OptUpdateCallRequestFallbackMethod{
@@ -17810,6 +21174,98 @@ func (o OptUpdatedAt) Or(d UpdatedAt) UpdatedAt {
 	return d
 }
 
+// NewOptUserBalance returns new OptUserBalance with value set to v.
+func NewOptUserBalance(v UserBalance) OptUserBalance {
+	return OptUserBalance{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUserBalance is optional UserBalance.
+type OptUserBalance struct {
+	Value UserBalance
+	Set   bool
+}
+
+// IsSet returns true if OptUserBalance was set.
+func (o OptUserBalance) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUserBalance) Reset() {
+	var v UserBalance
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUserBalance) SetTo(v UserBalance) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUserBalance) Get() (v UserBalance, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUserBalance) Or(d UserBalance) UserBalance {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUserBalanceRecordType returns new OptUserBalanceRecordType with value set to v.
+func NewOptUserBalanceRecordType(v UserBalanceRecordType) OptUserBalanceRecordType {
+	return OptUserBalanceRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUserBalanceRecordType is optional UserBalanceRecordType.
+type OptUserBalanceRecordType struct {
+	Value UserBalanceRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptUserBalanceRecordType was set.
+func (o OptUserBalanceRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUserBalanceRecordType) Reset() {
+	var v UserBalanceRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUserBalanceRecordType) SetTo(v UserBalanceRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUserBalanceRecordType) Get() (v UserBalanceRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUserBalanceRecordType) Or(d UserBalanceRecordType) UserBalanceRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptVerificationProfileRecordType returns new OptVerificationProfileRecordType with value set to v.
 func NewOptVerificationProfileRecordType(v VerificationProfileRecordType) OptVerificationProfileRecordType {
 	return OptVerificationProfileRecordType{
@@ -17988,6 +21444,240 @@ func (o OptVerificationType) Get() (v VerificationType, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptVerificationType) Or(d VerificationType) VerificationType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifiedCallsDisplayProfile returns new OptVerifiedCallsDisplayProfile with value set to v.
+func NewOptVerifiedCallsDisplayProfile(v VerifiedCallsDisplayProfile) OptVerifiedCallsDisplayProfile {
+	return OptVerifiedCallsDisplayProfile{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedCallsDisplayProfile is optional VerifiedCallsDisplayProfile.
+type OptVerifiedCallsDisplayProfile struct {
+	Value VerifiedCallsDisplayProfile
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedCallsDisplayProfile was set.
+func (o OptVerifiedCallsDisplayProfile) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifiedCallsDisplayProfile) Reset() {
+	var v VerifiedCallsDisplayProfile
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedCallsDisplayProfile) SetTo(v VerifiedCallsDisplayProfile) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedCallsDisplayProfile) Get() (v VerifiedCallsDisplayProfile, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedCallsDisplayProfile) Or(d VerifiedCallsDisplayProfile) VerifiedCallsDisplayProfile {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifiedCallsDisplayProfileBusinessIdentity returns new OptVerifiedCallsDisplayProfileBusinessIdentity with value set to v.
+func NewOptVerifiedCallsDisplayProfileBusinessIdentity(v VerifiedCallsDisplayProfileBusinessIdentity) OptVerifiedCallsDisplayProfileBusinessIdentity {
+	return OptVerifiedCallsDisplayProfileBusinessIdentity{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedCallsDisplayProfileBusinessIdentity is optional VerifiedCallsDisplayProfileBusinessIdentity.
+type OptVerifiedCallsDisplayProfileBusinessIdentity struct {
+	Value VerifiedCallsDisplayProfileBusinessIdentity
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedCallsDisplayProfileBusinessIdentity was set.
+func (o OptVerifiedCallsDisplayProfileBusinessIdentity) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifiedCallsDisplayProfileBusinessIdentity) Reset() {
+	var v VerifiedCallsDisplayProfileBusinessIdentity
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedCallsDisplayProfileBusinessIdentity) SetTo(v VerifiedCallsDisplayProfileBusinessIdentity) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedCallsDisplayProfileBusinessIdentity) Get() (v VerifiedCallsDisplayProfileBusinessIdentity, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedCallsDisplayProfileBusinessIdentity) Or(d VerifiedCallsDisplayProfileBusinessIdentity) VerifiedCallsDisplayProfileBusinessIdentity {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus returns new OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus with value set to v.
+func NewOptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus(v VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus {
+	return OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus is optional VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus.
+type OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus struct {
+	Value VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus was set.
+func (o OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) Reset() {
+	var v VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) SetTo(v VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) Get() (v VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) Or(d VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus returns new OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus with value set to v.
+func NewOptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus(v VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus {
+	return OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus is optional VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus.
+type OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus struct {
+	Value VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus was set.
+func (o OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) Reset() {
+	var v VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) SetTo(v VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) Get() (v VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) Or(d VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifiedCallsDisplayProfileStatus returns new OptVerifiedCallsDisplayProfileStatus with value set to v.
+func NewOptVerifiedCallsDisplayProfileStatus(v VerifiedCallsDisplayProfileStatus) OptVerifiedCallsDisplayProfileStatus {
+	return OptVerifiedCallsDisplayProfileStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifiedCallsDisplayProfileStatus is optional VerifiedCallsDisplayProfileStatus.
+type OptVerifiedCallsDisplayProfileStatus struct {
+	Value VerifiedCallsDisplayProfileStatus
+	Set   bool
+}
+
+// IsSet returns true if OptVerifiedCallsDisplayProfileStatus was set.
+func (o OptVerifiedCallsDisplayProfileStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifiedCallsDisplayProfileStatus) Reset() {
+	var v VerifiedCallsDisplayProfileStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifiedCallsDisplayProfileStatus) SetTo(v VerifiedCallsDisplayProfileStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifiedCallsDisplayProfileStatus) Get() (v VerifiedCallsDisplayProfileStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifiedCallsDisplayProfileStatus) Or(d VerifiedCallsDisplayProfileStatus) VerifiedCallsDisplayProfileStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -18264,6 +21954,236 @@ func (o OptVerifyProfileSMSResponse) Get() (v VerifyProfileSMSResponse, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptVerifyProfileSMSResponse) Or(d VerifyProfileSMSResponse) VerifyProfileSMSResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookDelivery returns new OptWebhookDelivery with value set to v.
+func NewOptWebhookDelivery(v WebhookDelivery) OptWebhookDelivery {
+	return OptWebhookDelivery{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookDelivery is optional WebhookDelivery.
+type OptWebhookDelivery struct {
+	Value WebhookDelivery
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookDelivery was set.
+func (o OptWebhookDelivery) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookDelivery) Reset() {
+	var v WebhookDelivery
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookDelivery) SetTo(v WebhookDelivery) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookDelivery) Get() (v WebhookDelivery, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookDelivery) Or(d WebhookDelivery) WebhookDelivery {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookDeliveryStatus returns new OptWebhookDeliveryStatus with value set to v.
+func NewOptWebhookDeliveryStatus(v WebhookDeliveryStatus) OptWebhookDeliveryStatus {
+	return OptWebhookDeliveryStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookDeliveryStatus is optional WebhookDeliveryStatus.
+type OptWebhookDeliveryStatus struct {
+	Value WebhookDeliveryStatus
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookDeliveryStatus was set.
+func (o OptWebhookDeliveryStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookDeliveryStatus) Reset() {
+	var v WebhookDeliveryStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookDeliveryStatus) SetTo(v WebhookDeliveryStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookDeliveryStatus) Get() (v WebhookDeliveryStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookDeliveryStatus) Or(d WebhookDeliveryStatus) WebhookDeliveryStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookDeliveryWebhook returns new OptWebhookDeliveryWebhook with value set to v.
+func NewOptWebhookDeliveryWebhook(v WebhookDeliveryWebhook) OptWebhookDeliveryWebhook {
+	return OptWebhookDeliveryWebhook{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookDeliveryWebhook is optional WebhookDeliveryWebhook.
+type OptWebhookDeliveryWebhook struct {
+	Value WebhookDeliveryWebhook
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookDeliveryWebhook was set.
+func (o OptWebhookDeliveryWebhook) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookDeliveryWebhook) Reset() {
+	var v WebhookDeliveryWebhook
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookDeliveryWebhook) SetTo(v WebhookDeliveryWebhook) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookDeliveryWebhook) Get() (v WebhookDeliveryWebhook, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookDeliveryWebhook) Or(d WebhookDeliveryWebhook) WebhookDeliveryWebhook {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookDeliveryWebhookPayload returns new OptWebhookDeliveryWebhookPayload with value set to v.
+func NewOptWebhookDeliveryWebhookPayload(v WebhookDeliveryWebhookPayload) OptWebhookDeliveryWebhookPayload {
+	return OptWebhookDeliveryWebhookPayload{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookDeliveryWebhookPayload is optional WebhookDeliveryWebhookPayload.
+type OptWebhookDeliveryWebhookPayload struct {
+	Value WebhookDeliveryWebhookPayload
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookDeliveryWebhookPayload was set.
+func (o OptWebhookDeliveryWebhookPayload) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookDeliveryWebhookPayload) Reset() {
+	var v WebhookDeliveryWebhookPayload
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookDeliveryWebhookPayload) SetTo(v WebhookDeliveryWebhookPayload) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookDeliveryWebhookPayload) Get() (v WebhookDeliveryWebhookPayload, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookDeliveryWebhookPayload) Or(d WebhookDeliveryWebhookPayload) WebhookDeliveryWebhookPayload {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookDeliveryWebhookRecordType returns new OptWebhookDeliveryWebhookRecordType with value set to v.
+func NewOptWebhookDeliveryWebhookRecordType(v WebhookDeliveryWebhookRecordType) OptWebhookDeliveryWebhookRecordType {
+	return OptWebhookDeliveryWebhookRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookDeliveryWebhookRecordType is optional WebhookDeliveryWebhookRecordType.
+type OptWebhookDeliveryWebhookRecordType struct {
+	Value WebhookDeliveryWebhookRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookDeliveryWebhookRecordType was set.
+func (o OptWebhookDeliveryWebhookRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookDeliveryWebhookRecordType) Reset() {
+	var v WebhookDeliveryWebhookRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookDeliveryWebhookRecordType) SetTo(v WebhookDeliveryWebhookRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookDeliveryWebhookRecordType) Get() (v WebhookDeliveryWebhookRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookDeliveryWebhookRecordType) Or(d WebhookDeliveryWebhookRecordType) WebhookDeliveryWebhookRecordType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -18719,6 +22639,212 @@ func (s *PauseRecordingRequest) SetClientState(val OptString) {
 // SetCommandID sets the value of CommandID.
 func (s *PauseRecordingRequest) SetCommandID(val OptString) {
 	s.CommandID = val
+}
+
+type PerformCredentialActionAction string
+
+const (
+	PerformCredentialActionActionActivate   PerformCredentialActionAction = "activate"
+	PerformCredentialActionActionDeactivate PerformCredentialActionAction = "deactivate"
+)
+
+// AllValues returns all PerformCredentialActionAction values.
+func (PerformCredentialActionAction) AllValues() []PerformCredentialActionAction {
+	return []PerformCredentialActionAction{
+		PerformCredentialActionActionActivate,
+		PerformCredentialActionActionDeactivate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PerformCredentialActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case PerformCredentialActionActionActivate:
+		return []byte(s), nil
+	case PerformCredentialActionActionDeactivate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PerformCredentialActionAction) UnmarshalText(data []byte) error {
+	switch PerformCredentialActionAction(data) {
+	case PerformCredentialActionActionActivate:
+		*s = PerformCredentialActionActionActivate
+		return nil
+	case PerformCredentialActionActionDeactivate:
+		*s = PerformCredentialActionActionDeactivate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// PerformCredentialActionBadRequest is response for PerformCredentialAction operation.
+type PerformCredentialActionBadRequest struct{}
+
+func (*PerformCredentialActionBadRequest) performCredentialActionRes() {}
+
+// PerformCredentialActionNotFound is response for PerformCredentialAction operation.
+type PerformCredentialActionNotFound struct{}
+
+func (*PerformCredentialActionNotFound) performCredentialActionRes() {}
+
+// PerformCredentialActionUnauthorized is response for PerformCredentialAction operation.
+type PerformCredentialActionUnauthorized struct{}
+
+func (*PerformCredentialActionUnauthorized) performCredentialActionRes() {}
+
+type PhoneNumbers []PhoneNumbersItem
+
+// A Phone Number that can make phone calls displaying the configured brand information.
+type PhoneNumbersItem struct {
+	RecordType OptString `json:"record_type"`
+	ID         OptUUID   `json:"id"`
+	// The phone number in e164 format.
+	PhoneNumber OptString `json:"phone_number"`
+	// The approval status of this individual phone number in Google.
+	GoogleVerificationStatus OptPhoneNumbersItemGoogleVerificationStatus `json:"google_verification_status"`
+	// Additional information about the decision, if available.
+	GoogleApprovalInfo OptString `json:"google_approval_info"`
+	DisplayProfileID   OptUUID   `json:"display_profile_id"`
+	// Marks the Phone Number to be removed from the Display Profile.
+	Delete OptBool `json:"delete"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PhoneNumbersItem) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *PhoneNumbersItem) GetID() OptUUID {
+	return s.ID
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *PhoneNumbersItem) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetGoogleVerificationStatus returns the value of GoogleVerificationStatus.
+func (s *PhoneNumbersItem) GetGoogleVerificationStatus() OptPhoneNumbersItemGoogleVerificationStatus {
+	return s.GoogleVerificationStatus
+}
+
+// GetGoogleApprovalInfo returns the value of GoogleApprovalInfo.
+func (s *PhoneNumbersItem) GetGoogleApprovalInfo() OptString {
+	return s.GoogleApprovalInfo
+}
+
+// GetDisplayProfileID returns the value of DisplayProfileID.
+func (s *PhoneNumbersItem) GetDisplayProfileID() OptUUID {
+	return s.DisplayProfileID
+}
+
+// GetDelete returns the value of Delete.
+func (s *PhoneNumbersItem) GetDelete() OptBool {
+	return s.Delete
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PhoneNumbersItem) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *PhoneNumbersItem) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *PhoneNumbersItem) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetGoogleVerificationStatus sets the value of GoogleVerificationStatus.
+func (s *PhoneNumbersItem) SetGoogleVerificationStatus(val OptPhoneNumbersItemGoogleVerificationStatus) {
+	s.GoogleVerificationStatus = val
+}
+
+// SetGoogleApprovalInfo sets the value of GoogleApprovalInfo.
+func (s *PhoneNumbersItem) SetGoogleApprovalInfo(val OptString) {
+	s.GoogleApprovalInfo = val
+}
+
+// SetDisplayProfileID sets the value of DisplayProfileID.
+func (s *PhoneNumbersItem) SetDisplayProfileID(val OptUUID) {
+	s.DisplayProfileID = val
+}
+
+// SetDelete sets the value of Delete.
+func (s *PhoneNumbersItem) SetDelete(val OptBool) {
+	s.Delete = val
+}
+
+// The approval status of this individual phone number in Google.
+type PhoneNumbersItemGoogleVerificationStatus string
+
+const (
+	PhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED PhoneNumbersItemGoogleVerificationStatus = "STATE_UNSPECIFIED"
+	PhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL  PhoneNumbersItemGoogleVerificationStatus = "PENDING_APPROVAL"
+	PhoneNumbersItemGoogleVerificationStatusAPPROVED         PhoneNumbersItemGoogleVerificationStatus = "APPROVED"
+	PhoneNumbersItemGoogleVerificationStatusDENIED           PhoneNumbersItemGoogleVerificationStatus = "DENIED"
+	PhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL   PhoneNumbersItemGoogleVerificationStatus = "PENDING_REMOVAL"
+)
+
+// AllValues returns all PhoneNumbersItemGoogleVerificationStatus values.
+func (PhoneNumbersItemGoogleVerificationStatus) AllValues() []PhoneNumbersItemGoogleVerificationStatus {
+	return []PhoneNumbersItemGoogleVerificationStatus{
+		PhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED,
+		PhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL,
+		PhoneNumbersItemGoogleVerificationStatusAPPROVED,
+		PhoneNumbersItemGoogleVerificationStatusDENIED,
+		PhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PhoneNumbersItemGoogleVerificationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		return []byte(s), nil
+	case PhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL:
+		return []byte(s), nil
+	case PhoneNumbersItemGoogleVerificationStatusAPPROVED:
+		return []byte(s), nil
+	case PhoneNumbersItemGoogleVerificationStatusDENIED:
+		return []byte(s), nil
+	case PhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PhoneNumbersItemGoogleVerificationStatus) UnmarshalText(data []byte) error {
+	switch PhoneNumbersItemGoogleVerificationStatus(data) {
+	case PhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		*s = PhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED
+		return nil
+	case PhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL:
+		*s = PhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL
+		return nil
+	case PhoneNumbersItemGoogleVerificationStatusAPPROVED:
+		*s = PhoneNumbersItemGoogleVerificationStatusAPPROVED
+		return nil
+	case PhoneNumbersItemGoogleVerificationStatusDENIED:
+		*s = PhoneNumbersItemGoogleVerificationStatusDENIED
+		return nil
+	case PhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL:
+		*s = PhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/PlayAudioUrlRequest
@@ -19706,6 +23832,16 @@ func (s *ResumeRecordingRequest) SetCommandID(val OptString) {
 	s.CommandID = val
 }
 
+// RetrieveCallControlApplicationNotFound is response for RetrieveCallControlApplication operation.
+type RetrieveCallControlApplicationNotFound struct{}
+
+func (*RetrieveCallControlApplicationNotFound) retrieveCallControlApplicationRes() {}
+
+// RetrieveCallControlApplicationUnprocessableEntity is response for RetrieveCallControlApplication operation.
+type RetrieveCallControlApplicationUnprocessableEntity struct{}
+
+func (*RetrieveCallControlApplicationUnprocessableEntity) retrieveCallControlApplicationRes() {}
+
 type RetrieveCallStatusResponse struct {
 	Data OptCall `json:"data"`
 }
@@ -19900,6 +24036,54 @@ func (s *SortApplication) UnmarshalText(data []byte) error {
 		return nil
 	case SortApplicationActive:
 		*s = SortApplicationActive
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type SortConnection string
+
+const (
+	SortConnectionCreatedAt      SortConnection = "created_at"
+	SortConnectionConnectionName SortConnection = "connection_name"
+	SortConnectionActive         SortConnection = "active"
+)
+
+// AllValues returns all SortConnection values.
+func (SortConnection) AllValues() []SortConnection {
+	return []SortConnection{
+		SortConnectionCreatedAt,
+		SortConnectionConnectionName,
+		SortConnectionActive,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SortConnection) MarshalText() ([]byte, error) {
+	switch s {
+	case SortConnectionCreatedAt:
+		return []byte(s), nil
+	case SortConnectionConnectionName:
+		return []byte(s), nil
+	case SortConnectionActive:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SortConnection) UnmarshalText(data []byte) error {
+	switch SortConnection(data) {
+	case SortConnectionCreatedAt:
+		*s = SortConnectionCreatedAt
+		return nil
+	case SortConnectionConnectionName:
+		*s = SortConnectionConnectionName
+		return nil
+	case SortConnectionActive:
+		*s = SortConnectionActive
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -21241,6 +25425,251 @@ func (s *StopStreamingRequest) SetClientState(val OptString) {
 // SetCommandID sets the value of CommandID.
 func (s *StopStreamingRequest) SetCommandID(val OptString) {
 	s.CommandID = val
+}
+
+// Ref: #/components/schemas/TelephonyCredential
+type TelephonyCredential struct {
+	// Identifies the resource.
+	ID OptString `json:"id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	Name       OptString `json:"name"`
+	// Identifies the resource this credential is associated with.
+	ResourceID OptString `json:"resource_id"`
+	// Defaults to false.
+	Expired OptBool `json:"expired"`
+	// The randomly generated SIP username for the credential.
+	SipUsername OptString `json:"sip_username"`
+	// The randomly generated SIP password for the credential.
+	SipPassword OptString `json:"sip_password"`
+	// ISO-8601 formatted date indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO-8601 formatted date indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// ISO-8601 formatted date indicating when the resource will expire.
+	ExpiresAt OptString `json:"expires_at"`
+}
+
+// GetID returns the value of ID.
+func (s *TelephonyCredential) GetID() OptString {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *TelephonyCredential) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetName returns the value of Name.
+func (s *TelephonyCredential) GetName() OptString {
+	return s.Name
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *TelephonyCredential) GetResourceID() OptString {
+	return s.ResourceID
+}
+
+// GetExpired returns the value of Expired.
+func (s *TelephonyCredential) GetExpired() OptBool {
+	return s.Expired
+}
+
+// GetSipUsername returns the value of SipUsername.
+func (s *TelephonyCredential) GetSipUsername() OptString {
+	return s.SipUsername
+}
+
+// GetSipPassword returns the value of SipPassword.
+func (s *TelephonyCredential) GetSipPassword() OptString {
+	return s.SipPassword
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *TelephonyCredential) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *TelephonyCredential) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetExpiresAt returns the value of ExpiresAt.
+func (s *TelephonyCredential) GetExpiresAt() OptString {
+	return s.ExpiresAt
+}
+
+// SetID sets the value of ID.
+func (s *TelephonyCredential) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *TelephonyCredential) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetName sets the value of Name.
+func (s *TelephonyCredential) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *TelephonyCredential) SetResourceID(val OptString) {
+	s.ResourceID = val
+}
+
+// SetExpired sets the value of Expired.
+func (s *TelephonyCredential) SetExpired(val OptBool) {
+	s.Expired = val
+}
+
+// SetSipUsername sets the value of SipUsername.
+func (s *TelephonyCredential) SetSipUsername(val OptString) {
+	s.SipUsername = val
+}
+
+// SetSipPassword sets the value of SipPassword.
+func (s *TelephonyCredential) SetSipPassword(val OptString) {
+	s.SipPassword = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *TelephonyCredential) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *TelephonyCredential) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetExpiresAt sets the value of ExpiresAt.
+func (s *TelephonyCredential) SetExpiresAt(val OptString) {
+	s.ExpiresAt = val
+}
+
+// Ref: #/components/schemas/TelephonyCredentialCreateRequest
+type TelephonyCredentialCreateRequest struct {
+	Name OptString `json:"name"`
+	// Tags a credential to filter for bulk operations. A single tag can hold at maximum 1000 credentials.
+	Tag OptString `json:"tag"`
+	// Identifies the Credential Connection this credential is associated with.
+	ConnectionID string `json:"connection_id"`
+	// ISO-8601 formatted date indicating when the credential will expire.
+	ExpiresAt OptString `json:"expires_at"`
+}
+
+// GetName returns the value of Name.
+func (s *TelephonyCredentialCreateRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetTag returns the value of Tag.
+func (s *TelephonyCredentialCreateRequest) GetTag() OptString {
+	return s.Tag
+}
+
+// GetConnectionID returns the value of ConnectionID.
+func (s *TelephonyCredentialCreateRequest) GetConnectionID() string {
+	return s.ConnectionID
+}
+
+// GetExpiresAt returns the value of ExpiresAt.
+func (s *TelephonyCredentialCreateRequest) GetExpiresAt() OptString {
+	return s.ExpiresAt
+}
+
+// SetName sets the value of Name.
+func (s *TelephonyCredentialCreateRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetTag sets the value of Tag.
+func (s *TelephonyCredentialCreateRequest) SetTag(val OptString) {
+	s.Tag = val
+}
+
+// SetConnectionID sets the value of ConnectionID.
+func (s *TelephonyCredentialCreateRequest) SetConnectionID(val string) {
+	s.ConnectionID = val
+}
+
+// SetExpiresAt sets the value of ExpiresAt.
+func (s *TelephonyCredentialCreateRequest) SetExpiresAt(val OptString) {
+	s.ExpiresAt = val
+}
+
+type TelephonyCredentialResponse struct {
+	Data OptTelephonyCredential `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *TelephonyCredentialResponse) GetData() OptTelephonyCredential {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *TelephonyCredentialResponse) SetData(val OptTelephonyCredential) {
+	s.Data = val
+}
+
+func (*TelephonyCredentialResponse) createTelephonyCredentialRes() {}
+func (*TelephonyCredentialResponse) deleteTelephonyCredentialRes() {}
+func (*TelephonyCredentialResponse) getTelephonyCredentialRes()    {}
+func (*TelephonyCredentialResponse) performCredentialActionRes()   {}
+func (*TelephonyCredentialResponse) updateTelephonyCredentialRes() {}
+
+// Ref: #/components/schemas/TelephonyCredentialUpdateRequest
+type TelephonyCredentialUpdateRequest struct {
+	Name OptString `json:"name"`
+	// Tags a credential to filter for bulk operations. A single tag can hold at maximum 1000 credentials.
+	Tag OptString `json:"tag"`
+	// Identifies the Credential Connection this credential is associated with.
+	ConnectionID OptString `json:"connection_id"`
+	// ISO-8601 formatted date indicating when the credential will expire.
+	ExpiresAt OptString `json:"expires_at"`
+}
+
+// GetName returns the value of Name.
+func (s *TelephonyCredentialUpdateRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetTag returns the value of Tag.
+func (s *TelephonyCredentialUpdateRequest) GetTag() OptString {
+	return s.Tag
+}
+
+// GetConnectionID returns the value of ConnectionID.
+func (s *TelephonyCredentialUpdateRequest) GetConnectionID() OptString {
+	return s.ConnectionID
+}
+
+// GetExpiresAt returns the value of ExpiresAt.
+func (s *TelephonyCredentialUpdateRequest) GetExpiresAt() OptString {
+	return s.ExpiresAt
+}
+
+// SetName sets the value of Name.
+func (s *TelephonyCredentialUpdateRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetTag sets the value of Tag.
+func (s *TelephonyCredentialUpdateRequest) SetTag(val OptString) {
+	s.Tag = val
+}
+
+// SetConnectionID sets the value of ConnectionID.
+func (s *TelephonyCredentialUpdateRequest) SetConnectionID(val OptString) {
+	s.ConnectionID = val
+}
+
+// SetExpiresAt sets the value of ExpiresAt.
+func (s *TelephonyCredentialUpdateRequest) SetExpiresAt(val OptString) {
+	s.ExpiresAt = val
 }
 
 // Ref: #/components/schemas/TexmlApplication
@@ -23578,11 +28007,332 @@ func (TwimlRecordingChannels) AllValues() []TwimlRecordingChannels {
 // Ref: #/components/responses/UnauthorizedResponse
 type UnauthorizedResponse struct{}
 
-func (*UnauthorizedResponse) createTexmlApplicationRes() {}
-func (*UnauthorizedResponse) deleteTexmlApplicationRes() {}
-func (*UnauthorizedResponse) findTexmlApplicationsRes()  {}
-func (*UnauthorizedResponse) getTexmlApplicationRes()    {}
-func (*UnauthorizedResponse) updateTexmlApplicationRes() {}
+func (*UnauthorizedResponse) createTexmlApplicationRes()         {}
+func (*UnauthorizedResponse) deleteCallControlApplicationRes()   {}
+func (*UnauthorizedResponse) deleteTexmlApplicationRes()         {}
+func (*UnauthorizedResponse) findTexmlApplicationsRes()          {}
+func (*UnauthorizedResponse) getTexmlApplicationRes()            {}
+func (*UnauthorizedResponse) listCallControlApplicationsRes()    {}
+func (*UnauthorizedResponse) retrieveCallControlApplicationRes() {}
+func (*UnauthorizedResponse) updateCallControlApplicationRes()   {}
+func (*UnauthorizedResponse) updateTexmlApplicationRes()         {}
+
+// UpdateBulkTelephonyCredentialUnprocessableEntity is response for UpdateBulkTelephonyCredential operation.
+type UpdateBulkTelephonyCredentialUnprocessableEntity struct{}
+
+func (*UpdateBulkTelephonyCredentialUnprocessableEntity) updateBulkTelephonyCredentialRes() {}
+
+// UpdateCallControlApplicationNotFound is response for UpdateCallControlApplication operation.
+type UpdateCallControlApplicationNotFound struct{}
+
+func (*UpdateCallControlApplicationNotFound) updateCallControlApplicationRes() {}
+
+// Ref: #/components/schemas/UpdateCallControlApplicationRequest
+type UpdateCallControlApplicationRequest struct {
+	// A user-assigned name to help manage the application.
+	ApplicationName string `json:"application_name"`
+	// The URL where webhooks related to this connection will be sent. Must include a scheme, such as
+	// 'https'.
+	WebhookEventURL string `json:"webhook_event_url"`
+	// Specifies whether the connection can be used.
+	Active OptBool `json:"active"`
+	// <code>Latency</code> directs Telnyx to route media through the site with the lowest round-trip
+	// time to the user's connection. Telnyx calculates this time using ICMP ping messages. This can be
+	// disabled by specifying a site to handle all media.
+	AnchorsiteOverride OptUpdateCallControlApplicationRequestAnchorsiteOverride `json:"anchorsite_override"`
+	// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+	// Telnyx will be accepted in all formats.
+	DtmfType OptUpdateCallControlApplicationRequestDtmfType `json:"dtmf_type"`
+	// Specifies whether calls to phone numbers associated with this connection should hangup after
+	// timing out.
+	FirstCommandTimeout OptBool `json:"first_command_timeout"`
+	// Specifies how many seconds to wait before timing out a dial command.
+	FirstCommandTimeoutSecs OptInt                            `json:"first_command_timeout_secs"`
+	Inbound                 OptCallControlApplicationInbound  `json:"inbound"`
+	Outbound                OptCallControlApplicationOutbound `json:"outbound"`
+	// Determines which webhook format will be used, Telnyx API v1 or v2.
+	WebhookAPIVersion OptUpdateCallControlApplicationRequestWebhookAPIVersion `json:"webhook_api_version"`
+	// The failover URL where webhooks related to this connection will be sent if sending to the primary
+	// URL fails. Must include a scheme, such as 'https'.
+	WebhookEventFailoverURL OptNilString `json:"webhook_event_failover_url"`
+	// Specifies how many seconds to wait before timing out a webhook.
+	WebhookTimeoutSecs OptNilInt `json:"webhook_timeout_secs"`
+}
+
+// GetApplicationName returns the value of ApplicationName.
+func (s *UpdateCallControlApplicationRequest) GetApplicationName() string {
+	return s.ApplicationName
+}
+
+// GetWebhookEventURL returns the value of WebhookEventURL.
+func (s *UpdateCallControlApplicationRequest) GetWebhookEventURL() string {
+	return s.WebhookEventURL
+}
+
+// GetActive returns the value of Active.
+func (s *UpdateCallControlApplicationRequest) GetActive() OptBool {
+	return s.Active
+}
+
+// GetAnchorsiteOverride returns the value of AnchorsiteOverride.
+func (s *UpdateCallControlApplicationRequest) GetAnchorsiteOverride() OptUpdateCallControlApplicationRequestAnchorsiteOverride {
+	return s.AnchorsiteOverride
+}
+
+// GetDtmfType returns the value of DtmfType.
+func (s *UpdateCallControlApplicationRequest) GetDtmfType() OptUpdateCallControlApplicationRequestDtmfType {
+	return s.DtmfType
+}
+
+// GetFirstCommandTimeout returns the value of FirstCommandTimeout.
+func (s *UpdateCallControlApplicationRequest) GetFirstCommandTimeout() OptBool {
+	return s.FirstCommandTimeout
+}
+
+// GetFirstCommandTimeoutSecs returns the value of FirstCommandTimeoutSecs.
+func (s *UpdateCallControlApplicationRequest) GetFirstCommandTimeoutSecs() OptInt {
+	return s.FirstCommandTimeoutSecs
+}
+
+// GetInbound returns the value of Inbound.
+func (s *UpdateCallControlApplicationRequest) GetInbound() OptCallControlApplicationInbound {
+	return s.Inbound
+}
+
+// GetOutbound returns the value of Outbound.
+func (s *UpdateCallControlApplicationRequest) GetOutbound() OptCallControlApplicationOutbound {
+	return s.Outbound
+}
+
+// GetWebhookAPIVersion returns the value of WebhookAPIVersion.
+func (s *UpdateCallControlApplicationRequest) GetWebhookAPIVersion() OptUpdateCallControlApplicationRequestWebhookAPIVersion {
+	return s.WebhookAPIVersion
+}
+
+// GetWebhookEventFailoverURL returns the value of WebhookEventFailoverURL.
+func (s *UpdateCallControlApplicationRequest) GetWebhookEventFailoverURL() OptNilString {
+	return s.WebhookEventFailoverURL
+}
+
+// GetWebhookTimeoutSecs returns the value of WebhookTimeoutSecs.
+func (s *UpdateCallControlApplicationRequest) GetWebhookTimeoutSecs() OptNilInt {
+	return s.WebhookTimeoutSecs
+}
+
+// SetApplicationName sets the value of ApplicationName.
+func (s *UpdateCallControlApplicationRequest) SetApplicationName(val string) {
+	s.ApplicationName = val
+}
+
+// SetWebhookEventURL sets the value of WebhookEventURL.
+func (s *UpdateCallControlApplicationRequest) SetWebhookEventURL(val string) {
+	s.WebhookEventURL = val
+}
+
+// SetActive sets the value of Active.
+func (s *UpdateCallControlApplicationRequest) SetActive(val OptBool) {
+	s.Active = val
+}
+
+// SetAnchorsiteOverride sets the value of AnchorsiteOverride.
+func (s *UpdateCallControlApplicationRequest) SetAnchorsiteOverride(val OptUpdateCallControlApplicationRequestAnchorsiteOverride) {
+	s.AnchorsiteOverride = val
+}
+
+// SetDtmfType sets the value of DtmfType.
+func (s *UpdateCallControlApplicationRequest) SetDtmfType(val OptUpdateCallControlApplicationRequestDtmfType) {
+	s.DtmfType = val
+}
+
+// SetFirstCommandTimeout sets the value of FirstCommandTimeout.
+func (s *UpdateCallControlApplicationRequest) SetFirstCommandTimeout(val OptBool) {
+	s.FirstCommandTimeout = val
+}
+
+// SetFirstCommandTimeoutSecs sets the value of FirstCommandTimeoutSecs.
+func (s *UpdateCallControlApplicationRequest) SetFirstCommandTimeoutSecs(val OptInt) {
+	s.FirstCommandTimeoutSecs = val
+}
+
+// SetInbound sets the value of Inbound.
+func (s *UpdateCallControlApplicationRequest) SetInbound(val OptCallControlApplicationInbound) {
+	s.Inbound = val
+}
+
+// SetOutbound sets the value of Outbound.
+func (s *UpdateCallControlApplicationRequest) SetOutbound(val OptCallControlApplicationOutbound) {
+	s.Outbound = val
+}
+
+// SetWebhookAPIVersion sets the value of WebhookAPIVersion.
+func (s *UpdateCallControlApplicationRequest) SetWebhookAPIVersion(val OptUpdateCallControlApplicationRequestWebhookAPIVersion) {
+	s.WebhookAPIVersion = val
+}
+
+// SetWebhookEventFailoverURL sets the value of WebhookEventFailoverURL.
+func (s *UpdateCallControlApplicationRequest) SetWebhookEventFailoverURL(val OptNilString) {
+	s.WebhookEventFailoverURL = val
+}
+
+// SetWebhookTimeoutSecs sets the value of WebhookTimeoutSecs.
+func (s *UpdateCallControlApplicationRequest) SetWebhookTimeoutSecs(val OptNilInt) {
+	s.WebhookTimeoutSecs = val
+}
+
+// <code>Latency</code> directs Telnyx to route media through the site with the lowest round-trip
+// time to the user's connection. Telnyx calculates this time using ICMP ping messages. This can be
+// disabled by specifying a site to handle all media.
+type UpdateCallControlApplicationRequestAnchorsiteOverride string
+
+const (
+	UpdateCallControlApplicationRequestAnchorsiteOverrideLatency   UpdateCallControlApplicationRequestAnchorsiteOverride = "\"Latency\""
+	UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL UpdateCallControlApplicationRequestAnchorsiteOverride = "\"Chicago, IL\""
+	UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA UpdateCallControlApplicationRequestAnchorsiteOverride = "\"Ashburn, VA\""
+	UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA UpdateCallControlApplicationRequestAnchorsiteOverride = "\"San Jose, CA\""
+)
+
+// AllValues returns all UpdateCallControlApplicationRequestAnchorsiteOverride values.
+func (UpdateCallControlApplicationRequestAnchorsiteOverride) AllValues() []UpdateCallControlApplicationRequestAnchorsiteOverride {
+	return []UpdateCallControlApplicationRequestAnchorsiteOverride{
+		UpdateCallControlApplicationRequestAnchorsiteOverrideLatency,
+		UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL,
+		UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA,
+		UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateCallControlApplicationRequestAnchorsiteOverride) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideLatency:
+		return []byte(s), nil
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL:
+		return []byte(s), nil
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA:
+		return []byte(s), nil
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateCallControlApplicationRequestAnchorsiteOverride) UnmarshalText(data []byte) error {
+	switch UpdateCallControlApplicationRequestAnchorsiteOverride(data) {
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideLatency:
+		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideLatency
+		return nil
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL:
+		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL
+		return nil
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA:
+		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA
+		return nil
+	case UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA:
+		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+// Telnyx will be accepted in all formats.
+type UpdateCallControlApplicationRequestDtmfType string
+
+const (
+	UpdateCallControlApplicationRequestDtmfTypeRFC2833 UpdateCallControlApplicationRequestDtmfType = "RFC 2833"
+	UpdateCallControlApplicationRequestDtmfTypeInband  UpdateCallControlApplicationRequestDtmfType = "Inband"
+	UpdateCallControlApplicationRequestDtmfTypeSIPINFO UpdateCallControlApplicationRequestDtmfType = "SIP INFO"
+)
+
+// AllValues returns all UpdateCallControlApplicationRequestDtmfType values.
+func (UpdateCallControlApplicationRequestDtmfType) AllValues() []UpdateCallControlApplicationRequestDtmfType {
+	return []UpdateCallControlApplicationRequestDtmfType{
+		UpdateCallControlApplicationRequestDtmfTypeRFC2833,
+		UpdateCallControlApplicationRequestDtmfTypeInband,
+		UpdateCallControlApplicationRequestDtmfTypeSIPINFO,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateCallControlApplicationRequestDtmfType) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateCallControlApplicationRequestDtmfTypeRFC2833:
+		return []byte(s), nil
+	case UpdateCallControlApplicationRequestDtmfTypeInband:
+		return []byte(s), nil
+	case UpdateCallControlApplicationRequestDtmfTypeSIPINFO:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateCallControlApplicationRequestDtmfType) UnmarshalText(data []byte) error {
+	switch UpdateCallControlApplicationRequestDtmfType(data) {
+	case UpdateCallControlApplicationRequestDtmfTypeRFC2833:
+		*s = UpdateCallControlApplicationRequestDtmfTypeRFC2833
+		return nil
+	case UpdateCallControlApplicationRequestDtmfTypeInband:
+		*s = UpdateCallControlApplicationRequestDtmfTypeInband
+		return nil
+	case UpdateCallControlApplicationRequestDtmfTypeSIPINFO:
+		*s = UpdateCallControlApplicationRequestDtmfTypeSIPINFO
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Determines which webhook format will be used, Telnyx API v1 or v2.
+type UpdateCallControlApplicationRequestWebhookAPIVersion string
+
+const (
+	UpdateCallControlApplicationRequestWebhookAPIVersion1 UpdateCallControlApplicationRequestWebhookAPIVersion = "1"
+	UpdateCallControlApplicationRequestWebhookAPIVersion2 UpdateCallControlApplicationRequestWebhookAPIVersion = "2"
+)
+
+// AllValues returns all UpdateCallControlApplicationRequestWebhookAPIVersion values.
+func (UpdateCallControlApplicationRequestWebhookAPIVersion) AllValues() []UpdateCallControlApplicationRequestWebhookAPIVersion {
+	return []UpdateCallControlApplicationRequestWebhookAPIVersion{
+		UpdateCallControlApplicationRequestWebhookAPIVersion1,
+		UpdateCallControlApplicationRequestWebhookAPIVersion2,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateCallControlApplicationRequestWebhookAPIVersion) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateCallControlApplicationRequestWebhookAPIVersion1:
+		return []byte(s), nil
+	case UpdateCallControlApplicationRequestWebhookAPIVersion2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateCallControlApplicationRequestWebhookAPIVersion) UnmarshalText(data []byte) error {
+	switch UpdateCallControlApplicationRequestWebhookAPIVersion(data) {
+	case UpdateCallControlApplicationRequestWebhookAPIVersion1:
+		*s = UpdateCallControlApplicationRequestWebhookAPIVersion1
+		return nil
+	case UpdateCallControlApplicationRequestWebhookAPIVersion2:
+		*s = UpdateCallControlApplicationRequestWebhookAPIVersion2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// UpdateCallControlApplicationUnprocessableEntity is response for UpdateCallControlApplication operation.
+type UpdateCallControlApplicationUnprocessableEntity struct{}
+
+func (*UpdateCallControlApplicationUnprocessableEntity) updateCallControlApplicationRes() {}
 
 // Ref: #/components/schemas/UpdateCallRequest
 type UpdateCallRequest struct {
@@ -24147,6 +28897,11 @@ func (s *UpdateConferenceRequestAnnounceMethod) UnmarshalText(data []byte) error
 	}
 }
 
+// UpdateProfileOK is response for UpdateProfile operation.
+type UpdateProfileOK struct{}
+
+func (*UpdateProfileOK) updateProfileRes() {}
+
 type UpdateTeXMLCallResponse struct {
 	Data OptUpdateCommandResult `json:"data"`
 }
@@ -24160,6 +28915,21 @@ func (s *UpdateTeXMLCallResponse) GetData() OptUpdateCommandResult {
 func (s *UpdateTeXMLCallResponse) SetData(val OptUpdateCommandResult) {
 	s.Data = val
 }
+
+// UpdateTelephonyCredentialNotFound is response for UpdateTelephonyCredential operation.
+type UpdateTelephonyCredentialNotFound struct{}
+
+func (*UpdateTelephonyCredentialNotFound) updateTelephonyCredentialRes() {}
+
+// UpdateTelephonyCredentialUnauthorized is response for UpdateTelephonyCredential operation.
+type UpdateTelephonyCredentialUnauthorized struct{}
+
+func (*UpdateTelephonyCredentialUnauthorized) updateTelephonyCredentialRes() {}
+
+// UpdateTelephonyCredentialUnprocessableEntity is response for UpdateTelephonyCredential operation.
+type UpdateTelephonyCredentialUnprocessableEntity struct{}
+
+func (*UpdateTelephonyCredentialUnprocessableEntity) updateTelephonyCredentialRes() {}
 
 type UpdateTexmlApplicationBadRequest ErrorResponse
 
@@ -24543,6 +29313,32 @@ type UpdateTexmlApplicationUnprocessableEntity ErrorResponse
 
 func (*UpdateTexmlApplicationUnprocessableEntity) updateTexmlApplicationRes() {}
 
+// Ref: #/components/schemas/UpdateVerifiedCallsDisplayProfileRequest
+type UpdateVerifiedCallsDisplayProfileRequest struct {
+	CallReasons  CallReasons  `json:"call_reasons"`
+	PhoneNumbers PhoneNumbers `json:"phone_numbers"`
+}
+
+// GetCallReasons returns the value of CallReasons.
+func (s *UpdateVerifiedCallsDisplayProfileRequest) GetCallReasons() CallReasons {
+	return s.CallReasons
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *UpdateVerifiedCallsDisplayProfileRequest) GetPhoneNumbers() PhoneNumbers {
+	return s.PhoneNumbers
+}
+
+// SetCallReasons sets the value of CallReasons.
+func (s *UpdateVerifiedCallsDisplayProfileRequest) SetCallReasons(val CallReasons) {
+	s.CallReasons = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *UpdateVerifiedCallsDisplayProfileRequest) SetPhoneNumbers(val PhoneNumbers) {
+	s.PhoneNumbers = val
+}
+
 // Ref: #/components/schemas/UpdateVerifyProfileCallRequest
 type UpdateVerifyProfileCallRequest struct {
 	// The message template identifier selected from /verify_profiles/templates.
@@ -24892,6 +29688,222 @@ func (s *UsageReportsResponseDataItem) init() UsageReportsResponseDataItem {
 	return m
 }
 
+// Ref: #/components/schemas/UserBalance
+type UserBalance struct {
+	// Identifies the type of the resource.
+	RecordType OptUserBalanceRecordType `json:"record_type"`
+	// The account's current balance.
+	Balance OptString `json:"balance"`
+	// The account's credit limit.
+	CreditLimit OptString `json:"credit_limit"`
+	// Available amount to spend (balance + credit limit).
+	AvailableCredit OptString `json:"available_credit"`
+	// The ISO 4217 currency identifier.
+	Currency OptString `json:"currency"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *UserBalance) GetRecordType() OptUserBalanceRecordType {
+	return s.RecordType
+}
+
+// GetBalance returns the value of Balance.
+func (s *UserBalance) GetBalance() OptString {
+	return s.Balance
+}
+
+// GetCreditLimit returns the value of CreditLimit.
+func (s *UserBalance) GetCreditLimit() OptString {
+	return s.CreditLimit
+}
+
+// GetAvailableCredit returns the value of AvailableCredit.
+func (s *UserBalance) GetAvailableCredit() OptString {
+	return s.AvailableCredit
+}
+
+// GetCurrency returns the value of Currency.
+func (s *UserBalance) GetCurrency() OptString {
+	return s.Currency
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *UserBalance) SetRecordType(val OptUserBalanceRecordType) {
+	s.RecordType = val
+}
+
+// SetBalance sets the value of Balance.
+func (s *UserBalance) SetBalance(val OptString) {
+	s.Balance = val
+}
+
+// SetCreditLimit sets the value of CreditLimit.
+func (s *UserBalance) SetCreditLimit(val OptString) {
+	s.CreditLimit = val
+}
+
+// SetAvailableCredit sets the value of AvailableCredit.
+func (s *UserBalance) SetAvailableCredit(val OptString) {
+	s.AvailableCredit = val
+}
+
+// SetCurrency sets the value of Currency.
+func (s *UserBalance) SetCurrency(val OptString) {
+	s.Currency = val
+}
+
+// Identifies the type of the resource.
+type UserBalanceRecordType string
+
+const (
+	UserBalanceRecordTypeBalance UserBalanceRecordType = "balance"
+)
+
+// AllValues returns all UserBalanceRecordType values.
+func (UserBalanceRecordType) AllValues() []UserBalanceRecordType {
+	return []UserBalanceRecordType{
+		UserBalanceRecordTypeBalance,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UserBalanceRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case UserBalanceRecordTypeBalance:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UserBalanceRecordType) UnmarshalText(data []byte) error {
+	switch UserBalanceRecordType(data) {
+	case UserBalanceRecordTypeBalance:
+		*s = UserBalanceRecordTypeBalance
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type UserBalanceResponse struct {
+	Data OptUserBalance `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UserBalanceResponse) GetData() OptUserBalance {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UserBalanceResponse) SetData(val OptUserBalance) {
+	s.Data = val
+}
+
+func (*UserBalanceResponse) getUserBalanceRes() {}
+
+// Ref: #/components/schemas/ValidationError
+type ValidationError struct {
+	Loc  []ValidationErrorLocItem `json:"loc"`
+	Msg  string                   `json:"msg"`
+	Type string                   `json:"type"`
+}
+
+// GetLoc returns the value of Loc.
+func (s *ValidationError) GetLoc() []ValidationErrorLocItem {
+	return s.Loc
+}
+
+// GetMsg returns the value of Msg.
+func (s *ValidationError) GetMsg() string {
+	return s.Msg
+}
+
+// GetType returns the value of Type.
+func (s *ValidationError) GetType() string {
+	return s.Type
+}
+
+// SetLoc sets the value of Loc.
+func (s *ValidationError) SetLoc(val []ValidationErrorLocItem) {
+	s.Loc = val
+}
+
+// SetMsg sets the value of Msg.
+func (s *ValidationError) SetMsg(val string) {
+	s.Msg = val
+}
+
+// SetType sets the value of Type.
+func (s *ValidationError) SetType(val string) {
+	s.Type = val
+}
+
+// ValidationErrorLocItem represents sum type.
+type ValidationErrorLocItem struct {
+	Type   ValidationErrorLocItemType // switch on this field
+	String string
+	Int    int
+}
+
+// ValidationErrorLocItemType is oneOf type of ValidationErrorLocItem.
+type ValidationErrorLocItemType string
+
+// Possible values for ValidationErrorLocItemType.
+const (
+	StringValidationErrorLocItem ValidationErrorLocItemType = "string"
+	IntValidationErrorLocItem    ValidationErrorLocItemType = "int"
+)
+
+// IsString reports whether ValidationErrorLocItem is string.
+func (s ValidationErrorLocItem) IsString() bool { return s.Type == StringValidationErrorLocItem }
+
+// IsInt reports whether ValidationErrorLocItem is int.
+func (s ValidationErrorLocItem) IsInt() bool { return s.Type == IntValidationErrorLocItem }
+
+// SetString sets ValidationErrorLocItem to string.
+func (s *ValidationErrorLocItem) SetString(v string) {
+	s.Type = StringValidationErrorLocItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if ValidationErrorLocItem is string.
+func (s ValidationErrorLocItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringValidationErrorLocItem returns new ValidationErrorLocItem from string.
+func NewStringValidationErrorLocItem(v string) ValidationErrorLocItem {
+	var s ValidationErrorLocItem
+	s.SetString(v)
+	return s
+}
+
+// SetInt sets ValidationErrorLocItem to int.
+func (s *ValidationErrorLocItem) SetInt(v int) {
+	s.Type = IntValidationErrorLocItem
+	s.Int = v
+}
+
+// GetInt returns int and true boolean if ValidationErrorLocItem is int.
+func (s ValidationErrorLocItem) GetInt() (v int, ok bool) {
+	if !s.IsInt() {
+		return v, false
+	}
+	return s.Int, true
+}
+
+// NewIntValidationErrorLocItem returns new ValidationErrorLocItem from int.
+func NewIntValidationErrorLocItem(v int) ValidationErrorLocItem {
+	var s ValidationErrorLocItem
+	s.SetInt(v)
+	return s
+}
+
 // Ref: #/components/schemas/Verification
 type Verification struct {
 	ID         OptUUID                   `json:"id"`
@@ -25180,6 +30192,524 @@ func (s *VerificationType) UnmarshalText(data []byte) error {
 		return nil
 	case VerificationTypeFlashcall:
 		*s = VerificationTypeFlashcall
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/VerifiedCallsDisplayProfile
+type VerifiedCallsDisplayProfile struct {
+	RecordType OptString `json:"record_type"`
+	ID         OptUUID   `json:"id"`
+	// The Verified Calls Display Profile's name.
+	Name OptString `json:"name"`
+	// The display name to be shown as the caller name in phones.
+	DisplayName OptString `json:"display_name"`
+	// The URL pointing to a public image file that will be displayed during calls in phones.
+	LogoURL OptString `json:"logo_url"`
+	// The approval status of the Verified Calls Display Profile in Google.
+	Status OptVerifiedCallsDisplayProfileStatus `json:"status"`
+	// The associated Business Identity.
+	BusinessIdentity OptVerifiedCallsDisplayProfileBusinessIdentity `json:"business_identity"`
+	PhoneNumbers     []VerifiedCallsDisplayProfilePhoneNumbersItem  `json:"phone_numbers"`
+	CallReasons      []VerifiedCallsDisplayProfileCallReasonsItem   `json:"call_reasons"`
+	// An ISO 8601 datetime string for when the display profile was added to the Telnyx platform.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8601 datetime string for when the display profile was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *VerifiedCallsDisplayProfile) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *VerifiedCallsDisplayProfile) GetID() OptUUID {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *VerifiedCallsDisplayProfile) GetName() OptString {
+	return s.Name
+}
+
+// GetDisplayName returns the value of DisplayName.
+func (s *VerifiedCallsDisplayProfile) GetDisplayName() OptString {
+	return s.DisplayName
+}
+
+// GetLogoURL returns the value of LogoURL.
+func (s *VerifiedCallsDisplayProfile) GetLogoURL() OptString {
+	return s.LogoURL
+}
+
+// GetStatus returns the value of Status.
+func (s *VerifiedCallsDisplayProfile) GetStatus() OptVerifiedCallsDisplayProfileStatus {
+	return s.Status
+}
+
+// GetBusinessIdentity returns the value of BusinessIdentity.
+func (s *VerifiedCallsDisplayProfile) GetBusinessIdentity() OptVerifiedCallsDisplayProfileBusinessIdentity {
+	return s.BusinessIdentity
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *VerifiedCallsDisplayProfile) GetPhoneNumbers() []VerifiedCallsDisplayProfilePhoneNumbersItem {
+	return s.PhoneNumbers
+}
+
+// GetCallReasons returns the value of CallReasons.
+func (s *VerifiedCallsDisplayProfile) GetCallReasons() []VerifiedCallsDisplayProfileCallReasonsItem {
+	return s.CallReasons
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *VerifiedCallsDisplayProfile) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *VerifiedCallsDisplayProfile) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *VerifiedCallsDisplayProfile) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *VerifiedCallsDisplayProfile) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *VerifiedCallsDisplayProfile) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDisplayName sets the value of DisplayName.
+func (s *VerifiedCallsDisplayProfile) SetDisplayName(val OptString) {
+	s.DisplayName = val
+}
+
+// SetLogoURL sets the value of LogoURL.
+func (s *VerifiedCallsDisplayProfile) SetLogoURL(val OptString) {
+	s.LogoURL = val
+}
+
+// SetStatus sets the value of Status.
+func (s *VerifiedCallsDisplayProfile) SetStatus(val OptVerifiedCallsDisplayProfileStatus) {
+	s.Status = val
+}
+
+// SetBusinessIdentity sets the value of BusinessIdentity.
+func (s *VerifiedCallsDisplayProfile) SetBusinessIdentity(val OptVerifiedCallsDisplayProfileBusinessIdentity) {
+	s.BusinessIdentity = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *VerifiedCallsDisplayProfile) SetPhoneNumbers(val []VerifiedCallsDisplayProfilePhoneNumbersItem) {
+	s.PhoneNumbers = val
+}
+
+// SetCallReasons sets the value of CallReasons.
+func (s *VerifiedCallsDisplayProfile) SetCallReasons(val []VerifiedCallsDisplayProfileCallReasonsItem) {
+	s.CallReasons = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *VerifiedCallsDisplayProfile) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *VerifiedCallsDisplayProfile) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// The associated Business Identity.
+type VerifiedCallsDisplayProfileBusinessIdentity struct {
+	RecordType OptString `json:"record_type"`
+	// The name of the business identity on the telnyx platform.
+	Name OptString `json:"name"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *VerifiedCallsDisplayProfileBusinessIdentity) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetName returns the value of Name.
+func (s *VerifiedCallsDisplayProfileBusinessIdentity) GetName() OptString {
+	return s.Name
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *VerifiedCallsDisplayProfileBusinessIdentity) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetName sets the value of Name.
+func (s *VerifiedCallsDisplayProfileBusinessIdentity) SetName(val OptString) {
+	s.Name = val
+}
+
+// The Call Reason to be displayed to the call recipient.
+type VerifiedCallsDisplayProfileCallReasonsItem struct {
+	RecordType OptString `json:"record_type"`
+	ID         OptUUID   `json:"id"`
+	// The Call Reason text to be displayed to the call recipient.
+	Reason OptString `json:"reason"`
+	// The approval status of this individual call reason in Google.
+	GoogleVerificationStatus OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus `json:"google_verification_status"`
+	// Additional information about the decision, if available.
+	GoogleApprovalInfo OptString `json:"google_approval_info"`
+	DisplayProfileID   OptUUID   `json:"display_profile_id"`
+	// Marks the Phone Number to be removed from the Display Profile.
+	Delete OptBool `json:"delete"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetID() OptUUID {
+	return s.ID
+}
+
+// GetReason returns the value of Reason.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetReason() OptString {
+	return s.Reason
+}
+
+// GetGoogleVerificationStatus returns the value of GoogleVerificationStatus.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetGoogleVerificationStatus() OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus {
+	return s.GoogleVerificationStatus
+}
+
+// GetGoogleApprovalInfo returns the value of GoogleApprovalInfo.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetGoogleApprovalInfo() OptString {
+	return s.GoogleApprovalInfo
+}
+
+// GetDisplayProfileID returns the value of DisplayProfileID.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetDisplayProfileID() OptUUID {
+	return s.DisplayProfileID
+}
+
+// GetDelete returns the value of Delete.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) GetDelete() OptBool {
+	return s.Delete
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetReason sets the value of Reason.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetReason(val OptString) {
+	s.Reason = val
+}
+
+// SetGoogleVerificationStatus sets the value of GoogleVerificationStatus.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetGoogleVerificationStatus(val OptVerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) {
+	s.GoogleVerificationStatus = val
+}
+
+// SetGoogleApprovalInfo sets the value of GoogleApprovalInfo.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetGoogleApprovalInfo(val OptString) {
+	s.GoogleApprovalInfo = val
+}
+
+// SetDisplayProfileID sets the value of DisplayProfileID.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetDisplayProfileID(val OptUUID) {
+	s.DisplayProfileID = val
+}
+
+// SetDelete sets the value of Delete.
+func (s *VerifiedCallsDisplayProfileCallReasonsItem) SetDelete(val OptBool) {
+	s.Delete = val
+}
+
+// The approval status of this individual call reason in Google.
+type VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus string
+
+const (
+	VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus = "STATE_UNSPECIFIED"
+	VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL  VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus = "PENDING_APPROVAL"
+	VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusAPPROVED         VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus = "APPROVED"
+	VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusDENIED           VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus = "DENIED"
+	VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGREMOVAL   VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus = "PENDING_REMOVAL"
+)
+
+// AllValues returns all VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus values.
+func (VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) AllValues() []VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus {
+	return []VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus{
+		VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED,
+		VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL,
+		VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusAPPROVED,
+		VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusDENIED,
+		VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGREMOVAL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusAPPROVED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusDENIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGREMOVAL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus) UnmarshalText(data []byte) error {
+	switch VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatus(data) {
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		*s = VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusSTATEUNSPECIFIED
+		return nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL:
+		*s = VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGAPPROVAL
+		return nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusAPPROVED:
+		*s = VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusAPPROVED
+		return nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusDENIED:
+		*s = VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusDENIED
+		return nil
+	case VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGREMOVAL:
+		*s = VerifiedCallsDisplayProfileCallReasonsItemGoogleVerificationStatusPENDINGREMOVAL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A Phone Number that can make phone calls displaying the configured brand information.
+type VerifiedCallsDisplayProfilePhoneNumbersItem struct {
+	RecordType OptString `json:"record_type"`
+	ID         OptUUID   `json:"id"`
+	// The phone number in e164 format.
+	PhoneNumber OptString `json:"phone_number"`
+	// The approval status of this individual phone number in Google.
+	GoogleVerificationStatus OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus `json:"google_verification_status"`
+	// Additional information about the decision, if available.
+	GoogleApprovalInfo OptString `json:"google_approval_info"`
+	DisplayProfileID   OptUUID   `json:"display_profile_id"`
+	// Marks the Phone Number to be removed from the Display Profile.
+	Delete OptBool `json:"delete"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetID() OptUUID {
+	return s.ID
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetGoogleVerificationStatus returns the value of GoogleVerificationStatus.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetGoogleVerificationStatus() OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus {
+	return s.GoogleVerificationStatus
+}
+
+// GetGoogleApprovalInfo returns the value of GoogleApprovalInfo.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetGoogleApprovalInfo() OptString {
+	return s.GoogleApprovalInfo
+}
+
+// GetDisplayProfileID returns the value of DisplayProfileID.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetDisplayProfileID() OptUUID {
+	return s.DisplayProfileID
+}
+
+// GetDelete returns the value of Delete.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) GetDelete() OptBool {
+	return s.Delete
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetGoogleVerificationStatus sets the value of GoogleVerificationStatus.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetGoogleVerificationStatus(val OptVerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) {
+	s.GoogleVerificationStatus = val
+}
+
+// SetGoogleApprovalInfo sets the value of GoogleApprovalInfo.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetGoogleApprovalInfo(val OptString) {
+	s.GoogleApprovalInfo = val
+}
+
+// SetDisplayProfileID sets the value of DisplayProfileID.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetDisplayProfileID(val OptUUID) {
+	s.DisplayProfileID = val
+}
+
+// SetDelete sets the value of Delete.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItem) SetDelete(val OptBool) {
+	s.Delete = val
+}
+
+// The approval status of this individual phone number in Google.
+type VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus string
+
+const (
+	VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus = "STATE_UNSPECIFIED"
+	VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL  VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus = "PENDING_APPROVAL"
+	VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusAPPROVED         VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus = "APPROVED"
+	VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusDENIED           VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus = "DENIED"
+	VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL   VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus = "PENDING_REMOVAL"
+)
+
+// AllValues returns all VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus values.
+func (VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) AllValues() []VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus {
+	return []VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus{
+		VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED,
+		VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL,
+		VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusAPPROVED,
+		VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusDENIED,
+		VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusAPPROVED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusDENIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus) UnmarshalText(data []byte) error {
+	switch VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatus(data) {
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED:
+		*s = VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusSTATEUNSPECIFIED
+		return nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL:
+		*s = VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGAPPROVAL
+		return nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusAPPROVED:
+		*s = VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusAPPROVED
+		return nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusDENIED:
+		*s = VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusDENIED
+		return nil
+	case VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL:
+		*s = VerifiedCallsDisplayProfilePhoneNumbersItemGoogleVerificationStatusPENDINGREMOVAL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The approval status of the Verified Calls Display Profile in Google.
+type VerifiedCallsDisplayProfileStatus string
+
+const (
+	VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNSPECIFIED    VerifiedCallsDisplayProfileStatus = "VERIFICATION_STATE_UNSPECIFIED"
+	VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNVERIFIED     VerifiedCallsDisplayProfileStatus = "VERIFICATION_STATE_UNVERIFIED"
+	VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEPENDING        VerifiedCallsDisplayProfileStatus = "VERIFICATION_STATE_PENDING"
+	VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEVERIFIED       VerifiedCallsDisplayProfileStatus = "VERIFICATION_STATE_VERIFIED"
+	VerifiedCallsDisplayProfileStatusVERIFICATIONSTATESUSPENDEDINGMB VerifiedCallsDisplayProfileStatus = "VERIFICATION_STATE_SUSPENDED_IN_GMB"
+)
+
+// AllValues returns all VerifiedCallsDisplayProfileStatus values.
+func (VerifiedCallsDisplayProfileStatus) AllValues() []VerifiedCallsDisplayProfileStatus {
+	return []VerifiedCallsDisplayProfileStatus{
+		VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNSPECIFIED,
+		VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNVERIFIED,
+		VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEPENDING,
+		VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEVERIFIED,
+		VerifiedCallsDisplayProfileStatusVERIFICATIONSTATESUSPENDEDINGMB,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerifiedCallsDisplayProfileStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNSPECIFIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNVERIFIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEPENDING:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEVERIFIED:
+		return []byte(s), nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATESUSPENDEDINGMB:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerifiedCallsDisplayProfileStatus) UnmarshalText(data []byte) error {
+	switch VerifiedCallsDisplayProfileStatus(data) {
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNSPECIFIED:
+		*s = VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNSPECIFIED
+		return nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNVERIFIED:
+		*s = VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEUNVERIFIED
+		return nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEPENDING:
+		*s = VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEPENDING
+		return nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEVERIFIED:
+		*s = VerifiedCallsDisplayProfileStatusVERIFICATIONSTATEVERIFIED
+		return nil
+	case VerifiedCallsDisplayProfileStatusVERIFICATIONSTATESUSPENDEDINGMB:
+		*s = VerifiedCallsDisplayProfileStatusVERIFICATIONSTATESUSPENDEDINGMB
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -25725,3 +31255,255 @@ func (s *VerifyVerificationCodeResponseDataResponseCode) UnmarshalText(data []by
 type VerifyVerificationCodeUnauthorized Errors
 
 func (*VerifyVerificationCodeUnauthorized) verifyVerificationCodeRes() {}
+
+// Record of all attempts to deliver a webhook.
+// Ref: #/components/schemas/webhook_delivery
+type WebhookDelivery struct {
+	// Uniquely identifies the webhook_delivery record.
+	ID OptUUID `json:"id"`
+	// Uniquely identifies the user that owns the webhook_delivery record.
+	UserID OptUUID `json:"user_id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// Delivery status: 'delivered' when successfuly delivered or 'failed' if all attempts have failed.
+	Status OptWebhookDeliveryStatus `json:"status"`
+	// Original webhook JSON data. Payload fields vary according to event type.
+	Webhook OptWebhookDeliveryWebhook `json:"webhook"`
+	// ISO 8601 timestamp indicating when the first request attempt was initiated.
+	StartedAt OptDateTime `json:"started_at"`
+	// ISO 8601 timestamp indicating when the last webhook response has been received.
+	FinishedAt OptDateTime `json:"finished_at"`
+	// Detailed delivery attempts, ordered by most recent.
+	Attempts []Attempt `json:"attempts"`
+}
+
+// GetID returns the value of ID.
+func (s *WebhookDelivery) GetID() OptUUID {
+	return s.ID
+}
+
+// GetUserID returns the value of UserID.
+func (s *WebhookDelivery) GetUserID() OptUUID {
+	return s.UserID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *WebhookDelivery) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetStatus returns the value of Status.
+func (s *WebhookDelivery) GetStatus() OptWebhookDeliveryStatus {
+	return s.Status
+}
+
+// GetWebhook returns the value of Webhook.
+func (s *WebhookDelivery) GetWebhook() OptWebhookDeliveryWebhook {
+	return s.Webhook
+}
+
+// GetStartedAt returns the value of StartedAt.
+func (s *WebhookDelivery) GetStartedAt() OptDateTime {
+	return s.StartedAt
+}
+
+// GetFinishedAt returns the value of FinishedAt.
+func (s *WebhookDelivery) GetFinishedAt() OptDateTime {
+	return s.FinishedAt
+}
+
+// GetAttempts returns the value of Attempts.
+func (s *WebhookDelivery) GetAttempts() []Attempt {
+	return s.Attempts
+}
+
+// SetID sets the value of ID.
+func (s *WebhookDelivery) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetUserID sets the value of UserID.
+func (s *WebhookDelivery) SetUserID(val OptUUID) {
+	s.UserID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *WebhookDelivery) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetStatus sets the value of Status.
+func (s *WebhookDelivery) SetStatus(val OptWebhookDeliveryStatus) {
+	s.Status = val
+}
+
+// SetWebhook sets the value of Webhook.
+func (s *WebhookDelivery) SetWebhook(val OptWebhookDeliveryWebhook) {
+	s.Webhook = val
+}
+
+// SetStartedAt sets the value of StartedAt.
+func (s *WebhookDelivery) SetStartedAt(val OptDateTime) {
+	s.StartedAt = val
+}
+
+// SetFinishedAt sets the value of FinishedAt.
+func (s *WebhookDelivery) SetFinishedAt(val OptDateTime) {
+	s.FinishedAt = val
+}
+
+// SetAttempts sets the value of Attempts.
+func (s *WebhookDelivery) SetAttempts(val []Attempt) {
+	s.Attempts = val
+}
+
+// Delivery status: 'delivered' when successfuly delivered or 'failed' if all attempts have failed.
+type WebhookDeliveryStatus string
+
+const (
+	WebhookDeliveryStatusDelivered WebhookDeliveryStatus = "delivered"
+	WebhookDeliveryStatusFailed    WebhookDeliveryStatus = "failed"
+)
+
+// AllValues returns all WebhookDeliveryStatus values.
+func (WebhookDeliveryStatus) AllValues() []WebhookDeliveryStatus {
+	return []WebhookDeliveryStatus{
+		WebhookDeliveryStatusDelivered,
+		WebhookDeliveryStatusFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WebhookDeliveryStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case WebhookDeliveryStatusDelivered:
+		return []byte(s), nil
+	case WebhookDeliveryStatusFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WebhookDeliveryStatus) UnmarshalText(data []byte) error {
+	switch WebhookDeliveryStatus(data) {
+	case WebhookDeliveryStatusDelivered:
+		*s = WebhookDeliveryStatusDelivered
+		return nil
+	case WebhookDeliveryStatusFailed:
+		*s = WebhookDeliveryStatusFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Original webhook JSON data. Payload fields vary according to event type.
+type WebhookDeliveryWebhook struct {
+	// Identifies the type of the resource.
+	RecordType OptWebhookDeliveryWebhookRecordType `json:"record_type"`
+	// The type of event being delivered.
+	EventType OptString `json:"event_type"`
+	// Identifies the type of resource.
+	ID OptUUID `json:"id"`
+	// ISO 8601 datetime of when the event occurred.
+	OccurredAt OptDateTime                      `json:"occurred_at"`
+	Payload    OptWebhookDeliveryWebhookPayload `json:"payload"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *WebhookDeliveryWebhook) GetRecordType() OptWebhookDeliveryWebhookRecordType {
+	return s.RecordType
+}
+
+// GetEventType returns the value of EventType.
+func (s *WebhookDeliveryWebhook) GetEventType() OptString {
+	return s.EventType
+}
+
+// GetID returns the value of ID.
+func (s *WebhookDeliveryWebhook) GetID() OptUUID {
+	return s.ID
+}
+
+// GetOccurredAt returns the value of OccurredAt.
+func (s *WebhookDeliveryWebhook) GetOccurredAt() OptDateTime {
+	return s.OccurredAt
+}
+
+// GetPayload returns the value of Payload.
+func (s *WebhookDeliveryWebhook) GetPayload() OptWebhookDeliveryWebhookPayload {
+	return s.Payload
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *WebhookDeliveryWebhook) SetRecordType(val OptWebhookDeliveryWebhookRecordType) {
+	s.RecordType = val
+}
+
+// SetEventType sets the value of EventType.
+func (s *WebhookDeliveryWebhook) SetEventType(val OptString) {
+	s.EventType = val
+}
+
+// SetID sets the value of ID.
+func (s *WebhookDeliveryWebhook) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetOccurredAt sets the value of OccurredAt.
+func (s *WebhookDeliveryWebhook) SetOccurredAt(val OptDateTime) {
+	s.OccurredAt = val
+}
+
+// SetPayload sets the value of Payload.
+func (s *WebhookDeliveryWebhook) SetPayload(val OptWebhookDeliveryWebhookPayload) {
+	s.Payload = val
+}
+
+type WebhookDeliveryWebhookPayload map[string]jx.Raw
+
+func (s *WebhookDeliveryWebhookPayload) init() WebhookDeliveryWebhookPayload {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// Identifies the type of the resource.
+type WebhookDeliveryWebhookRecordType string
+
+const (
+	WebhookDeliveryWebhookRecordTypeEvent WebhookDeliveryWebhookRecordType = "event"
+)
+
+// AllValues returns all WebhookDeliveryWebhookRecordType values.
+func (WebhookDeliveryWebhookRecordType) AllValues() []WebhookDeliveryWebhookRecordType {
+	return []WebhookDeliveryWebhookRecordType{
+		WebhookDeliveryWebhookRecordTypeEvent,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WebhookDeliveryWebhookRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case WebhookDeliveryWebhookRecordTypeEvent:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WebhookDeliveryWebhookRecordType) UnmarshalText(data []byte) error {
+	switch WebhookDeliveryWebhookRecordType(data) {
+	case WebhookDeliveryWebhookRecordTypeEvent:
+		*s = WebhookDeliveryWebhookRecordTypeEvent
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}

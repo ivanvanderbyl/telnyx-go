@@ -19,10 +19,69 @@ func (s *AnswerRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *AudioTranscriptionRequestMultipart) setDefaults() {
+	{
+		val := AudioTranscriptionRequestMultipartResponseFormat("json")
+		s.ResponseFormat.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *BridgeRequest) setDefaults() {
 	{
 		val := bool(false)
 		s.PlayRingtone.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CallControlApplication) setDefaults() {
+	{
+		val := bool(true)
+		s.Active.SetTo(val)
+	}
+	{
+		val := CallControlApplicationAnchorsiteOverride("\"Latency\"")
+		s.AnchorsiteOverride.SetTo(val)
+	}
+	{
+		val := CallControlApplicationDtmfType("RFC 2833")
+		s.DtmfType.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.FirstCommandTimeout.SetTo(val)
+	}
+	{
+		val := int(30)
+		s.FirstCommandTimeoutSecs.SetTo(val)
+	}
+	{
+		val := CallControlApplicationRecordType("call_control_application")
+		s.RecordType.SetTo(val)
+	}
+	{
+		val := CallControlApplicationWebhookAPIVersion("1")
+		s.WebhookAPIVersion.SetTo(val)
+	}
+	{
+		val := string("")
+		s.WebhookEventFailoverURL.SetTo(val)
+	}
+	{
+		s.WebhookTimeoutSecs.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CallControlApplicationInbound) setDefaults() {
+	{
+		val := bool(false)
+		s.ShakenStirEnabled.SetTo(val)
+	}
+	{
+		val := CallControlApplicationInboundSipSubdomainReceiveSettings("from_anyone")
+		s.SipSubdomainReceiveSettings.SetTo(val)
 	}
 }
 
@@ -123,6 +182,41 @@ func (s *CallRequestAnsweringMachineDetectionConfig) setDefaults() {
 	{
 		val := int32(1500)
 		s.GreetingSilenceDurationMillis.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateCallControlApplicationRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.Active.SetTo(val)
+	}
+	{
+		val := CreateCallControlApplicationRequestAnchorsiteOverride("\"Latency\"")
+		s.AnchorsiteOverride.SetTo(val)
+	}
+	{
+		val := CreateCallControlApplicationRequestDtmfType("RFC 2833")
+		s.DtmfType.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.FirstCommandTimeout.SetTo(val)
+	}
+	{
+		val := int(30)
+		s.FirstCommandTimeoutSecs.SetTo(val)
+	}
+	{
+		val := CreateCallControlApplicationRequestWebhookAPIVersion("1")
+		s.WebhookAPIVersion.SetTo(val)
+	}
+	{
+		val := string("")
+		s.WebhookEventFailoverURL.SetTo(val)
+	}
+	{
+		s.WebhookTimeoutSecs.Null = true
 	}
 }
 
@@ -663,6 +757,41 @@ func (s *TransferCallRequestAnsweringMachineDetectionConfig) setDefaults() {
 	{
 		val := int32(1500)
 		s.GreetingSilenceDurationMillis.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateCallControlApplicationRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.Active.SetTo(val)
+	}
+	{
+		val := UpdateCallControlApplicationRequestAnchorsiteOverride("\"Latency\"")
+		s.AnchorsiteOverride.SetTo(val)
+	}
+	{
+		val := UpdateCallControlApplicationRequestDtmfType("RFC 2833")
+		s.DtmfType.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.FirstCommandTimeout.SetTo(val)
+	}
+	{
+		val := int(30)
+		s.FirstCommandTimeoutSecs.SetTo(val)
+	}
+	{
+		val := UpdateCallControlApplicationRequestWebhookAPIVersion("1")
+		s.WebhookAPIVersion.SetTo(val)
+	}
+	{
+		val := string("")
+		s.WebhookEventFailoverURL.SetTo(val)
+	}
+	{
+		s.WebhookTimeoutSecs.Null = true
 	}
 }
 
