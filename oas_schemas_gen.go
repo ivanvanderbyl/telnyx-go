@@ -7263,6 +7263,140 @@ func (s *CreateNumberPoolMessageRequestType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/CreateNumberReservationRequest
+type CreateNumberReservationRequest struct {
+	ID           OptUUID               `json:"id"`
+	RecordType   OptString             `json:"record_type"`
+	PhoneNumbers []ReservedPhoneNumber `json:"phone_numbers"`
+	// The status of the entire reservation.
+	Status OptCreateNumberReservationRequestStatus `json:"status"`
+	// A customer reference string for customer look ups.
+	CustomerReference OptString `json:"customer_reference"`
+	// An ISO 8901 datetime string denoting when the numbers reservation was created.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8901 datetime string for when the number reservation was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *CreateNumberReservationRequest) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CreateNumberReservationRequest) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *CreateNumberReservationRequest) GetPhoneNumbers() []ReservedPhoneNumber {
+	return s.PhoneNumbers
+}
+
+// GetStatus returns the value of Status.
+func (s *CreateNumberReservationRequest) GetStatus() OptCreateNumberReservationRequestStatus {
+	return s.Status
+}
+
+// GetCustomerReference returns the value of CustomerReference.
+func (s *CreateNumberReservationRequest) GetCustomerReference() OptString {
+	return s.CustomerReference
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CreateNumberReservationRequest) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *CreateNumberReservationRequest) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *CreateNumberReservationRequest) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CreateNumberReservationRequest) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *CreateNumberReservationRequest) SetPhoneNumbers(val []ReservedPhoneNumber) {
+	s.PhoneNumbers = val
+}
+
+// SetStatus sets the value of Status.
+func (s *CreateNumberReservationRequest) SetStatus(val OptCreateNumberReservationRequestStatus) {
+	s.Status = val
+}
+
+// SetCustomerReference sets the value of CustomerReference.
+func (s *CreateNumberReservationRequest) SetCustomerReference(val OptString) {
+	s.CustomerReference = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CreateNumberReservationRequest) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *CreateNumberReservationRequest) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// The status of the entire reservation.
+type CreateNumberReservationRequestStatus string
+
+const (
+	CreateNumberReservationRequestStatusPending CreateNumberReservationRequestStatus = "pending"
+	CreateNumberReservationRequestStatusSuccess CreateNumberReservationRequestStatus = "success"
+	CreateNumberReservationRequestStatusFailure CreateNumberReservationRequestStatus = "failure"
+)
+
+// AllValues returns all CreateNumberReservationRequestStatus values.
+func (CreateNumberReservationRequestStatus) AllValues() []CreateNumberReservationRequestStatus {
+	return []CreateNumberReservationRequestStatus{
+		CreateNumberReservationRequestStatusPending,
+		CreateNumberReservationRequestStatusSuccess,
+		CreateNumberReservationRequestStatusFailure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateNumberReservationRequestStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateNumberReservationRequestStatusPending:
+		return []byte(s), nil
+	case CreateNumberReservationRequestStatusSuccess:
+		return []byte(s), nil
+	case CreateNumberReservationRequestStatusFailure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateNumberReservationRequestStatus) UnmarshalText(data []byte) error {
+	switch CreateNumberReservationRequestStatus(data) {
+	case CreateNumberReservationRequestStatusPending:
+		*s = CreateNumberReservationRequestStatusPending
+		return nil
+	case CreateNumberReservationRequestStatusSuccess:
+		*s = CreateNumberReservationRequestStatusSuccess
+		return nil
+	case CreateNumberReservationRequestStatusFailure:
+		*s = CreateNumberReservationRequestStatusFailure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/CreateOutboundVoiceProfileRequest
 type CreateOutboundVoiceProfileRequest struct {
 	// A user-supplied name to help with organization.
@@ -12407,6 +12541,7 @@ func (*GenericErrorResponseStatusCode) createNetworkRes()                       
 func (*GenericErrorResponseStatusCode) createNotificationChannelsRes()                   {}
 func (*GenericErrorResponseStatusCode) createNumberOrderDocumentRes()                    {}
 func (*GenericErrorResponseStatusCode) createNumberPoolMessageRes()                      {}
+func (*GenericErrorResponseStatusCode) createNumberReservationRes()                      {}
 func (*GenericErrorResponseStatusCode) createPhoneNumbersJobUpdateEmergencySettingsRes() {}
 func (*GenericErrorResponseStatusCode) createProfileRes()                                {}
 func (*GenericErrorResponseStatusCode) createProfileVerificationRequestRes()             {}
@@ -12466,6 +12601,7 @@ func (*GenericErrorResponseStatusCode) listNetworkInterfacesRes()               
 func (*GenericErrorResponseStatusCode) listNetworksRes()                                 {}
 func (*GenericErrorResponseStatusCode) listNotificationChannelsRes()                     {}
 func (*GenericErrorResponseStatusCode) listNumberOrderDocumentsRes()                     {}
+func (*GenericErrorResponseStatusCode) listNumberReservationsRes()                       {}
 func (*GenericErrorResponseStatusCode) listOtaUpdatesRes()                               {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersJobsRes()                         {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersRes()                             {}
@@ -14712,6 +14848,33 @@ func (s *ListNumberOrderPhoneNumbersResponse) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListNumberOrderPhoneNumbersResponse) retrieveOrderPhoneNumbersRes() {}
+
+type ListNumberReservationsResponse struct {
+	Data []NumberReservation `json:"data"`
+	Meta OptPaginationMeta   `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListNumberReservationsResponse) GetData() []NumberReservation {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListNumberReservationsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListNumberReservationsResponse) SetData(val []NumberReservation) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListNumberReservationsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListNumberReservationsResponse) listNumberReservationsRes() {}
 
 type ListOtaUpdatesFilterType string
 
@@ -18116,6 +18279,7 @@ func (s *NumberReservationResponse) SetData(val OptNumberReservation) {
 	s.Data = val
 }
 
+func (*NumberReservationResponse) createNumberReservationRes()           {}
 func (*NumberReservationResponse) extendNumberReservationExpiryTimeRes() {}
 func (*NumberReservationResponse) retrieveNumberReservationRes()         {}
 
@@ -22364,6 +22528,52 @@ func (o OptCreateNumberPoolMessageRequestType) Get() (v CreateNumberPoolMessageR
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateNumberPoolMessageRequestType) Or(d CreateNumberPoolMessageRequestType) CreateNumberPoolMessageRequestType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateNumberReservationRequestStatus returns new OptCreateNumberReservationRequestStatus with value set to v.
+func NewOptCreateNumberReservationRequestStatus(v CreateNumberReservationRequestStatus) OptCreateNumberReservationRequestStatus {
+	return OptCreateNumberReservationRequestStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateNumberReservationRequestStatus is optional CreateNumberReservationRequestStatus.
+type OptCreateNumberReservationRequestStatus struct {
+	Value CreateNumberReservationRequestStatus
+	Set   bool
+}
+
+// IsSet returns true if OptCreateNumberReservationRequestStatus was set.
+func (o OptCreateNumberReservationRequestStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateNumberReservationRequestStatus) Reset() {
+	var v CreateNumberReservationRequestStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateNumberReservationRequestStatus) SetTo(v CreateNumberReservationRequestStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateNumberReservationRequestStatus) Get() (v CreateNumberReservationRequestStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateNumberReservationRequestStatus) Or(d CreateNumberReservationRequestStatus) CreateNumberReservationRequestStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}

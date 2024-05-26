@@ -81,6 +81,10 @@ type CreateNumberPoolMessageRes interface {
 	createNumberPoolMessageRes()
 }
 
+type CreateNumberReservationRes interface {
+	createNumberReservationRes()
+}
+
 type CreatePhoneNumbersJobUpdateEmergencySettingsRes interface {
 	createPhoneNumbersJobUpdateEmergencySettingsRes()
 }
@@ -499,6 +503,10 @@ type ListNotificationChannelsRes interface {
 
 type ListNumberOrderDocumentsRes interface {
 	listNumberOrderDocumentsRes()
+}
+
+type ListNumberReservationsRes interface {
+	listNumberReservationsRes()
 }
 
 type ListOtaUpdatesRes interface {

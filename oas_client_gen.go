@@ -151,6 +151,12 @@ type Invoker interface {
 	//
 	// POST /messages/number_pool
 	CreateNumberPoolMessage(ctx context.Context, request OptCreateNumberPoolMessageRequest) (CreateNumberPoolMessageRes, error)
+	// CreateNumberReservation invokes CreateNumberReservation operation.
+	//
+	// Creates a Phone Number Reservation for multiple numbers.
+	//
+	// POST /number_reservations
+	CreateNumberReservation(ctx context.Context, request *CreateNumberReservationRequest) (CreateNumberReservationRes, error)
 	// CreatePhoneNumbersJobUpdateEmergencySettings invokes CreatePhoneNumbersJobUpdateEmergencySettings operation.
 	//
 	// Creates a background job to update the emergency settings of a collection of phone numbers. At
@@ -853,6 +859,12 @@ type Invoker interface {
 	//
 	// GET /number_order_documents
 	ListNumberOrderDocuments(ctx context.Context, params ListNumberOrderDocumentsParams) (ListNumberOrderDocumentsRes, error)
+	// ListNumberReservations invokes ListNumberReservations operation.
+	//
+	// Gets a paginated list of phone number reservations.
+	//
+	// GET /number_reservations
+	ListNumberReservations(ctx context.Context, params ListNumberReservationsParams) (ListNumberReservationsRes, error)
 	// ListOtaUpdates invokes ListOtaUpdates operation.
 	//
 	// List OTA updates.
@@ -3399,6 +3411,87 @@ func (c *Client) sendCreateNumberPoolMessage(ctx context.Context, request OptCre
 	defer resp.Body.Close()
 
 	result, err := decodeCreateNumberPoolMessageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateNumberReservation invokes CreateNumberReservation operation.
+//
+// Creates a Phone Number Reservation for multiple numbers.
+//
+// POST /number_reservations
+func (c *Client) CreateNumberReservation(ctx context.Context, request *CreateNumberReservationRequest) (CreateNumberReservationRes, error) {
+	res, err := c.sendCreateNumberReservation(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateNumberReservation(ctx context.Context, request *CreateNumberReservationRequest) (res CreateNumberReservationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/number_reservations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateNumberReservationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateNumberReservation", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateNumberReservationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -15235,6 +15328,197 @@ func (c *Client) sendListNumberOrderDocuments(ctx context.Context, params ListNu
 	defer resp.Body.Close()
 
 	result, err := decodeListNumberOrderDocumentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListNumberReservations invokes ListNumberReservations operation.
+//
+// Gets a paginated list of phone number reservations.
+//
+// GET /number_reservations
+func (c *Client) ListNumberReservations(ctx context.Context, params ListNumberReservationsParams) (ListNumberReservationsRes, error) {
+	res, err := c.sendListNumberReservations(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListNumberReservations(ctx context.Context, params ListNumberReservationsParams) (res ListNumberReservationsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/number_reservations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at][gt]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at][gt]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAtGt.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at][lt]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at][lt]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAtLt.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_numbers.phone_number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_numbers.phone_number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumbersPhoneNumber.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[customer_reference]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[customer_reference]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCustomerReference.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListNumberReservations", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListNumberReservationsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

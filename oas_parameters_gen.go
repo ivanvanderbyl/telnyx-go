@@ -909,6 +909,24 @@ type ListNumberOrderDocumentsParams struct {
 	PageSize OptInt
 }
 
+// ListNumberReservationsParams is parameters of ListNumberReservations operation.
+type ListNumberReservationsParams struct {
+	// Filter number reservations by status.
+	FilterStatus OptString
+	// Filter number reservations later than this value.
+	FilterCreatedAtGt OptString
+	// Filter number reservations earlier than this value.
+	FilterCreatedAtLt OptString
+	// Filter number reservations having these phone numbers.
+	FilterPhoneNumbersPhoneNumber OptString
+	// Filter number reservations via the customer reference set.
+	FilterCustomerReference OptString
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
 // ListOtaUpdatesParams is parameters of ListOtaUpdates operation.
 type ListOtaUpdatesParams struct {
 	// The page number to load.
