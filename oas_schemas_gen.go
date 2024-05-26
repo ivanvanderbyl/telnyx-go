@@ -8393,6 +8393,49 @@ type CreatePortingReportUnprocessableEntity struct{}
 
 func (*CreatePortingReportUnprocessableEntity) createPortingReportRes() {}
 
+type CreatePrivateWirelessGatewayReq struct {
+	// The identification of the related network resource.
+	NetworkID uuid.UUID `json:"network_id"`
+	// The private wireless gateway name.
+	Name string `json:"name"`
+}
+
+// GetNetworkID returns the value of NetworkID.
+func (s *CreatePrivateWirelessGatewayReq) GetNetworkID() uuid.UUID {
+	return s.NetworkID
+}
+
+// GetName returns the value of Name.
+func (s *CreatePrivateWirelessGatewayReq) GetName() string {
+	return s.Name
+}
+
+// SetNetworkID sets the value of NetworkID.
+func (s *CreatePrivateWirelessGatewayReq) SetNetworkID(val uuid.UUID) {
+	s.NetworkID = val
+}
+
+// SetName sets the value of Name.
+func (s *CreatePrivateWirelessGatewayReq) SetName(val string) {
+	s.Name = val
+}
+
+type CreatePrivateWirelessGatewayResponse struct {
+	Data OptPrivateWirelessGateway `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreatePrivateWirelessGatewayResponse) GetData() OptPrivateWirelessGateway {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreatePrivateWirelessGatewayResponse) SetData(val OptPrivateWirelessGateway) {
+	s.Data = val
+}
+
+func (*CreatePrivateWirelessGatewayResponse) createPrivateWirelessGatewayRes() {}
+
 // CreateProfileVerificationRequestCreated is response for CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestCreated struct{}
 
@@ -11626,6 +11669,435 @@ func (*DisplayVerifiedCallsDisplayProfileResponse) createProfileRes()           
 func (*DisplayVerifiedCallsDisplayProfileResponse) deleteVerifiedCallDisplayProfileRes() {}
 func (*DisplayVerifiedCallsDisplayProfileResponse) displayProfileRes()                   {}
 
+// Ref: #/components/schemas/DocReqsRequirement
+type DocReqsRequirement struct {
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// The 2-character (ISO 3166-1 alpha-2) country code where this requirement applies.
+	CountryCode OptString `json:"country_code"`
+	// The locality where this requirement applies.
+	Locality OptString `json:"locality"`
+	// Indicates the phone_number_type this requirement applies to. Leave blank if this requirement
+	// applies to all number_types.
+	PhoneNumberType OptDocReqsRequirementPhoneNumberType `json:"phone_number_type"`
+	// Indicates whether this requirement applies to ordering, porting, or both.
+	Action OptDocReqsRequirementAction `json:"action"`
+	// Lists the requirement types necessary to fulfill this requirement.
+	RequirementsTypes []DocReqsRequirementType `json:"requirements_types"`
+	// Identifies the associated document.
+	ID OptUUID `json:"id"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was last updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *DocReqsRequirement) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *DocReqsRequirement) GetCountryCode() OptString {
+	return s.CountryCode
+}
+
+// GetLocality returns the value of Locality.
+func (s *DocReqsRequirement) GetLocality() OptString {
+	return s.Locality
+}
+
+// GetPhoneNumberType returns the value of PhoneNumberType.
+func (s *DocReqsRequirement) GetPhoneNumberType() OptDocReqsRequirementPhoneNumberType {
+	return s.PhoneNumberType
+}
+
+// GetAction returns the value of Action.
+func (s *DocReqsRequirement) GetAction() OptDocReqsRequirementAction {
+	return s.Action
+}
+
+// GetRequirementsTypes returns the value of RequirementsTypes.
+func (s *DocReqsRequirement) GetRequirementsTypes() []DocReqsRequirementType {
+	return s.RequirementsTypes
+}
+
+// GetID returns the value of ID.
+func (s *DocReqsRequirement) GetID() OptUUID {
+	return s.ID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *DocReqsRequirement) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *DocReqsRequirement) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *DocReqsRequirement) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *DocReqsRequirement) SetCountryCode(val OptString) {
+	s.CountryCode = val
+}
+
+// SetLocality sets the value of Locality.
+func (s *DocReqsRequirement) SetLocality(val OptString) {
+	s.Locality = val
+}
+
+// SetPhoneNumberType sets the value of PhoneNumberType.
+func (s *DocReqsRequirement) SetPhoneNumberType(val OptDocReqsRequirementPhoneNumberType) {
+	s.PhoneNumberType = val
+}
+
+// SetAction sets the value of Action.
+func (s *DocReqsRequirement) SetAction(val OptDocReqsRequirementAction) {
+	s.Action = val
+}
+
+// SetRequirementsTypes sets the value of RequirementsTypes.
+func (s *DocReqsRequirement) SetRequirementsTypes(val []DocReqsRequirementType) {
+	s.RequirementsTypes = val
+}
+
+// SetID sets the value of ID.
+func (s *DocReqsRequirement) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *DocReqsRequirement) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *DocReqsRequirement) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// Indicates whether this requirement applies to ordering, porting, or both.
+type DocReqsRequirementAction string
+
+const (
+	DocReqsRequirementActionBoth     DocReqsRequirementAction = "both"
+	DocReqsRequirementActionOrdering DocReqsRequirementAction = "ordering"
+	DocReqsRequirementActionPorting  DocReqsRequirementAction = "porting"
+)
+
+// AllValues returns all DocReqsRequirementAction values.
+func (DocReqsRequirementAction) AllValues() []DocReqsRequirementAction {
+	return []DocReqsRequirementAction{
+		DocReqsRequirementActionBoth,
+		DocReqsRequirementActionOrdering,
+		DocReqsRequirementActionPorting,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsRequirementAction) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsRequirementActionBoth:
+		return []byte(s), nil
+	case DocReqsRequirementActionOrdering:
+		return []byte(s), nil
+	case DocReqsRequirementActionPorting:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsRequirementAction) UnmarshalText(data []byte) error {
+	switch DocReqsRequirementAction(data) {
+	case DocReqsRequirementActionBoth:
+		*s = DocReqsRequirementActionBoth
+		return nil
+	case DocReqsRequirementActionOrdering:
+		*s = DocReqsRequirementActionOrdering
+		return nil
+	case DocReqsRequirementActionPorting:
+		*s = DocReqsRequirementActionPorting
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Indicates the phone_number_type this requirement applies to. Leave blank if this requirement
+// applies to all number_types.
+type DocReqsRequirementPhoneNumberType string
+
+const (
+	DocReqsRequirementPhoneNumberTypeLocal    DocReqsRequirementPhoneNumberType = "local"
+	DocReqsRequirementPhoneNumberTypeNational DocReqsRequirementPhoneNumberType = "national"
+	DocReqsRequirementPhoneNumberTypeTollFree DocReqsRequirementPhoneNumberType = "toll_free"
+)
+
+// AllValues returns all DocReqsRequirementPhoneNumberType values.
+func (DocReqsRequirementPhoneNumberType) AllValues() []DocReqsRequirementPhoneNumberType {
+	return []DocReqsRequirementPhoneNumberType{
+		DocReqsRequirementPhoneNumberTypeLocal,
+		DocReqsRequirementPhoneNumberTypeNational,
+		DocReqsRequirementPhoneNumberTypeTollFree,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsRequirementPhoneNumberType) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsRequirementPhoneNumberTypeLocal:
+		return []byte(s), nil
+	case DocReqsRequirementPhoneNumberTypeNational:
+		return []byte(s), nil
+	case DocReqsRequirementPhoneNumberTypeTollFree:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsRequirementPhoneNumberType) UnmarshalText(data []byte) error {
+	switch DocReqsRequirementPhoneNumberType(data) {
+	case DocReqsRequirementPhoneNumberTypeLocal:
+		*s = DocReqsRequirementPhoneNumberTypeLocal
+		return nil
+	case DocReqsRequirementPhoneNumberTypeNational:
+		*s = DocReqsRequirementPhoneNumberTypeNational
+		return nil
+	case DocReqsRequirementPhoneNumberTypeTollFree:
+		*s = DocReqsRequirementPhoneNumberTypeTollFree
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DocReqsRequirementResponse struct {
+	Data OptDocReqsRequirement `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *DocReqsRequirementResponse) GetData() OptDocReqsRequirement {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *DocReqsRequirementResponse) SetData(val OptDocReqsRequirement) {
+	s.Data = val
+}
+
+func (*DocReqsRequirementResponse) retrieveDocumentRequirementsRes() {}
+
+// Ref: #/components/schemas/DocReqsRequirementType
+type DocReqsRequirementType struct {
+	// Specifies objective criteria for acceptance.
+	AcceptanceCriteria OptDocReqsRequirementTypeAcceptanceCriteria `json:"acceptance_criteria"`
+	// Describes the requirement type.
+	Description OptString `json:"description"`
+	// Provides one or more examples of acceptable documents.
+	Example OptString `json:"example"`
+	// Defines the type of this requirement type.
+	Type OptDocReqsRequirementTypeType `json:"type"`
+	// A short descriptive name for this requirement_type.
+	Name OptString `json:"name"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// Identifies the associated document.
+	ID OptUUID `json:"id"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was last updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetAcceptanceCriteria returns the value of AcceptanceCriteria.
+func (s *DocReqsRequirementType) GetAcceptanceCriteria() OptDocReqsRequirementTypeAcceptanceCriteria {
+	return s.AcceptanceCriteria
+}
+
+// GetDescription returns the value of Description.
+func (s *DocReqsRequirementType) GetDescription() OptString {
+	return s.Description
+}
+
+// GetExample returns the value of Example.
+func (s *DocReqsRequirementType) GetExample() OptString {
+	return s.Example
+}
+
+// GetType returns the value of Type.
+func (s *DocReqsRequirementType) GetType() OptDocReqsRequirementTypeType {
+	return s.Type
+}
+
+// GetName returns the value of Name.
+func (s *DocReqsRequirementType) GetName() OptString {
+	return s.Name
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *DocReqsRequirementType) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *DocReqsRequirementType) GetID() OptUUID {
+	return s.ID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *DocReqsRequirementType) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *DocReqsRequirementType) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetAcceptanceCriteria sets the value of AcceptanceCriteria.
+func (s *DocReqsRequirementType) SetAcceptanceCriteria(val OptDocReqsRequirementTypeAcceptanceCriteria) {
+	s.AcceptanceCriteria = val
+}
+
+// SetDescription sets the value of Description.
+func (s *DocReqsRequirementType) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetExample sets the value of Example.
+func (s *DocReqsRequirementType) SetExample(val OptString) {
+	s.Example = val
+}
+
+// SetType sets the value of Type.
+func (s *DocReqsRequirementType) SetType(val OptDocReqsRequirementTypeType) {
+	s.Type = val
+}
+
+// SetName sets the value of Name.
+func (s *DocReqsRequirementType) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *DocReqsRequirementType) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *DocReqsRequirementType) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *DocReqsRequirementType) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *DocReqsRequirementType) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// Specifies objective criteria for acceptance.
+type DocReqsRequirementTypeAcceptanceCriteria struct {
+	// Specifies time-based acceptance criteria.
+	TimeLimit OptString `json:"time_limit"`
+	// Specifies geography-based acceptance criteria.
+	LocalityLimit OptString `json:"locality_limit"`
+	// Specifies the list of strictly possible values for the requirement. Ignored when empty.
+	AcceptableValues []string `json:"acceptable_values"`
+}
+
+// GetTimeLimit returns the value of TimeLimit.
+func (s *DocReqsRequirementTypeAcceptanceCriteria) GetTimeLimit() OptString {
+	return s.TimeLimit
+}
+
+// GetLocalityLimit returns the value of LocalityLimit.
+func (s *DocReqsRequirementTypeAcceptanceCriteria) GetLocalityLimit() OptString {
+	return s.LocalityLimit
+}
+
+// GetAcceptableValues returns the value of AcceptableValues.
+func (s *DocReqsRequirementTypeAcceptanceCriteria) GetAcceptableValues() []string {
+	return s.AcceptableValues
+}
+
+// SetTimeLimit sets the value of TimeLimit.
+func (s *DocReqsRequirementTypeAcceptanceCriteria) SetTimeLimit(val OptString) {
+	s.TimeLimit = val
+}
+
+// SetLocalityLimit sets the value of LocalityLimit.
+func (s *DocReqsRequirementTypeAcceptanceCriteria) SetLocalityLimit(val OptString) {
+	s.LocalityLimit = val
+}
+
+// SetAcceptableValues sets the value of AcceptableValues.
+func (s *DocReqsRequirementTypeAcceptanceCriteria) SetAcceptableValues(val []string) {
+	s.AcceptableValues = val
+}
+
+// Defines the type of this requirement type.
+type DocReqsRequirementTypeType string
+
+const (
+	DocReqsRequirementTypeTypeDocument DocReqsRequirementTypeType = "document"
+	DocReqsRequirementTypeTypeAddress  DocReqsRequirementTypeType = "address"
+	DocReqsRequirementTypeTypeTextual  DocReqsRequirementTypeType = "textual"
+)
+
+// AllValues returns all DocReqsRequirementTypeType values.
+func (DocReqsRequirementTypeType) AllValues() []DocReqsRequirementTypeType {
+	return []DocReqsRequirementTypeType{
+		DocReqsRequirementTypeTypeDocument,
+		DocReqsRequirementTypeTypeAddress,
+		DocReqsRequirementTypeTypeTextual,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DocReqsRequirementTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case DocReqsRequirementTypeTypeDocument:
+		return []byte(s), nil
+	case DocReqsRequirementTypeTypeAddress:
+		return []byte(s), nil
+	case DocReqsRequirementTypeTypeTextual:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DocReqsRequirementTypeType) UnmarshalText(data []byte) error {
+	switch DocReqsRequirementTypeType(data) {
+	case DocReqsRequirementTypeTypeDocument:
+		*s = DocReqsRequirementTypeTypeDocument
+		return nil
+	case DocReqsRequirementTypeTypeAddress:
+		*s = DocReqsRequirementTypeTypeAddress
+		return nil
+	case DocReqsRequirementTypeTypeTextual:
+		*s = DocReqsRequirementTypeTypeTextual
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type DownloadLOATemplate struct {
 	Data io.Reader
 }
@@ -12116,6 +12588,7 @@ func (s *Errors) SetErrors(val []Error) {
 func (*Errors) createDeletePhoneNumbersJobRes()                  {}
 func (*Errors) createNetworkRes()                                {}
 func (*Errors) createPhoneNumbersJobUpdateEmergencySettingsRes() {}
+func (*Errors) createPrivateWirelessGatewayRes()                 {}
 func (*Errors) createVerifiedNumberRes()                         {}
 func (*Errors) deleteRoomRecordingsRes()                         {}
 func (*Errors) listPhoneNumbersJobsRes()                         {}
@@ -13731,6 +14204,7 @@ func (*GenericErrorResponseStatusCode) createNumberOrderDocumentRes()           
 func (*GenericErrorResponseStatusCode) createNumberPoolMessageRes()                      {}
 func (*GenericErrorResponseStatusCode) createNumberReservationRes()                      {}
 func (*GenericErrorResponseStatusCode) createPhoneNumbersJobUpdateEmergencySettingsRes() {}
+func (*GenericErrorResponseStatusCode) createPrivateWirelessGatewayRes()                 {}
 func (*GenericErrorResponseStatusCode) createProfileRes()                                {}
 func (*GenericErrorResponseStatusCode) createProfileVerificationRequestRes()             {}
 func (*GenericErrorResponseStatusCode) createShortCodeMessageRes()                       {}
@@ -13772,6 +14246,7 @@ func (*GenericErrorResponseStatusCode) getOtaUpdateRes()                        
 func (*GenericErrorResponseStatusCode) getPhoneNumberMessagingSettingsRes()              {}
 func (*GenericErrorResponseStatusCode) getPhoneNumberVoiceSettingsRes()                  {}
 func (*GenericErrorResponseStatusCode) getPrivateWirelessGatewayRes()                    {}
+func (*GenericErrorResponseStatusCode) getPrivateWirelessGatewaysRes()                   {}
 func (*GenericErrorResponseStatusCode) getRecordingRes()                                 {}
 func (*GenericErrorResponseStatusCode) getRecordingTranscriptionRes()                    {}
 func (*GenericErrorResponseStatusCode) getRecordingTranscriptionsRes()                   {}
@@ -13815,6 +14290,7 @@ func (*GenericErrorResponseStatusCode) rejectCallRes()                          
 func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                          {}
 func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                           {}
 func (*GenericErrorResponseStatusCode) retrieveCommentRes()                              {}
+func (*GenericErrorResponseStatusCode) retrieveDocumentRequirementsRes()                 {}
 func (*GenericErrorResponseStatusCode) retrieveNumberOrderDocumentRes()                  {}
 func (*GenericErrorResponseStatusCode) retrieveNumberReservationRes()                    {}
 func (*GenericErrorResponseStatusCode) retrieveOrderPhoneNumbersRes()                    {}
@@ -13851,6 +14327,33 @@ func (*GenericErrorResponseStatusCode) updateProfileRes()                       
 func (*GenericErrorResponseStatusCode) updateVerifyProfileRes()                          {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeByPhoneNumberRes()          {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeRes()                       {}
+
+type GetAllPrivateWirelessGatewaysResponse struct {
+	Data []PrivateWirelessGateway `json:"data"`
+	Meta OptPaginationMeta        `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *GetAllPrivateWirelessGatewaysResponse) GetData() []PrivateWirelessGateway {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *GetAllPrivateWirelessGatewaysResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *GetAllPrivateWirelessGatewaysResponse) SetData(val []PrivateWirelessGateway) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *GetAllPrivateWirelessGatewaysResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*GetAllPrivateWirelessGatewaysResponse) getPrivateWirelessGatewaysRes() {}
 
 type GetAllTelephonyCredentialResponse struct {
 	Data []TelephonyCredential `json:"data"`
@@ -26407,6 +26910,236 @@ func (o OptDisplayName) Get() (v DisplayName, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptDisplayName) Or(d DisplayName) DisplayName {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirement returns new OptDocReqsRequirement with value set to v.
+func NewOptDocReqsRequirement(v DocReqsRequirement) OptDocReqsRequirement {
+	return OptDocReqsRequirement{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirement is optional DocReqsRequirement.
+type OptDocReqsRequirement struct {
+	Value DocReqsRequirement
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirement was set.
+func (o OptDocReqsRequirement) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirement) Reset() {
+	var v DocReqsRequirement
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirement) SetTo(v DocReqsRequirement) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirement) Get() (v DocReqsRequirement, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirement) Or(d DocReqsRequirement) DocReqsRequirement {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirementAction returns new OptDocReqsRequirementAction with value set to v.
+func NewOptDocReqsRequirementAction(v DocReqsRequirementAction) OptDocReqsRequirementAction {
+	return OptDocReqsRequirementAction{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementAction is optional DocReqsRequirementAction.
+type OptDocReqsRequirementAction struct {
+	Value DocReqsRequirementAction
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementAction was set.
+func (o OptDocReqsRequirementAction) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementAction) Reset() {
+	var v DocReqsRequirementAction
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementAction) SetTo(v DocReqsRequirementAction) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementAction) Get() (v DocReqsRequirementAction, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementAction) Or(d DocReqsRequirementAction) DocReqsRequirementAction {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirementPhoneNumberType returns new OptDocReqsRequirementPhoneNumberType with value set to v.
+func NewOptDocReqsRequirementPhoneNumberType(v DocReqsRequirementPhoneNumberType) OptDocReqsRequirementPhoneNumberType {
+	return OptDocReqsRequirementPhoneNumberType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementPhoneNumberType is optional DocReqsRequirementPhoneNumberType.
+type OptDocReqsRequirementPhoneNumberType struct {
+	Value DocReqsRequirementPhoneNumberType
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementPhoneNumberType was set.
+func (o OptDocReqsRequirementPhoneNumberType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementPhoneNumberType) Reset() {
+	var v DocReqsRequirementPhoneNumberType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementPhoneNumberType) SetTo(v DocReqsRequirementPhoneNumberType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementPhoneNumberType) Get() (v DocReqsRequirementPhoneNumberType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementPhoneNumberType) Or(d DocReqsRequirementPhoneNumberType) DocReqsRequirementPhoneNumberType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirementTypeAcceptanceCriteria returns new OptDocReqsRequirementTypeAcceptanceCriteria with value set to v.
+func NewOptDocReqsRequirementTypeAcceptanceCriteria(v DocReqsRequirementTypeAcceptanceCriteria) OptDocReqsRequirementTypeAcceptanceCriteria {
+	return OptDocReqsRequirementTypeAcceptanceCriteria{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementTypeAcceptanceCriteria is optional DocReqsRequirementTypeAcceptanceCriteria.
+type OptDocReqsRequirementTypeAcceptanceCriteria struct {
+	Value DocReqsRequirementTypeAcceptanceCriteria
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementTypeAcceptanceCriteria was set.
+func (o OptDocReqsRequirementTypeAcceptanceCriteria) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementTypeAcceptanceCriteria) Reset() {
+	var v DocReqsRequirementTypeAcceptanceCriteria
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementTypeAcceptanceCriteria) SetTo(v DocReqsRequirementTypeAcceptanceCriteria) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementTypeAcceptanceCriteria) Get() (v DocReqsRequirementTypeAcceptanceCriteria, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementTypeAcceptanceCriteria) Or(d DocReqsRequirementTypeAcceptanceCriteria) DocReqsRequirementTypeAcceptanceCriteria {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDocReqsRequirementTypeType returns new OptDocReqsRequirementTypeType with value set to v.
+func NewOptDocReqsRequirementTypeType(v DocReqsRequirementTypeType) OptDocReqsRequirementTypeType {
+	return OptDocReqsRequirementTypeType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDocReqsRequirementTypeType is optional DocReqsRequirementTypeType.
+type OptDocReqsRequirementTypeType struct {
+	Value DocReqsRequirementTypeType
+	Set   bool
+}
+
+// IsSet returns true if OptDocReqsRequirementTypeType was set.
+func (o OptDocReqsRequirementTypeType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDocReqsRequirementTypeType) Reset() {
+	var v DocReqsRequirementTypeType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDocReqsRequirementTypeType) SetTo(v DocReqsRequirementTypeType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDocReqsRequirementTypeType) Get() (v DocReqsRequirementTypeType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDocReqsRequirementTypeType) Or(d DocReqsRequirementTypeType) DocReqsRequirementTypeType {
 	if v, ok := o.Get(); ok {
 		return v
 	}

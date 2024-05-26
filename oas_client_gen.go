@@ -213,6 +213,12 @@ type Invoker interface {
 	//
 	// POST /porting/reports
 	CreatePortingReport(ctx context.Context, request *CreatePortingReportReq) (CreatePortingReportRes, error)
+	// CreatePrivateWirelessGateway invokes CreatePrivateWirelessGateway operation.
+	//
+	// Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
+	//
+	// POST /private_wireless_gateways
+	CreatePrivateWirelessGateway(ctx context.Context, request *CreatePrivateWirelessGatewayReq) (CreatePrivateWirelessGatewayRes, error)
 	// CreateProfile invokes CreateProfile operation.
 	//
 	// Creates a Verified Calls Display Profile associated with the given Business Identity.
@@ -726,6 +732,12 @@ type Invoker interface {
 	//
 	// GET /private_wireless_gateways/{id}
 	GetPrivateWirelessGateway(ctx context.Context, params GetPrivateWirelessGatewayParams) (GetPrivateWirelessGatewayRes, error)
+	// GetPrivateWirelessGateways invokes GetPrivateWirelessGateways operation.
+	//
+	// Get all Private Wireless Gateways belonging to the user.
+	//
+	// GET /private_wireless_gateways
+	GetPrivateWirelessGateways(ctx context.Context, params GetPrivateWirelessGatewaysParams) (GetPrivateWirelessGatewaysRes, error)
 	// GetRecording invokes GetRecording operation.
 	//
 	// Retrieves the details of an existing call recording.
@@ -1293,6 +1305,12 @@ type Invoker interface {
 	//
 	// GET /comments/{id}
 	RetrieveComment(ctx context.Context, params RetrieveCommentParams) (RetrieveCommentRes, error)
+	// RetrieveDocumentRequirements invokes RetrieveDocumentRequirements operation.
+	//
+	// Retrieve a document requirement record.
+	//
+	// GET /requirements/{id}
+	RetrieveDocumentRequirements(ctx context.Context, params RetrieveDocumentRequirementsParams) (RetrieveDocumentRequirementsRes, error)
 	// RetrieveNumberOrderDocument invokes RetrieveNumberOrderDocument operation.
 	//
 	// Gets a single number order document.
@@ -4498,6 +4516,78 @@ func (c *Client) sendCreatePortingReport(ctx context.Context, request *CreatePor
 	defer resp.Body.Close()
 
 	result, err := decodeCreatePortingReportResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreatePrivateWirelessGateway invokes CreatePrivateWirelessGateway operation.
+//
+// Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
+//
+// POST /private_wireless_gateways
+func (c *Client) CreatePrivateWirelessGateway(ctx context.Context, request *CreatePrivateWirelessGatewayReq) (CreatePrivateWirelessGatewayRes, error) {
+	res, err := c.sendCreatePrivateWirelessGateway(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreatePrivateWirelessGateway(ctx context.Context, request *CreatePrivateWirelessGatewayReq) (res CreatePrivateWirelessGatewayRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/private_wireless_gateways"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreatePrivateWirelessGatewayRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreatePrivateWirelessGateway", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreatePrivateWirelessGatewayResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -12132,6 +12222,197 @@ func (c *Client) sendGetPrivateWirelessGateway(ctx context.Context, params GetPr
 	defer resp.Body.Close()
 
 	result, err := decodeGetPrivateWirelessGatewayResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetPrivateWirelessGateways invokes GetPrivateWirelessGateways operation.
+//
+// Get all Private Wireless Gateways belonging to the user.
+//
+// GET /private_wireless_gateways
+func (c *Client) GetPrivateWirelessGateways(ctx context.Context, params GetPrivateWirelessGatewaysParams) (GetPrivateWirelessGatewaysRes, error) {
+	res, err := c.sendGetPrivateWirelessGateways(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetPrivateWirelessGateways(ctx context.Context, params GetPrivateWirelessGatewaysParams) (res GetPrivateWirelessGatewaysRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/private_wireless_gateways"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[name]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterName.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[ip_range]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[ip_range]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterIPRange.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[region_code]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[region_code]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterRegionCode.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAt.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[updated_at]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[updated_at]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterUpdatedAt.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetPrivateWirelessGateways", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetPrivateWirelessGatewaysResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -24028,6 +24309,93 @@ func (c *Client) sendRetrieveComment(ctx context.Context, params RetrieveComment
 	defer resp.Body.Close()
 
 	result, err := decodeRetrieveCommentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveDocumentRequirements invokes RetrieveDocumentRequirements operation.
+//
+// Retrieve a document requirement record.
+//
+// GET /requirements/{id}
+func (c *Client) RetrieveDocumentRequirements(ctx context.Context, params RetrieveDocumentRequirementsParams) (RetrieveDocumentRequirementsRes, error) {
+	res, err := c.sendRetrieveDocumentRequirements(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveDocumentRequirements(ctx context.Context, params RetrieveDocumentRequirementsParams) (res RetrieveDocumentRequirementsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/requirements/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveDocumentRequirements", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveDocumentRequirementsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

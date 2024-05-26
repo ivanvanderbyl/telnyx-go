@@ -567,6 +567,24 @@ type GetPrivateWirelessGatewayParams struct {
 	ID uuid.UUID
 }
 
+// GetPrivateWirelessGatewaysParams is parameters of GetPrivateWirelessGateways operation.
+type GetPrivateWirelessGatewaysParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The name of the Private Wireless Gateway.
+	FilterName OptString
+	// The IP address range of the Private Wireless Gateway.
+	FilterIPRange OptString
+	// The name of the region where the Private Wireless Gateway is deployed.
+	FilterRegionCode OptString
+	// Private Wireless Gateway resource creation date.
+	FilterCreatedAt OptString
+	// When the Private Wireless Gateway was last updated.
+	FilterUpdatedAt OptString
+}
+
 // GetRecordingParams is parameters of GetRecording operation.
 type GetRecordingParams struct {
 	// Uniquely identifies the recording by id.
@@ -1553,6 +1571,12 @@ type RetrieveCallStatusParams struct {
 type RetrieveCommentParams struct {
 	// The comment ID.
 	ID string
+}
+
+// RetrieveDocumentRequirementsParams is parameters of RetrieveDocumentRequirements operation.
+type RetrieveDocumentRequirementsParams struct {
+	// Uniquely identifies the requirement_type record.
+	ID uuid.UUID
 }
 
 // RetrieveNumberOrderDocumentParams is parameters of RetrieveNumberOrderDocument operation.

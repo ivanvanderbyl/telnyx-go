@@ -121,6 +121,10 @@ type CreatePortingReportRes interface {
 	createPortingReportRes()
 }
 
+type CreatePrivateWirelessGatewayRes interface {
+	createPrivateWirelessGatewayRes()
+}
+
 type CreateProfileRes interface {
 	createProfileRes()
 }
@@ -427,6 +431,10 @@ type GetPortingReportRes interface {
 
 type GetPrivateWirelessGatewayRes interface {
 	getPrivateWirelessGatewayRes()
+}
+
+type GetPrivateWirelessGatewaysRes interface {
+	getPrivateWirelessGatewaysRes()
 }
 
 type GetRecordingRes interface {
@@ -775,6 +783,10 @@ type RetrieveCallStatusRes interface {
 
 type RetrieveCommentRes interface {
 	retrieveCommentRes()
+}
+
+type RetrieveDocumentRequirementsRes interface {
+	retrieveDocumentRequirementsRes()
 }
 
 type RetrieveNumberOrderDocumentRes interface {
