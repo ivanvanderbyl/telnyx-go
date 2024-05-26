@@ -253,10 +253,6 @@ type GetTexmlConferencesRes interface {
 	getTexmlConferencesRes()
 }
 
-type GetUsageReportByApplicationRes interface {
-	getUsageReportByApplicationRes()
-}
-
 type GetUserBalanceRes interface {
 	getUserBalanceRes()
 }
@@ -299,10 +295,6 @@ type ListQueueCallsRes interface {
 
 type ListTagsRes interface {
 	listTagsRes()
-}
-
-type ListUsageReportsOptionsRes interface {
-	listUsageReportsOptionsRes()
 }
 
 type ListVerificationsRes interface {

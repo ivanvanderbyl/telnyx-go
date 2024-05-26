@@ -640,21 +640,6 @@ func (s *CallControlApplication) Validate() error {
 	return nil
 }
 
-func (s CallControlApplicationAnchorsiteOverride) Validate() error {
-	switch s {
-	case "\"Latency\"":
-		return nil
-	case "\"Chicago, IL\"":
-		return nil
-	case "\"Ashburn, VA\"":
-		return nil
-	case "\"San Jose, CA\"":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
 func (s CallControlApplicationDtmfType) Validate() error {
 	switch s {
 	case "RFC 2833":
@@ -1451,147 +1436,6 @@ func (s CallResourceStatus) Validate() error {
 	case "busy":
 		return nil
 	case "no-answer":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *CdrGetSyncUsageReportResponse) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Data.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "data",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *CdrUsageReportResponse) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.AggregationType.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "aggregation_type",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Status.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "status",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.ProductBreakdown.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "product_breakdown",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s CdrUsageReportResponseAggregationType) Validate() error {
-	switch s {
-	case "NO_AGGREGATION":
-		return nil
-	case "CONNECTION":
-		return nil
-	case "TAG":
-		return nil
-	case "BILLING_GROUP":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s CdrUsageReportResponseProductBreakdown) Validate() error {
-	switch s {
-	case "NO_BREAKDOWN":
-		return nil
-	case "DID_VS_TOLL_FREE":
-		return nil
-	case "COUNTRY":
-		return nil
-	case "DID_VS_TOLL_FREE_PER_COUNTRY":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s CdrUsageReportResponseStatus) Validate() error {
-	switch s {
-	case "PENDING":
-		return nil
-	case "COMPLETE":
-		return nil
-	case "FAILED":
-		return nil
-	case "EXPIRED":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -3556,30 +3400,6 @@ func (s *GetRoomRecordingResponse) Validate() error {
 	return nil
 }
 
-func (s GetUsageReportByApplicationFormat) Validate() error {
-	switch s {
-	case "csv":
-		return nil
-	case "json":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s GetUsageReportSyncAggregationType) Validate() error {
-	switch s {
-	case "NO_AGGREGATION":
-		return nil
-	case "PROFILE":
-		return nil
-	case "TAGS":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
 func (s *GetWebhookDeliveryOK) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -4058,6 +3878,43 @@ func (s *ListQueueCallsResponse) Validate() error {
 	return nil
 }
 
+func (s *ListRecordingTranscriptionsResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *ListRoomRecordingsResponse) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -4273,149 +4130,6 @@ func (s *ListVerifyProfilesResponse) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s *MdrGetSyncUsageReportResponse) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Data.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "data",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *MdrGetUsageReportsResponse) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		var failures []validate.FieldError
-		for i, elem := range s.Data {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "data",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *MdrUsageReportResponse) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.AggregationType.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "aggregation_type",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Status.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "status",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s MdrUsageReportResponseAggregationType) Validate() error {
-	switch s {
-	case "NO_AGGREGATION":
-		return nil
-	case "PROFILE":
-		return nil
-	case "TAGS":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s MdrUsageReportResponseStatus) Validate() error {
-	switch s {
-	case "PENDING":
-		return nil
-	case "COMPLETE":
-		return nil
-	case "FAILED":
-		return nil
-	case "EXPIRED":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
 }
 
 func (s *NewParticipantResource) Validate() error {
@@ -4955,6 +4669,141 @@ func (s RecordingTrack) Validate() error {
 	}
 }
 
+func (s *RecordingTranscription) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.RecordType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "record_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Status.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s RecordingTranscriptionRecordType) Validate() error {
+	switch s {
+	case "recording_transcription":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *RecordingTranscriptionResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s RecordingTranscriptionStatus) Validate() error {
+	switch s {
+	case "in-progress":
+		return nil
+	case "completed":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *RecordingsResponseBody) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *ReferRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -5020,36 +4869,6 @@ func (s RejectRequestCause) Validate() error {
 	case "CALL_REJECTED":
 		return nil
 	case "USER_BUSY":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s ReportsCdrUsageReportsSyncGetAggregationType) Validate() error {
-	switch s {
-	case "NO_AGGREGATION":
-		return nil
-	case "CONNECTION":
-		return nil
-	case "TAG":
-		return nil
-	case "BILLING_GROUP":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s ReportsCdrUsageReportsSyncGetProductBreakdown) Validate() error {
-	switch s {
-	case "NO_BREAKDOWN":
-		return nil
-	case "DID_VS_TOLL_FREE":
-		return nil
-	case "COUNTRY":
-		return nil
-	case "DID_VS_TOLL_FREE_PER_COUNTRY":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -6746,21 +6565,6 @@ func (s *UpdateCallControlApplicationRequest) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s UpdateCallControlApplicationRequestAnchorsiteOverride) Validate() error {
-	switch s {
-	case "\"Latency\"":
-		return nil
-	case "\"Chicago, IL\"":
-		return nil
-	case "\"Ashburn, VA\"":
-		return nil
-	case "\"San Jose, CA\"":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
 }
 
 func (s UpdateCallControlApplicationRequestDtmfType) Validate() error {

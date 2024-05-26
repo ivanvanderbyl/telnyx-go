@@ -454,51 +454,6 @@ type GetTexmlConferencesParams struct {
 	DateUpdated OptString
 }
 
-// GetUsageReportByApplicationParams is parameters of GetUsageReportByApplication operation.
-type GetUsageReportByApplicationParams struct {
-	// Telnyx product.
-	Product string
-	// Breakout by specified product dimensions.
-	Dimensions []string
-	// Specified product usage values.
-	Metrics []string
-	// The start date for the time range you are interested in. The maximum time range is 31 days.
-	// Format: YYYY-MM-DDTHH:mm:ssZ.
-	StartDate OptString
-	// The end date for the time range you are interested in. The maximum time range is 31 days. Format:
-	// YYYY-MM-DDTHH:mm:ssZ.
-	EndDate OptString
-	// A more user-friendly way to specify the timespan you want to filter by. More options can be found
-	// in the Telnyx API Reference docs.
-	DateRange OptString
-	// Filter records on dimensions.
-	Filter OptString
-	// Return the aggregations for all Managed Accounts under the user making the request.
-	ManagedAccounts OptBool
-	PageNumber      OptInt
-	PageSize        OptInt
-	// Specifies the sort order for results.
-	Sort []string
-	// Specify the response format (csv or json). JSON is returned by default, even if not specified.
-	Format OptGetUsageReportByApplicationFormat
-}
-
-// GetUsageReportSyncParams is parameters of GetUsageReportSync operation.
-type GetUsageReportSyncParams struct {
-	StartDate       OptDateTime
-	EndDate         OptDateTime
-	AggregationType GetUsageReportSyncAggregationType
-	Profiles        []string
-}
-
-// GetUsageReportsParams is parameters of GetUsageReports operation.
-type GetUsageReportsParams struct {
-	// Page number.
-	PageNumber OptInt32
-	// Size of the page.
-	PageSize OptInt32
-}
-
 // GetVerifiedNumberParams is parameters of GetVerifiedNumber operation.
 type GetVerifiedNumberParams struct {
 	// The phone number being requested.
@@ -640,13 +595,6 @@ type ListTagsParams struct {
 	PageSize OptInt
 }
 
-// ListUsageReportsOptionsParams is parameters of ListUsageReportsOptions operation.
-type ListUsageReportsOptionsParams struct {
-	// Options (dimensions and metrics) for a given product. If none specified, all products will be
-	// returned.
-	Product OptString
-}
-
 // ListVerificationsParams is parameters of ListVerifications operation.
 type ListVerificationsParams struct {
 	// The phone number associated with the verifications to retrieve.
@@ -703,15 +651,6 @@ type ReferCallParams struct {
 type RejectCallParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
-}
-
-// ReportsCdrUsageReportsSyncGetParams is parameters of GET /reports/cdr_usage_reports/sync operation.
-type ReportsCdrUsageReportsSyncGetParams struct {
-	StartDate        OptDateTime
-	EndDate          OptDateTime
-	AggregationType  ReportsCdrUsageReportsSyncGetAggregationType
-	ProductBreakdown ReportsCdrUsageReportsSyncGetProductBreakdown
-	Connections      []float64
 }
 
 // ResumeCallRecordingParams is parameters of ResumeCallRecording operation.

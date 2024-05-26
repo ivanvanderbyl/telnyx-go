@@ -41,7 +41,7 @@ func (s *CallControlApplication) setDefaults() {
 		s.Active.SetTo(val)
 	}
 	{
-		val := CallControlApplicationAnchorsiteOverride("\"Latency\"")
+		val := AnchorsiteOverride("Latency")
 		s.AnchorsiteOverride.SetTo(val)
 	}
 	{
@@ -767,7 +767,7 @@ func (s *UpdateCallControlApplicationRequest) setDefaults() {
 		s.Active.SetTo(val)
 	}
 	{
-		val := UpdateCallControlApplicationRequestAnchorsiteOverride("\"Latency\"")
+		val := AnchorsiteOverride("Latency")
 		s.AnchorsiteOverride.SetTo(val)
 	}
 	{

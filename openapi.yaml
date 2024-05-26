@@ -25523,6 +25523,7 @@ components:
       content:
         application/json:
           schema:
+            type: object
             properties:
               data:
                 type: array
@@ -26103,6 +26104,7 @@ components:
       content:
         application/json:
           schema:
+            type: object
             properties:
               data:
                 type: object
@@ -26112,6 +26114,7 @@ components:
       content:
         application/json:
           schema:
+            type: object
             properties:
               data:
                 type: array
@@ -26808,6 +26811,7 @@ components:
       content:
         application/json:
           schema:
+            type: object
             properties:
               errors:
                 type: array
@@ -27636,16 +27640,16 @@ components:
         using ICMP ping messages. This can be disabled by specifying a site to
         handle all media.
       enum:
-        - Latency
-        - Chicago, IL
-        - Ashburn, VA
-        - San Jose, CA
-        - Sydney, Australia
-        - Amsterdam, Netherlands
-        - London, UK
-        - Toronto, Canada
-        - Vancouver, Canada
-        - Frankfurt, Germany
+        - "Latency"
+        - "Chicago, IL"
+        - "Ashburn, VA"
+        - "San Jose, CA"
+        - "Sydney, Australia"
+        - "Amsterdam, Netherlands"
+        - "London, UK"
+        - "Toronto, Canada"
+        - "Vancouver, Canada"
+        - "Frankfurt, Germany"
       default: Latency
       example: Amsterdam, Netherlands
     AnswerRequest:
@@ -29557,19 +29561,7 @@ components:
           description: Specifies whether the connection can be used.
           default: true
         anchorsite_override:
-          type: string
-          description: >
-            `Latency` directs Telnyx to route media through the site with the
-            lowest round-trip time to the user's connection. Telnyx calculates
-            this time using ICMP ping messages. This can be disabled by
-            specifying a site to handle all media.
-          enum:
-            - '"Latency"'
-            - '"Chicago, IL"'
-            - '"Ashburn, VA"'
-            - '"San Jose, CA"'
-          example: '"Amsterdam, Netherlands"'
-          default: '"Latency"'
+          $ref: '#/components/schemas/AnchorsiteOverride'
         application_name:
           type: string
           description: A user-assigned name to help manage the application.
@@ -29680,6 +29672,7 @@ components:
       properties:
         channel_limit:
           type: integer
+          nullable: true
           description: >-
             When set, this will limit the total number of inbound calls to phone
             numbers associated with this connection.
@@ -29702,6 +29695,7 @@ components:
             alphanumeric value. Please note TLS encrypted calls are not allowed
             for subdomain calls.
           example: example
+          nullable: true
         sip_subdomain_receive_settings:
           type: string
           description: >-
@@ -29719,6 +29713,7 @@ components:
       properties:
         channel_limit:
           type: integer
+          nullable: true
           description: >-
             When set, this will limit the total number of outbound calls to
             phone numbers associated with this connection.
@@ -36862,6 +36857,7 @@ components:
                 allowed for subdomain calls.
               default: null
               example: example
+              nullable: true
             sip_subdomain_receive_settings:
               type: string
               description: >-
@@ -38621,7 +38617,7 @@ components:
                 "sip:@example.sip.telnyx.com" where the user part can be any
                 alphanumeric value. Please note TLS encrypted calls are not
                 allowed for subdomain calls.
-              # default: null
+              nullable: true
               example: example
             sip_subdomain_receive_settings:
               type: string
@@ -41543,7 +41539,7 @@ components:
                 "sip:@example.sip.telnyx.com" where the user part can be any
                 alphanumeric value. Please note TLS encrypted calls are not
                 allowed for subdomain calls.
-              default: null
+              nullable: true
               example: example
             sip_subdomain_receive_settings:
               type: string
@@ -57408,6 +57404,7 @@ components:
                   type: string
                   example: https://developers.telnyx.com/docs/overview/errors/10007
     UnprocessableEntityError:
+      type: object
       allOf:
         - $ref: '#/components/schemas/GenericError'
         - properties:
@@ -57844,19 +57841,7 @@ components:
           description: Specifies whether the connection can be used.
           default: true
         anchorsite_override:
-          type: string
-          description: >
-            <code>Latency</code> directs Telnyx to route media through the site
-            with the lowest round-trip time to the user's connection. Telnyx
-            calculates this time using ICMP ping messages. This can be disabled
-            by specifying a site to handle all media.
-          enum:
-            - '"Latency"'
-            - '"Chicago, IL"'
-            - '"Ashburn, VA"'
-            - '"San Jose, CA"'
-          example: '"Amsterdam, Netherlands"'
-          default: '"Latency"'
+          $ref: '#/components/schemas/AnchorsiteOverride'
         dtmf_type:
           type: string
           description: >-
@@ -62145,9 +62130,11 @@ components:
         a first last name or a business name.
       example: Alfred
     http:
+      type: object
       description: HTTP request and response information.
       properties:
         request:
+          type: object
           description: Request details.
           properties:
             url:
@@ -62156,6 +62143,7 @@ components:
             headers:
               $ref: '#/components/schemas/http_headers'
         response:
+          type: object
           description: Response details, optional.
           nullable: true
           properties:

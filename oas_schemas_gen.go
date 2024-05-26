@@ -541,7 +541,7 @@ type Attempt struct {
 	StartedAt OptDateTime `json:"started_at"`
 	// ISO 8601 timestamp indicating when the attempt has finished.
 	FinishedAt OptDateTime `json:"finished_at"`
-	HTTP       HTTP        `json:"http"`
+	HTTP       OptHTTP     `json:"http"`
 	// Webhook delivery error codes.
 	Errors []int `json:"errors"`
 }
@@ -562,7 +562,7 @@ func (s *Attempt) GetFinishedAt() OptDateTime {
 }
 
 // GetHTTP returns the value of HTTP.
-func (s *Attempt) GetHTTP() HTTP {
+func (s *Attempt) GetHTTP() OptHTTP {
 	return s.HTTP
 }
 
@@ -587,7 +587,7 @@ func (s *Attempt) SetFinishedAt(val OptDateTime) {
 }
 
 // SetHTTP sets the value of HTTP.
-func (s *Attempt) SetHTTP(val HTTP) {
+func (s *Attempt) SetHTTP(val OptHTTP) {
 	s.HTTP = val
 }
 
@@ -1337,11 +1337,8 @@ func (s *Call) SetCallDuration(val OptInt) {
 // Ref: #/components/schemas/CallControlApplication
 type CallControlApplication struct {
 	// Specifies whether the connection can be used.
-	Active OptBool `json:"active"`
-	// `Latency` directs Telnyx to route media through the site with the lowest round-trip time to the
-	// user's connection. Telnyx calculates this time using ICMP ping messages. This can be disabled by
-	// specifying a site to handle all media.
-	AnchorsiteOverride OptCallControlApplicationAnchorsiteOverride `json:"anchorsite_override"`
+	Active             OptBool               `json:"active"`
+	AnchorsiteOverride OptAnchorsiteOverride `json:"anchorsite_override"`
 	// A user-assigned name to help manage the application.
 	ApplicationName OptString `json:"application_name"`
 	// ISO 8601 formatted date of when the resource was created.
@@ -1377,7 +1374,7 @@ func (s *CallControlApplication) GetActive() OptBool {
 }
 
 // GetAnchorsiteOverride returns the value of AnchorsiteOverride.
-func (s *CallControlApplication) GetAnchorsiteOverride() OptCallControlApplicationAnchorsiteOverride {
+func (s *CallControlApplication) GetAnchorsiteOverride() OptAnchorsiteOverride {
 	return s.AnchorsiteOverride
 }
 
@@ -1457,7 +1454,7 @@ func (s *CallControlApplication) SetActive(val OptBool) {
 }
 
 // SetAnchorsiteOverride sets the value of AnchorsiteOverride.
-func (s *CallControlApplication) SetAnchorsiteOverride(val OptCallControlApplicationAnchorsiteOverride) {
+func (s *CallControlApplication) SetAnchorsiteOverride(val OptAnchorsiteOverride) {
 	s.AnchorsiteOverride = val
 }
 
@@ -1531,64 +1528,6 @@ func (s *CallControlApplication) SetWebhookTimeoutSecs(val OptNilInt) {
 	s.WebhookTimeoutSecs = val
 }
 
-// `Latency` directs Telnyx to route media through the site with the lowest round-trip time to the
-// user's connection. Telnyx calculates this time using ICMP ping messages. This can be disabled by
-// specifying a site to handle all media.
-type CallControlApplicationAnchorsiteOverride string
-
-const (
-	CallControlApplicationAnchorsiteOverrideLatency   CallControlApplicationAnchorsiteOverride = "\"Latency\""
-	CallControlApplicationAnchorsiteOverrideChicagoIL CallControlApplicationAnchorsiteOverride = "\"Chicago, IL\""
-	CallControlApplicationAnchorsiteOverrideAshburnVA CallControlApplicationAnchorsiteOverride = "\"Ashburn, VA\""
-	CallControlApplicationAnchorsiteOverrideSanJoseCA CallControlApplicationAnchorsiteOverride = "\"San Jose, CA\""
-)
-
-// AllValues returns all CallControlApplicationAnchorsiteOverride values.
-func (CallControlApplicationAnchorsiteOverride) AllValues() []CallControlApplicationAnchorsiteOverride {
-	return []CallControlApplicationAnchorsiteOverride{
-		CallControlApplicationAnchorsiteOverrideLatency,
-		CallControlApplicationAnchorsiteOverrideChicagoIL,
-		CallControlApplicationAnchorsiteOverrideAshburnVA,
-		CallControlApplicationAnchorsiteOverrideSanJoseCA,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CallControlApplicationAnchorsiteOverride) MarshalText() ([]byte, error) {
-	switch s {
-	case CallControlApplicationAnchorsiteOverrideLatency:
-		return []byte(s), nil
-	case CallControlApplicationAnchorsiteOverrideChicagoIL:
-		return []byte(s), nil
-	case CallControlApplicationAnchorsiteOverrideAshburnVA:
-		return []byte(s), nil
-	case CallControlApplicationAnchorsiteOverrideSanJoseCA:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CallControlApplicationAnchorsiteOverride) UnmarshalText(data []byte) error {
-	switch CallControlApplicationAnchorsiteOverride(data) {
-	case CallControlApplicationAnchorsiteOverrideLatency:
-		*s = CallControlApplicationAnchorsiteOverrideLatency
-		return nil
-	case CallControlApplicationAnchorsiteOverrideChicagoIL:
-		*s = CallControlApplicationAnchorsiteOverrideChicagoIL
-		return nil
-	case CallControlApplicationAnchorsiteOverrideAshburnVA:
-		*s = CallControlApplicationAnchorsiteOverrideAshburnVA
-		return nil
-	case CallControlApplicationAnchorsiteOverrideSanJoseCA:
-		*s = CallControlApplicationAnchorsiteOverrideSanJoseCA
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 // Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
 // Telnyx will be accepted in all formats.
 type CallControlApplicationDtmfType string
@@ -1643,7 +1582,7 @@ func (s *CallControlApplicationDtmfType) UnmarshalText(data []byte) error {
 type CallControlApplicationInbound struct {
 	// When set, this will limit the total number of inbound calls to phone numbers associated with this
 	// connection.
-	ChannelLimit OptInt `json:"channel_limit"`
+	ChannelLimit OptNilInt `json:"channel_limit"`
 	// When enabled Telnyx will include Shaken/Stir data in the Webhook for new inbound calls.
 	ShakenStirEnabled OptBool `json:"shaken_stir_enabled"`
 	// Specifies a subdomain that can be used to receive Inbound calls to a Connection, in the same way a
@@ -1651,14 +1590,14 @@ type CallControlApplicationInbound struct {
 	// called from any SIP endpoint by using the SIP URI "sip:@example.sip.telnyx.com" where the user
 	// part can be any alphanumeric value. Please note TLS encrypted calls are not allowed for subdomain
 	// calls.
-	SipSubdomain OptString `json:"sip_subdomain"`
+	SipSubdomain OptNilString `json:"sip_subdomain"`
 	// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
 	// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
 	SipSubdomainReceiveSettings OptCallControlApplicationInboundSipSubdomainReceiveSettings `json:"sip_subdomain_receive_settings"`
 }
 
 // GetChannelLimit returns the value of ChannelLimit.
-func (s *CallControlApplicationInbound) GetChannelLimit() OptInt {
+func (s *CallControlApplicationInbound) GetChannelLimit() OptNilInt {
 	return s.ChannelLimit
 }
 
@@ -1668,7 +1607,7 @@ func (s *CallControlApplicationInbound) GetShakenStirEnabled() OptBool {
 }
 
 // GetSipSubdomain returns the value of SipSubdomain.
-func (s *CallControlApplicationInbound) GetSipSubdomain() OptString {
+func (s *CallControlApplicationInbound) GetSipSubdomain() OptNilString {
 	return s.SipSubdomain
 }
 
@@ -1678,7 +1617,7 @@ func (s *CallControlApplicationInbound) GetSipSubdomainReceiveSettings() OptCall
 }
 
 // SetChannelLimit sets the value of ChannelLimit.
-func (s *CallControlApplicationInbound) SetChannelLimit(val OptInt) {
+func (s *CallControlApplicationInbound) SetChannelLimit(val OptNilInt) {
 	s.ChannelLimit = val
 }
 
@@ -1688,7 +1627,7 @@ func (s *CallControlApplicationInbound) SetShakenStirEnabled(val OptBool) {
 }
 
 // SetSipSubdomain sets the value of SipSubdomain.
-func (s *CallControlApplicationInbound) SetSipSubdomain(val OptString) {
+func (s *CallControlApplicationInbound) SetSipSubdomain(val OptNilString) {
 	s.SipSubdomain = val
 }
 
@@ -1744,13 +1683,13 @@ func (s *CallControlApplicationInboundSipSubdomainReceiveSettings) UnmarshalText
 type CallControlApplicationOutbound struct {
 	// When set, this will limit the total number of outbound calls to phone numbers associated with this
 	// connection.
-	ChannelLimit OptInt `json:"channel_limit"`
+	ChannelLimit OptNilInt `json:"channel_limit"`
 	// Identifies the associated outbound voice profile.
 	OutboundVoiceProfileID OptStringInt64 `json:"outbound_voice_profile_id"`
 }
 
 // GetChannelLimit returns the value of ChannelLimit.
-func (s *CallControlApplicationOutbound) GetChannelLimit() OptInt {
+func (s *CallControlApplicationOutbound) GetChannelLimit() OptNilInt {
 	return s.ChannelLimit
 }
 
@@ -1760,7 +1699,7 @@ func (s *CallControlApplicationOutbound) GetOutboundVoiceProfileID() OptStringIn
 }
 
 // SetChannelLimit sets the value of ChannelLimit.
-func (s *CallControlApplicationOutbound) SetChannelLimit(val OptInt) {
+func (s *CallControlApplicationOutbound) SetChannelLimit(val OptNilInt) {
 	s.ChannelLimit = val
 }
 
@@ -3985,334 +3924,6 @@ func (s *CallResourceStatus) UnmarshalText(data []byte) error {
 	}
 }
 
-// Ref: #/components/schemas/CdrGetSyncUsageReportResponse
-type CdrGetSyncUsageReportResponse struct {
-	Data OptCdrUsageReportResponse `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *CdrGetSyncUsageReportResponse) GetData() OptCdrUsageReportResponse {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *CdrGetSyncUsageReportResponse) SetData(val OptCdrUsageReportResponse) {
-	s.Data = val
-}
-
-// Ref: #/components/schemas/CdrUsageReportResponse
-type CdrUsageReportResponse struct {
-	// Identifies the resource.
-	ID               OptUUID                                   `json:"id"`
-	StartTime        OptDateTime                               `json:"start_time"`
-	EndTime          OptDateTime                               `json:"end_time"`
-	Connections      []int64                                   `json:"connections"`
-	AggregationType  OptCdrUsageReportResponseAggregationType  `json:"aggregation_type"`
-	Status           OptCdrUsageReportResponseStatus           `json:"status"`
-	ReportURL        OptString                                 `json:"report_url"`
-	Result           OptCdrUsageReportResponseResult           `json:"result"`
-	CreatedAt        OptDateTime                               `json:"created_at"`
-	UpdatedAt        OptDateTime                               `json:"updated_at"`
-	RecordType       OptString                                 `json:"record_type"`
-	ProductBreakdown OptCdrUsageReportResponseProductBreakdown `json:"product_breakdown"`
-}
-
-// GetID returns the value of ID.
-func (s *CdrUsageReportResponse) GetID() OptUUID {
-	return s.ID
-}
-
-// GetStartTime returns the value of StartTime.
-func (s *CdrUsageReportResponse) GetStartTime() OptDateTime {
-	return s.StartTime
-}
-
-// GetEndTime returns the value of EndTime.
-func (s *CdrUsageReportResponse) GetEndTime() OptDateTime {
-	return s.EndTime
-}
-
-// GetConnections returns the value of Connections.
-func (s *CdrUsageReportResponse) GetConnections() []int64 {
-	return s.Connections
-}
-
-// GetAggregationType returns the value of AggregationType.
-func (s *CdrUsageReportResponse) GetAggregationType() OptCdrUsageReportResponseAggregationType {
-	return s.AggregationType
-}
-
-// GetStatus returns the value of Status.
-func (s *CdrUsageReportResponse) GetStatus() OptCdrUsageReportResponseStatus {
-	return s.Status
-}
-
-// GetReportURL returns the value of ReportURL.
-func (s *CdrUsageReportResponse) GetReportURL() OptString {
-	return s.ReportURL
-}
-
-// GetResult returns the value of Result.
-func (s *CdrUsageReportResponse) GetResult() OptCdrUsageReportResponseResult {
-	return s.Result
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *CdrUsageReportResponse) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *CdrUsageReportResponse) GetUpdatedAt() OptDateTime {
-	return s.UpdatedAt
-}
-
-// GetRecordType returns the value of RecordType.
-func (s *CdrUsageReportResponse) GetRecordType() OptString {
-	return s.RecordType
-}
-
-// GetProductBreakdown returns the value of ProductBreakdown.
-func (s *CdrUsageReportResponse) GetProductBreakdown() OptCdrUsageReportResponseProductBreakdown {
-	return s.ProductBreakdown
-}
-
-// SetID sets the value of ID.
-func (s *CdrUsageReportResponse) SetID(val OptUUID) {
-	s.ID = val
-}
-
-// SetStartTime sets the value of StartTime.
-func (s *CdrUsageReportResponse) SetStartTime(val OptDateTime) {
-	s.StartTime = val
-}
-
-// SetEndTime sets the value of EndTime.
-func (s *CdrUsageReportResponse) SetEndTime(val OptDateTime) {
-	s.EndTime = val
-}
-
-// SetConnections sets the value of Connections.
-func (s *CdrUsageReportResponse) SetConnections(val []int64) {
-	s.Connections = val
-}
-
-// SetAggregationType sets the value of AggregationType.
-func (s *CdrUsageReportResponse) SetAggregationType(val OptCdrUsageReportResponseAggregationType) {
-	s.AggregationType = val
-}
-
-// SetStatus sets the value of Status.
-func (s *CdrUsageReportResponse) SetStatus(val OptCdrUsageReportResponseStatus) {
-	s.Status = val
-}
-
-// SetReportURL sets the value of ReportURL.
-func (s *CdrUsageReportResponse) SetReportURL(val OptString) {
-	s.ReportURL = val
-}
-
-// SetResult sets the value of Result.
-func (s *CdrUsageReportResponse) SetResult(val OptCdrUsageReportResponseResult) {
-	s.Result = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *CdrUsageReportResponse) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *CdrUsageReportResponse) SetUpdatedAt(val OptDateTime) {
-	s.UpdatedAt = val
-}
-
-// SetRecordType sets the value of RecordType.
-func (s *CdrUsageReportResponse) SetRecordType(val OptString) {
-	s.RecordType = val
-}
-
-// SetProductBreakdown sets the value of ProductBreakdown.
-func (s *CdrUsageReportResponse) SetProductBreakdown(val OptCdrUsageReportResponseProductBreakdown) {
-	s.ProductBreakdown = val
-}
-
-type CdrUsageReportResponseAggregationType string
-
-const (
-	CdrUsageReportResponseAggregationTypeNOAGGREGATION CdrUsageReportResponseAggregationType = "NO_AGGREGATION"
-	CdrUsageReportResponseAggregationTypeCONNECTION    CdrUsageReportResponseAggregationType = "CONNECTION"
-	CdrUsageReportResponseAggregationTypeTAG           CdrUsageReportResponseAggregationType = "TAG"
-	CdrUsageReportResponseAggregationTypeBILLINGGROUP  CdrUsageReportResponseAggregationType = "BILLING_GROUP"
-)
-
-// AllValues returns all CdrUsageReportResponseAggregationType values.
-func (CdrUsageReportResponseAggregationType) AllValues() []CdrUsageReportResponseAggregationType {
-	return []CdrUsageReportResponseAggregationType{
-		CdrUsageReportResponseAggregationTypeNOAGGREGATION,
-		CdrUsageReportResponseAggregationTypeCONNECTION,
-		CdrUsageReportResponseAggregationTypeTAG,
-		CdrUsageReportResponseAggregationTypeBILLINGGROUP,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CdrUsageReportResponseAggregationType) MarshalText() ([]byte, error) {
-	switch s {
-	case CdrUsageReportResponseAggregationTypeNOAGGREGATION:
-		return []byte(s), nil
-	case CdrUsageReportResponseAggregationTypeCONNECTION:
-		return []byte(s), nil
-	case CdrUsageReportResponseAggregationTypeTAG:
-		return []byte(s), nil
-	case CdrUsageReportResponseAggregationTypeBILLINGGROUP:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CdrUsageReportResponseAggregationType) UnmarshalText(data []byte) error {
-	switch CdrUsageReportResponseAggregationType(data) {
-	case CdrUsageReportResponseAggregationTypeNOAGGREGATION:
-		*s = CdrUsageReportResponseAggregationTypeNOAGGREGATION
-		return nil
-	case CdrUsageReportResponseAggregationTypeCONNECTION:
-		*s = CdrUsageReportResponseAggregationTypeCONNECTION
-		return nil
-	case CdrUsageReportResponseAggregationTypeTAG:
-		*s = CdrUsageReportResponseAggregationTypeTAG
-		return nil
-	case CdrUsageReportResponseAggregationTypeBILLINGGROUP:
-		*s = CdrUsageReportResponseAggregationTypeBILLINGGROUP
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type CdrUsageReportResponseProductBreakdown string
-
-const (
-	CdrUsageReportResponseProductBreakdownNOBREAKDOWN             CdrUsageReportResponseProductBreakdown = "NO_BREAKDOWN"
-	CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE           CdrUsageReportResponseProductBreakdown = "DID_VS_TOLL_FREE"
-	CdrUsageReportResponseProductBreakdownCOUNTRY                 CdrUsageReportResponseProductBreakdown = "COUNTRY"
-	CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY CdrUsageReportResponseProductBreakdown = "DID_VS_TOLL_FREE_PER_COUNTRY"
-)
-
-// AllValues returns all CdrUsageReportResponseProductBreakdown values.
-func (CdrUsageReportResponseProductBreakdown) AllValues() []CdrUsageReportResponseProductBreakdown {
-	return []CdrUsageReportResponseProductBreakdown{
-		CdrUsageReportResponseProductBreakdownNOBREAKDOWN,
-		CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE,
-		CdrUsageReportResponseProductBreakdownCOUNTRY,
-		CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CdrUsageReportResponseProductBreakdown) MarshalText() ([]byte, error) {
-	switch s {
-	case CdrUsageReportResponseProductBreakdownNOBREAKDOWN:
-		return []byte(s), nil
-	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE:
-		return []byte(s), nil
-	case CdrUsageReportResponseProductBreakdownCOUNTRY:
-		return []byte(s), nil
-	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CdrUsageReportResponseProductBreakdown) UnmarshalText(data []byte) error {
-	switch CdrUsageReportResponseProductBreakdown(data) {
-	case CdrUsageReportResponseProductBreakdownNOBREAKDOWN:
-		*s = CdrUsageReportResponseProductBreakdownNOBREAKDOWN
-		return nil
-	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE:
-		*s = CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE
-		return nil
-	case CdrUsageReportResponseProductBreakdownCOUNTRY:
-		*s = CdrUsageReportResponseProductBreakdownCOUNTRY
-		return nil
-	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
-		*s = CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type CdrUsageReportResponseResult map[string]jx.Raw
-
-func (s *CdrUsageReportResponseResult) init() CdrUsageReportResponseResult {
-	m := *s
-	if m == nil {
-		m = map[string]jx.Raw{}
-		*s = m
-	}
-	return m
-}
-
-type CdrUsageReportResponseStatus string
-
-const (
-	CdrUsageReportResponseStatusPENDING  CdrUsageReportResponseStatus = "PENDING"
-	CdrUsageReportResponseStatusCOMPLETE CdrUsageReportResponseStatus = "COMPLETE"
-	CdrUsageReportResponseStatusFAILED   CdrUsageReportResponseStatus = "FAILED"
-	CdrUsageReportResponseStatusEXPIRED  CdrUsageReportResponseStatus = "EXPIRED"
-)
-
-// AllValues returns all CdrUsageReportResponseStatus values.
-func (CdrUsageReportResponseStatus) AllValues() []CdrUsageReportResponseStatus {
-	return []CdrUsageReportResponseStatus{
-		CdrUsageReportResponseStatusPENDING,
-		CdrUsageReportResponseStatusCOMPLETE,
-		CdrUsageReportResponseStatusFAILED,
-		CdrUsageReportResponseStatusEXPIRED,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CdrUsageReportResponseStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case CdrUsageReportResponseStatusPENDING:
-		return []byte(s), nil
-	case CdrUsageReportResponseStatusCOMPLETE:
-		return []byte(s), nil
-	case CdrUsageReportResponseStatusFAILED:
-		return []byte(s), nil
-	case CdrUsageReportResponseStatusEXPIRED:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CdrUsageReportResponseStatus) UnmarshalText(data []byte) error {
-	switch CdrUsageReportResponseStatus(data) {
-	case CdrUsageReportResponseStatusPENDING:
-		*s = CdrUsageReportResponseStatusPENDING
-		return nil
-	case CdrUsageReportResponseStatusCOMPLETE:
-		*s = CdrUsageReportResponseStatusCOMPLETE
-		return nil
-	case CdrUsageReportResponseStatusFAILED:
-		*s = CdrUsageReportResponseStatusFAILED
-		return nil
-	case CdrUsageReportResponseStatusEXPIRED:
-		*s = CdrUsageReportResponseStatusEXPIRED
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 // Ref: #/components/schemas/ClientStateUpdateRequest
 type ClientStateUpdateRequest struct {
 	// Use this field to add state to every subsequent webhook. It must be a valid Base-64 encoded string.
@@ -5791,7 +5402,7 @@ type CreateTexmlApplicationRequestInbound struct {
 	// called from any SIP endpoint by using the SIP URI "sip:@example.sip.telnyx.com" where the user
 	// part can be any alphanumeric value. Please note TLS encrypted calls are not allowed for subdomain
 	// calls.
-	SipSubdomain OptString `json:"sip_subdomain"`
+	SipSubdomain OptNilString `json:"sip_subdomain"`
 	// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
 	// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
 	SipSubdomainReceiveSettings OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings `json:"sip_subdomain_receive_settings"`
@@ -5808,7 +5419,7 @@ func (s *CreateTexmlApplicationRequestInbound) GetShakenStirEnabled() OptBool {
 }
 
 // GetSipSubdomain returns the value of SipSubdomain.
-func (s *CreateTexmlApplicationRequestInbound) GetSipSubdomain() OptString {
+func (s *CreateTexmlApplicationRequestInbound) GetSipSubdomain() OptNilString {
 	return s.SipSubdomain
 }
 
@@ -5828,7 +5439,7 @@ func (s *CreateTexmlApplicationRequestInbound) SetShakenStirEnabled(val OptBool)
 }
 
 // SetSipSubdomain sets the value of SipSubdomain.
-func (s *CreateTexmlApplicationRequestInbound) SetSipSubdomain(val OptString) {
+func (s *CreateTexmlApplicationRequestInbound) SetSipSubdomain(val OptNilString) {
 	s.SipSubdomain = val
 }
 
@@ -9634,19 +9245,6 @@ func (s *GetParticipantsResponse) SetData(val OptParticipantResourceIndex) {
 
 func (*GetParticipantsResponse) getTexmlConferenceParticipantsRes() {}
 
-type GetRecordingTranscriptionOKApplicationJSON jx.Raw
-
-func (*GetRecordingTranscriptionOKApplicationJSON) deleteRecordingTranscriptionRes() {}
-func (*GetRecordingTranscriptionOKApplicationJSON) getRecordingTranscriptionRes()    {}
-
-type GetRecordingTranscriptionsOKApplicationJSON jx.Raw
-
-func (*GetRecordingTranscriptionsOKApplicationJSON) getRecordingTranscriptionsRes() {}
-
-type GetRecordingsOKApplicationJSON jx.Raw
-
-func (*GetRecordingsOKApplicationJSON) getRecordingsRes() {}
-
 type GetRoomRecordingResponse struct {
 	Data OptRoomRecording `json:"data"`
 }
@@ -9690,120 +9288,6 @@ type GetTexmlApplicationUnauthorized ErrorResponse
 
 func (*GetTexmlApplicationUnauthorized) getTexmlApplicationRes() {}
 
-type GetUsageReportByApplicationBadRequest ErrorResponse
-
-func (*GetUsageReportByApplicationBadRequest) getUsageReportByApplicationRes() {}
-
-type GetUsageReportByApplicationFormat string
-
-const (
-	GetUsageReportByApplicationFormatCsv  GetUsageReportByApplicationFormat = "csv"
-	GetUsageReportByApplicationFormatJSON GetUsageReportByApplicationFormat = "json"
-)
-
-// AllValues returns all GetUsageReportByApplicationFormat values.
-func (GetUsageReportByApplicationFormat) AllValues() []GetUsageReportByApplicationFormat {
-	return []GetUsageReportByApplicationFormat{
-		GetUsageReportByApplicationFormatCsv,
-		GetUsageReportByApplicationFormatJSON,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GetUsageReportByApplicationFormat) MarshalText() ([]byte, error) {
-	switch s {
-	case GetUsageReportByApplicationFormatCsv:
-		return []byte(s), nil
-	case GetUsageReportByApplicationFormatJSON:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetUsageReportByApplicationFormat) UnmarshalText(data []byte) error {
-	switch GetUsageReportByApplicationFormat(data) {
-	case GetUsageReportByApplicationFormatCsv:
-		*s = GetUsageReportByApplicationFormatCsv
-		return nil
-	case GetUsageReportByApplicationFormatJSON:
-		*s = GetUsageReportByApplicationFormatJSON
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type GetUsageReportByApplicationInternalServerError ErrorResponse
-
-func (*GetUsageReportByApplicationInternalServerError) getUsageReportByApplicationRes() {}
-
-// CSV formatted data.
-type GetUsageReportByApplicationOKTextCsv struct {
-	Data io.Reader
-}
-
-// Read reads data from the Data reader.
-//
-// Kept to satisfy the io.Reader interface.
-func (s GetUsageReportByApplicationOKTextCsv) Read(p []byte) (n int, err error) {
-	if s.Data == nil {
-		return 0, io.EOF
-	}
-	return s.Data.Read(p)
-}
-
-func (*GetUsageReportByApplicationOKTextCsv) getUsageReportByApplicationRes() {}
-
-type GetUsageReportSyncAggregationType string
-
-const (
-	GetUsageReportSyncAggregationTypeNOAGGREGATION GetUsageReportSyncAggregationType = "NO_AGGREGATION"
-	GetUsageReportSyncAggregationTypePROFILE       GetUsageReportSyncAggregationType = "PROFILE"
-	GetUsageReportSyncAggregationTypeTAGS          GetUsageReportSyncAggregationType = "TAGS"
-)
-
-// AllValues returns all GetUsageReportSyncAggregationType values.
-func (GetUsageReportSyncAggregationType) AllValues() []GetUsageReportSyncAggregationType {
-	return []GetUsageReportSyncAggregationType{
-		GetUsageReportSyncAggregationTypeNOAGGREGATION,
-		GetUsageReportSyncAggregationTypePROFILE,
-		GetUsageReportSyncAggregationTypeTAGS,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GetUsageReportSyncAggregationType) MarshalText() ([]byte, error) {
-	switch s {
-	case GetUsageReportSyncAggregationTypeNOAGGREGATION:
-		return []byte(s), nil
-	case GetUsageReportSyncAggregationTypePROFILE:
-		return []byte(s), nil
-	case GetUsageReportSyncAggregationTypeTAGS:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetUsageReportSyncAggregationType) UnmarshalText(data []byte) error {
-	switch GetUsageReportSyncAggregationType(data) {
-	case GetUsageReportSyncAggregationTypeNOAGGREGATION:
-		*s = GetUsageReportSyncAggregationTypeNOAGGREGATION
-		return nil
-	case GetUsageReportSyncAggregationTypePROFILE:
-		*s = GetUsageReportSyncAggregationTypePROFILE
-		return nil
-	case GetUsageReportSyncAggregationTypeTAGS:
-		*s = GetUsageReportSyncAggregationTypeTAGS
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 type GetVerifiedNumberNotFound Errors
 
 func (*GetVerifiedNumberNotFound) getVerifiedNumberRes() {}
@@ -9838,7 +9322,100 @@ type GetWebhookDeliveryUnauthorized struct{}
 
 func (*GetWebhookDeliveryUnauthorized) getWebhookDeliveryRes() {}
 
-type HTTP jx.Raw
+// HTTP request and response information.
+// Ref: #/components/schemas/http
+type HTTP struct {
+	// Request details.
+	Request OptHTTPRequest `json:"request"`
+	// Response details, optional.
+	Response OptNilHTTPResponse `json:"response"`
+}
+
+// GetRequest returns the value of Request.
+func (s *HTTP) GetRequest() OptHTTPRequest {
+	return s.Request
+}
+
+// GetResponse returns the value of Response.
+func (s *HTTP) GetResponse() OptNilHTTPResponse {
+	return s.Response
+}
+
+// SetRequest sets the value of Request.
+func (s *HTTP) SetRequest(val OptHTTPRequest) {
+	s.Request = val
+}
+
+// SetResponse sets the value of Response.
+func (s *HTTP) SetResponse(val OptNilHTTPResponse) {
+	s.Response = val
+}
+
+type HTTPHeaders []string
+
+// Request details.
+type HTTPRequest struct {
+	URL     OptString   `json:"url"`
+	Headers HTTPHeaders `json:"headers"`
+}
+
+// GetURL returns the value of URL.
+func (s *HTTPRequest) GetURL() OptString {
+	return s.URL
+}
+
+// GetHeaders returns the value of Headers.
+func (s *HTTPRequest) GetHeaders() HTTPHeaders {
+	return s.Headers
+}
+
+// SetURL sets the value of URL.
+func (s *HTTPRequest) SetURL(val OptString) {
+	s.URL = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *HTTPRequest) SetHeaders(val HTTPHeaders) {
+	s.Headers = val
+}
+
+// Response details, optional.
+type HTTPResponse struct {
+	Status  OptInt      `json:"status"`
+	Headers HTTPHeaders `json:"headers"`
+	// Raw response body, limited to 10kB.
+	Body OptString `json:"body"`
+}
+
+// GetStatus returns the value of Status.
+func (s *HTTPResponse) GetStatus() OptInt {
+	return s.Status
+}
+
+// GetHeaders returns the value of Headers.
+func (s *HTTPResponse) GetHeaders() HTTPHeaders {
+	return s.Headers
+}
+
+// GetBody returns the value of Body.
+func (s *HTTPResponse) GetBody() OptString {
+	return s.Body
+}
+
+// SetStatus sets the value of Status.
+func (s *HTTPResponse) SetStatus(val OptInt) {
+	s.Status = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *HTTPResponse) SetHeaders(val HTTPHeaders) {
+	s.Headers = val
+}
+
+// SetBody sets the value of Body.
+func (s *HTTPResponse) SetBody(val OptString) {
+	s.Body = val
+}
 
 // Ref: #/components/schemas/HTTPValidationError
 type HTTPValidationError struct {
@@ -10871,6 +10448,33 @@ func (s *ListQueueCallsResponse) SetMeta(val OptPaginationMeta) {
 
 func (*ListQueueCallsResponse) listQueueCallsRes() {}
 
+type ListRecordingTranscriptionsResponse struct {
+	Data []RecordingTranscription `json:"data"`
+	Meta OptCursorPaginationMeta  `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListRecordingTranscriptionsResponse) GetData() []RecordingTranscription {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListRecordingTranscriptionsResponse) GetMeta() OptCursorPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListRecordingTranscriptionsResponse) SetData(val []RecordingTranscription) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListRecordingTranscriptionsResponse) SetMeta(val OptCursorPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListRecordingTranscriptionsResponse) getRecordingTranscriptionsRes() {}
+
 type ListRoomRecordingsResponse struct {
 	Data []RoomRecording   `json:"data"`
 	Meta OptPaginationMeta `json:"meta"`
@@ -10963,14 +10567,6 @@ type ListTagsUnauthorized struct{}
 
 func (*ListTagsUnauthorized) listTagsRes() {}
 
-type ListUsageReportsOptionsBadRequest ErrorResponse
-
-func (*ListUsageReportsOptionsBadRequest) listUsageReportsOptionsRes() {}
-
-type ListUsageReportsOptionsInternalServerError ErrorResponse
-
-func (*ListUsageReportsOptionsInternalServerError) listUsageReportsOptionsRes() {}
-
 // Ref: #/components/schemas/ListVerificationsResponse
 type ListVerificationsResponse struct {
 	Data []Verification `json:"data"`
@@ -11054,12 +10650,6 @@ func (s *ListVerifiedNumbersResponse) SetMeta(val Meta) {
 }
 
 func (*ListVerifiedNumbersResponse) listVerifiedNumbersRes() {}
-
-type ListVerifiedNumbersUnprocessableEntityApplicationJSON jx.Raw
-
-func (*ListVerifiedNumbersUnprocessableEntityApplicationJSON) createVerifiedNumberRes()   {}
-func (*ListVerifiedNumbersUnprocessableEntityApplicationJSON) listVerifiedNumbersRes()    {}
-func (*ListVerifiedNumbersUnprocessableEntityApplicationJSON) verifyVerificationCodeRes() {}
 
 // A list of Verify profile message templates.
 // Ref: #/components/schemas/ListVerifyProfileMessageTemplateResponse
@@ -11171,445 +10761,6 @@ func NewIntLoopcount(v int) Loopcount {
 	var s Loopcount
 	s.SetInt(v)
 	return s
-}
-
-// Ref: #/components/schemas/MdrGetSyncUsageReportResponse
-type MdrGetSyncUsageReportResponse struct {
-	Data OptMdrUsageReportResponse `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *MdrGetSyncUsageReportResponse) GetData() OptMdrUsageReportResponse {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *MdrGetSyncUsageReportResponse) SetData(val OptMdrUsageReportResponse) {
-	s.Data = val
-}
-
-// Ref: #/components/schemas/MdrGetUsageReportsResponse
-type MdrGetUsageReportsResponse struct {
-	Data []MdrUsageReportResponse `json:"data"`
-	Meta OptPaginationMeta        `json:"meta"`
-}
-
-// GetData returns the value of Data.
-func (s *MdrGetUsageReportsResponse) GetData() []MdrUsageReportResponse {
-	return s.Data
-}
-
-// GetMeta returns the value of Meta.
-func (s *MdrGetUsageReportsResponse) GetMeta() OptPaginationMeta {
-	return s.Meta
-}
-
-// SetData sets the value of Data.
-func (s *MdrGetUsageReportsResponse) SetData(val []MdrUsageReportResponse) {
-	s.Data = val
-}
-
-// SetMeta sets the value of Meta.
-func (s *MdrGetUsageReportsResponse) SetMeta(val OptPaginationMeta) {
-	s.Meta = val
-}
-
-// Ref: #/components/schemas/MdrUsageRecord
-type MdrUsageRecord struct {
-	Cost                  OptString `json:"cost"`
-	Direction             OptString `json:"direction"`
-	Product               OptString `json:"product"`
-	Connection            OptString `json:"connection"`
-	Received              OptString `json:"received"`
-	Delivered             OptString `json:"delivered"`
-	Currency              OptString `json:"currency"`
-	Parts                 OptString `json:"parts"`
-	Sent                  OptString `json:"sent"`
-	ProfileID             OptString `json:"profile_id"`
-	Tags                  OptString `json:"tags"`
-	MessageType           OptString `json:"message_type"`
-	TnType                OptString `json:"tn_type"`
-	CarrierPassthroughFee OptString `json:"carrier_passthrough_fee"`
-}
-
-// GetCost returns the value of Cost.
-func (s *MdrUsageRecord) GetCost() OptString {
-	return s.Cost
-}
-
-// GetDirection returns the value of Direction.
-func (s *MdrUsageRecord) GetDirection() OptString {
-	return s.Direction
-}
-
-// GetProduct returns the value of Product.
-func (s *MdrUsageRecord) GetProduct() OptString {
-	return s.Product
-}
-
-// GetConnection returns the value of Connection.
-func (s *MdrUsageRecord) GetConnection() OptString {
-	return s.Connection
-}
-
-// GetReceived returns the value of Received.
-func (s *MdrUsageRecord) GetReceived() OptString {
-	return s.Received
-}
-
-// GetDelivered returns the value of Delivered.
-func (s *MdrUsageRecord) GetDelivered() OptString {
-	return s.Delivered
-}
-
-// GetCurrency returns the value of Currency.
-func (s *MdrUsageRecord) GetCurrency() OptString {
-	return s.Currency
-}
-
-// GetParts returns the value of Parts.
-func (s *MdrUsageRecord) GetParts() OptString {
-	return s.Parts
-}
-
-// GetSent returns the value of Sent.
-func (s *MdrUsageRecord) GetSent() OptString {
-	return s.Sent
-}
-
-// GetProfileID returns the value of ProfileID.
-func (s *MdrUsageRecord) GetProfileID() OptString {
-	return s.ProfileID
-}
-
-// GetTags returns the value of Tags.
-func (s *MdrUsageRecord) GetTags() OptString {
-	return s.Tags
-}
-
-// GetMessageType returns the value of MessageType.
-func (s *MdrUsageRecord) GetMessageType() OptString {
-	return s.MessageType
-}
-
-// GetTnType returns the value of TnType.
-func (s *MdrUsageRecord) GetTnType() OptString {
-	return s.TnType
-}
-
-// GetCarrierPassthroughFee returns the value of CarrierPassthroughFee.
-func (s *MdrUsageRecord) GetCarrierPassthroughFee() OptString {
-	return s.CarrierPassthroughFee
-}
-
-// SetCost sets the value of Cost.
-func (s *MdrUsageRecord) SetCost(val OptString) {
-	s.Cost = val
-}
-
-// SetDirection sets the value of Direction.
-func (s *MdrUsageRecord) SetDirection(val OptString) {
-	s.Direction = val
-}
-
-// SetProduct sets the value of Product.
-func (s *MdrUsageRecord) SetProduct(val OptString) {
-	s.Product = val
-}
-
-// SetConnection sets the value of Connection.
-func (s *MdrUsageRecord) SetConnection(val OptString) {
-	s.Connection = val
-}
-
-// SetReceived sets the value of Received.
-func (s *MdrUsageRecord) SetReceived(val OptString) {
-	s.Received = val
-}
-
-// SetDelivered sets the value of Delivered.
-func (s *MdrUsageRecord) SetDelivered(val OptString) {
-	s.Delivered = val
-}
-
-// SetCurrency sets the value of Currency.
-func (s *MdrUsageRecord) SetCurrency(val OptString) {
-	s.Currency = val
-}
-
-// SetParts sets the value of Parts.
-func (s *MdrUsageRecord) SetParts(val OptString) {
-	s.Parts = val
-}
-
-// SetSent sets the value of Sent.
-func (s *MdrUsageRecord) SetSent(val OptString) {
-	s.Sent = val
-}
-
-// SetProfileID sets the value of ProfileID.
-func (s *MdrUsageRecord) SetProfileID(val OptString) {
-	s.ProfileID = val
-}
-
-// SetTags sets the value of Tags.
-func (s *MdrUsageRecord) SetTags(val OptString) {
-	s.Tags = val
-}
-
-// SetMessageType sets the value of MessageType.
-func (s *MdrUsageRecord) SetMessageType(val OptString) {
-	s.MessageType = val
-}
-
-// SetTnType sets the value of TnType.
-func (s *MdrUsageRecord) SetTnType(val OptString) {
-	s.TnType = val
-}
-
-// SetCarrierPassthroughFee sets the value of CarrierPassthroughFee.
-func (s *MdrUsageRecord) SetCarrierPassthroughFee(val OptString) {
-	s.CarrierPassthroughFee = val
-}
-
-// Ref: #/components/schemas/MdrUsageReportResponse
-type MdrUsageReportResponse struct {
-	// Identifies the resource.
-	ID              OptUUID                                  `json:"id"`
-	StartDate       OptDateTime                              `json:"start_date"`
-	EndDate         OptDateTime                              `json:"end_date"`
-	Connections     []int64                                  `json:"connections"`
-	AggregationType OptMdrUsageReportResponseAggregationType `json:"aggregation_type"`
-	Status          OptMdrUsageReportResponseStatus          `json:"status"`
-	ReportURL       OptString                                `json:"report_url"`
-	Result          []MdrUsageRecord                         `json:"result"`
-	CreatedAt       OptDateTime                              `json:"created_at"`
-	UpdatedAt       OptDateTime                              `json:"updated_at"`
-	Profiles        OptString                                `json:"profiles"`
-	RecordType      OptString                                `json:"record_type"`
-}
-
-// GetID returns the value of ID.
-func (s *MdrUsageReportResponse) GetID() OptUUID {
-	return s.ID
-}
-
-// GetStartDate returns the value of StartDate.
-func (s *MdrUsageReportResponse) GetStartDate() OptDateTime {
-	return s.StartDate
-}
-
-// GetEndDate returns the value of EndDate.
-func (s *MdrUsageReportResponse) GetEndDate() OptDateTime {
-	return s.EndDate
-}
-
-// GetConnections returns the value of Connections.
-func (s *MdrUsageReportResponse) GetConnections() []int64 {
-	return s.Connections
-}
-
-// GetAggregationType returns the value of AggregationType.
-func (s *MdrUsageReportResponse) GetAggregationType() OptMdrUsageReportResponseAggregationType {
-	return s.AggregationType
-}
-
-// GetStatus returns the value of Status.
-func (s *MdrUsageReportResponse) GetStatus() OptMdrUsageReportResponseStatus {
-	return s.Status
-}
-
-// GetReportURL returns the value of ReportURL.
-func (s *MdrUsageReportResponse) GetReportURL() OptString {
-	return s.ReportURL
-}
-
-// GetResult returns the value of Result.
-func (s *MdrUsageReportResponse) GetResult() []MdrUsageRecord {
-	return s.Result
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *MdrUsageReportResponse) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *MdrUsageReportResponse) GetUpdatedAt() OptDateTime {
-	return s.UpdatedAt
-}
-
-// GetProfiles returns the value of Profiles.
-func (s *MdrUsageReportResponse) GetProfiles() OptString {
-	return s.Profiles
-}
-
-// GetRecordType returns the value of RecordType.
-func (s *MdrUsageReportResponse) GetRecordType() OptString {
-	return s.RecordType
-}
-
-// SetID sets the value of ID.
-func (s *MdrUsageReportResponse) SetID(val OptUUID) {
-	s.ID = val
-}
-
-// SetStartDate sets the value of StartDate.
-func (s *MdrUsageReportResponse) SetStartDate(val OptDateTime) {
-	s.StartDate = val
-}
-
-// SetEndDate sets the value of EndDate.
-func (s *MdrUsageReportResponse) SetEndDate(val OptDateTime) {
-	s.EndDate = val
-}
-
-// SetConnections sets the value of Connections.
-func (s *MdrUsageReportResponse) SetConnections(val []int64) {
-	s.Connections = val
-}
-
-// SetAggregationType sets the value of AggregationType.
-func (s *MdrUsageReportResponse) SetAggregationType(val OptMdrUsageReportResponseAggregationType) {
-	s.AggregationType = val
-}
-
-// SetStatus sets the value of Status.
-func (s *MdrUsageReportResponse) SetStatus(val OptMdrUsageReportResponseStatus) {
-	s.Status = val
-}
-
-// SetReportURL sets the value of ReportURL.
-func (s *MdrUsageReportResponse) SetReportURL(val OptString) {
-	s.ReportURL = val
-}
-
-// SetResult sets the value of Result.
-func (s *MdrUsageReportResponse) SetResult(val []MdrUsageRecord) {
-	s.Result = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *MdrUsageReportResponse) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *MdrUsageReportResponse) SetUpdatedAt(val OptDateTime) {
-	s.UpdatedAt = val
-}
-
-// SetProfiles sets the value of Profiles.
-func (s *MdrUsageReportResponse) SetProfiles(val OptString) {
-	s.Profiles = val
-}
-
-// SetRecordType sets the value of RecordType.
-func (s *MdrUsageReportResponse) SetRecordType(val OptString) {
-	s.RecordType = val
-}
-
-type MdrUsageReportResponseAggregationType string
-
-const (
-	MdrUsageReportResponseAggregationTypeNOAGGREGATION MdrUsageReportResponseAggregationType = "NO_AGGREGATION"
-	MdrUsageReportResponseAggregationTypePROFILE       MdrUsageReportResponseAggregationType = "PROFILE"
-	MdrUsageReportResponseAggregationTypeTAGS          MdrUsageReportResponseAggregationType = "TAGS"
-)
-
-// AllValues returns all MdrUsageReportResponseAggregationType values.
-func (MdrUsageReportResponseAggregationType) AllValues() []MdrUsageReportResponseAggregationType {
-	return []MdrUsageReportResponseAggregationType{
-		MdrUsageReportResponseAggregationTypeNOAGGREGATION,
-		MdrUsageReportResponseAggregationTypePROFILE,
-		MdrUsageReportResponseAggregationTypeTAGS,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s MdrUsageReportResponseAggregationType) MarshalText() ([]byte, error) {
-	switch s {
-	case MdrUsageReportResponseAggregationTypeNOAGGREGATION:
-		return []byte(s), nil
-	case MdrUsageReportResponseAggregationTypePROFILE:
-		return []byte(s), nil
-	case MdrUsageReportResponseAggregationTypeTAGS:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *MdrUsageReportResponseAggregationType) UnmarshalText(data []byte) error {
-	switch MdrUsageReportResponseAggregationType(data) {
-	case MdrUsageReportResponseAggregationTypeNOAGGREGATION:
-		*s = MdrUsageReportResponseAggregationTypeNOAGGREGATION
-		return nil
-	case MdrUsageReportResponseAggregationTypePROFILE:
-		*s = MdrUsageReportResponseAggregationTypePROFILE
-		return nil
-	case MdrUsageReportResponseAggregationTypeTAGS:
-		*s = MdrUsageReportResponseAggregationTypeTAGS
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type MdrUsageReportResponseStatus string
-
-const (
-	MdrUsageReportResponseStatusPENDING  MdrUsageReportResponseStatus = "PENDING"
-	MdrUsageReportResponseStatusCOMPLETE MdrUsageReportResponseStatus = "COMPLETE"
-	MdrUsageReportResponseStatusFAILED   MdrUsageReportResponseStatus = "FAILED"
-	MdrUsageReportResponseStatusEXPIRED  MdrUsageReportResponseStatus = "EXPIRED"
-)
-
-// AllValues returns all MdrUsageReportResponseStatus values.
-func (MdrUsageReportResponseStatus) AllValues() []MdrUsageReportResponseStatus {
-	return []MdrUsageReportResponseStatus{
-		MdrUsageReportResponseStatusPENDING,
-		MdrUsageReportResponseStatusCOMPLETE,
-		MdrUsageReportResponseStatusFAILED,
-		MdrUsageReportResponseStatusEXPIRED,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s MdrUsageReportResponseStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case MdrUsageReportResponseStatusPENDING:
-		return []byte(s), nil
-	case MdrUsageReportResponseStatusCOMPLETE:
-		return []byte(s), nil
-	case MdrUsageReportResponseStatusFAILED:
-		return []byte(s), nil
-	case MdrUsageReportResponseStatusEXPIRED:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *MdrUsageReportResponseStatus) UnmarshalText(data []byte) error {
-	switch MdrUsageReportResponseStatus(data) {
-	case MdrUsageReportResponseStatusPENDING:
-		*s = MdrUsageReportResponseStatusPENDING
-		return nil
-	case MdrUsageReportResponseStatusCOMPLETE:
-		*s = MdrUsageReportResponseStatusCOMPLETE
-		return nil
-	case MdrUsageReportResponseStatusFAILED:
-		*s = MdrUsageReportResponseStatusFAILED
-		return nil
-	case MdrUsageReportResponseStatusEXPIRED:
-		*s = MdrUsageReportResponseStatusEXPIRED
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Ref: #/components/schemas/Meta
@@ -12826,52 +11977,6 @@ func (o OptCallControlApplication) Get() (v CallControlApplication, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCallControlApplication) Or(d CallControlApplication) CallControlApplication {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCallControlApplicationAnchorsiteOverride returns new OptCallControlApplicationAnchorsiteOverride with value set to v.
-func NewOptCallControlApplicationAnchorsiteOverride(v CallControlApplicationAnchorsiteOverride) OptCallControlApplicationAnchorsiteOverride {
-	return OptCallControlApplicationAnchorsiteOverride{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCallControlApplicationAnchorsiteOverride is optional CallControlApplicationAnchorsiteOverride.
-type OptCallControlApplicationAnchorsiteOverride struct {
-	Value CallControlApplicationAnchorsiteOverride
-	Set   bool
-}
-
-// IsSet returns true if OptCallControlApplicationAnchorsiteOverride was set.
-func (o OptCallControlApplicationAnchorsiteOverride) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCallControlApplicationAnchorsiteOverride) Reset() {
-	var v CallControlApplicationAnchorsiteOverride
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCallControlApplicationAnchorsiteOverride) SetTo(v CallControlApplicationAnchorsiteOverride) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCallControlApplicationAnchorsiteOverride) Get() (v CallControlApplicationAnchorsiteOverride, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCallControlApplicationAnchorsiteOverride) Or(d CallControlApplicationAnchorsiteOverride) CallControlApplicationAnchorsiteOverride {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -14114,236 +13219,6 @@ func (o OptCallResourceStatus) Get() (v CallResourceStatus, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCallResourceStatus) Or(d CallResourceStatus) CallResourceStatus {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCdrUsageReportResponse returns new OptCdrUsageReportResponse with value set to v.
-func NewOptCdrUsageReportResponse(v CdrUsageReportResponse) OptCdrUsageReportResponse {
-	return OptCdrUsageReportResponse{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCdrUsageReportResponse is optional CdrUsageReportResponse.
-type OptCdrUsageReportResponse struct {
-	Value CdrUsageReportResponse
-	Set   bool
-}
-
-// IsSet returns true if OptCdrUsageReportResponse was set.
-func (o OptCdrUsageReportResponse) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCdrUsageReportResponse) Reset() {
-	var v CdrUsageReportResponse
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCdrUsageReportResponse) SetTo(v CdrUsageReportResponse) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCdrUsageReportResponse) Get() (v CdrUsageReportResponse, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCdrUsageReportResponse) Or(d CdrUsageReportResponse) CdrUsageReportResponse {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCdrUsageReportResponseAggregationType returns new OptCdrUsageReportResponseAggregationType with value set to v.
-func NewOptCdrUsageReportResponseAggregationType(v CdrUsageReportResponseAggregationType) OptCdrUsageReportResponseAggregationType {
-	return OptCdrUsageReportResponseAggregationType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCdrUsageReportResponseAggregationType is optional CdrUsageReportResponseAggregationType.
-type OptCdrUsageReportResponseAggregationType struct {
-	Value CdrUsageReportResponseAggregationType
-	Set   bool
-}
-
-// IsSet returns true if OptCdrUsageReportResponseAggregationType was set.
-func (o OptCdrUsageReportResponseAggregationType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCdrUsageReportResponseAggregationType) Reset() {
-	var v CdrUsageReportResponseAggregationType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCdrUsageReportResponseAggregationType) SetTo(v CdrUsageReportResponseAggregationType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCdrUsageReportResponseAggregationType) Get() (v CdrUsageReportResponseAggregationType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCdrUsageReportResponseAggregationType) Or(d CdrUsageReportResponseAggregationType) CdrUsageReportResponseAggregationType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCdrUsageReportResponseProductBreakdown returns new OptCdrUsageReportResponseProductBreakdown with value set to v.
-func NewOptCdrUsageReportResponseProductBreakdown(v CdrUsageReportResponseProductBreakdown) OptCdrUsageReportResponseProductBreakdown {
-	return OptCdrUsageReportResponseProductBreakdown{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCdrUsageReportResponseProductBreakdown is optional CdrUsageReportResponseProductBreakdown.
-type OptCdrUsageReportResponseProductBreakdown struct {
-	Value CdrUsageReportResponseProductBreakdown
-	Set   bool
-}
-
-// IsSet returns true if OptCdrUsageReportResponseProductBreakdown was set.
-func (o OptCdrUsageReportResponseProductBreakdown) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCdrUsageReportResponseProductBreakdown) Reset() {
-	var v CdrUsageReportResponseProductBreakdown
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCdrUsageReportResponseProductBreakdown) SetTo(v CdrUsageReportResponseProductBreakdown) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCdrUsageReportResponseProductBreakdown) Get() (v CdrUsageReportResponseProductBreakdown, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCdrUsageReportResponseProductBreakdown) Or(d CdrUsageReportResponseProductBreakdown) CdrUsageReportResponseProductBreakdown {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCdrUsageReportResponseResult returns new OptCdrUsageReportResponseResult with value set to v.
-func NewOptCdrUsageReportResponseResult(v CdrUsageReportResponseResult) OptCdrUsageReportResponseResult {
-	return OptCdrUsageReportResponseResult{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCdrUsageReportResponseResult is optional CdrUsageReportResponseResult.
-type OptCdrUsageReportResponseResult struct {
-	Value CdrUsageReportResponseResult
-	Set   bool
-}
-
-// IsSet returns true if OptCdrUsageReportResponseResult was set.
-func (o OptCdrUsageReportResponseResult) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCdrUsageReportResponseResult) Reset() {
-	var v CdrUsageReportResponseResult
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCdrUsageReportResponseResult) SetTo(v CdrUsageReportResponseResult) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCdrUsageReportResponseResult) Get() (v CdrUsageReportResponseResult, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCdrUsageReportResponseResult) Or(d CdrUsageReportResponseResult) CdrUsageReportResponseResult {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCdrUsageReportResponseStatus returns new OptCdrUsageReportResponseStatus with value set to v.
-func NewOptCdrUsageReportResponseStatus(v CdrUsageReportResponseStatus) OptCdrUsageReportResponseStatus {
-	return OptCdrUsageReportResponseStatus{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCdrUsageReportResponseStatus is optional CdrUsageReportResponseStatus.
-type OptCdrUsageReportResponseStatus struct {
-	Value CdrUsageReportResponseStatus
-	Set   bool
-}
-
-// IsSet returns true if OptCdrUsageReportResponseStatus was set.
-func (o OptCdrUsageReportResponseStatus) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCdrUsageReportResponseStatus) Reset() {
-	var v CdrUsageReportResponseStatus
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCdrUsageReportResponseStatus) SetTo(v CdrUsageReportResponseStatus) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCdrUsageReportResponseStatus) Get() (v CdrUsageReportResponseStatus, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCdrUsageReportResponseStatus) Or(d CdrUsageReportResponseStatus) CdrUsageReportResponseStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -16884,38 +15759,38 @@ func (o OptGatherUsingSpeakRequestServiceLevel) Or(d GatherUsingSpeakRequestServ
 	return d
 }
 
-// NewOptGetUsageReportByApplicationFormat returns new OptGetUsageReportByApplicationFormat with value set to v.
-func NewOptGetUsageReportByApplicationFormat(v GetUsageReportByApplicationFormat) OptGetUsageReportByApplicationFormat {
-	return OptGetUsageReportByApplicationFormat{
+// NewOptHTTP returns new OptHTTP with value set to v.
+func NewOptHTTP(v HTTP) OptHTTP {
+	return OptHTTP{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptGetUsageReportByApplicationFormat is optional GetUsageReportByApplicationFormat.
-type OptGetUsageReportByApplicationFormat struct {
-	Value GetUsageReportByApplicationFormat
+// OptHTTP is optional HTTP.
+type OptHTTP struct {
+	Value HTTP
 	Set   bool
 }
 
-// IsSet returns true if OptGetUsageReportByApplicationFormat was set.
-func (o OptGetUsageReportByApplicationFormat) IsSet() bool { return o.Set }
+// IsSet returns true if OptHTTP was set.
+func (o OptHTTP) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptGetUsageReportByApplicationFormat) Reset() {
-	var v GetUsageReportByApplicationFormat
+func (o *OptHTTP) Reset() {
+	var v HTTP
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptGetUsageReportByApplicationFormat) SetTo(v GetUsageReportByApplicationFormat) {
+func (o *OptHTTP) SetTo(v HTTP) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptGetUsageReportByApplicationFormat) Get() (v GetUsageReportByApplicationFormat, ok bool) {
+func (o OptHTTP) Get() (v HTTP, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -16923,7 +15798,53 @@ func (o OptGetUsageReportByApplicationFormat) Get() (v GetUsageReportByApplicati
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptGetUsageReportByApplicationFormat) Or(d GetUsageReportByApplicationFormat) GetUsageReportByApplicationFormat {
+func (o OptHTTP) Or(d HTTP) HTTP {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptHTTPRequest returns new OptHTTPRequest with value set to v.
+func NewOptHTTPRequest(v HTTPRequest) OptHTTPRequest {
+	return OptHTTPRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptHTTPRequest is optional HTTPRequest.
+type OptHTTPRequest struct {
+	Value HTTPRequest
+	Set   bool
+}
+
+// IsSet returns true if OptHTTPRequest was set.
+func (o OptHTTPRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptHTTPRequest) Reset() {
+	var v HTTPRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptHTTPRequest) SetTo(v HTTPRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptHTTPRequest) Get() (v HTTPRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptHTTPRequest) Or(d HTTPRequest) HTTPRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -17666,144 +16587,6 @@ func (o OptLoopcount) Or(d Loopcount) Loopcount {
 	return d
 }
 
-// NewOptMdrUsageReportResponse returns new OptMdrUsageReportResponse with value set to v.
-func NewOptMdrUsageReportResponse(v MdrUsageReportResponse) OptMdrUsageReportResponse {
-	return OptMdrUsageReportResponse{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptMdrUsageReportResponse is optional MdrUsageReportResponse.
-type OptMdrUsageReportResponse struct {
-	Value MdrUsageReportResponse
-	Set   bool
-}
-
-// IsSet returns true if OptMdrUsageReportResponse was set.
-func (o OptMdrUsageReportResponse) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptMdrUsageReportResponse) Reset() {
-	var v MdrUsageReportResponse
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptMdrUsageReportResponse) SetTo(v MdrUsageReportResponse) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptMdrUsageReportResponse) Get() (v MdrUsageReportResponse, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptMdrUsageReportResponse) Or(d MdrUsageReportResponse) MdrUsageReportResponse {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptMdrUsageReportResponseAggregationType returns new OptMdrUsageReportResponseAggregationType with value set to v.
-func NewOptMdrUsageReportResponseAggregationType(v MdrUsageReportResponseAggregationType) OptMdrUsageReportResponseAggregationType {
-	return OptMdrUsageReportResponseAggregationType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptMdrUsageReportResponseAggregationType is optional MdrUsageReportResponseAggregationType.
-type OptMdrUsageReportResponseAggregationType struct {
-	Value MdrUsageReportResponseAggregationType
-	Set   bool
-}
-
-// IsSet returns true if OptMdrUsageReportResponseAggregationType was set.
-func (o OptMdrUsageReportResponseAggregationType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptMdrUsageReportResponseAggregationType) Reset() {
-	var v MdrUsageReportResponseAggregationType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptMdrUsageReportResponseAggregationType) SetTo(v MdrUsageReportResponseAggregationType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptMdrUsageReportResponseAggregationType) Get() (v MdrUsageReportResponseAggregationType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptMdrUsageReportResponseAggregationType) Or(d MdrUsageReportResponseAggregationType) MdrUsageReportResponseAggregationType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptMdrUsageReportResponseStatus returns new OptMdrUsageReportResponseStatus with value set to v.
-func NewOptMdrUsageReportResponseStatus(v MdrUsageReportResponseStatus) OptMdrUsageReportResponseStatus {
-	return OptMdrUsageReportResponseStatus{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptMdrUsageReportResponseStatus is optional MdrUsageReportResponseStatus.
-type OptMdrUsageReportResponseStatus struct {
-	Value MdrUsageReportResponseStatus
-	Set   bool
-}
-
-// IsSet returns true if OptMdrUsageReportResponseStatus was set.
-func (o OptMdrUsageReportResponseStatus) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptMdrUsageReportResponseStatus) Reset() {
-	var v MdrUsageReportResponseStatus
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptMdrUsageReportResponseStatus) SetTo(v MdrUsageReportResponseStatus) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptMdrUsageReportResponseStatus) Get() (v MdrUsageReportResponseStatus, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptMdrUsageReportResponseStatus) Or(d MdrUsageReportResponseStatus) MdrUsageReportResponseStatus {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptMetaResponse returns new OptMetaResponse with value set to v.
 func NewOptMetaResponse(v MetaResponse) OptMetaResponse {
 	return OptMetaResponse{
@@ -17999,6 +16782,69 @@ func (o OptNilConferenceSid) Get() (v ConferenceSid, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilConferenceSid) Or(d ConferenceSid) ConferenceSid {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHTTPResponse returns new OptNilHTTPResponse with value set to v.
+func NewOptNilHTTPResponse(v HTTPResponse) OptNilHTTPResponse {
+	return OptNilHTTPResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHTTPResponse is optional nullable HTTPResponse.
+type OptNilHTTPResponse struct {
+	Value HTTPResponse
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHTTPResponse was set.
+func (o OptNilHTTPResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHTTPResponse) Reset() {
+	var v HTTPResponse
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHTTPResponse) SetTo(v HTTPResponse) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHTTPResponse) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHTTPResponse) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HTTPResponse
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHTTPResponse) Get() (v HTTPResponse, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHTTPResponse) Or(d HTTPResponse) HTTPResponse {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -18532,52 +17378,6 @@ func (o OptOutboundVoiceProfileId) Get() (v OutboundVoiceProfileId, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptOutboundVoiceProfileId) Or(d OutboundVoiceProfileId) OutboundVoiceProfileId {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPaginationData returns new OptPaginationData with value set to v.
-func NewOptPaginationData(v PaginationData) OptPaginationData {
-	return OptPaginationData{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPaginationData is optional PaginationData.
-type OptPaginationData struct {
-	Value PaginationData
-	Set   bool
-}
-
-// IsSet returns true if OptPaginationData was set.
-func (o OptPaginationData) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPaginationData) Reset() {
-	var v PaginationData
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPaginationData) SetTo(v PaginationData) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPaginationData) Get() (v PaginationData, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPaginationData) Or(d PaginationData) PaginationData {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -19360,6 +18160,144 @@ func (o OptRecordingTrack) Get() (v RecordingTrack, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRecordingTrack) Or(d RecordingTrack) RecordingTrack {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingTranscription returns new OptRecordingTranscription with value set to v.
+func NewOptRecordingTranscription(v RecordingTranscription) OptRecordingTranscription {
+	return OptRecordingTranscription{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingTranscription is optional RecordingTranscription.
+type OptRecordingTranscription struct {
+	Value RecordingTranscription
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingTranscription was set.
+func (o OptRecordingTranscription) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingTranscription) Reset() {
+	var v RecordingTranscription
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingTranscription) SetTo(v RecordingTranscription) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingTranscription) Get() (v RecordingTranscription, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingTranscription) Or(d RecordingTranscription) RecordingTranscription {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingTranscriptionRecordType returns new OptRecordingTranscriptionRecordType with value set to v.
+func NewOptRecordingTranscriptionRecordType(v RecordingTranscriptionRecordType) OptRecordingTranscriptionRecordType {
+	return OptRecordingTranscriptionRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingTranscriptionRecordType is optional RecordingTranscriptionRecordType.
+type OptRecordingTranscriptionRecordType struct {
+	Value RecordingTranscriptionRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingTranscriptionRecordType was set.
+func (o OptRecordingTranscriptionRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingTranscriptionRecordType) Reset() {
+	var v RecordingTranscriptionRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingTranscriptionRecordType) SetTo(v RecordingTranscriptionRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingTranscriptionRecordType) Get() (v RecordingTranscriptionRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingTranscriptionRecordType) Or(d RecordingTranscriptionRecordType) RecordingTranscriptionRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingTranscriptionStatus returns new OptRecordingTranscriptionStatus with value set to v.
+func NewOptRecordingTranscriptionStatus(v RecordingTranscriptionStatus) OptRecordingTranscriptionStatus {
+	return OptRecordingTranscriptionStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingTranscriptionStatus is optional RecordingTranscriptionStatus.
+type OptRecordingTranscriptionStatus struct {
+	Value RecordingTranscriptionStatus
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingTranscriptionStatus was set.
+func (o OptRecordingTranscriptionStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingTranscriptionStatus) Reset() {
+	var v RecordingTranscriptionStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingTranscriptionStatus) SetTo(v RecordingTranscriptionStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingTranscriptionStatus) Get() (v RecordingTranscriptionStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingTranscriptionStatus) Or(d RecordingTranscriptionStatus) RecordingTranscriptionStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -21574,52 +20512,6 @@ func (o OptUUID) Or(d uuid.UUID) uuid.UUID {
 	return d
 }
 
-// NewOptUpdateCallControlApplicationRequestAnchorsiteOverride returns new OptUpdateCallControlApplicationRequestAnchorsiteOverride with value set to v.
-func NewOptUpdateCallControlApplicationRequestAnchorsiteOverride(v UpdateCallControlApplicationRequestAnchorsiteOverride) OptUpdateCallControlApplicationRequestAnchorsiteOverride {
-	return OptUpdateCallControlApplicationRequestAnchorsiteOverride{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptUpdateCallControlApplicationRequestAnchorsiteOverride is optional UpdateCallControlApplicationRequestAnchorsiteOverride.
-type OptUpdateCallControlApplicationRequestAnchorsiteOverride struct {
-	Value UpdateCallControlApplicationRequestAnchorsiteOverride
-	Set   bool
-}
-
-// IsSet returns true if OptUpdateCallControlApplicationRequestAnchorsiteOverride was set.
-func (o OptUpdateCallControlApplicationRequestAnchorsiteOverride) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptUpdateCallControlApplicationRequestAnchorsiteOverride) Reset() {
-	var v UpdateCallControlApplicationRequestAnchorsiteOverride
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptUpdateCallControlApplicationRequestAnchorsiteOverride) SetTo(v UpdateCallControlApplicationRequestAnchorsiteOverride) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptUpdateCallControlApplicationRequestAnchorsiteOverride) Get() (v UpdateCallControlApplicationRequestAnchorsiteOverride, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptUpdateCallControlApplicationRequestAnchorsiteOverride) Or(d UpdateCallControlApplicationRequestAnchorsiteOverride) UpdateCallControlApplicationRequestAnchorsiteOverride {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptUpdateCallControlApplicationRequestDtmfType returns new OptUpdateCallControlApplicationRequestDtmfType with value set to v.
 func NewOptUpdateCallControlApplicationRequestDtmfType(v UpdateCallControlApplicationRequestDtmfType) OptUpdateCallControlApplicationRequestDtmfType {
 	return OptUpdateCallControlApplicationRequestDtmfType{
@@ -23468,58 +22360,6 @@ func (o OptWebhookDeliveryWebhookRecordType) Or(d WebhookDeliveryWebhookRecordTy
 
 type OutboundVoiceProfileId int64
 
-// Ref: #/components/schemas/PaginationData
-type PaginationData struct {
-	// Total number of pages.
-	TotalPages OptInt `json:"total_pages"`
-	// Total number of results.
-	TotalResults OptInt `json:"total_results"`
-	// Selected page number.
-	PageNumber OptInt `json:"page_number"`
-	// Records per single page.
-	PageSize OptInt `json:"page_size"`
-}
-
-// GetTotalPages returns the value of TotalPages.
-func (s *PaginationData) GetTotalPages() OptInt {
-	return s.TotalPages
-}
-
-// GetTotalResults returns the value of TotalResults.
-func (s *PaginationData) GetTotalResults() OptInt {
-	return s.TotalResults
-}
-
-// GetPageNumber returns the value of PageNumber.
-func (s *PaginationData) GetPageNumber() OptInt {
-	return s.PageNumber
-}
-
-// GetPageSize returns the value of PageSize.
-func (s *PaginationData) GetPageSize() OptInt {
-	return s.PageSize
-}
-
-// SetTotalPages sets the value of TotalPages.
-func (s *PaginationData) SetTotalPages(val OptInt) {
-	s.TotalPages = val
-}
-
-// SetTotalResults sets the value of TotalResults.
-func (s *PaginationData) SetTotalResults(val OptInt) {
-	s.TotalResults = val
-}
-
-// SetPageNumber sets the value of PageNumber.
-func (s *PaginationData) SetPageNumber(val OptInt) {
-	s.PageNumber = val
-}
-
-// SetPageSize sets the value of PageSize.
-func (s *PaginationData) SetPageSize(val OptInt) {
-	s.PageSize = val
-}
-
 // Ref: #/components/schemas/PaginationMeta
 type PaginationMeta struct {
 	TotalPages   OptInt `json:"total_pages"`
@@ -25111,6 +23951,227 @@ func (s *RecordingTrack) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/RecordingTranscription
+type RecordingTranscription struct {
+	// ISO 8601 formatted date indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// The duration of the recording transcription in milliseconds.
+	DurationMillis OptInt32 `json:"duration_millis"`
+	// Uniquely identifies the recording transcription.
+	ID OptString `json:"id"`
+	// Uniquely identifies the recording associated with this transcription.
+	RecordingID OptString                           `json:"recording_id"`
+	RecordType  OptRecordingTranscriptionRecordType `json:"record_type"`
+	// The status of the recording transcriptions. The transcription text will be available only when the
+	// status is completed.
+	Status OptRecordingTranscriptionStatus `json:"status"`
+	// The recording's transcribed text.
+	TranscriptionText OptString `json:"transcription_text"`
+	// ISO 8601 formatted date indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *RecordingTranscription) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetDurationMillis returns the value of DurationMillis.
+func (s *RecordingTranscription) GetDurationMillis() OptInt32 {
+	return s.DurationMillis
+}
+
+// GetID returns the value of ID.
+func (s *RecordingTranscription) GetID() OptString {
+	return s.ID
+}
+
+// GetRecordingID returns the value of RecordingID.
+func (s *RecordingTranscription) GetRecordingID() OptString {
+	return s.RecordingID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *RecordingTranscription) GetRecordType() OptRecordingTranscriptionRecordType {
+	return s.RecordType
+}
+
+// GetStatus returns the value of Status.
+func (s *RecordingTranscription) GetStatus() OptRecordingTranscriptionStatus {
+	return s.Status
+}
+
+// GetTranscriptionText returns the value of TranscriptionText.
+func (s *RecordingTranscription) GetTranscriptionText() OptString {
+	return s.TranscriptionText
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *RecordingTranscription) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *RecordingTranscription) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetDurationMillis sets the value of DurationMillis.
+func (s *RecordingTranscription) SetDurationMillis(val OptInt32) {
+	s.DurationMillis = val
+}
+
+// SetID sets the value of ID.
+func (s *RecordingTranscription) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetRecordingID sets the value of RecordingID.
+func (s *RecordingTranscription) SetRecordingID(val OptString) {
+	s.RecordingID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *RecordingTranscription) SetRecordType(val OptRecordingTranscriptionRecordType) {
+	s.RecordType = val
+}
+
+// SetStatus sets the value of Status.
+func (s *RecordingTranscription) SetStatus(val OptRecordingTranscriptionStatus) {
+	s.Status = val
+}
+
+// SetTranscriptionText sets the value of TranscriptionText.
+func (s *RecordingTranscription) SetTranscriptionText(val OptString) {
+	s.TranscriptionText = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *RecordingTranscription) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+type RecordingTranscriptionRecordType string
+
+const (
+	RecordingTranscriptionRecordTypeRecordingTranscription RecordingTranscriptionRecordType = "recording_transcription"
+)
+
+// AllValues returns all RecordingTranscriptionRecordType values.
+func (RecordingTranscriptionRecordType) AllValues() []RecordingTranscriptionRecordType {
+	return []RecordingTranscriptionRecordType{
+		RecordingTranscriptionRecordTypeRecordingTranscription,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RecordingTranscriptionRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case RecordingTranscriptionRecordTypeRecordingTranscription:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RecordingTranscriptionRecordType) UnmarshalText(data []byte) error {
+	switch RecordingTranscriptionRecordType(data) {
+	case RecordingTranscriptionRecordTypeRecordingTranscription:
+		*s = RecordingTranscriptionRecordTypeRecordingTranscription
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type RecordingTranscriptionResponse struct {
+	Data OptRecordingTranscription `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *RecordingTranscriptionResponse) GetData() OptRecordingTranscription {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *RecordingTranscriptionResponse) SetData(val OptRecordingTranscription) {
+	s.Data = val
+}
+
+func (*RecordingTranscriptionResponse) deleteRecordingTranscriptionRes() {}
+func (*RecordingTranscriptionResponse) getRecordingTranscriptionRes()    {}
+
+// The status of the recording transcriptions. The transcription text will be available only when the
+// status is completed.
+type RecordingTranscriptionStatus string
+
+const (
+	RecordingTranscriptionStatusInProgress RecordingTranscriptionStatus = "in-progress"
+	RecordingTranscriptionStatusCompleted  RecordingTranscriptionStatus = "completed"
+)
+
+// AllValues returns all RecordingTranscriptionStatus values.
+func (RecordingTranscriptionStatus) AllValues() []RecordingTranscriptionStatus {
+	return []RecordingTranscriptionStatus{
+		RecordingTranscriptionStatusInProgress,
+		RecordingTranscriptionStatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RecordingTranscriptionStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case RecordingTranscriptionStatusInProgress:
+		return []byte(s), nil
+	case RecordingTranscriptionStatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RecordingTranscriptionStatus) UnmarshalText(data []byte) error {
+	switch RecordingTranscriptionStatus(data) {
+	case RecordingTranscriptionStatusInProgress:
+		*s = RecordingTranscriptionStatusInProgress
+		return nil
+	case RecordingTranscriptionStatusCompleted:
+		*s = RecordingTranscriptionStatusCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type RecordingsResponseBody struct {
+	Data []RecordingResponse `json:"data"`
+	Meta OptPaginationMeta   `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *RecordingsResponseBody) GetData() []RecordingResponse {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *RecordingsResponseBody) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *RecordingsResponseBody) SetData(val []RecordingResponse) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *RecordingsResponseBody) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*RecordingsResponseBody) getRecordingsRes() {}
+
 // Ref: #/components/schemas/ReferRequest
 type ReferRequest struct {
 	// The SIP URI to which the call will be referred to.
@@ -25349,116 +24410,6 @@ func (s *RejectRequestCause) UnmarshalText(data []byte) error {
 		return nil
 	case RejectRequestCauseUSERBUSY:
 		*s = RejectRequestCauseUSERBUSY
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ReportsCdrUsageReportsSyncGetAggregationType string
-
-const (
-	ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION ReportsCdrUsageReportsSyncGetAggregationType = "NO_AGGREGATION"
-	ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION    ReportsCdrUsageReportsSyncGetAggregationType = "CONNECTION"
-	ReportsCdrUsageReportsSyncGetAggregationTypeTAG           ReportsCdrUsageReportsSyncGetAggregationType = "TAG"
-	ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP  ReportsCdrUsageReportsSyncGetAggregationType = "BILLING_GROUP"
-)
-
-// AllValues returns all ReportsCdrUsageReportsSyncGetAggregationType values.
-func (ReportsCdrUsageReportsSyncGetAggregationType) AllValues() []ReportsCdrUsageReportsSyncGetAggregationType {
-	return []ReportsCdrUsageReportsSyncGetAggregationType{
-		ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION,
-		ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION,
-		ReportsCdrUsageReportsSyncGetAggregationTypeTAG,
-		ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ReportsCdrUsageReportsSyncGetAggregationType) MarshalText() ([]byte, error) {
-	switch s {
-	case ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION:
-		return []byte(s), nil
-	case ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION:
-		return []byte(s), nil
-	case ReportsCdrUsageReportsSyncGetAggregationTypeTAG:
-		return []byte(s), nil
-	case ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ReportsCdrUsageReportsSyncGetAggregationType) UnmarshalText(data []byte) error {
-	switch ReportsCdrUsageReportsSyncGetAggregationType(data) {
-	case ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION:
-		*s = ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION
-		return nil
-	case ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION:
-		*s = ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION
-		return nil
-	case ReportsCdrUsageReportsSyncGetAggregationTypeTAG:
-		*s = ReportsCdrUsageReportsSyncGetAggregationTypeTAG
-		return nil
-	case ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP:
-		*s = ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ReportsCdrUsageReportsSyncGetProductBreakdown string
-
-const (
-	ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN             ReportsCdrUsageReportsSyncGetProductBreakdown = "NO_BREAKDOWN"
-	ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE           ReportsCdrUsageReportsSyncGetProductBreakdown = "DID_VS_TOLL_FREE"
-	ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY                 ReportsCdrUsageReportsSyncGetProductBreakdown = "COUNTRY"
-	ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY ReportsCdrUsageReportsSyncGetProductBreakdown = "DID_VS_TOLL_FREE_PER_COUNTRY"
-)
-
-// AllValues returns all ReportsCdrUsageReportsSyncGetProductBreakdown values.
-func (ReportsCdrUsageReportsSyncGetProductBreakdown) AllValues() []ReportsCdrUsageReportsSyncGetProductBreakdown {
-	return []ReportsCdrUsageReportsSyncGetProductBreakdown{
-		ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN,
-		ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE,
-		ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY,
-		ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ReportsCdrUsageReportsSyncGetProductBreakdown) MarshalText() ([]byte, error) {
-	switch s {
-	case ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN:
-		return []byte(s), nil
-	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE:
-		return []byte(s), nil
-	case ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY:
-		return []byte(s), nil
-	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ReportsCdrUsageReportsSyncGetProductBreakdown) UnmarshalText(data []byte) error {
-	switch ReportsCdrUsageReportsSyncGetProductBreakdown(data) {
-	case ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN:
-		*s = ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN
-		return nil
-	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE:
-		*s = ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE
-		return nil
-	case ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY:
-		*s = ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY
-		return nil
-	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
-		*s = ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -30006,6 +28957,26 @@ func (*UnauthorizedResponse) retrieveCallControlApplicationRes() {}
 func (*UnauthorizedResponse) updateCallControlApplicationRes()   {}
 func (*UnauthorizedResponse) updateTexmlApplicationRes()         {}
 
+type UnprocessableEntityError jx.Raw
+
+type UnprocessableEntityErrorResponse struct {
+	Errors []UnprocessableEntityError `json:"errors"`
+}
+
+// GetErrors returns the value of Errors.
+func (s *UnprocessableEntityErrorResponse) GetErrors() []UnprocessableEntityError {
+	return s.Errors
+}
+
+// SetErrors sets the value of Errors.
+func (s *UnprocessableEntityErrorResponse) SetErrors(val []UnprocessableEntityError) {
+	s.Errors = val
+}
+
+func (*UnprocessableEntityErrorResponse) createVerifiedNumberRes()   {}
+func (*UnprocessableEntityErrorResponse) listVerifiedNumbersRes()    {}
+func (*UnprocessableEntityErrorResponse) verifyVerificationCodeRes() {}
+
 // UpdateBulkTelephonyCredentialUnprocessableEntity is response for UpdateBulkTelephonyCredential operation.
 type UpdateBulkTelephonyCredentialUnprocessableEntity struct{}
 
@@ -30024,11 +28995,8 @@ type UpdateCallControlApplicationRequest struct {
 	// 'https'.
 	WebhookEventURL string `json:"webhook_event_url"`
 	// Specifies whether the connection can be used.
-	Active OptBool `json:"active"`
-	// <code>Latency</code> directs Telnyx to route media through the site with the lowest round-trip
-	// time to the user's connection. Telnyx calculates this time using ICMP ping messages. This can be
-	// disabled by specifying a site to handle all media.
-	AnchorsiteOverride OptUpdateCallControlApplicationRequestAnchorsiteOverride `json:"anchorsite_override"`
+	Active             OptBool               `json:"active"`
+	AnchorsiteOverride OptAnchorsiteOverride `json:"anchorsite_override"`
 	// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
 	// Telnyx will be accepted in all formats.
 	DtmfType OptUpdateCallControlApplicationRequestDtmfType `json:"dtmf_type"`
@@ -30064,7 +29032,7 @@ func (s *UpdateCallControlApplicationRequest) GetActive() OptBool {
 }
 
 // GetAnchorsiteOverride returns the value of AnchorsiteOverride.
-func (s *UpdateCallControlApplicationRequest) GetAnchorsiteOverride() OptUpdateCallControlApplicationRequestAnchorsiteOverride {
+func (s *UpdateCallControlApplicationRequest) GetAnchorsiteOverride() OptAnchorsiteOverride {
 	return s.AnchorsiteOverride
 }
 
@@ -30124,7 +29092,7 @@ func (s *UpdateCallControlApplicationRequest) SetActive(val OptBool) {
 }
 
 // SetAnchorsiteOverride sets the value of AnchorsiteOverride.
-func (s *UpdateCallControlApplicationRequest) SetAnchorsiteOverride(val OptUpdateCallControlApplicationRequestAnchorsiteOverride) {
+func (s *UpdateCallControlApplicationRequest) SetAnchorsiteOverride(val OptAnchorsiteOverride) {
 	s.AnchorsiteOverride = val
 }
 
@@ -30166,64 +29134,6 @@ func (s *UpdateCallControlApplicationRequest) SetWebhookEventFailoverURL(val Opt
 // SetWebhookTimeoutSecs sets the value of WebhookTimeoutSecs.
 func (s *UpdateCallControlApplicationRequest) SetWebhookTimeoutSecs(val OptNilInt) {
 	s.WebhookTimeoutSecs = val
-}
-
-// <code>Latency</code> directs Telnyx to route media through the site with the lowest round-trip
-// time to the user's connection. Telnyx calculates this time using ICMP ping messages. This can be
-// disabled by specifying a site to handle all media.
-type UpdateCallControlApplicationRequestAnchorsiteOverride string
-
-const (
-	UpdateCallControlApplicationRequestAnchorsiteOverrideLatency   UpdateCallControlApplicationRequestAnchorsiteOverride = "\"Latency\""
-	UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL UpdateCallControlApplicationRequestAnchorsiteOverride = "\"Chicago, IL\""
-	UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA UpdateCallControlApplicationRequestAnchorsiteOverride = "\"Ashburn, VA\""
-	UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA UpdateCallControlApplicationRequestAnchorsiteOverride = "\"San Jose, CA\""
-)
-
-// AllValues returns all UpdateCallControlApplicationRequestAnchorsiteOverride values.
-func (UpdateCallControlApplicationRequestAnchorsiteOverride) AllValues() []UpdateCallControlApplicationRequestAnchorsiteOverride {
-	return []UpdateCallControlApplicationRequestAnchorsiteOverride{
-		UpdateCallControlApplicationRequestAnchorsiteOverrideLatency,
-		UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL,
-		UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA,
-		UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s UpdateCallControlApplicationRequestAnchorsiteOverride) MarshalText() ([]byte, error) {
-	switch s {
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideLatency:
-		return []byte(s), nil
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL:
-		return []byte(s), nil
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA:
-		return []byte(s), nil
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *UpdateCallControlApplicationRequestAnchorsiteOverride) UnmarshalText(data []byte) error {
-	switch UpdateCallControlApplicationRequestAnchorsiteOverride(data) {
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideLatency:
-		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideLatency
-		return nil
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL:
-		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideChicagoIL
-		return nil
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA:
-		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideAshburnVA
-		return nil
-	case UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA:
-		*s = UpdateCallControlApplicationRequestAnchorsiteOverrideSanJoseCA
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
@@ -31563,119 +30473,6 @@ func (s *UpdateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val Op
 }
 
 type UpdatedAt string
-
-// An object following one of the schemas published in https://developers.telnyx.
-// com/docs/api/v2/detail-records.
-// Ref: #/components/schemas/UsageReportsOptionsRecord
-type UsageReportsOptionsRecord struct {
-	// Telnyx Product.
-	Product OptString `json:"product"`
-	// Telnyx Product Dimensions.
-	ProductDimensions []string `json:"product_dimensions"`
-	// Telnyx Product Metrics.
-	ProductMetrics []string `json:"product_metrics"`
-	// Subproducts if applicable.
-	RecordTypes []RecordType `json:"record_types"`
-}
-
-// GetProduct returns the value of Product.
-func (s *UsageReportsOptionsRecord) GetProduct() OptString {
-	return s.Product
-}
-
-// GetProductDimensions returns the value of ProductDimensions.
-func (s *UsageReportsOptionsRecord) GetProductDimensions() []string {
-	return s.ProductDimensions
-}
-
-// GetProductMetrics returns the value of ProductMetrics.
-func (s *UsageReportsOptionsRecord) GetProductMetrics() []string {
-	return s.ProductMetrics
-}
-
-// GetRecordTypes returns the value of RecordTypes.
-func (s *UsageReportsOptionsRecord) GetRecordTypes() []RecordType {
-	return s.RecordTypes
-}
-
-// SetProduct sets the value of Product.
-func (s *UsageReportsOptionsRecord) SetProduct(val OptString) {
-	s.Product = val
-}
-
-// SetProductDimensions sets the value of ProductDimensions.
-func (s *UsageReportsOptionsRecord) SetProductDimensions(val []string) {
-	s.ProductDimensions = val
-}
-
-// SetProductMetrics sets the value of ProductMetrics.
-func (s *UsageReportsOptionsRecord) SetProductMetrics(val []string) {
-	s.ProductMetrics = val
-}
-
-// SetRecordTypes sets the value of RecordTypes.
-func (s *UsageReportsOptionsRecord) SetRecordTypes(val []RecordType) {
-	s.RecordTypes = val
-}
-
-// An object following one of the schemas published in https://developers.telnyx.
-// com/docs/api/v2/detail-records.
-// Ref: #/components/schemas/UsageReportsOptionsResponse
-type UsageReportsOptionsResponse struct {
-	// Collection of product description.
-	Data []UsageReportsOptionsRecord `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *UsageReportsOptionsResponse) GetData() []UsageReportsOptionsRecord {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *UsageReportsOptionsResponse) SetData(val []UsageReportsOptionsRecord) {
-	s.Data = val
-}
-
-func (*UsageReportsOptionsResponse) listUsageReportsOptionsRes() {}
-
-// Ref: #/components/schemas/UsageReportsResponse
-type UsageReportsResponse struct {
-	Meta OptPaginationData              `json:"meta"`
-	Data []UsageReportsResponseDataItem `json:"data"`
-}
-
-// GetMeta returns the value of Meta.
-func (s *UsageReportsResponse) GetMeta() OptPaginationData {
-	return s.Meta
-}
-
-// GetData returns the value of Data.
-func (s *UsageReportsResponse) GetData() []UsageReportsResponseDataItem {
-	return s.Data
-}
-
-// SetMeta sets the value of Meta.
-func (s *UsageReportsResponse) SetMeta(val OptPaginationData) {
-	s.Meta = val
-}
-
-// SetData sets the value of Data.
-func (s *UsageReportsResponse) SetData(val []UsageReportsResponseDataItem) {
-	s.Data = val
-}
-
-func (*UsageReportsResponse) getUsageReportByApplicationRes() {}
-
-type UsageReportsResponseDataItem map[string]jx.Raw
-
-func (s *UsageReportsResponseDataItem) init() UsageReportsResponseDataItem {
-	m := *s
-	if m == nil {
-		m = map[string]jx.Raw{}
-		*s = m
-	}
-	return m
-}
 
 // Ref: #/components/schemas/UserBalance
 type UserBalance struct {
