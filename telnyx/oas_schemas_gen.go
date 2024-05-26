@@ -4,6 +4,7 @@ package api
 
 import (
 	"net/url"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
@@ -11,6 +12,107 @@ import (
 )
 
 type AccountSid string
+
+// `Latency` directs Telnyx to route media through the site with the lowest round-trip time to the
+// user's connection. Telnyx calculates this time using ICMP ping messages. This can be disabled by
+// specifying a site to handle all media.
+// Ref: #/components/schemas/AnchorsiteOverride
+type AnchorsiteOverride string
+
+const (
+	AnchorsiteOverrideLatency              AnchorsiteOverride = "Latency"
+	AnchorsiteOverrideChicagoIL            AnchorsiteOverride = "Chicago, IL"
+	AnchorsiteOverrideAshburnVA            AnchorsiteOverride = "Ashburn, VA"
+	AnchorsiteOverrideSanJoseCA            AnchorsiteOverride = "San Jose, CA"
+	AnchorsiteOverrideSydneyAustralia      AnchorsiteOverride = "Sydney, Australia"
+	AnchorsiteOverrideAmsterdamNetherlands AnchorsiteOverride = "Amsterdam, Netherlands"
+	AnchorsiteOverrideLondonUK             AnchorsiteOverride = "London, UK"
+	AnchorsiteOverrideTorontoCanada        AnchorsiteOverride = "Toronto, Canada"
+	AnchorsiteOverrideVancouverCanada      AnchorsiteOverride = "Vancouver, Canada"
+	AnchorsiteOverrideFrankfurtGermany     AnchorsiteOverride = "Frankfurt, Germany"
+)
+
+// AllValues returns all AnchorsiteOverride values.
+func (AnchorsiteOverride) AllValues() []AnchorsiteOverride {
+	return []AnchorsiteOverride{
+		AnchorsiteOverrideLatency,
+		AnchorsiteOverrideChicagoIL,
+		AnchorsiteOverrideAshburnVA,
+		AnchorsiteOverrideSanJoseCA,
+		AnchorsiteOverrideSydneyAustralia,
+		AnchorsiteOverrideAmsterdamNetherlands,
+		AnchorsiteOverrideLondonUK,
+		AnchorsiteOverrideTorontoCanada,
+		AnchorsiteOverrideVancouverCanada,
+		AnchorsiteOverrideFrankfurtGermany,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AnchorsiteOverride) MarshalText() ([]byte, error) {
+	switch s {
+	case AnchorsiteOverrideLatency:
+		return []byte(s), nil
+	case AnchorsiteOverrideChicagoIL:
+		return []byte(s), nil
+	case AnchorsiteOverrideAshburnVA:
+		return []byte(s), nil
+	case AnchorsiteOverrideSanJoseCA:
+		return []byte(s), nil
+	case AnchorsiteOverrideSydneyAustralia:
+		return []byte(s), nil
+	case AnchorsiteOverrideAmsterdamNetherlands:
+		return []byte(s), nil
+	case AnchorsiteOverrideLondonUK:
+		return []byte(s), nil
+	case AnchorsiteOverrideTorontoCanada:
+		return []byte(s), nil
+	case AnchorsiteOverrideVancouverCanada:
+		return []byte(s), nil
+	case AnchorsiteOverrideFrankfurtGermany:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AnchorsiteOverride) UnmarshalText(data []byte) error {
+	switch AnchorsiteOverride(data) {
+	case AnchorsiteOverrideLatency:
+		*s = AnchorsiteOverrideLatency
+		return nil
+	case AnchorsiteOverrideChicagoIL:
+		*s = AnchorsiteOverrideChicagoIL
+		return nil
+	case AnchorsiteOverrideAshburnVA:
+		*s = AnchorsiteOverrideAshburnVA
+		return nil
+	case AnchorsiteOverrideSanJoseCA:
+		*s = AnchorsiteOverrideSanJoseCA
+		return nil
+	case AnchorsiteOverrideSydneyAustralia:
+		*s = AnchorsiteOverrideSydneyAustralia
+		return nil
+	case AnchorsiteOverrideAmsterdamNetherlands:
+		*s = AnchorsiteOverrideAmsterdamNetherlands
+		return nil
+	case AnchorsiteOverrideLondonUK:
+		*s = AnchorsiteOverrideLondonUK
+		return nil
+	case AnchorsiteOverrideTorontoCanada:
+		*s = AnchorsiteOverrideTorontoCanada
+		return nil
+	case AnchorsiteOverrideVancouverCanada:
+		*s = AnchorsiteOverrideVancouverCanada
+		return nil
+	case AnchorsiteOverrideFrankfurtGermany:
+		*s = AnchorsiteOverrideFrankfurtGermany
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/AnswerRequest
 type AnswerRequest struct {
@@ -287,6 +389,8 @@ func (s *AnswerRequestWebhookURLMethod) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ApplicationName string
 
 type BearerAuth struct {
 	Token string
@@ -2473,6 +2577,334 @@ func (s *CallResourceStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/CdrGetSyncUsageReportResponse
+type CdrGetSyncUsageReportResponse struct {
+	Data OptCdrUsageReportResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CdrGetSyncUsageReportResponse) GetData() OptCdrUsageReportResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CdrGetSyncUsageReportResponse) SetData(val OptCdrUsageReportResponse) {
+	s.Data = val
+}
+
+// Ref: #/components/schemas/CdrUsageReportResponse
+type CdrUsageReportResponse struct {
+	// Identifies the resource.
+	ID               OptUUID                                   `json:"id"`
+	StartTime        OptDateTime                               `json:"start_time"`
+	EndTime          OptDateTime                               `json:"end_time"`
+	Connections      []int64                                   `json:"connections"`
+	AggregationType  OptCdrUsageReportResponseAggregationType  `json:"aggregation_type"`
+	Status           OptCdrUsageReportResponseStatus           `json:"status"`
+	ReportURL        OptString                                 `json:"report_url"`
+	Result           OptCdrUsageReportResponseResult           `json:"result"`
+	CreatedAt        OptDateTime                               `json:"created_at"`
+	UpdatedAt        OptDateTime                               `json:"updated_at"`
+	RecordType       OptString                                 `json:"record_type"`
+	ProductBreakdown OptCdrUsageReportResponseProductBreakdown `json:"product_breakdown"`
+}
+
+// GetID returns the value of ID.
+func (s *CdrUsageReportResponse) GetID() OptUUID {
+	return s.ID
+}
+
+// GetStartTime returns the value of StartTime.
+func (s *CdrUsageReportResponse) GetStartTime() OptDateTime {
+	return s.StartTime
+}
+
+// GetEndTime returns the value of EndTime.
+func (s *CdrUsageReportResponse) GetEndTime() OptDateTime {
+	return s.EndTime
+}
+
+// GetConnections returns the value of Connections.
+func (s *CdrUsageReportResponse) GetConnections() []int64 {
+	return s.Connections
+}
+
+// GetAggregationType returns the value of AggregationType.
+func (s *CdrUsageReportResponse) GetAggregationType() OptCdrUsageReportResponseAggregationType {
+	return s.AggregationType
+}
+
+// GetStatus returns the value of Status.
+func (s *CdrUsageReportResponse) GetStatus() OptCdrUsageReportResponseStatus {
+	return s.Status
+}
+
+// GetReportURL returns the value of ReportURL.
+func (s *CdrUsageReportResponse) GetReportURL() OptString {
+	return s.ReportURL
+}
+
+// GetResult returns the value of Result.
+func (s *CdrUsageReportResponse) GetResult() OptCdrUsageReportResponseResult {
+	return s.Result
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CdrUsageReportResponse) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *CdrUsageReportResponse) GetUpdatedAt() OptDateTime {
+	return s.UpdatedAt
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CdrUsageReportResponse) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetProductBreakdown returns the value of ProductBreakdown.
+func (s *CdrUsageReportResponse) GetProductBreakdown() OptCdrUsageReportResponseProductBreakdown {
+	return s.ProductBreakdown
+}
+
+// SetID sets the value of ID.
+func (s *CdrUsageReportResponse) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetStartTime sets the value of StartTime.
+func (s *CdrUsageReportResponse) SetStartTime(val OptDateTime) {
+	s.StartTime = val
+}
+
+// SetEndTime sets the value of EndTime.
+func (s *CdrUsageReportResponse) SetEndTime(val OptDateTime) {
+	s.EndTime = val
+}
+
+// SetConnections sets the value of Connections.
+func (s *CdrUsageReportResponse) SetConnections(val []int64) {
+	s.Connections = val
+}
+
+// SetAggregationType sets the value of AggregationType.
+func (s *CdrUsageReportResponse) SetAggregationType(val OptCdrUsageReportResponseAggregationType) {
+	s.AggregationType = val
+}
+
+// SetStatus sets the value of Status.
+func (s *CdrUsageReportResponse) SetStatus(val OptCdrUsageReportResponseStatus) {
+	s.Status = val
+}
+
+// SetReportURL sets the value of ReportURL.
+func (s *CdrUsageReportResponse) SetReportURL(val OptString) {
+	s.ReportURL = val
+}
+
+// SetResult sets the value of Result.
+func (s *CdrUsageReportResponse) SetResult(val OptCdrUsageReportResponseResult) {
+	s.Result = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CdrUsageReportResponse) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *CdrUsageReportResponse) SetUpdatedAt(val OptDateTime) {
+	s.UpdatedAt = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CdrUsageReportResponse) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetProductBreakdown sets the value of ProductBreakdown.
+func (s *CdrUsageReportResponse) SetProductBreakdown(val OptCdrUsageReportResponseProductBreakdown) {
+	s.ProductBreakdown = val
+}
+
+type CdrUsageReportResponseAggregationType string
+
+const (
+	CdrUsageReportResponseAggregationTypeNOAGGREGATION CdrUsageReportResponseAggregationType = "NO_AGGREGATION"
+	CdrUsageReportResponseAggregationTypeCONNECTION    CdrUsageReportResponseAggregationType = "CONNECTION"
+	CdrUsageReportResponseAggregationTypeTAG           CdrUsageReportResponseAggregationType = "TAG"
+	CdrUsageReportResponseAggregationTypeBILLINGGROUP  CdrUsageReportResponseAggregationType = "BILLING_GROUP"
+)
+
+// AllValues returns all CdrUsageReportResponseAggregationType values.
+func (CdrUsageReportResponseAggregationType) AllValues() []CdrUsageReportResponseAggregationType {
+	return []CdrUsageReportResponseAggregationType{
+		CdrUsageReportResponseAggregationTypeNOAGGREGATION,
+		CdrUsageReportResponseAggregationTypeCONNECTION,
+		CdrUsageReportResponseAggregationTypeTAG,
+		CdrUsageReportResponseAggregationTypeBILLINGGROUP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CdrUsageReportResponseAggregationType) MarshalText() ([]byte, error) {
+	switch s {
+	case CdrUsageReportResponseAggregationTypeNOAGGREGATION:
+		return []byte(s), nil
+	case CdrUsageReportResponseAggregationTypeCONNECTION:
+		return []byte(s), nil
+	case CdrUsageReportResponseAggregationTypeTAG:
+		return []byte(s), nil
+	case CdrUsageReportResponseAggregationTypeBILLINGGROUP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CdrUsageReportResponseAggregationType) UnmarshalText(data []byte) error {
+	switch CdrUsageReportResponseAggregationType(data) {
+	case CdrUsageReportResponseAggregationTypeNOAGGREGATION:
+		*s = CdrUsageReportResponseAggregationTypeNOAGGREGATION
+		return nil
+	case CdrUsageReportResponseAggregationTypeCONNECTION:
+		*s = CdrUsageReportResponseAggregationTypeCONNECTION
+		return nil
+	case CdrUsageReportResponseAggregationTypeTAG:
+		*s = CdrUsageReportResponseAggregationTypeTAG
+		return nil
+	case CdrUsageReportResponseAggregationTypeBILLINGGROUP:
+		*s = CdrUsageReportResponseAggregationTypeBILLINGGROUP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CdrUsageReportResponseProductBreakdown string
+
+const (
+	CdrUsageReportResponseProductBreakdownNOBREAKDOWN             CdrUsageReportResponseProductBreakdown = "NO_BREAKDOWN"
+	CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE           CdrUsageReportResponseProductBreakdown = "DID_VS_TOLL_FREE"
+	CdrUsageReportResponseProductBreakdownCOUNTRY                 CdrUsageReportResponseProductBreakdown = "COUNTRY"
+	CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY CdrUsageReportResponseProductBreakdown = "DID_VS_TOLL_FREE_PER_COUNTRY"
+)
+
+// AllValues returns all CdrUsageReportResponseProductBreakdown values.
+func (CdrUsageReportResponseProductBreakdown) AllValues() []CdrUsageReportResponseProductBreakdown {
+	return []CdrUsageReportResponseProductBreakdown{
+		CdrUsageReportResponseProductBreakdownNOBREAKDOWN,
+		CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE,
+		CdrUsageReportResponseProductBreakdownCOUNTRY,
+		CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CdrUsageReportResponseProductBreakdown) MarshalText() ([]byte, error) {
+	switch s {
+	case CdrUsageReportResponseProductBreakdownNOBREAKDOWN:
+		return []byte(s), nil
+	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE:
+		return []byte(s), nil
+	case CdrUsageReportResponseProductBreakdownCOUNTRY:
+		return []byte(s), nil
+	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CdrUsageReportResponseProductBreakdown) UnmarshalText(data []byte) error {
+	switch CdrUsageReportResponseProductBreakdown(data) {
+	case CdrUsageReportResponseProductBreakdownNOBREAKDOWN:
+		*s = CdrUsageReportResponseProductBreakdownNOBREAKDOWN
+		return nil
+	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE:
+		*s = CdrUsageReportResponseProductBreakdownDIDVSTOLLFREE
+		return nil
+	case CdrUsageReportResponseProductBreakdownCOUNTRY:
+		*s = CdrUsageReportResponseProductBreakdownCOUNTRY
+		return nil
+	case CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
+		*s = CdrUsageReportResponseProductBreakdownDIDVSTOLLFREEPERCOUNTRY
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CdrUsageReportResponseResult map[string]jx.Raw
+
+func (s *CdrUsageReportResponseResult) init() CdrUsageReportResponseResult {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type CdrUsageReportResponseStatus string
+
+const (
+	CdrUsageReportResponseStatusPENDING  CdrUsageReportResponseStatus = "PENDING"
+	CdrUsageReportResponseStatusCOMPLETE CdrUsageReportResponseStatus = "COMPLETE"
+	CdrUsageReportResponseStatusFAILED   CdrUsageReportResponseStatus = "FAILED"
+	CdrUsageReportResponseStatusEXPIRED  CdrUsageReportResponseStatus = "EXPIRED"
+)
+
+// AllValues returns all CdrUsageReportResponseStatus values.
+func (CdrUsageReportResponseStatus) AllValues() []CdrUsageReportResponseStatus {
+	return []CdrUsageReportResponseStatus{
+		CdrUsageReportResponseStatusPENDING,
+		CdrUsageReportResponseStatusCOMPLETE,
+		CdrUsageReportResponseStatusFAILED,
+		CdrUsageReportResponseStatusEXPIRED,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CdrUsageReportResponseStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case CdrUsageReportResponseStatusPENDING:
+		return []byte(s), nil
+	case CdrUsageReportResponseStatusCOMPLETE:
+		return []byte(s), nil
+	case CdrUsageReportResponseStatusFAILED:
+		return []byte(s), nil
+	case CdrUsageReportResponseStatusEXPIRED:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CdrUsageReportResponseStatus) UnmarshalText(data []byte) error {
+	switch CdrUsageReportResponseStatus(data) {
+	case CdrUsageReportResponseStatusPENDING:
+		*s = CdrUsageReportResponseStatusPENDING
+		return nil
+	case CdrUsageReportResponseStatusCOMPLETE:
+		*s = CdrUsageReportResponseStatusCOMPLETE
+		return nil
+	case CdrUsageReportResponseStatusFAILED:
+		*s = CdrUsageReportResponseStatusFAILED
+		return nil
+	case CdrUsageReportResponseStatusEXPIRED:
+		*s = CdrUsageReportResponseStatusEXPIRED
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/ClientStateUpdateRequest
 type ClientStateUpdateRequest struct {
 	// Use this field to add state to every subsequent webhook. It must be a valid Base-64 encoded string.
@@ -3332,6 +3764,8 @@ func (s *ConferenceStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+type ConnectionActive bool
+
 // Ref: #/components/schemas/CreateTeXMLSecretRequest
 type CreateTeXMLSecretRequest struct {
 	// Name used as a reference for the secret, if the name already exists within the account its value
@@ -3437,6 +3871,386 @@ func (s *CreateTeXMLSecretResultValue) UnmarshalText(data []byte) error {
 	}
 }
 
+type CreateTexmlApplicationNotFound ErrorResponse
+
+func (*CreateTexmlApplicationNotFound) createTexmlApplicationRes() {}
+
+// Ref: #/components/schemas/CreateTexmlApplicationRequest
+type CreateTexmlApplicationRequest struct {
+	FriendlyName            ApplicationName            `json:"friendly_name"`
+	Active                  OptConnectionActive        `json:"active"`
+	AnchorsiteOverride      OptAnchorsiteOverride      `json:"anchorsite_override"`
+	DtmfType                OptDtmfType                `json:"dtmf_type"`
+	FirstCommandTimeout     OptFirstCommandTimeout     `json:"first_command_timeout"`
+	FirstCommandTimeoutSecs OptFirstCommandTimeoutSecs `json:"first_command_timeout_secs"`
+	// URL to which Telnyx will deliver your XML Translator webhooks.
+	VoiceURL string `json:"voice_url"`
+	// URL to which Telnyx will deliver your XML Translator webhooks if we get an error response from
+	// your voice_url.
+	VoiceFallbackURL OptString `json:"voice_fallback_url"`
+	// HTTP request method Telnyx will use to interact with your XML Translator webhooks. Either 'get' or
+	// 'post'.
+	VoiceMethod OptCreateTexmlApplicationRequestVoiceMethod `json:"voice_method"`
+	// URL for Telnyx to send requests to containing information about call progress events.
+	StatusCallback OptString `json:"status_callback"`
+	// HTTP request method Telnyx should use when requesting the status_callback URL.
+	StatusCallbackMethod OptCreateTexmlApplicationRequestStatusCallbackMethod `json:"status_callback_method"`
+	Inbound              OptCreateTexmlApplicationRequestInbound              `json:"inbound"`
+	Outbound             OptCreateTexmlApplicationRequestOutbound             `json:"outbound"`
+}
+
+// GetFriendlyName returns the value of FriendlyName.
+func (s *CreateTexmlApplicationRequest) GetFriendlyName() ApplicationName {
+	return s.FriendlyName
+}
+
+// GetActive returns the value of Active.
+func (s *CreateTexmlApplicationRequest) GetActive() OptConnectionActive {
+	return s.Active
+}
+
+// GetAnchorsiteOverride returns the value of AnchorsiteOverride.
+func (s *CreateTexmlApplicationRequest) GetAnchorsiteOverride() OptAnchorsiteOverride {
+	return s.AnchorsiteOverride
+}
+
+// GetDtmfType returns the value of DtmfType.
+func (s *CreateTexmlApplicationRequest) GetDtmfType() OptDtmfType {
+	return s.DtmfType
+}
+
+// GetFirstCommandTimeout returns the value of FirstCommandTimeout.
+func (s *CreateTexmlApplicationRequest) GetFirstCommandTimeout() OptFirstCommandTimeout {
+	return s.FirstCommandTimeout
+}
+
+// GetFirstCommandTimeoutSecs returns the value of FirstCommandTimeoutSecs.
+func (s *CreateTexmlApplicationRequest) GetFirstCommandTimeoutSecs() OptFirstCommandTimeoutSecs {
+	return s.FirstCommandTimeoutSecs
+}
+
+// GetVoiceURL returns the value of VoiceURL.
+func (s *CreateTexmlApplicationRequest) GetVoiceURL() string {
+	return s.VoiceURL
+}
+
+// GetVoiceFallbackURL returns the value of VoiceFallbackURL.
+func (s *CreateTexmlApplicationRequest) GetVoiceFallbackURL() OptString {
+	return s.VoiceFallbackURL
+}
+
+// GetVoiceMethod returns the value of VoiceMethod.
+func (s *CreateTexmlApplicationRequest) GetVoiceMethod() OptCreateTexmlApplicationRequestVoiceMethod {
+	return s.VoiceMethod
+}
+
+// GetStatusCallback returns the value of StatusCallback.
+func (s *CreateTexmlApplicationRequest) GetStatusCallback() OptString {
+	return s.StatusCallback
+}
+
+// GetStatusCallbackMethod returns the value of StatusCallbackMethod.
+func (s *CreateTexmlApplicationRequest) GetStatusCallbackMethod() OptCreateTexmlApplicationRequestStatusCallbackMethod {
+	return s.StatusCallbackMethod
+}
+
+// GetInbound returns the value of Inbound.
+func (s *CreateTexmlApplicationRequest) GetInbound() OptCreateTexmlApplicationRequestInbound {
+	return s.Inbound
+}
+
+// GetOutbound returns the value of Outbound.
+func (s *CreateTexmlApplicationRequest) GetOutbound() OptCreateTexmlApplicationRequestOutbound {
+	return s.Outbound
+}
+
+// SetFriendlyName sets the value of FriendlyName.
+func (s *CreateTexmlApplicationRequest) SetFriendlyName(val ApplicationName) {
+	s.FriendlyName = val
+}
+
+// SetActive sets the value of Active.
+func (s *CreateTexmlApplicationRequest) SetActive(val OptConnectionActive) {
+	s.Active = val
+}
+
+// SetAnchorsiteOverride sets the value of AnchorsiteOverride.
+func (s *CreateTexmlApplicationRequest) SetAnchorsiteOverride(val OptAnchorsiteOverride) {
+	s.AnchorsiteOverride = val
+}
+
+// SetDtmfType sets the value of DtmfType.
+func (s *CreateTexmlApplicationRequest) SetDtmfType(val OptDtmfType) {
+	s.DtmfType = val
+}
+
+// SetFirstCommandTimeout sets the value of FirstCommandTimeout.
+func (s *CreateTexmlApplicationRequest) SetFirstCommandTimeout(val OptFirstCommandTimeout) {
+	s.FirstCommandTimeout = val
+}
+
+// SetFirstCommandTimeoutSecs sets the value of FirstCommandTimeoutSecs.
+func (s *CreateTexmlApplicationRequest) SetFirstCommandTimeoutSecs(val OptFirstCommandTimeoutSecs) {
+	s.FirstCommandTimeoutSecs = val
+}
+
+// SetVoiceURL sets the value of VoiceURL.
+func (s *CreateTexmlApplicationRequest) SetVoiceURL(val string) {
+	s.VoiceURL = val
+}
+
+// SetVoiceFallbackURL sets the value of VoiceFallbackURL.
+func (s *CreateTexmlApplicationRequest) SetVoiceFallbackURL(val OptString) {
+	s.VoiceFallbackURL = val
+}
+
+// SetVoiceMethod sets the value of VoiceMethod.
+func (s *CreateTexmlApplicationRequest) SetVoiceMethod(val OptCreateTexmlApplicationRequestVoiceMethod) {
+	s.VoiceMethod = val
+}
+
+// SetStatusCallback sets the value of StatusCallback.
+func (s *CreateTexmlApplicationRequest) SetStatusCallback(val OptString) {
+	s.StatusCallback = val
+}
+
+// SetStatusCallbackMethod sets the value of StatusCallbackMethod.
+func (s *CreateTexmlApplicationRequest) SetStatusCallbackMethod(val OptCreateTexmlApplicationRequestStatusCallbackMethod) {
+	s.StatusCallbackMethod = val
+}
+
+// SetInbound sets the value of Inbound.
+func (s *CreateTexmlApplicationRequest) SetInbound(val OptCreateTexmlApplicationRequestInbound) {
+	s.Inbound = val
+}
+
+// SetOutbound sets the value of Outbound.
+func (s *CreateTexmlApplicationRequest) SetOutbound(val OptCreateTexmlApplicationRequestOutbound) {
+	s.Outbound = val
+}
+
+type CreateTexmlApplicationRequestInbound struct {
+	// When set, this will limit the total number of inbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit OptInt `json:"channel_limit"`
+	// When enabled Telnyx will include Shaken/Stir data in the Webhook for new inbound calls.
+	ShakenStirEnabled OptBool `json:"shaken_stir_enabled"`
+	// Specifies a subdomain that can be used to receive Inbound calls to a Connection, in the same way a
+	// phone number is used, from a SIP endpoint. Example: the subdomain "example.sip.telnyx.com" can be
+	// called from any SIP endpoint by using the SIP URI "sip:@example.sip.telnyx.com" where the user
+	// part can be any alphanumeric value. Please note TLS encrypted calls are not allowed for subdomain
+	// calls.
+	SipSubdomain OptString `json:"sip_subdomain"`
+	// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+	// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+	SipSubdomainReceiveSettings OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings `json:"sip_subdomain_receive_settings"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *CreateTexmlApplicationRequestInbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetShakenStirEnabled returns the value of ShakenStirEnabled.
+func (s *CreateTexmlApplicationRequestInbound) GetShakenStirEnabled() OptBool {
+	return s.ShakenStirEnabled
+}
+
+// GetSipSubdomain returns the value of SipSubdomain.
+func (s *CreateTexmlApplicationRequestInbound) GetSipSubdomain() OptString {
+	return s.SipSubdomain
+}
+
+// GetSipSubdomainReceiveSettings returns the value of SipSubdomainReceiveSettings.
+func (s *CreateTexmlApplicationRequestInbound) GetSipSubdomainReceiveSettings() OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	return s.SipSubdomainReceiveSettings
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *CreateTexmlApplicationRequestInbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetShakenStirEnabled sets the value of ShakenStirEnabled.
+func (s *CreateTexmlApplicationRequestInbound) SetShakenStirEnabled(val OptBool) {
+	s.ShakenStirEnabled = val
+}
+
+// SetSipSubdomain sets the value of SipSubdomain.
+func (s *CreateTexmlApplicationRequestInbound) SetSipSubdomain(val OptString) {
+	s.SipSubdomain = val
+}
+
+// SetSipSubdomainReceiveSettings sets the value of SipSubdomainReceiveSettings.
+func (s *CreateTexmlApplicationRequestInbound) SetSipSubdomainReceiveSettings(val OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) {
+	s.SipSubdomainReceiveSettings = val
+}
+
+// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+type CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings string
+
+const (
+	CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings = "only_my_connections"
+	CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone        CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings = "from_anyone"
+)
+
+// AllValues returns all CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings values.
+func (CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) AllValues() []CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	return []CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings{
+		CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections,
+		CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		return []byte(s), nil
+	case CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) UnmarshalText(data []byte) error {
+	switch CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings(data) {
+	case CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		*s = CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections
+		return nil
+	case CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone:
+		*s = CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CreateTexmlApplicationRequestOutbound struct {
+	// When set, this will limit the total number of outbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit           OptInt                    `json:"channel_limit"`
+	OutboundVoiceProfileID OptOutboundVoiceProfileId `json:"outbound_voice_profile_id"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *CreateTexmlApplicationRequestOutbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetOutboundVoiceProfileID returns the value of OutboundVoiceProfileID.
+func (s *CreateTexmlApplicationRequestOutbound) GetOutboundVoiceProfileID() OptOutboundVoiceProfileId {
+	return s.OutboundVoiceProfileID
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *CreateTexmlApplicationRequestOutbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetOutboundVoiceProfileID sets the value of OutboundVoiceProfileID.
+func (s *CreateTexmlApplicationRequestOutbound) SetOutboundVoiceProfileID(val OptOutboundVoiceProfileId) {
+	s.OutboundVoiceProfileID = val
+}
+
+// HTTP request method Telnyx should use when requesting the status_callback URL.
+type CreateTexmlApplicationRequestStatusCallbackMethod string
+
+const (
+	CreateTexmlApplicationRequestStatusCallbackMethodGet  CreateTexmlApplicationRequestStatusCallbackMethod = "get"
+	CreateTexmlApplicationRequestStatusCallbackMethodPost CreateTexmlApplicationRequestStatusCallbackMethod = "post"
+)
+
+// AllValues returns all CreateTexmlApplicationRequestStatusCallbackMethod values.
+func (CreateTexmlApplicationRequestStatusCallbackMethod) AllValues() []CreateTexmlApplicationRequestStatusCallbackMethod {
+	return []CreateTexmlApplicationRequestStatusCallbackMethod{
+		CreateTexmlApplicationRequestStatusCallbackMethodGet,
+		CreateTexmlApplicationRequestStatusCallbackMethodPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateTexmlApplicationRequestStatusCallbackMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateTexmlApplicationRequestStatusCallbackMethodGet:
+		return []byte(s), nil
+	case CreateTexmlApplicationRequestStatusCallbackMethodPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateTexmlApplicationRequestStatusCallbackMethod) UnmarshalText(data []byte) error {
+	switch CreateTexmlApplicationRequestStatusCallbackMethod(data) {
+	case CreateTexmlApplicationRequestStatusCallbackMethodGet:
+		*s = CreateTexmlApplicationRequestStatusCallbackMethodGet
+		return nil
+	case CreateTexmlApplicationRequestStatusCallbackMethodPost:
+		*s = CreateTexmlApplicationRequestStatusCallbackMethodPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// HTTP request method Telnyx will use to interact with your XML Translator webhooks. Either 'get' or
+// 'post'.
+type CreateTexmlApplicationRequestVoiceMethod string
+
+const (
+	CreateTexmlApplicationRequestVoiceMethodGet  CreateTexmlApplicationRequestVoiceMethod = "get"
+	CreateTexmlApplicationRequestVoiceMethodPost CreateTexmlApplicationRequestVoiceMethod = "post"
+)
+
+// AllValues returns all CreateTexmlApplicationRequestVoiceMethod values.
+func (CreateTexmlApplicationRequestVoiceMethod) AllValues() []CreateTexmlApplicationRequestVoiceMethod {
+	return []CreateTexmlApplicationRequestVoiceMethod{
+		CreateTexmlApplicationRequestVoiceMethodGet,
+		CreateTexmlApplicationRequestVoiceMethodPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateTexmlApplicationRequestVoiceMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateTexmlApplicationRequestVoiceMethodGet:
+		return []byte(s), nil
+	case CreateTexmlApplicationRequestVoiceMethodPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateTexmlApplicationRequestVoiceMethod) UnmarshalText(data []byte) error {
+	switch CreateTexmlApplicationRequestVoiceMethod(data) {
+	case CreateTexmlApplicationRequestVoiceMethodGet:
+		*s = CreateTexmlApplicationRequestVoiceMethodGet
+		return nil
+	case CreateTexmlApplicationRequestVoiceMethodPost:
+		*s = CreateTexmlApplicationRequestVoiceMethodPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CreateTexmlApplicationUnauthorized ErrorResponse
+
+func (*CreateTexmlApplicationUnauthorized) createTexmlApplicationRes() {}
+
+type CreateTexmlApplicationUnprocessableEntity ErrorResponse
+
+func (*CreateTexmlApplicationUnprocessableEntity) createTexmlApplicationRes() {}
+
+type CreatedAt string
+
 // Ref: #/components/schemas/CustomSipHeader
 type CustomSipHeader struct {
 	// The name of the header to add.
@@ -3476,6 +4290,18 @@ func (*DeleteTeXMLCallRecordingNoContent) deleteTeXMLCallRecordingRes() {}
 type DeleteTeXMLRecordingTranscriptionNoContent struct{}
 
 func (*DeleteTeXMLRecordingTranscriptionNoContent) deleteTeXMLRecordingTranscriptionRes() {}
+
+type DeleteTexmlApplicationBadRequest ErrorResponse
+
+func (*DeleteTexmlApplicationBadRequest) deleteTexmlApplicationRes() {}
+
+type DeleteTexmlApplicationNotFound ErrorResponse
+
+func (*DeleteTexmlApplicationNotFound) deleteTexmlApplicationRes() {}
+
+type DeleteTexmlApplicationUnauthorized ErrorResponse
+
+func (*DeleteTexmlApplicationUnauthorized) deleteTexmlApplicationRes() {}
 
 // DeleteTexmlConferenceParticipantNoContent is response for DeleteTexmlConferenceParticipant operation.
 type DeleteTexmlConferenceParticipantNoContent struct{}
@@ -4643,6 +5469,57 @@ func (s *DialogflowConfig) SetPartialAutomatedAgentReply(val OptBool) {
 	s.PartialAutomatedAgentReply = val
 }
 
+// Sets the type of DTMF digits sent from Telnyx to this Connection. Note that DTMF digits sent to
+// Telnyx will be accepted in all formats.
+// Ref: #/components/schemas/DtmfType
+type DtmfType string
+
+const (
+	DtmfTypeRFC2833 DtmfType = "RFC 2833"
+	DtmfTypeInband  DtmfType = "Inband"
+	DtmfTypeSIPINFO DtmfType = "SIP INFO"
+)
+
+// AllValues returns all DtmfType values.
+func (DtmfType) AllValues() []DtmfType {
+	return []DtmfType{
+		DtmfTypeRFC2833,
+		DtmfTypeInband,
+		DtmfTypeSIPINFO,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DtmfType) MarshalText() ([]byte, error) {
+	switch s {
+	case DtmfTypeRFC2833:
+		return []byte(s), nil
+	case DtmfTypeInband:
+		return []byte(s), nil
+	case DtmfTypeSIPINFO:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DtmfType) UnmarshalText(data []byte) error {
+	switch DtmfType(data) {
+	case DtmfTypeRFC2833:
+		*s = DtmfTypeRFC2833
+		return nil
+	case DtmfTypeInband:
+		*s = DtmfTypeInband
+		return nil
+	case DtmfTypeSIPINFO:
+		*s = DtmfTypeSIPINFO
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/EnqueueRequest
 type EnqueueRequest struct {
 	// The name of the queue the call should be put in. If a queue with a given name doesn't exist yet it
@@ -4925,6 +5802,18 @@ func (s *Errors) GetErrors() []Error {
 func (s *Errors) SetErrors(val []Error) {
 	s.Errors = val
 }
+
+type FindTexmlApplicationsBadRequest ErrorResponse
+
+func (*FindTexmlApplicationsBadRequest) findTexmlApplicationsRes() {}
+
+type FindTexmlApplicationsUnauthorized ErrorResponse
+
+func (*FindTexmlApplicationsUnauthorized) findTexmlApplicationsRes() {}
+
+type FirstCommandTimeout bool
+
+type FirstCommandTimeoutSecs int
 
 // Ref: #/components/schemas/GatherRequest
 type GatherRequest struct {
@@ -5833,6 +6722,33 @@ func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()  {}
 func (*GenericErrorResponseStatusCode) transferCallRes()           {}
 func (*GenericErrorResponseStatusCode) updateClientStateRes()      {}
 
+type GetAllTexmlApplicationsResponse struct {
+	Data []TexmlApplication `json:"data"`
+	Meta OptPaginationMeta  `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *GetAllTexmlApplicationsResponse) GetData() []TexmlApplication {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *GetAllTexmlApplicationsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *GetAllTexmlApplicationsResponse) SetData(val []TexmlApplication) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *GetAllTexmlApplicationsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*GetAllTexmlApplicationsResponse) findTexmlApplicationsRes() {}
+
 type GetCallResponse struct {
 	Data OptCallResource `json:"data"`
 }
@@ -5946,6 +6862,66 @@ func (s *GetParticipantsResponse) SetData(val OptParticipantResourceIndex) {
 }
 
 func (*GetParticipantsResponse) getTexmlConferenceParticipantsRes() {}
+
+type GetTexmlApplicationBadRequest ErrorResponse
+
+func (*GetTexmlApplicationBadRequest) getTexmlApplicationRes() {}
+
+type GetTexmlApplicationNotFound ErrorResponse
+
+func (*GetTexmlApplicationNotFound) getTexmlApplicationRes() {}
+
+type GetTexmlApplicationUnauthorized ErrorResponse
+
+func (*GetTexmlApplicationUnauthorized) getTexmlApplicationRes() {}
+
+type GetUsageReportSyncAggregationType string
+
+const (
+	GetUsageReportSyncAggregationTypeNOAGGREGATION GetUsageReportSyncAggregationType = "NO_AGGREGATION"
+	GetUsageReportSyncAggregationTypePROFILE       GetUsageReportSyncAggregationType = "PROFILE"
+	GetUsageReportSyncAggregationTypeTAGS          GetUsageReportSyncAggregationType = "TAGS"
+)
+
+// AllValues returns all GetUsageReportSyncAggregationType values.
+func (GetUsageReportSyncAggregationType) AllValues() []GetUsageReportSyncAggregationType {
+	return []GetUsageReportSyncAggregationType{
+		GetUsageReportSyncAggregationTypeNOAGGREGATION,
+		GetUsageReportSyncAggregationTypePROFILE,
+		GetUsageReportSyncAggregationTypeTAGS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetUsageReportSyncAggregationType) MarshalText() ([]byte, error) {
+	switch s {
+	case GetUsageReportSyncAggregationTypeNOAGGREGATION:
+		return []byte(s), nil
+	case GetUsageReportSyncAggregationTypePROFILE:
+		return []byte(s), nil
+	case GetUsageReportSyncAggregationTypeTAGS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetUsageReportSyncAggregationType) UnmarshalText(data []byte) error {
+	switch GetUsageReportSyncAggregationType(data) {
+	case GetUsageReportSyncAggregationTypeNOAGGREGATION:
+		*s = GetUsageReportSyncAggregationTypeNOAGGREGATION
+		return nil
+	case GetUsageReportSyncAggregationTypePROFILE:
+		*s = GetUsageReportSyncAggregationTypePROFILE
+		return nil
+	case GetUsageReportSyncAggregationTypeTAGS:
+		*s = GetUsageReportSyncAggregationTypeTAGS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/HangupRequest
 type HangupRequest struct {
@@ -6866,6 +7842,8 @@ func (s *InitiateCallResult) SetStatus(val OptString) {
 	s.Status = val
 }
 
+type IntId int64
+
 // Ref: #/components/schemas/LeaveQueueRequest
 type LeaveQueueRequest struct {
 	// Use this field to add state to every subsequent webhook. It must be a valid Base-64 encoded string.
@@ -6921,6 +7899,14 @@ func (s *ListQueueCallsResponse) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListQueueCallsResponse) listQueueCallsRes() {}
+
+type ListUsageReportsOptionsBadRequest ErrorResponse
+
+func (*ListUsageReportsOptionsBadRequest) listUsageReportsOptionsRes() {}
+
+type ListUsageReportsOptionsInternalServerError ErrorResponse
+
+func (*ListUsageReportsOptionsInternalServerError) listUsageReportsOptionsRes() {}
 
 // Ref: #/components/schemas/Loopcount
 // Loopcount represents sum type.
@@ -6985,6 +7971,419 @@ func NewIntLoopcount(v int) Loopcount {
 	var s Loopcount
 	s.SetInt(v)
 	return s
+}
+
+// Ref: #/components/schemas/MdrGetSyncUsageReportResponse
+type MdrGetSyncUsageReportResponse struct {
+	Data OptMdrUsageReportResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *MdrGetSyncUsageReportResponse) GetData() OptMdrUsageReportResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *MdrGetSyncUsageReportResponse) SetData(val OptMdrUsageReportResponse) {
+	s.Data = val
+}
+
+// Ref: #/components/schemas/MdrUsageRecord
+type MdrUsageRecord struct {
+	Cost                  OptString `json:"cost"`
+	Direction             OptString `json:"direction"`
+	Product               OptString `json:"product"`
+	Connection            OptString `json:"connection"`
+	Received              OptString `json:"received"`
+	Delivered             OptString `json:"delivered"`
+	Currency              OptString `json:"currency"`
+	Parts                 OptString `json:"parts"`
+	Sent                  OptString `json:"sent"`
+	ProfileID             OptString `json:"profile_id"`
+	Tags                  OptString `json:"tags"`
+	MessageType           OptString `json:"message_type"`
+	TnType                OptString `json:"tn_type"`
+	CarrierPassthroughFee OptString `json:"carrier_passthrough_fee"`
+}
+
+// GetCost returns the value of Cost.
+func (s *MdrUsageRecord) GetCost() OptString {
+	return s.Cost
+}
+
+// GetDirection returns the value of Direction.
+func (s *MdrUsageRecord) GetDirection() OptString {
+	return s.Direction
+}
+
+// GetProduct returns the value of Product.
+func (s *MdrUsageRecord) GetProduct() OptString {
+	return s.Product
+}
+
+// GetConnection returns the value of Connection.
+func (s *MdrUsageRecord) GetConnection() OptString {
+	return s.Connection
+}
+
+// GetReceived returns the value of Received.
+func (s *MdrUsageRecord) GetReceived() OptString {
+	return s.Received
+}
+
+// GetDelivered returns the value of Delivered.
+func (s *MdrUsageRecord) GetDelivered() OptString {
+	return s.Delivered
+}
+
+// GetCurrency returns the value of Currency.
+func (s *MdrUsageRecord) GetCurrency() OptString {
+	return s.Currency
+}
+
+// GetParts returns the value of Parts.
+func (s *MdrUsageRecord) GetParts() OptString {
+	return s.Parts
+}
+
+// GetSent returns the value of Sent.
+func (s *MdrUsageRecord) GetSent() OptString {
+	return s.Sent
+}
+
+// GetProfileID returns the value of ProfileID.
+func (s *MdrUsageRecord) GetProfileID() OptString {
+	return s.ProfileID
+}
+
+// GetTags returns the value of Tags.
+func (s *MdrUsageRecord) GetTags() OptString {
+	return s.Tags
+}
+
+// GetMessageType returns the value of MessageType.
+func (s *MdrUsageRecord) GetMessageType() OptString {
+	return s.MessageType
+}
+
+// GetTnType returns the value of TnType.
+func (s *MdrUsageRecord) GetTnType() OptString {
+	return s.TnType
+}
+
+// GetCarrierPassthroughFee returns the value of CarrierPassthroughFee.
+func (s *MdrUsageRecord) GetCarrierPassthroughFee() OptString {
+	return s.CarrierPassthroughFee
+}
+
+// SetCost sets the value of Cost.
+func (s *MdrUsageRecord) SetCost(val OptString) {
+	s.Cost = val
+}
+
+// SetDirection sets the value of Direction.
+func (s *MdrUsageRecord) SetDirection(val OptString) {
+	s.Direction = val
+}
+
+// SetProduct sets the value of Product.
+func (s *MdrUsageRecord) SetProduct(val OptString) {
+	s.Product = val
+}
+
+// SetConnection sets the value of Connection.
+func (s *MdrUsageRecord) SetConnection(val OptString) {
+	s.Connection = val
+}
+
+// SetReceived sets the value of Received.
+func (s *MdrUsageRecord) SetReceived(val OptString) {
+	s.Received = val
+}
+
+// SetDelivered sets the value of Delivered.
+func (s *MdrUsageRecord) SetDelivered(val OptString) {
+	s.Delivered = val
+}
+
+// SetCurrency sets the value of Currency.
+func (s *MdrUsageRecord) SetCurrency(val OptString) {
+	s.Currency = val
+}
+
+// SetParts sets the value of Parts.
+func (s *MdrUsageRecord) SetParts(val OptString) {
+	s.Parts = val
+}
+
+// SetSent sets the value of Sent.
+func (s *MdrUsageRecord) SetSent(val OptString) {
+	s.Sent = val
+}
+
+// SetProfileID sets the value of ProfileID.
+func (s *MdrUsageRecord) SetProfileID(val OptString) {
+	s.ProfileID = val
+}
+
+// SetTags sets the value of Tags.
+func (s *MdrUsageRecord) SetTags(val OptString) {
+	s.Tags = val
+}
+
+// SetMessageType sets the value of MessageType.
+func (s *MdrUsageRecord) SetMessageType(val OptString) {
+	s.MessageType = val
+}
+
+// SetTnType sets the value of TnType.
+func (s *MdrUsageRecord) SetTnType(val OptString) {
+	s.TnType = val
+}
+
+// SetCarrierPassthroughFee sets the value of CarrierPassthroughFee.
+func (s *MdrUsageRecord) SetCarrierPassthroughFee(val OptString) {
+	s.CarrierPassthroughFee = val
+}
+
+// Ref: #/components/schemas/MdrUsageReportResponse
+type MdrUsageReportResponse struct {
+	// Identifies the resource.
+	ID              OptUUID                                  `json:"id"`
+	StartDate       OptDateTime                              `json:"start_date"`
+	EndDate         OptDateTime                              `json:"end_date"`
+	Connections     []int64                                  `json:"connections"`
+	AggregationType OptMdrUsageReportResponseAggregationType `json:"aggregation_type"`
+	Status          OptMdrUsageReportResponseStatus          `json:"status"`
+	ReportURL       OptString                                `json:"report_url"`
+	Result          []MdrUsageRecord                         `json:"result"`
+	CreatedAt       OptDateTime                              `json:"created_at"`
+	UpdatedAt       OptDateTime                              `json:"updated_at"`
+	Profiles        OptString                                `json:"profiles"`
+	RecordType      OptString                                `json:"record_type"`
+}
+
+// GetID returns the value of ID.
+func (s *MdrUsageReportResponse) GetID() OptUUID {
+	return s.ID
+}
+
+// GetStartDate returns the value of StartDate.
+func (s *MdrUsageReportResponse) GetStartDate() OptDateTime {
+	return s.StartDate
+}
+
+// GetEndDate returns the value of EndDate.
+func (s *MdrUsageReportResponse) GetEndDate() OptDateTime {
+	return s.EndDate
+}
+
+// GetConnections returns the value of Connections.
+func (s *MdrUsageReportResponse) GetConnections() []int64 {
+	return s.Connections
+}
+
+// GetAggregationType returns the value of AggregationType.
+func (s *MdrUsageReportResponse) GetAggregationType() OptMdrUsageReportResponseAggregationType {
+	return s.AggregationType
+}
+
+// GetStatus returns the value of Status.
+func (s *MdrUsageReportResponse) GetStatus() OptMdrUsageReportResponseStatus {
+	return s.Status
+}
+
+// GetReportURL returns the value of ReportURL.
+func (s *MdrUsageReportResponse) GetReportURL() OptString {
+	return s.ReportURL
+}
+
+// GetResult returns the value of Result.
+func (s *MdrUsageReportResponse) GetResult() []MdrUsageRecord {
+	return s.Result
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *MdrUsageReportResponse) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *MdrUsageReportResponse) GetUpdatedAt() OptDateTime {
+	return s.UpdatedAt
+}
+
+// GetProfiles returns the value of Profiles.
+func (s *MdrUsageReportResponse) GetProfiles() OptString {
+	return s.Profiles
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *MdrUsageReportResponse) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// SetID sets the value of ID.
+func (s *MdrUsageReportResponse) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetStartDate sets the value of StartDate.
+func (s *MdrUsageReportResponse) SetStartDate(val OptDateTime) {
+	s.StartDate = val
+}
+
+// SetEndDate sets the value of EndDate.
+func (s *MdrUsageReportResponse) SetEndDate(val OptDateTime) {
+	s.EndDate = val
+}
+
+// SetConnections sets the value of Connections.
+func (s *MdrUsageReportResponse) SetConnections(val []int64) {
+	s.Connections = val
+}
+
+// SetAggregationType sets the value of AggregationType.
+func (s *MdrUsageReportResponse) SetAggregationType(val OptMdrUsageReportResponseAggregationType) {
+	s.AggregationType = val
+}
+
+// SetStatus sets the value of Status.
+func (s *MdrUsageReportResponse) SetStatus(val OptMdrUsageReportResponseStatus) {
+	s.Status = val
+}
+
+// SetReportURL sets the value of ReportURL.
+func (s *MdrUsageReportResponse) SetReportURL(val OptString) {
+	s.ReportURL = val
+}
+
+// SetResult sets the value of Result.
+func (s *MdrUsageReportResponse) SetResult(val []MdrUsageRecord) {
+	s.Result = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *MdrUsageReportResponse) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *MdrUsageReportResponse) SetUpdatedAt(val OptDateTime) {
+	s.UpdatedAt = val
+}
+
+// SetProfiles sets the value of Profiles.
+func (s *MdrUsageReportResponse) SetProfiles(val OptString) {
+	s.Profiles = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *MdrUsageReportResponse) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+type MdrUsageReportResponseAggregationType string
+
+const (
+	MdrUsageReportResponseAggregationTypeNOAGGREGATION MdrUsageReportResponseAggregationType = "NO_AGGREGATION"
+	MdrUsageReportResponseAggregationTypePROFILE       MdrUsageReportResponseAggregationType = "PROFILE"
+	MdrUsageReportResponseAggregationTypeTAGS          MdrUsageReportResponseAggregationType = "TAGS"
+)
+
+// AllValues returns all MdrUsageReportResponseAggregationType values.
+func (MdrUsageReportResponseAggregationType) AllValues() []MdrUsageReportResponseAggregationType {
+	return []MdrUsageReportResponseAggregationType{
+		MdrUsageReportResponseAggregationTypeNOAGGREGATION,
+		MdrUsageReportResponseAggregationTypePROFILE,
+		MdrUsageReportResponseAggregationTypeTAGS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MdrUsageReportResponseAggregationType) MarshalText() ([]byte, error) {
+	switch s {
+	case MdrUsageReportResponseAggregationTypeNOAGGREGATION:
+		return []byte(s), nil
+	case MdrUsageReportResponseAggregationTypePROFILE:
+		return []byte(s), nil
+	case MdrUsageReportResponseAggregationTypeTAGS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MdrUsageReportResponseAggregationType) UnmarshalText(data []byte) error {
+	switch MdrUsageReportResponseAggregationType(data) {
+	case MdrUsageReportResponseAggregationTypeNOAGGREGATION:
+		*s = MdrUsageReportResponseAggregationTypeNOAGGREGATION
+		return nil
+	case MdrUsageReportResponseAggregationTypePROFILE:
+		*s = MdrUsageReportResponseAggregationTypePROFILE
+		return nil
+	case MdrUsageReportResponseAggregationTypeTAGS:
+		*s = MdrUsageReportResponseAggregationTypeTAGS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type MdrUsageReportResponseStatus string
+
+const (
+	MdrUsageReportResponseStatusPENDING  MdrUsageReportResponseStatus = "PENDING"
+	MdrUsageReportResponseStatusCOMPLETE MdrUsageReportResponseStatus = "COMPLETE"
+	MdrUsageReportResponseStatusFAILED   MdrUsageReportResponseStatus = "FAILED"
+	MdrUsageReportResponseStatusEXPIRED  MdrUsageReportResponseStatus = "EXPIRED"
+)
+
+// AllValues returns all MdrUsageReportResponseStatus values.
+func (MdrUsageReportResponseStatus) AllValues() []MdrUsageReportResponseStatus {
+	return []MdrUsageReportResponseStatus{
+		MdrUsageReportResponseStatusPENDING,
+		MdrUsageReportResponseStatusCOMPLETE,
+		MdrUsageReportResponseStatusFAILED,
+		MdrUsageReportResponseStatusEXPIRED,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MdrUsageReportResponseStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case MdrUsageReportResponseStatusPENDING:
+		return []byte(s), nil
+	case MdrUsageReportResponseStatusCOMPLETE:
+		return []byte(s), nil
+	case MdrUsageReportResponseStatusFAILED:
+		return []byte(s), nil
+	case MdrUsageReportResponseStatusEXPIRED:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MdrUsageReportResponseStatus) UnmarshalText(data []byte) error {
+	switch MdrUsageReportResponseStatus(data) {
+	case MdrUsageReportResponseStatusPENDING:
+		*s = MdrUsageReportResponseStatusPENDING
+		return nil
+	case MdrUsageReportResponseStatusCOMPLETE:
+		*s = MdrUsageReportResponseStatusCOMPLETE
+		return nil
+	case MdrUsageReportResponseStatusFAILED:
+		*s = MdrUsageReportResponseStatusFAILED
+		return nil
+	case MdrUsageReportResponseStatusEXPIRED:
+		*s = MdrUsageReportResponseStatusEXPIRED
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/MetaResponse
@@ -7329,6 +8728,52 @@ func (o OptAccountSid) Or(d AccountSid) AccountSid {
 	return d
 }
 
+// NewOptAnchorsiteOverride returns new OptAnchorsiteOverride with value set to v.
+func NewOptAnchorsiteOverride(v AnchorsiteOverride) OptAnchorsiteOverride {
+	return OptAnchorsiteOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAnchorsiteOverride is optional AnchorsiteOverride.
+type OptAnchorsiteOverride struct {
+	Value AnchorsiteOverride
+	Set   bool
+}
+
+// IsSet returns true if OptAnchorsiteOverride was set.
+func (o OptAnchorsiteOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAnchorsiteOverride) Reset() {
+	var v AnchorsiteOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAnchorsiteOverride) SetTo(v AnchorsiteOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAnchorsiteOverride) Get() (v AnchorsiteOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAnchorsiteOverride) Or(d AnchorsiteOverride) AnchorsiteOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptAnswerRequestPreferredCodecs returns new OptAnswerRequestPreferredCodecs with value set to v.
 func NewOptAnswerRequestPreferredCodecs(v AnswerRequestPreferredCodecs) OptAnswerRequestPreferredCodecs {
 	return OptAnswerRequestPreferredCodecs{
@@ -7461,6 +8906,52 @@ func (o OptAnswerRequestWebhookURLMethod) Get() (v AnswerRequestWebhookURLMethod
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAnswerRequestWebhookURLMethod) Or(d AnswerRequestWebhookURLMethod) AnswerRequestWebhookURLMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptApplicationName returns new OptApplicationName with value set to v.
+func NewOptApplicationName(v ApplicationName) OptApplicationName {
+	return OptApplicationName{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptApplicationName is optional ApplicationName.
+type OptApplicationName struct {
+	Value ApplicationName
+	Set   bool
+}
+
+// IsSet returns true if OptApplicationName was set.
+func (o OptApplicationName) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptApplicationName) Reset() {
+	var v ApplicationName
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptApplicationName) SetTo(v ApplicationName) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptApplicationName) Get() (v ApplicationName, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptApplicationName) Or(d ApplicationName) ApplicationName {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -8479,6 +9970,236 @@ func (o OptCallResourceStatus) Or(d CallResourceStatus) CallResourceStatus {
 	return d
 }
 
+// NewOptCdrUsageReportResponse returns new OptCdrUsageReportResponse with value set to v.
+func NewOptCdrUsageReportResponse(v CdrUsageReportResponse) OptCdrUsageReportResponse {
+	return OptCdrUsageReportResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCdrUsageReportResponse is optional CdrUsageReportResponse.
+type OptCdrUsageReportResponse struct {
+	Value CdrUsageReportResponse
+	Set   bool
+}
+
+// IsSet returns true if OptCdrUsageReportResponse was set.
+func (o OptCdrUsageReportResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCdrUsageReportResponse) Reset() {
+	var v CdrUsageReportResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCdrUsageReportResponse) SetTo(v CdrUsageReportResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCdrUsageReportResponse) Get() (v CdrUsageReportResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCdrUsageReportResponse) Or(d CdrUsageReportResponse) CdrUsageReportResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCdrUsageReportResponseAggregationType returns new OptCdrUsageReportResponseAggregationType with value set to v.
+func NewOptCdrUsageReportResponseAggregationType(v CdrUsageReportResponseAggregationType) OptCdrUsageReportResponseAggregationType {
+	return OptCdrUsageReportResponseAggregationType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCdrUsageReportResponseAggregationType is optional CdrUsageReportResponseAggregationType.
+type OptCdrUsageReportResponseAggregationType struct {
+	Value CdrUsageReportResponseAggregationType
+	Set   bool
+}
+
+// IsSet returns true if OptCdrUsageReportResponseAggregationType was set.
+func (o OptCdrUsageReportResponseAggregationType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCdrUsageReportResponseAggregationType) Reset() {
+	var v CdrUsageReportResponseAggregationType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCdrUsageReportResponseAggregationType) SetTo(v CdrUsageReportResponseAggregationType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCdrUsageReportResponseAggregationType) Get() (v CdrUsageReportResponseAggregationType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCdrUsageReportResponseAggregationType) Or(d CdrUsageReportResponseAggregationType) CdrUsageReportResponseAggregationType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCdrUsageReportResponseProductBreakdown returns new OptCdrUsageReportResponseProductBreakdown with value set to v.
+func NewOptCdrUsageReportResponseProductBreakdown(v CdrUsageReportResponseProductBreakdown) OptCdrUsageReportResponseProductBreakdown {
+	return OptCdrUsageReportResponseProductBreakdown{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCdrUsageReportResponseProductBreakdown is optional CdrUsageReportResponseProductBreakdown.
+type OptCdrUsageReportResponseProductBreakdown struct {
+	Value CdrUsageReportResponseProductBreakdown
+	Set   bool
+}
+
+// IsSet returns true if OptCdrUsageReportResponseProductBreakdown was set.
+func (o OptCdrUsageReportResponseProductBreakdown) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCdrUsageReportResponseProductBreakdown) Reset() {
+	var v CdrUsageReportResponseProductBreakdown
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCdrUsageReportResponseProductBreakdown) SetTo(v CdrUsageReportResponseProductBreakdown) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCdrUsageReportResponseProductBreakdown) Get() (v CdrUsageReportResponseProductBreakdown, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCdrUsageReportResponseProductBreakdown) Or(d CdrUsageReportResponseProductBreakdown) CdrUsageReportResponseProductBreakdown {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCdrUsageReportResponseResult returns new OptCdrUsageReportResponseResult with value set to v.
+func NewOptCdrUsageReportResponseResult(v CdrUsageReportResponseResult) OptCdrUsageReportResponseResult {
+	return OptCdrUsageReportResponseResult{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCdrUsageReportResponseResult is optional CdrUsageReportResponseResult.
+type OptCdrUsageReportResponseResult struct {
+	Value CdrUsageReportResponseResult
+	Set   bool
+}
+
+// IsSet returns true if OptCdrUsageReportResponseResult was set.
+func (o OptCdrUsageReportResponseResult) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCdrUsageReportResponseResult) Reset() {
+	var v CdrUsageReportResponseResult
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCdrUsageReportResponseResult) SetTo(v CdrUsageReportResponseResult) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCdrUsageReportResponseResult) Get() (v CdrUsageReportResponseResult, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCdrUsageReportResponseResult) Or(d CdrUsageReportResponseResult) CdrUsageReportResponseResult {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCdrUsageReportResponseStatus returns new OptCdrUsageReportResponseStatus with value set to v.
+func NewOptCdrUsageReportResponseStatus(v CdrUsageReportResponseStatus) OptCdrUsageReportResponseStatus {
+	return OptCdrUsageReportResponseStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCdrUsageReportResponseStatus is optional CdrUsageReportResponseStatus.
+type OptCdrUsageReportResponseStatus struct {
+	Value CdrUsageReportResponseStatus
+	Set   bool
+}
+
+// IsSet returns true if OptCdrUsageReportResponseStatus was set.
+func (o OptCdrUsageReportResponseStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCdrUsageReportResponseStatus) Reset() {
+	var v CdrUsageReportResponseStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCdrUsageReportResponseStatus) SetTo(v CdrUsageReportResponseStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCdrUsageReportResponseStatus) Get() (v CdrUsageReportResponseStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCdrUsageReportResponseStatus) Or(d CdrUsageReportResponseStatus) CdrUsageReportResponseStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptConferenceRecordingResourceIndex returns new OptConferenceRecordingResourceIndex with value set to v.
 func NewOptConferenceRecordingResourceIndex(v ConferenceRecordingResourceIndex) OptConferenceRecordingResourceIndex {
 	return OptConferenceRecordingResourceIndex{
@@ -8939,6 +10660,52 @@ func (o OptConferenceStatus) Or(d ConferenceStatus) ConferenceStatus {
 	return d
 }
 
+// NewOptConnectionActive returns new OptConnectionActive with value set to v.
+func NewOptConnectionActive(v ConnectionActive) OptConnectionActive {
+	return OptConnectionActive{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptConnectionActive is optional ConnectionActive.
+type OptConnectionActive struct {
+	Value ConnectionActive
+	Set   bool
+}
+
+// IsSet returns true if OptConnectionActive was set.
+func (o OptConnectionActive) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptConnectionActive) Reset() {
+	var v ConnectionActive
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptConnectionActive) SetTo(v ConnectionActive) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptConnectionActive) Get() (v ConnectionActive, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptConnectionActive) Or(d ConnectionActive) ConnectionActive {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateTeXMLSecretResult returns new OptCreateTeXMLSecretResult with value set to v.
 func NewOptCreateTeXMLSecretResult(v CreateTeXMLSecretResult) OptCreateTeXMLSecretResult {
 	return OptCreateTeXMLSecretResult{
@@ -9025,6 +10792,330 @@ func (o OptCreateTeXMLSecretResultValue) Get() (v CreateTeXMLSecretResultValue, 
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateTeXMLSecretResultValue) Or(d CreateTeXMLSecretResultValue) CreateTeXMLSecretResultValue {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateTexmlApplicationRequestInbound returns new OptCreateTexmlApplicationRequestInbound with value set to v.
+func NewOptCreateTexmlApplicationRequestInbound(v CreateTexmlApplicationRequestInbound) OptCreateTexmlApplicationRequestInbound {
+	return OptCreateTexmlApplicationRequestInbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateTexmlApplicationRequestInbound is optional CreateTexmlApplicationRequestInbound.
+type OptCreateTexmlApplicationRequestInbound struct {
+	Value CreateTexmlApplicationRequestInbound
+	Set   bool
+}
+
+// IsSet returns true if OptCreateTexmlApplicationRequestInbound was set.
+func (o OptCreateTexmlApplicationRequestInbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateTexmlApplicationRequestInbound) Reset() {
+	var v CreateTexmlApplicationRequestInbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateTexmlApplicationRequestInbound) SetTo(v CreateTexmlApplicationRequestInbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateTexmlApplicationRequestInbound) Get() (v CreateTexmlApplicationRequestInbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateTexmlApplicationRequestInbound) Or(d CreateTexmlApplicationRequestInbound) CreateTexmlApplicationRequestInbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings returns new OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings with value set to v.
+func NewOptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings(v CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	return OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings is optional CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings.
+type OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings struct {
+	Value CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings
+	Set   bool
+}
+
+// IsSet returns true if OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings was set.
+func (o OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Reset() {
+	var v CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) SetTo(v CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Get() (v CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Or(d CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateTexmlApplicationRequestOutbound returns new OptCreateTexmlApplicationRequestOutbound with value set to v.
+func NewOptCreateTexmlApplicationRequestOutbound(v CreateTexmlApplicationRequestOutbound) OptCreateTexmlApplicationRequestOutbound {
+	return OptCreateTexmlApplicationRequestOutbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateTexmlApplicationRequestOutbound is optional CreateTexmlApplicationRequestOutbound.
+type OptCreateTexmlApplicationRequestOutbound struct {
+	Value CreateTexmlApplicationRequestOutbound
+	Set   bool
+}
+
+// IsSet returns true if OptCreateTexmlApplicationRequestOutbound was set.
+func (o OptCreateTexmlApplicationRequestOutbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateTexmlApplicationRequestOutbound) Reset() {
+	var v CreateTexmlApplicationRequestOutbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateTexmlApplicationRequestOutbound) SetTo(v CreateTexmlApplicationRequestOutbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateTexmlApplicationRequestOutbound) Get() (v CreateTexmlApplicationRequestOutbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateTexmlApplicationRequestOutbound) Or(d CreateTexmlApplicationRequestOutbound) CreateTexmlApplicationRequestOutbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateTexmlApplicationRequestStatusCallbackMethod returns new OptCreateTexmlApplicationRequestStatusCallbackMethod with value set to v.
+func NewOptCreateTexmlApplicationRequestStatusCallbackMethod(v CreateTexmlApplicationRequestStatusCallbackMethod) OptCreateTexmlApplicationRequestStatusCallbackMethod {
+	return OptCreateTexmlApplicationRequestStatusCallbackMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateTexmlApplicationRequestStatusCallbackMethod is optional CreateTexmlApplicationRequestStatusCallbackMethod.
+type OptCreateTexmlApplicationRequestStatusCallbackMethod struct {
+	Value CreateTexmlApplicationRequestStatusCallbackMethod
+	Set   bool
+}
+
+// IsSet returns true if OptCreateTexmlApplicationRequestStatusCallbackMethod was set.
+func (o OptCreateTexmlApplicationRequestStatusCallbackMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateTexmlApplicationRequestStatusCallbackMethod) Reset() {
+	var v CreateTexmlApplicationRequestStatusCallbackMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateTexmlApplicationRequestStatusCallbackMethod) SetTo(v CreateTexmlApplicationRequestStatusCallbackMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateTexmlApplicationRequestStatusCallbackMethod) Get() (v CreateTexmlApplicationRequestStatusCallbackMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateTexmlApplicationRequestStatusCallbackMethod) Or(d CreateTexmlApplicationRequestStatusCallbackMethod) CreateTexmlApplicationRequestStatusCallbackMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateTexmlApplicationRequestVoiceMethod returns new OptCreateTexmlApplicationRequestVoiceMethod with value set to v.
+func NewOptCreateTexmlApplicationRequestVoiceMethod(v CreateTexmlApplicationRequestVoiceMethod) OptCreateTexmlApplicationRequestVoiceMethod {
+	return OptCreateTexmlApplicationRequestVoiceMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateTexmlApplicationRequestVoiceMethod is optional CreateTexmlApplicationRequestVoiceMethod.
+type OptCreateTexmlApplicationRequestVoiceMethod struct {
+	Value CreateTexmlApplicationRequestVoiceMethod
+	Set   bool
+}
+
+// IsSet returns true if OptCreateTexmlApplicationRequestVoiceMethod was set.
+func (o OptCreateTexmlApplicationRequestVoiceMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateTexmlApplicationRequestVoiceMethod) Reset() {
+	var v CreateTexmlApplicationRequestVoiceMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateTexmlApplicationRequestVoiceMethod) SetTo(v CreateTexmlApplicationRequestVoiceMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateTexmlApplicationRequestVoiceMethod) Get() (v CreateTexmlApplicationRequestVoiceMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateTexmlApplicationRequestVoiceMethod) Or(d CreateTexmlApplicationRequestVoiceMethod) CreateTexmlApplicationRequestVoiceMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreatedAt returns new OptCreatedAt with value set to v.
+func NewOptCreatedAt(v CreatedAt) OptCreatedAt {
+	return OptCreatedAt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreatedAt is optional CreatedAt.
+type OptCreatedAt struct {
+	Value CreatedAt
+	Set   bool
+}
+
+// IsSet returns true if OptCreatedAt was set.
+func (o OptCreatedAt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreatedAt) Reset() {
+	var v CreatedAt
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreatedAt) SetTo(v CreatedAt) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreatedAt) Get() (v CreatedAt, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreatedAt) Or(d CreatedAt) CreatedAt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDateTime returns new OptDateTime with value set to v.
+func NewOptDateTime(v time.Time) OptDateTime {
+	return OptDateTime{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDateTime is optional time.Time.
+type OptDateTime struct {
+	Value time.Time
+	Set   bool
+}
+
+// IsSet returns true if OptDateTime was set.
+func (o OptDateTime) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDateTime) Reset() {
+	var v time.Time
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDateTime) SetTo(v time.Time) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDateTime) Get() (v time.Time, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDateTime) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -9677,6 +11768,52 @@ func (o OptDialogflowConfig) Or(d DialogflowConfig) DialogflowConfig {
 	return d
 }
 
+// NewOptDtmfType returns new OptDtmfType with value set to v.
+func NewOptDtmfType(v DtmfType) OptDtmfType {
+	return OptDtmfType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDtmfType is optional DtmfType.
+type OptDtmfType struct {
+	Value DtmfType
+	Set   bool
+}
+
+// IsSet returns true if OptDtmfType was set.
+func (o OptDtmfType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDtmfType) Reset() {
+	var v DtmfType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDtmfType) SetTo(v DtmfType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDtmfType) Get() (v DtmfType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDtmfType) Or(d DtmfType) DtmfType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptErrorMeta returns new OptErrorMeta with value set to v.
 func NewOptErrorMeta(v ErrorMeta) OptErrorMeta {
 	return OptErrorMeta{
@@ -9763,6 +11900,98 @@ func (o OptErrorSource) Get() (v ErrorSource, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptErrorSource) Or(d ErrorSource) ErrorSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptFirstCommandTimeout returns new OptFirstCommandTimeout with value set to v.
+func NewOptFirstCommandTimeout(v FirstCommandTimeout) OptFirstCommandTimeout {
+	return OptFirstCommandTimeout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptFirstCommandTimeout is optional FirstCommandTimeout.
+type OptFirstCommandTimeout struct {
+	Value FirstCommandTimeout
+	Set   bool
+}
+
+// IsSet returns true if OptFirstCommandTimeout was set.
+func (o OptFirstCommandTimeout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptFirstCommandTimeout) Reset() {
+	var v FirstCommandTimeout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptFirstCommandTimeout) SetTo(v FirstCommandTimeout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptFirstCommandTimeout) Get() (v FirstCommandTimeout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptFirstCommandTimeout) Or(d FirstCommandTimeout) FirstCommandTimeout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptFirstCommandTimeoutSecs returns new OptFirstCommandTimeoutSecs with value set to v.
+func NewOptFirstCommandTimeoutSecs(v FirstCommandTimeoutSecs) OptFirstCommandTimeoutSecs {
+	return OptFirstCommandTimeoutSecs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptFirstCommandTimeoutSecs is optional FirstCommandTimeoutSecs.
+type OptFirstCommandTimeoutSecs struct {
+	Value FirstCommandTimeoutSecs
+	Set   bool
+}
+
+// IsSet returns true if OptFirstCommandTimeoutSecs was set.
+func (o OptFirstCommandTimeoutSecs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptFirstCommandTimeoutSecs) Reset() {
+	var v FirstCommandTimeoutSecs
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptFirstCommandTimeoutSecs) SetTo(v FirstCommandTimeoutSecs) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptFirstCommandTimeoutSecs) Get() (v FirstCommandTimeoutSecs, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptFirstCommandTimeoutSecs) Or(d FirstCommandTimeoutSecs) FirstCommandTimeoutSecs {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -10551,6 +12780,52 @@ func (o OptInt32) Or(d int32) int32 {
 	return d
 }
 
+// NewOptIntId returns new OptIntId with value set to v.
+func NewOptIntId(v IntId) OptIntId {
+	return OptIntId{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIntId is optional IntId.
+type OptIntId struct {
+	Value IntId
+	Set   bool
+}
+
+// IsSet returns true if OptIntId was set.
+func (o OptIntId) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIntId) Reset() {
+	var v IntId
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIntId) SetTo(v IntId) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIntId) Get() (v IntId, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIntId) Or(d IntId) IntId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptLoopcount returns new OptLoopcount with value set to v.
 func NewOptLoopcount(v Loopcount) OptLoopcount {
 	return OptLoopcount{
@@ -10591,6 +12866,144 @@ func (o OptLoopcount) Get() (v Loopcount, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptLoopcount) Or(d Loopcount) Loopcount {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptMdrUsageReportResponse returns new OptMdrUsageReportResponse with value set to v.
+func NewOptMdrUsageReportResponse(v MdrUsageReportResponse) OptMdrUsageReportResponse {
+	return OptMdrUsageReportResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMdrUsageReportResponse is optional MdrUsageReportResponse.
+type OptMdrUsageReportResponse struct {
+	Value MdrUsageReportResponse
+	Set   bool
+}
+
+// IsSet returns true if OptMdrUsageReportResponse was set.
+func (o OptMdrUsageReportResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMdrUsageReportResponse) Reset() {
+	var v MdrUsageReportResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMdrUsageReportResponse) SetTo(v MdrUsageReportResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMdrUsageReportResponse) Get() (v MdrUsageReportResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMdrUsageReportResponse) Or(d MdrUsageReportResponse) MdrUsageReportResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptMdrUsageReportResponseAggregationType returns new OptMdrUsageReportResponseAggregationType with value set to v.
+func NewOptMdrUsageReportResponseAggregationType(v MdrUsageReportResponseAggregationType) OptMdrUsageReportResponseAggregationType {
+	return OptMdrUsageReportResponseAggregationType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMdrUsageReportResponseAggregationType is optional MdrUsageReportResponseAggregationType.
+type OptMdrUsageReportResponseAggregationType struct {
+	Value MdrUsageReportResponseAggregationType
+	Set   bool
+}
+
+// IsSet returns true if OptMdrUsageReportResponseAggregationType was set.
+func (o OptMdrUsageReportResponseAggregationType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMdrUsageReportResponseAggregationType) Reset() {
+	var v MdrUsageReportResponseAggregationType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMdrUsageReportResponseAggregationType) SetTo(v MdrUsageReportResponseAggregationType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMdrUsageReportResponseAggregationType) Get() (v MdrUsageReportResponseAggregationType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMdrUsageReportResponseAggregationType) Or(d MdrUsageReportResponseAggregationType) MdrUsageReportResponseAggregationType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptMdrUsageReportResponseStatus returns new OptMdrUsageReportResponseStatus with value set to v.
+func NewOptMdrUsageReportResponseStatus(v MdrUsageReportResponseStatus) OptMdrUsageReportResponseStatus {
+	return OptMdrUsageReportResponseStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMdrUsageReportResponseStatus is optional MdrUsageReportResponseStatus.
+type OptMdrUsageReportResponseStatus struct {
+	Value MdrUsageReportResponseStatus
+	Set   bool
+}
+
+// IsSet returns true if OptMdrUsageReportResponseStatus was set.
+func (o OptMdrUsageReportResponseStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMdrUsageReportResponseStatus) Reset() {
+	var v MdrUsageReportResponseStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMdrUsageReportResponseStatus) SetTo(v MdrUsageReportResponseStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMdrUsageReportResponseStatus) Get() (v MdrUsageReportResponseStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMdrUsageReportResponseStatus) Or(d MdrUsageReportResponseStatus) MdrUsageReportResponseStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -11159,6 +13572,52 @@ func (o OptNoiseSuppressionDirection) Or(d NoiseSuppressionDirection) NoiseSuppr
 	return d
 }
 
+// NewOptOutboundVoiceProfileId returns new OptOutboundVoiceProfileId with value set to v.
+func NewOptOutboundVoiceProfileId(v OutboundVoiceProfileId) OptOutboundVoiceProfileId {
+	return OptOutboundVoiceProfileId{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundVoiceProfileId is optional OutboundVoiceProfileId.
+type OptOutboundVoiceProfileId struct {
+	Value OutboundVoiceProfileId
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundVoiceProfileId was set.
+func (o OptOutboundVoiceProfileId) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundVoiceProfileId) Reset() {
+	var v OutboundVoiceProfileId
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundVoiceProfileId) SetTo(v OutboundVoiceProfileId) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundVoiceProfileId) Get() (v OutboundVoiceProfileId, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundVoiceProfileId) Or(d OutboundVoiceProfileId) OutboundVoiceProfileId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPaginationMeta returns new OptPaginationMeta with value set to v.
 func NewOptPaginationMeta(v PaginationMeta) OptPaginationMeta {
 	return OptPaginationMeta{
@@ -11659,6 +14118,52 @@ func (o OptRegisterCallResponseData) Get() (v RegisterCallResponseData, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRegisterCallResponseData) Or(d RegisterCallResponseData) RegisterCallResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptSortApplication returns new OptSortApplication with value set to v.
+func NewOptSortApplication(v SortApplication) OptSortApplication {
+	return OptSortApplication{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSortApplication is optional SortApplication.
+type OptSortApplication struct {
+	Value SortApplication
+	Set   bool
+}
+
+// IsSet returns true if OptSortApplication was set.
+func (o OptSortApplication) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSortApplication) Reset() {
+	var v SortApplication
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSortApplication) SetTo(v SortApplication) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSortApplication) Get() (v SortApplication, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSortApplication) Or(d SortApplication) SortApplication {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -12211,6 +14716,328 @@ func (o OptString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStringInt64 returns new OptStringInt64 with value set to v.
+func NewOptStringInt64(v int64) OptStringInt64 {
+	return OptStringInt64{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStringInt64 is optional int64.
+type OptStringInt64 struct {
+	Value int64
+	Set   bool
+}
+
+// IsSet returns true if OptStringInt64 was set.
+func (o OptStringInt64) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStringInt64) Reset() {
+	var v int64
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStringInt64) SetTo(v int64) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStringInt64) Get() (v int64, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStringInt64) Or(d int64) int64 {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTexmlApplication returns new OptTexmlApplication with value set to v.
+func NewOptTexmlApplication(v TexmlApplication) OptTexmlApplication {
+	return OptTexmlApplication{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTexmlApplication is optional TexmlApplication.
+type OptTexmlApplication struct {
+	Value TexmlApplication
+	Set   bool
+}
+
+// IsSet returns true if OptTexmlApplication was set.
+func (o OptTexmlApplication) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTexmlApplication) Reset() {
+	var v TexmlApplication
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTexmlApplication) SetTo(v TexmlApplication) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTexmlApplication) Get() (v TexmlApplication, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTexmlApplication) Or(d TexmlApplication) TexmlApplication {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTexmlApplicationInbound returns new OptTexmlApplicationInbound with value set to v.
+func NewOptTexmlApplicationInbound(v TexmlApplicationInbound) OptTexmlApplicationInbound {
+	return OptTexmlApplicationInbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTexmlApplicationInbound is optional TexmlApplicationInbound.
+type OptTexmlApplicationInbound struct {
+	Value TexmlApplicationInbound
+	Set   bool
+}
+
+// IsSet returns true if OptTexmlApplicationInbound was set.
+func (o OptTexmlApplicationInbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTexmlApplicationInbound) Reset() {
+	var v TexmlApplicationInbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTexmlApplicationInbound) SetTo(v TexmlApplicationInbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTexmlApplicationInbound) Get() (v TexmlApplicationInbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTexmlApplicationInbound) Or(d TexmlApplicationInbound) TexmlApplicationInbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTexmlApplicationInboundSipSubdomainReceiveSettings returns new OptTexmlApplicationInboundSipSubdomainReceiveSettings with value set to v.
+func NewOptTexmlApplicationInboundSipSubdomainReceiveSettings(v TexmlApplicationInboundSipSubdomainReceiveSettings) OptTexmlApplicationInboundSipSubdomainReceiveSettings {
+	return OptTexmlApplicationInboundSipSubdomainReceiveSettings{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTexmlApplicationInboundSipSubdomainReceiveSettings is optional TexmlApplicationInboundSipSubdomainReceiveSettings.
+type OptTexmlApplicationInboundSipSubdomainReceiveSettings struct {
+	Value TexmlApplicationInboundSipSubdomainReceiveSettings
+	Set   bool
+}
+
+// IsSet returns true if OptTexmlApplicationInboundSipSubdomainReceiveSettings was set.
+func (o OptTexmlApplicationInboundSipSubdomainReceiveSettings) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTexmlApplicationInboundSipSubdomainReceiveSettings) Reset() {
+	var v TexmlApplicationInboundSipSubdomainReceiveSettings
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTexmlApplicationInboundSipSubdomainReceiveSettings) SetTo(v TexmlApplicationInboundSipSubdomainReceiveSettings) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTexmlApplicationInboundSipSubdomainReceiveSettings) Get() (v TexmlApplicationInboundSipSubdomainReceiveSettings, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTexmlApplicationInboundSipSubdomainReceiveSettings) Or(d TexmlApplicationInboundSipSubdomainReceiveSettings) TexmlApplicationInboundSipSubdomainReceiveSettings {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTexmlApplicationOutbound returns new OptTexmlApplicationOutbound with value set to v.
+func NewOptTexmlApplicationOutbound(v TexmlApplicationOutbound) OptTexmlApplicationOutbound {
+	return OptTexmlApplicationOutbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTexmlApplicationOutbound is optional TexmlApplicationOutbound.
+type OptTexmlApplicationOutbound struct {
+	Value TexmlApplicationOutbound
+	Set   bool
+}
+
+// IsSet returns true if OptTexmlApplicationOutbound was set.
+func (o OptTexmlApplicationOutbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTexmlApplicationOutbound) Reset() {
+	var v TexmlApplicationOutbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTexmlApplicationOutbound) SetTo(v TexmlApplicationOutbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTexmlApplicationOutbound) Get() (v TexmlApplicationOutbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTexmlApplicationOutbound) Or(d TexmlApplicationOutbound) TexmlApplicationOutbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTexmlApplicationStatusCallbackMethod returns new OptTexmlApplicationStatusCallbackMethod with value set to v.
+func NewOptTexmlApplicationStatusCallbackMethod(v TexmlApplicationStatusCallbackMethod) OptTexmlApplicationStatusCallbackMethod {
+	return OptTexmlApplicationStatusCallbackMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTexmlApplicationStatusCallbackMethod is optional TexmlApplicationStatusCallbackMethod.
+type OptTexmlApplicationStatusCallbackMethod struct {
+	Value TexmlApplicationStatusCallbackMethod
+	Set   bool
+}
+
+// IsSet returns true if OptTexmlApplicationStatusCallbackMethod was set.
+func (o OptTexmlApplicationStatusCallbackMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTexmlApplicationStatusCallbackMethod) Reset() {
+	var v TexmlApplicationStatusCallbackMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTexmlApplicationStatusCallbackMethod) SetTo(v TexmlApplicationStatusCallbackMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTexmlApplicationStatusCallbackMethod) Get() (v TexmlApplicationStatusCallbackMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTexmlApplicationStatusCallbackMethod) Or(d TexmlApplicationStatusCallbackMethod) TexmlApplicationStatusCallbackMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTexmlApplicationVoiceMethod returns new OptTexmlApplicationVoiceMethod with value set to v.
+func NewOptTexmlApplicationVoiceMethod(v TexmlApplicationVoiceMethod) OptTexmlApplicationVoiceMethod {
+	return OptTexmlApplicationVoiceMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTexmlApplicationVoiceMethod is optional TexmlApplicationVoiceMethod.
+type OptTexmlApplicationVoiceMethod struct {
+	Value TexmlApplicationVoiceMethod
+	Set   bool
+}
+
+// IsSet returns true if OptTexmlApplicationVoiceMethod was set.
+func (o OptTexmlApplicationVoiceMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTexmlApplicationVoiceMethod) Reset() {
+	var v TexmlApplicationVoiceMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTexmlApplicationVoiceMethod) SetTo(v TexmlApplicationVoiceMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTexmlApplicationVoiceMethod) Get() (v TexmlApplicationVoiceMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTexmlApplicationVoiceMethod) Or(d TexmlApplicationVoiceMethod) TexmlApplicationVoiceMethod {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -13505,6 +16332,286 @@ func (o OptUpdateConferenceRequestAnnounceMethod) Or(d UpdateConferenceRequestAn
 	return d
 }
 
+// NewOptUpdateTexmlApplicationRequestInbound returns new OptUpdateTexmlApplicationRequestInbound with value set to v.
+func NewOptUpdateTexmlApplicationRequestInbound(v UpdateTexmlApplicationRequestInbound) OptUpdateTexmlApplicationRequestInbound {
+	return OptUpdateTexmlApplicationRequestInbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateTexmlApplicationRequestInbound is optional UpdateTexmlApplicationRequestInbound.
+type OptUpdateTexmlApplicationRequestInbound struct {
+	Value UpdateTexmlApplicationRequestInbound
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateTexmlApplicationRequestInbound was set.
+func (o OptUpdateTexmlApplicationRequestInbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateTexmlApplicationRequestInbound) Reset() {
+	var v UpdateTexmlApplicationRequestInbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateTexmlApplicationRequestInbound) SetTo(v UpdateTexmlApplicationRequestInbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateTexmlApplicationRequestInbound) Get() (v UpdateTexmlApplicationRequestInbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateTexmlApplicationRequestInbound) Or(d UpdateTexmlApplicationRequestInbound) UpdateTexmlApplicationRequestInbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings returns new OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings with value set to v.
+func NewOptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings(v UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	return OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings is optional UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings.
+type OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings struct {
+	Value UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings was set.
+func (o OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Reset() {
+	var v UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) SetTo(v UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Get() (v UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Or(d UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateTexmlApplicationRequestOutbound returns new OptUpdateTexmlApplicationRequestOutbound with value set to v.
+func NewOptUpdateTexmlApplicationRequestOutbound(v UpdateTexmlApplicationRequestOutbound) OptUpdateTexmlApplicationRequestOutbound {
+	return OptUpdateTexmlApplicationRequestOutbound{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateTexmlApplicationRequestOutbound is optional UpdateTexmlApplicationRequestOutbound.
+type OptUpdateTexmlApplicationRequestOutbound struct {
+	Value UpdateTexmlApplicationRequestOutbound
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateTexmlApplicationRequestOutbound was set.
+func (o OptUpdateTexmlApplicationRequestOutbound) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateTexmlApplicationRequestOutbound) Reset() {
+	var v UpdateTexmlApplicationRequestOutbound
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateTexmlApplicationRequestOutbound) SetTo(v UpdateTexmlApplicationRequestOutbound) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateTexmlApplicationRequestOutbound) Get() (v UpdateTexmlApplicationRequestOutbound, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateTexmlApplicationRequestOutbound) Or(d UpdateTexmlApplicationRequestOutbound) UpdateTexmlApplicationRequestOutbound {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateTexmlApplicationRequestStatusCallbackMethod returns new OptUpdateTexmlApplicationRequestStatusCallbackMethod with value set to v.
+func NewOptUpdateTexmlApplicationRequestStatusCallbackMethod(v UpdateTexmlApplicationRequestStatusCallbackMethod) OptUpdateTexmlApplicationRequestStatusCallbackMethod {
+	return OptUpdateTexmlApplicationRequestStatusCallbackMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateTexmlApplicationRequestStatusCallbackMethod is optional UpdateTexmlApplicationRequestStatusCallbackMethod.
+type OptUpdateTexmlApplicationRequestStatusCallbackMethod struct {
+	Value UpdateTexmlApplicationRequestStatusCallbackMethod
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateTexmlApplicationRequestStatusCallbackMethod was set.
+func (o OptUpdateTexmlApplicationRequestStatusCallbackMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateTexmlApplicationRequestStatusCallbackMethod) Reset() {
+	var v UpdateTexmlApplicationRequestStatusCallbackMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateTexmlApplicationRequestStatusCallbackMethod) SetTo(v UpdateTexmlApplicationRequestStatusCallbackMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateTexmlApplicationRequestStatusCallbackMethod) Get() (v UpdateTexmlApplicationRequestStatusCallbackMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateTexmlApplicationRequestStatusCallbackMethod) Or(d UpdateTexmlApplicationRequestStatusCallbackMethod) UpdateTexmlApplicationRequestStatusCallbackMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateTexmlApplicationRequestVoiceMethod returns new OptUpdateTexmlApplicationRequestVoiceMethod with value set to v.
+func NewOptUpdateTexmlApplicationRequestVoiceMethod(v UpdateTexmlApplicationRequestVoiceMethod) OptUpdateTexmlApplicationRequestVoiceMethod {
+	return OptUpdateTexmlApplicationRequestVoiceMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateTexmlApplicationRequestVoiceMethod is optional UpdateTexmlApplicationRequestVoiceMethod.
+type OptUpdateTexmlApplicationRequestVoiceMethod struct {
+	Value UpdateTexmlApplicationRequestVoiceMethod
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateTexmlApplicationRequestVoiceMethod was set.
+func (o OptUpdateTexmlApplicationRequestVoiceMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateTexmlApplicationRequestVoiceMethod) Reset() {
+	var v UpdateTexmlApplicationRequestVoiceMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateTexmlApplicationRequestVoiceMethod) SetTo(v UpdateTexmlApplicationRequestVoiceMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateTexmlApplicationRequestVoiceMethod) Get() (v UpdateTexmlApplicationRequestVoiceMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateTexmlApplicationRequestVoiceMethod) Or(d UpdateTexmlApplicationRequestVoiceMethod) UpdateTexmlApplicationRequestVoiceMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdatedAt returns new OptUpdatedAt with value set to v.
+func NewOptUpdatedAt(v UpdatedAt) OptUpdatedAt {
+	return OptUpdatedAt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdatedAt is optional UpdatedAt.
+type OptUpdatedAt struct {
+	Value UpdatedAt
+	Set   bool
+}
+
+// IsSet returns true if OptUpdatedAt was set.
+func (o OptUpdatedAt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdatedAt) Reset() {
+	var v UpdatedAt
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdatedAt) SetTo(v UpdatedAt) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdatedAt) Get() (v UpdatedAt, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdatedAt) Or(d UpdatedAt) UpdatedAt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+type OutboundVoiceProfileId int64
+
 // Ref: #/components/schemas/PaginationMeta
 type PaginationMeta struct {
 	TotalPages   OptInt `json:"total_pages"`
@@ -14334,6 +17441,48 @@ func (s *QueueCallResponse) SetData(val OptQueueCall) {
 
 func (*QueueCallResponse) retrieveCallFromQueueRes() {}
 
+// An object following one of the schemas published in https://developers.telnyx.
+// com/docs/api/v2/detail-records.
+// Ref: #/components/schemas/RecordType
+type RecordType struct {
+	// Telnyx Product type.
+	RecordType OptString `json:"record_type"`
+	// Telnyx Product Dimensions.
+	ProductDimensions []string `json:"product_dimensions"`
+	// Telnyx Product Metrics.
+	ProductMetrics []string `json:"product_metrics"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *RecordType) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetProductDimensions returns the value of ProductDimensions.
+func (s *RecordType) GetProductDimensions() []string {
+	return s.ProductDimensions
+}
+
+// GetProductMetrics returns the value of ProductMetrics.
+func (s *RecordType) GetProductMetrics() []string {
+	return s.ProductMetrics
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *RecordType) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetProductDimensions sets the value of ProductDimensions.
+func (s *RecordType) SetProductDimensions(val []string) {
+	s.ProductDimensions = val
+}
+
+// SetProductMetrics sets the value of ProductMetrics.
+func (s *RecordType) SetProductMetrics(val []string) {
+	s.ProductMetrics = val
+}
+
 // Defines how the recording was created.
 // Ref: #/components/schemas/RecordingSource
 type RecordingSource string
@@ -14706,6 +17855,116 @@ func (s *RejectRequestCause) UnmarshalText(data []byte) error {
 	}
 }
 
+type ReportsCdrUsageReportsSyncGetAggregationType string
+
+const (
+	ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION ReportsCdrUsageReportsSyncGetAggregationType = "NO_AGGREGATION"
+	ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION    ReportsCdrUsageReportsSyncGetAggregationType = "CONNECTION"
+	ReportsCdrUsageReportsSyncGetAggregationTypeTAG           ReportsCdrUsageReportsSyncGetAggregationType = "TAG"
+	ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP  ReportsCdrUsageReportsSyncGetAggregationType = "BILLING_GROUP"
+)
+
+// AllValues returns all ReportsCdrUsageReportsSyncGetAggregationType values.
+func (ReportsCdrUsageReportsSyncGetAggregationType) AllValues() []ReportsCdrUsageReportsSyncGetAggregationType {
+	return []ReportsCdrUsageReportsSyncGetAggregationType{
+		ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION,
+		ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION,
+		ReportsCdrUsageReportsSyncGetAggregationTypeTAG,
+		ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReportsCdrUsageReportsSyncGetAggregationType) MarshalText() ([]byte, error) {
+	switch s {
+	case ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION:
+		return []byte(s), nil
+	case ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION:
+		return []byte(s), nil
+	case ReportsCdrUsageReportsSyncGetAggregationTypeTAG:
+		return []byte(s), nil
+	case ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReportsCdrUsageReportsSyncGetAggregationType) UnmarshalText(data []byte) error {
+	switch ReportsCdrUsageReportsSyncGetAggregationType(data) {
+	case ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION:
+		*s = ReportsCdrUsageReportsSyncGetAggregationTypeNOAGGREGATION
+		return nil
+	case ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION:
+		*s = ReportsCdrUsageReportsSyncGetAggregationTypeCONNECTION
+		return nil
+	case ReportsCdrUsageReportsSyncGetAggregationTypeTAG:
+		*s = ReportsCdrUsageReportsSyncGetAggregationTypeTAG
+		return nil
+	case ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP:
+		*s = ReportsCdrUsageReportsSyncGetAggregationTypeBILLINGGROUP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ReportsCdrUsageReportsSyncGetProductBreakdown string
+
+const (
+	ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN             ReportsCdrUsageReportsSyncGetProductBreakdown = "NO_BREAKDOWN"
+	ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE           ReportsCdrUsageReportsSyncGetProductBreakdown = "DID_VS_TOLL_FREE"
+	ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY                 ReportsCdrUsageReportsSyncGetProductBreakdown = "COUNTRY"
+	ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY ReportsCdrUsageReportsSyncGetProductBreakdown = "DID_VS_TOLL_FREE_PER_COUNTRY"
+)
+
+// AllValues returns all ReportsCdrUsageReportsSyncGetProductBreakdown values.
+func (ReportsCdrUsageReportsSyncGetProductBreakdown) AllValues() []ReportsCdrUsageReportsSyncGetProductBreakdown {
+	return []ReportsCdrUsageReportsSyncGetProductBreakdown{
+		ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN,
+		ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE,
+		ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY,
+		ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReportsCdrUsageReportsSyncGetProductBreakdown) MarshalText() ([]byte, error) {
+	switch s {
+	case ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN:
+		return []byte(s), nil
+	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE:
+		return []byte(s), nil
+	case ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY:
+		return []byte(s), nil
+	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReportsCdrUsageReportsSyncGetProductBreakdown) UnmarshalText(data []byte) error {
+	switch ReportsCdrUsageReportsSyncGetProductBreakdown(data) {
+	case ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN:
+		*s = ReportsCdrUsageReportsSyncGetProductBreakdownNOBREAKDOWN
+		return nil
+	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE:
+		*s = ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREE
+		return nil
+	case ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY:
+		*s = ReportsCdrUsageReportsSyncGetProductBreakdownCOUNTRY
+		return nil
+	case ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY:
+		*s = ReportsCdrUsageReportsSyncGetProductBreakdownDIDVSTOLLFREEPERCOUNTRY
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/ResumeRecordingRequest
 type ResumeRecordingRequest struct {
 	// Use this field to add state to every subsequent webhook. It must be a valid Base-64 encoded string.
@@ -14864,6 +18123,54 @@ func (s *SipHeaderName) UnmarshalText(data []byte) error {
 	switch SipHeaderName(data) {
 	case SipHeaderNameUserToUser:
 		*s = SipHeaderNameUserToUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type SortApplication string
+
+const (
+	SortApplicationCreatedAt    SortApplication = "created_at"
+	SortApplicationFriendlyName SortApplication = "friendly_name"
+	SortApplicationActive       SortApplication = "active"
+)
+
+// AllValues returns all SortApplication values.
+func (SortApplication) AllValues() []SortApplication {
+	return []SortApplication{
+		SortApplicationCreatedAt,
+		SortApplicationFriendlyName,
+		SortApplicationActive,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SortApplication) MarshalText() ([]byte, error) {
+	switch s {
+	case SortApplicationCreatedAt:
+		return []byte(s), nil
+	case SortApplicationFriendlyName:
+		return []byte(s), nil
+	case SortApplicationActive:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SortApplication) UnmarshalText(data []byte) error {
+	switch SortApplication(data) {
+	case SortApplicationCreatedAt:
+		*s = SortApplicationCreatedAt
+		return nil
+	case SortApplicationFriendlyName:
+		*s = SortApplicationFriendlyName
+		return nil
+	case SortApplicationActive:
+		*s = SortApplicationActive
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -16205,6 +19512,436 @@ func (s *StopStreamingRequest) SetClientState(val OptString) {
 // SetCommandID sets the value of CommandID.
 func (s *StopStreamingRequest) SetCommandID(val OptString) {
 	s.CommandID = val
+}
+
+// Ref: #/components/schemas/TexmlApplication
+type TexmlApplication struct {
+	ID OptIntId `json:"id"`
+	// Identifies the type of the resource.
+	RecordType              OptString                  `json:"record_type"`
+	FriendlyName            OptApplicationName         `json:"friendly_name"`
+	Active                  OptConnectionActive        `json:"active"`
+	AnchorsiteOverride      OptAnchorsiteOverride      `json:"anchorsite_override"`
+	DtmfType                OptDtmfType                `json:"dtmf_type"`
+	FirstCommandTimeout     OptFirstCommandTimeout     `json:"first_command_timeout"`
+	FirstCommandTimeoutSecs OptFirstCommandTimeoutSecs `json:"first_command_timeout_secs"`
+	// URL to which Telnyx will deliver your XML Translator webhooks.
+	VoiceURL OptString `json:"voice_url"`
+	// URL to which Telnyx will deliver your XML Translator webhooks if we get an error response from
+	// your voice_url.
+	VoiceFallbackURL OptString `json:"voice_fallback_url"`
+	// HTTP request method Telnyx will use to interact with your XML Translator webhooks. Either 'get' or
+	// 'post'.
+	VoiceMethod OptTexmlApplicationVoiceMethod `json:"voice_method"`
+	// URL for Telnyx to send requests to containing information about call progress events.
+	StatusCallback OptString `json:"status_callback"`
+	// HTTP request method Telnyx should use when requesting the status_callback URL.
+	StatusCallbackMethod OptTexmlApplicationStatusCallbackMethod `json:"status_callback_method"`
+	Inbound              OptTexmlApplicationInbound              `json:"inbound"`
+	Outbound             OptTexmlApplicationOutbound             `json:"outbound"`
+	CreatedAt            OptCreatedAt                            `json:"created_at"`
+	UpdatedAt            OptUpdatedAt                            `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *TexmlApplication) GetID() OptIntId {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *TexmlApplication) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetFriendlyName returns the value of FriendlyName.
+func (s *TexmlApplication) GetFriendlyName() OptApplicationName {
+	return s.FriendlyName
+}
+
+// GetActive returns the value of Active.
+func (s *TexmlApplication) GetActive() OptConnectionActive {
+	return s.Active
+}
+
+// GetAnchorsiteOverride returns the value of AnchorsiteOverride.
+func (s *TexmlApplication) GetAnchorsiteOverride() OptAnchorsiteOverride {
+	return s.AnchorsiteOverride
+}
+
+// GetDtmfType returns the value of DtmfType.
+func (s *TexmlApplication) GetDtmfType() OptDtmfType {
+	return s.DtmfType
+}
+
+// GetFirstCommandTimeout returns the value of FirstCommandTimeout.
+func (s *TexmlApplication) GetFirstCommandTimeout() OptFirstCommandTimeout {
+	return s.FirstCommandTimeout
+}
+
+// GetFirstCommandTimeoutSecs returns the value of FirstCommandTimeoutSecs.
+func (s *TexmlApplication) GetFirstCommandTimeoutSecs() OptFirstCommandTimeoutSecs {
+	return s.FirstCommandTimeoutSecs
+}
+
+// GetVoiceURL returns the value of VoiceURL.
+func (s *TexmlApplication) GetVoiceURL() OptString {
+	return s.VoiceURL
+}
+
+// GetVoiceFallbackURL returns the value of VoiceFallbackURL.
+func (s *TexmlApplication) GetVoiceFallbackURL() OptString {
+	return s.VoiceFallbackURL
+}
+
+// GetVoiceMethod returns the value of VoiceMethod.
+func (s *TexmlApplication) GetVoiceMethod() OptTexmlApplicationVoiceMethod {
+	return s.VoiceMethod
+}
+
+// GetStatusCallback returns the value of StatusCallback.
+func (s *TexmlApplication) GetStatusCallback() OptString {
+	return s.StatusCallback
+}
+
+// GetStatusCallbackMethod returns the value of StatusCallbackMethod.
+func (s *TexmlApplication) GetStatusCallbackMethod() OptTexmlApplicationStatusCallbackMethod {
+	return s.StatusCallbackMethod
+}
+
+// GetInbound returns the value of Inbound.
+func (s *TexmlApplication) GetInbound() OptTexmlApplicationInbound {
+	return s.Inbound
+}
+
+// GetOutbound returns the value of Outbound.
+func (s *TexmlApplication) GetOutbound() OptTexmlApplicationOutbound {
+	return s.Outbound
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *TexmlApplication) GetCreatedAt() OptCreatedAt {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *TexmlApplication) GetUpdatedAt() OptUpdatedAt {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *TexmlApplication) SetID(val OptIntId) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *TexmlApplication) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetFriendlyName sets the value of FriendlyName.
+func (s *TexmlApplication) SetFriendlyName(val OptApplicationName) {
+	s.FriendlyName = val
+}
+
+// SetActive sets the value of Active.
+func (s *TexmlApplication) SetActive(val OptConnectionActive) {
+	s.Active = val
+}
+
+// SetAnchorsiteOverride sets the value of AnchorsiteOverride.
+func (s *TexmlApplication) SetAnchorsiteOverride(val OptAnchorsiteOverride) {
+	s.AnchorsiteOverride = val
+}
+
+// SetDtmfType sets the value of DtmfType.
+func (s *TexmlApplication) SetDtmfType(val OptDtmfType) {
+	s.DtmfType = val
+}
+
+// SetFirstCommandTimeout sets the value of FirstCommandTimeout.
+func (s *TexmlApplication) SetFirstCommandTimeout(val OptFirstCommandTimeout) {
+	s.FirstCommandTimeout = val
+}
+
+// SetFirstCommandTimeoutSecs sets the value of FirstCommandTimeoutSecs.
+func (s *TexmlApplication) SetFirstCommandTimeoutSecs(val OptFirstCommandTimeoutSecs) {
+	s.FirstCommandTimeoutSecs = val
+}
+
+// SetVoiceURL sets the value of VoiceURL.
+func (s *TexmlApplication) SetVoiceURL(val OptString) {
+	s.VoiceURL = val
+}
+
+// SetVoiceFallbackURL sets the value of VoiceFallbackURL.
+func (s *TexmlApplication) SetVoiceFallbackURL(val OptString) {
+	s.VoiceFallbackURL = val
+}
+
+// SetVoiceMethod sets the value of VoiceMethod.
+func (s *TexmlApplication) SetVoiceMethod(val OptTexmlApplicationVoiceMethod) {
+	s.VoiceMethod = val
+}
+
+// SetStatusCallback sets the value of StatusCallback.
+func (s *TexmlApplication) SetStatusCallback(val OptString) {
+	s.StatusCallback = val
+}
+
+// SetStatusCallbackMethod sets the value of StatusCallbackMethod.
+func (s *TexmlApplication) SetStatusCallbackMethod(val OptTexmlApplicationStatusCallbackMethod) {
+	s.StatusCallbackMethod = val
+}
+
+// SetInbound sets the value of Inbound.
+func (s *TexmlApplication) SetInbound(val OptTexmlApplicationInbound) {
+	s.Inbound = val
+}
+
+// SetOutbound sets the value of Outbound.
+func (s *TexmlApplication) SetOutbound(val OptTexmlApplicationOutbound) {
+	s.Outbound = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *TexmlApplication) SetCreatedAt(val OptCreatedAt) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *TexmlApplication) SetUpdatedAt(val OptUpdatedAt) {
+	s.UpdatedAt = val
+}
+
+type TexmlApplicationInbound struct {
+	// When set, this will limit the total number of inbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit OptInt `json:"channel_limit"`
+	// When enabled Telnyx will include Shaken/Stir data in the Webhook for new inbound calls.
+	ShakenStirEnabled OptBool `json:"shaken_stir_enabled"`
+	// Specifies a subdomain that can be used to receive Inbound calls to a Connection, in the same way a
+	// phone number is used, from a SIP endpoint. Example: the subdomain "example.sip.telnyx.com" can be
+	// called from any SIP endpoint by using the SIP URI "sip:@example.sip.telnyx.com" where the user
+	// part can be any alphanumeric value. Please note TLS encrypted calls are not allowed for subdomain
+	// calls.
+	SipSubdomain OptString `json:"sip_subdomain"`
+	// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+	// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+	SipSubdomainReceiveSettings OptTexmlApplicationInboundSipSubdomainReceiveSettings `json:"sip_subdomain_receive_settings"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *TexmlApplicationInbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetShakenStirEnabled returns the value of ShakenStirEnabled.
+func (s *TexmlApplicationInbound) GetShakenStirEnabled() OptBool {
+	return s.ShakenStirEnabled
+}
+
+// GetSipSubdomain returns the value of SipSubdomain.
+func (s *TexmlApplicationInbound) GetSipSubdomain() OptString {
+	return s.SipSubdomain
+}
+
+// GetSipSubdomainReceiveSettings returns the value of SipSubdomainReceiveSettings.
+func (s *TexmlApplicationInbound) GetSipSubdomainReceiveSettings() OptTexmlApplicationInboundSipSubdomainReceiveSettings {
+	return s.SipSubdomainReceiveSettings
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *TexmlApplicationInbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetShakenStirEnabled sets the value of ShakenStirEnabled.
+func (s *TexmlApplicationInbound) SetShakenStirEnabled(val OptBool) {
+	s.ShakenStirEnabled = val
+}
+
+// SetSipSubdomain sets the value of SipSubdomain.
+func (s *TexmlApplicationInbound) SetSipSubdomain(val OptString) {
+	s.SipSubdomain = val
+}
+
+// SetSipSubdomainReceiveSettings sets the value of SipSubdomainReceiveSettings.
+func (s *TexmlApplicationInbound) SetSipSubdomainReceiveSettings(val OptTexmlApplicationInboundSipSubdomainReceiveSettings) {
+	s.SipSubdomainReceiveSettings = val
+}
+
+// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+type TexmlApplicationInboundSipSubdomainReceiveSettings string
+
+const (
+	TexmlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections TexmlApplicationInboundSipSubdomainReceiveSettings = "only_my_connections"
+	TexmlApplicationInboundSipSubdomainReceiveSettingsFromAnyone        TexmlApplicationInboundSipSubdomainReceiveSettings = "from_anyone"
+)
+
+// AllValues returns all TexmlApplicationInboundSipSubdomainReceiveSettings values.
+func (TexmlApplicationInboundSipSubdomainReceiveSettings) AllValues() []TexmlApplicationInboundSipSubdomainReceiveSettings {
+	return []TexmlApplicationInboundSipSubdomainReceiveSettings{
+		TexmlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections,
+		TexmlApplicationInboundSipSubdomainReceiveSettingsFromAnyone,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TexmlApplicationInboundSipSubdomainReceiveSettings) MarshalText() ([]byte, error) {
+	switch s {
+	case TexmlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		return []byte(s), nil
+	case TexmlApplicationInboundSipSubdomainReceiveSettingsFromAnyone:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TexmlApplicationInboundSipSubdomainReceiveSettings) UnmarshalText(data []byte) error {
+	switch TexmlApplicationInboundSipSubdomainReceiveSettings(data) {
+	case TexmlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		*s = TexmlApplicationInboundSipSubdomainReceiveSettingsOnlyMyConnections
+		return nil
+	case TexmlApplicationInboundSipSubdomainReceiveSettingsFromAnyone:
+		*s = TexmlApplicationInboundSipSubdomainReceiveSettingsFromAnyone
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type TexmlApplicationOutbound struct {
+	// When set, this will limit the total number of outbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit           OptInt                    `json:"channel_limit"`
+	OutboundVoiceProfileID OptOutboundVoiceProfileId `json:"outbound_voice_profile_id"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *TexmlApplicationOutbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetOutboundVoiceProfileID returns the value of OutboundVoiceProfileID.
+func (s *TexmlApplicationOutbound) GetOutboundVoiceProfileID() OptOutboundVoiceProfileId {
+	return s.OutboundVoiceProfileID
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *TexmlApplicationOutbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetOutboundVoiceProfileID sets the value of OutboundVoiceProfileID.
+func (s *TexmlApplicationOutbound) SetOutboundVoiceProfileID(val OptOutboundVoiceProfileId) {
+	s.OutboundVoiceProfileID = val
+}
+
+type TexmlApplicationResponse struct {
+	Data OptTexmlApplication `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *TexmlApplicationResponse) GetData() OptTexmlApplication {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *TexmlApplicationResponse) SetData(val OptTexmlApplication) {
+	s.Data = val
+}
+
+func (*TexmlApplicationResponse) createTexmlApplicationRes() {}
+func (*TexmlApplicationResponse) deleteTexmlApplicationRes() {}
+func (*TexmlApplicationResponse) getTexmlApplicationRes()    {}
+func (*TexmlApplicationResponse) updateTexmlApplicationRes() {}
+
+// HTTP request method Telnyx should use when requesting the status_callback URL.
+type TexmlApplicationStatusCallbackMethod string
+
+const (
+	TexmlApplicationStatusCallbackMethodGet  TexmlApplicationStatusCallbackMethod = "get"
+	TexmlApplicationStatusCallbackMethodPost TexmlApplicationStatusCallbackMethod = "post"
+)
+
+// AllValues returns all TexmlApplicationStatusCallbackMethod values.
+func (TexmlApplicationStatusCallbackMethod) AllValues() []TexmlApplicationStatusCallbackMethod {
+	return []TexmlApplicationStatusCallbackMethod{
+		TexmlApplicationStatusCallbackMethodGet,
+		TexmlApplicationStatusCallbackMethodPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TexmlApplicationStatusCallbackMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case TexmlApplicationStatusCallbackMethodGet:
+		return []byte(s), nil
+	case TexmlApplicationStatusCallbackMethodPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TexmlApplicationStatusCallbackMethod) UnmarshalText(data []byte) error {
+	switch TexmlApplicationStatusCallbackMethod(data) {
+	case TexmlApplicationStatusCallbackMethodGet:
+		*s = TexmlApplicationStatusCallbackMethodGet
+		return nil
+	case TexmlApplicationStatusCallbackMethodPost:
+		*s = TexmlApplicationStatusCallbackMethodPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// HTTP request method Telnyx will use to interact with your XML Translator webhooks. Either 'get' or
+// 'post'.
+type TexmlApplicationVoiceMethod string
+
+const (
+	TexmlApplicationVoiceMethodGet  TexmlApplicationVoiceMethod = "get"
+	TexmlApplicationVoiceMethodPost TexmlApplicationVoiceMethod = "post"
+)
+
+// AllValues returns all TexmlApplicationVoiceMethod values.
+func (TexmlApplicationVoiceMethod) AllValues() []TexmlApplicationVoiceMethod {
+	return []TexmlApplicationVoiceMethod{
+		TexmlApplicationVoiceMethodGet,
+		TexmlApplicationVoiceMethodPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TexmlApplicationVoiceMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case TexmlApplicationVoiceMethodGet:
+		return []byte(s), nil
+	case TexmlApplicationVoiceMethodPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TexmlApplicationVoiceMethod) UnmarshalText(data []byte) error {
+	switch TexmlApplicationVoiceMethod(data) {
+	case TexmlApplicationVoiceMethodGet:
+		*s = TexmlApplicationVoiceMethodGet
+		return nil
+	case TexmlApplicationVoiceMethodPost:
+		*s = TexmlApplicationVoiceMethodPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/TexmlCreateCallRecordingRequestBody
@@ -18109,6 +21846,15 @@ func (TwimlRecordingChannels) AllValues() []TwimlRecordingChannels {
 	}
 }
 
+// Ref: #/components/responses/UnauthorizedResponse
+type UnauthorizedResponse struct{}
+
+func (*UnauthorizedResponse) createTexmlApplicationRes() {}
+func (*UnauthorizedResponse) deleteTexmlApplicationRes() {}
+func (*UnauthorizedResponse) findTexmlApplicationsRes()  {}
+func (*UnauthorizedResponse) getTexmlApplicationRes()    {}
+func (*UnauthorizedResponse) updateTexmlApplicationRes() {}
+
 // Ref: #/components/schemas/UpdateCallRequest
 type UpdateCallRequest struct {
 	// The value to set the call status to. Setting the status to completed ends the call.
@@ -18685,3 +22431,461 @@ func (s *UpdateTeXMLCallResponse) GetData() OptUpdateCommandResult {
 func (s *UpdateTeXMLCallResponse) SetData(val OptUpdateCommandResult) {
 	s.Data = val
 }
+
+type UpdateTexmlApplicationBadRequest ErrorResponse
+
+func (*UpdateTexmlApplicationBadRequest) updateTexmlApplicationRes() {}
+
+type UpdateTexmlApplicationNotFound ErrorResponse
+
+func (*UpdateTexmlApplicationNotFound) updateTexmlApplicationRes() {}
+
+// Ref: #/components/schemas/UpdateTexmlApplicationRequest
+type UpdateTexmlApplicationRequest struct {
+	FriendlyName            ApplicationName            `json:"friendly_name"`
+	Active                  OptConnectionActive        `json:"active"`
+	AnchorsiteOverride      OptAnchorsiteOverride      `json:"anchorsite_override"`
+	DtmfType                OptDtmfType                `json:"dtmf_type"`
+	FirstCommandTimeout     OptFirstCommandTimeout     `json:"first_command_timeout"`
+	FirstCommandTimeoutSecs OptFirstCommandTimeoutSecs `json:"first_command_timeout_secs"`
+	// URL to which Telnyx will deliver your XML Translator webhooks.
+	VoiceURL string `json:"voice_url"`
+	// URL to which Telnyx will deliver your XML Translator webhooks if we get an error response from
+	// your voice_url.
+	VoiceFallbackURL OptString `json:"voice_fallback_url"`
+	// HTTP request method Telnyx will use to interact with your XML Translator webhooks. Either 'get' or
+	// 'post'.
+	VoiceMethod OptUpdateTexmlApplicationRequestVoiceMethod `json:"voice_method"`
+	// URL for Telnyx to send requests to containing information about call progress events.
+	StatusCallback OptString `json:"status_callback"`
+	// HTTP request method Telnyx should use when requesting the status_callback URL.
+	StatusCallbackMethod OptUpdateTexmlApplicationRequestStatusCallbackMethod `json:"status_callback_method"`
+	Inbound              OptUpdateTexmlApplicationRequestInbound              `json:"inbound"`
+	Outbound             OptUpdateTexmlApplicationRequestOutbound             `json:"outbound"`
+}
+
+// GetFriendlyName returns the value of FriendlyName.
+func (s *UpdateTexmlApplicationRequest) GetFriendlyName() ApplicationName {
+	return s.FriendlyName
+}
+
+// GetActive returns the value of Active.
+func (s *UpdateTexmlApplicationRequest) GetActive() OptConnectionActive {
+	return s.Active
+}
+
+// GetAnchorsiteOverride returns the value of AnchorsiteOverride.
+func (s *UpdateTexmlApplicationRequest) GetAnchorsiteOverride() OptAnchorsiteOverride {
+	return s.AnchorsiteOverride
+}
+
+// GetDtmfType returns the value of DtmfType.
+func (s *UpdateTexmlApplicationRequest) GetDtmfType() OptDtmfType {
+	return s.DtmfType
+}
+
+// GetFirstCommandTimeout returns the value of FirstCommandTimeout.
+func (s *UpdateTexmlApplicationRequest) GetFirstCommandTimeout() OptFirstCommandTimeout {
+	return s.FirstCommandTimeout
+}
+
+// GetFirstCommandTimeoutSecs returns the value of FirstCommandTimeoutSecs.
+func (s *UpdateTexmlApplicationRequest) GetFirstCommandTimeoutSecs() OptFirstCommandTimeoutSecs {
+	return s.FirstCommandTimeoutSecs
+}
+
+// GetVoiceURL returns the value of VoiceURL.
+func (s *UpdateTexmlApplicationRequest) GetVoiceURL() string {
+	return s.VoiceURL
+}
+
+// GetVoiceFallbackURL returns the value of VoiceFallbackURL.
+func (s *UpdateTexmlApplicationRequest) GetVoiceFallbackURL() OptString {
+	return s.VoiceFallbackURL
+}
+
+// GetVoiceMethod returns the value of VoiceMethod.
+func (s *UpdateTexmlApplicationRequest) GetVoiceMethod() OptUpdateTexmlApplicationRequestVoiceMethod {
+	return s.VoiceMethod
+}
+
+// GetStatusCallback returns the value of StatusCallback.
+func (s *UpdateTexmlApplicationRequest) GetStatusCallback() OptString {
+	return s.StatusCallback
+}
+
+// GetStatusCallbackMethod returns the value of StatusCallbackMethod.
+func (s *UpdateTexmlApplicationRequest) GetStatusCallbackMethod() OptUpdateTexmlApplicationRequestStatusCallbackMethod {
+	return s.StatusCallbackMethod
+}
+
+// GetInbound returns the value of Inbound.
+func (s *UpdateTexmlApplicationRequest) GetInbound() OptUpdateTexmlApplicationRequestInbound {
+	return s.Inbound
+}
+
+// GetOutbound returns the value of Outbound.
+func (s *UpdateTexmlApplicationRequest) GetOutbound() OptUpdateTexmlApplicationRequestOutbound {
+	return s.Outbound
+}
+
+// SetFriendlyName sets the value of FriendlyName.
+func (s *UpdateTexmlApplicationRequest) SetFriendlyName(val ApplicationName) {
+	s.FriendlyName = val
+}
+
+// SetActive sets the value of Active.
+func (s *UpdateTexmlApplicationRequest) SetActive(val OptConnectionActive) {
+	s.Active = val
+}
+
+// SetAnchorsiteOverride sets the value of AnchorsiteOverride.
+func (s *UpdateTexmlApplicationRequest) SetAnchorsiteOverride(val OptAnchorsiteOverride) {
+	s.AnchorsiteOverride = val
+}
+
+// SetDtmfType sets the value of DtmfType.
+func (s *UpdateTexmlApplicationRequest) SetDtmfType(val OptDtmfType) {
+	s.DtmfType = val
+}
+
+// SetFirstCommandTimeout sets the value of FirstCommandTimeout.
+func (s *UpdateTexmlApplicationRequest) SetFirstCommandTimeout(val OptFirstCommandTimeout) {
+	s.FirstCommandTimeout = val
+}
+
+// SetFirstCommandTimeoutSecs sets the value of FirstCommandTimeoutSecs.
+func (s *UpdateTexmlApplicationRequest) SetFirstCommandTimeoutSecs(val OptFirstCommandTimeoutSecs) {
+	s.FirstCommandTimeoutSecs = val
+}
+
+// SetVoiceURL sets the value of VoiceURL.
+func (s *UpdateTexmlApplicationRequest) SetVoiceURL(val string) {
+	s.VoiceURL = val
+}
+
+// SetVoiceFallbackURL sets the value of VoiceFallbackURL.
+func (s *UpdateTexmlApplicationRequest) SetVoiceFallbackURL(val OptString) {
+	s.VoiceFallbackURL = val
+}
+
+// SetVoiceMethod sets the value of VoiceMethod.
+func (s *UpdateTexmlApplicationRequest) SetVoiceMethod(val OptUpdateTexmlApplicationRequestVoiceMethod) {
+	s.VoiceMethod = val
+}
+
+// SetStatusCallback sets the value of StatusCallback.
+func (s *UpdateTexmlApplicationRequest) SetStatusCallback(val OptString) {
+	s.StatusCallback = val
+}
+
+// SetStatusCallbackMethod sets the value of StatusCallbackMethod.
+func (s *UpdateTexmlApplicationRequest) SetStatusCallbackMethod(val OptUpdateTexmlApplicationRequestStatusCallbackMethod) {
+	s.StatusCallbackMethod = val
+}
+
+// SetInbound sets the value of Inbound.
+func (s *UpdateTexmlApplicationRequest) SetInbound(val OptUpdateTexmlApplicationRequestInbound) {
+	s.Inbound = val
+}
+
+// SetOutbound sets the value of Outbound.
+func (s *UpdateTexmlApplicationRequest) SetOutbound(val OptUpdateTexmlApplicationRequestOutbound) {
+	s.Outbound = val
+}
+
+type UpdateTexmlApplicationRequestInbound struct {
+	// When set, this will limit the total number of inbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit OptInt `json:"channel_limit"`
+	// When enabled Telnyx will include Shaken/Stir data in the Webhook for new inbound calls.
+	ShakenStirEnabled OptBool `json:"shaken_stir_enabled"`
+	// Specifies a subdomain that can be used to receive Inbound calls to a Connection, in the same way a
+	// phone number is used, from a SIP endpoint. Example: the subdomain "example.sip.telnyx.com" can be
+	// called from any SIP endpoint by using the SIP URI "sip:@example.sip.telnyx.com" where the user
+	// part can be any alphanumeric value. Please note TLS encrypted calls are not allowed for subdomain
+	// calls.
+	SipSubdomain OptString `json:"sip_subdomain"`
+	// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+	// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+	SipSubdomainReceiveSettings OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings `json:"sip_subdomain_receive_settings"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *UpdateTexmlApplicationRequestInbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetShakenStirEnabled returns the value of ShakenStirEnabled.
+func (s *UpdateTexmlApplicationRequestInbound) GetShakenStirEnabled() OptBool {
+	return s.ShakenStirEnabled
+}
+
+// GetSipSubdomain returns the value of SipSubdomain.
+func (s *UpdateTexmlApplicationRequestInbound) GetSipSubdomain() OptString {
+	return s.SipSubdomain
+}
+
+// GetSipSubdomainReceiveSettings returns the value of SipSubdomainReceiveSettings.
+func (s *UpdateTexmlApplicationRequestInbound) GetSipSubdomainReceiveSettings() OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	return s.SipSubdomainReceiveSettings
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *UpdateTexmlApplicationRequestInbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetShakenStirEnabled sets the value of ShakenStirEnabled.
+func (s *UpdateTexmlApplicationRequestInbound) SetShakenStirEnabled(val OptBool) {
+	s.ShakenStirEnabled = val
+}
+
+// SetSipSubdomain sets the value of SipSubdomain.
+func (s *UpdateTexmlApplicationRequestInbound) SetSipSubdomain(val OptString) {
+	s.SipSubdomain = val
+}
+
+// SetSipSubdomainReceiveSettings sets the value of SipSubdomainReceiveSettings.
+func (s *UpdateTexmlApplicationRequestInbound) SetSipSubdomainReceiveSettings(val OptUpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) {
+	s.SipSubdomainReceiveSettings = val
+}
+
+// This option can be enabled to receive calls from: "Anyone" (any SIP endpoint in the public
+// Internet) or "Only my connections" (any connection assigned to the same Telnyx user).
+type UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings string
+
+const (
+	UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings = "only_my_connections"
+	UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone        UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings = "from_anyone"
+)
+
+// AllValues returns all UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings values.
+func (UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) AllValues() []UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings {
+	return []UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings{
+		UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections,
+		UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		return []byte(s), nil
+	case UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) UnmarshalText(data []byte) error {
+	switch UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings(data) {
+	case UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections:
+		*s = UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsOnlyMyConnections
+		return nil
+	case UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone:
+		*s = UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettingsFromAnyone
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type UpdateTexmlApplicationRequestOutbound struct {
+	// When set, this will limit the total number of outbound calls to phone numbers associated with this
+	// connection.
+	ChannelLimit           OptInt                    `json:"channel_limit"`
+	OutboundVoiceProfileID OptOutboundVoiceProfileId `json:"outbound_voice_profile_id"`
+}
+
+// GetChannelLimit returns the value of ChannelLimit.
+func (s *UpdateTexmlApplicationRequestOutbound) GetChannelLimit() OptInt {
+	return s.ChannelLimit
+}
+
+// GetOutboundVoiceProfileID returns the value of OutboundVoiceProfileID.
+func (s *UpdateTexmlApplicationRequestOutbound) GetOutboundVoiceProfileID() OptOutboundVoiceProfileId {
+	return s.OutboundVoiceProfileID
+}
+
+// SetChannelLimit sets the value of ChannelLimit.
+func (s *UpdateTexmlApplicationRequestOutbound) SetChannelLimit(val OptInt) {
+	s.ChannelLimit = val
+}
+
+// SetOutboundVoiceProfileID sets the value of OutboundVoiceProfileID.
+func (s *UpdateTexmlApplicationRequestOutbound) SetOutboundVoiceProfileID(val OptOutboundVoiceProfileId) {
+	s.OutboundVoiceProfileID = val
+}
+
+// HTTP request method Telnyx should use when requesting the status_callback URL.
+type UpdateTexmlApplicationRequestStatusCallbackMethod string
+
+const (
+	UpdateTexmlApplicationRequestStatusCallbackMethodGet  UpdateTexmlApplicationRequestStatusCallbackMethod = "get"
+	UpdateTexmlApplicationRequestStatusCallbackMethodPost UpdateTexmlApplicationRequestStatusCallbackMethod = "post"
+)
+
+// AllValues returns all UpdateTexmlApplicationRequestStatusCallbackMethod values.
+func (UpdateTexmlApplicationRequestStatusCallbackMethod) AllValues() []UpdateTexmlApplicationRequestStatusCallbackMethod {
+	return []UpdateTexmlApplicationRequestStatusCallbackMethod{
+		UpdateTexmlApplicationRequestStatusCallbackMethodGet,
+		UpdateTexmlApplicationRequestStatusCallbackMethodPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateTexmlApplicationRequestStatusCallbackMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateTexmlApplicationRequestStatusCallbackMethodGet:
+		return []byte(s), nil
+	case UpdateTexmlApplicationRequestStatusCallbackMethodPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateTexmlApplicationRequestStatusCallbackMethod) UnmarshalText(data []byte) error {
+	switch UpdateTexmlApplicationRequestStatusCallbackMethod(data) {
+	case UpdateTexmlApplicationRequestStatusCallbackMethodGet:
+		*s = UpdateTexmlApplicationRequestStatusCallbackMethodGet
+		return nil
+	case UpdateTexmlApplicationRequestStatusCallbackMethodPost:
+		*s = UpdateTexmlApplicationRequestStatusCallbackMethodPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// HTTP request method Telnyx will use to interact with your XML Translator webhooks. Either 'get' or
+// 'post'.
+type UpdateTexmlApplicationRequestVoiceMethod string
+
+const (
+	UpdateTexmlApplicationRequestVoiceMethodGet  UpdateTexmlApplicationRequestVoiceMethod = "get"
+	UpdateTexmlApplicationRequestVoiceMethodPost UpdateTexmlApplicationRequestVoiceMethod = "post"
+)
+
+// AllValues returns all UpdateTexmlApplicationRequestVoiceMethod values.
+func (UpdateTexmlApplicationRequestVoiceMethod) AllValues() []UpdateTexmlApplicationRequestVoiceMethod {
+	return []UpdateTexmlApplicationRequestVoiceMethod{
+		UpdateTexmlApplicationRequestVoiceMethodGet,
+		UpdateTexmlApplicationRequestVoiceMethodPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateTexmlApplicationRequestVoiceMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateTexmlApplicationRequestVoiceMethodGet:
+		return []byte(s), nil
+	case UpdateTexmlApplicationRequestVoiceMethodPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateTexmlApplicationRequestVoiceMethod) UnmarshalText(data []byte) error {
+	switch UpdateTexmlApplicationRequestVoiceMethod(data) {
+	case UpdateTexmlApplicationRequestVoiceMethodGet:
+		*s = UpdateTexmlApplicationRequestVoiceMethodGet
+		return nil
+	case UpdateTexmlApplicationRequestVoiceMethodPost:
+		*s = UpdateTexmlApplicationRequestVoiceMethodPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type UpdateTexmlApplicationUnauthorized ErrorResponse
+
+func (*UpdateTexmlApplicationUnauthorized) updateTexmlApplicationRes() {}
+
+type UpdateTexmlApplicationUnprocessableEntity ErrorResponse
+
+func (*UpdateTexmlApplicationUnprocessableEntity) updateTexmlApplicationRes() {}
+
+type UpdatedAt string
+
+// An object following one of the schemas published in https://developers.telnyx.
+// com/docs/api/v2/detail-records.
+// Ref: #/components/schemas/UsageReportsOptionsRecord
+type UsageReportsOptionsRecord struct {
+	// Telnyx Product.
+	Product OptString `json:"product"`
+	// Telnyx Product Dimensions.
+	ProductDimensions []string `json:"product_dimensions"`
+	// Telnyx Product Metrics.
+	ProductMetrics []string `json:"product_metrics"`
+	// Subproducts if applicable.
+	RecordTypes []RecordType `json:"record_types"`
+}
+
+// GetProduct returns the value of Product.
+func (s *UsageReportsOptionsRecord) GetProduct() OptString {
+	return s.Product
+}
+
+// GetProductDimensions returns the value of ProductDimensions.
+func (s *UsageReportsOptionsRecord) GetProductDimensions() []string {
+	return s.ProductDimensions
+}
+
+// GetProductMetrics returns the value of ProductMetrics.
+func (s *UsageReportsOptionsRecord) GetProductMetrics() []string {
+	return s.ProductMetrics
+}
+
+// GetRecordTypes returns the value of RecordTypes.
+func (s *UsageReportsOptionsRecord) GetRecordTypes() []RecordType {
+	return s.RecordTypes
+}
+
+// SetProduct sets the value of Product.
+func (s *UsageReportsOptionsRecord) SetProduct(val OptString) {
+	s.Product = val
+}
+
+// SetProductDimensions sets the value of ProductDimensions.
+func (s *UsageReportsOptionsRecord) SetProductDimensions(val []string) {
+	s.ProductDimensions = val
+}
+
+// SetProductMetrics sets the value of ProductMetrics.
+func (s *UsageReportsOptionsRecord) SetProductMetrics(val []string) {
+	s.ProductMetrics = val
+}
+
+// SetRecordTypes sets the value of RecordTypes.
+func (s *UsageReportsOptionsRecord) SetRecordTypes(val []RecordType) {
+	s.RecordTypes = val
+}
+
+// An object following one of the schemas published in https://developers.telnyx.
+// com/docs/api/v2/detail-records.
+// Ref: #/components/schemas/UsageReportsOptionsResponse
+type UsageReportsOptionsResponse struct {
+	// Collection of product description.
+	Data []UsageReportsOptionsRecord `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UsageReportsOptionsResponse) GetData() []UsageReportsOptionsRecord {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UsageReportsOptionsResponse) SetData(val []UsageReportsOptionsRecord) {
+	s.Data = val
+}
+
+func (*UsageReportsOptionsResponse) listUsageReportsOptionsRes() {}

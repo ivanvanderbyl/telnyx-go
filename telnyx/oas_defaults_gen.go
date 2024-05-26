@@ -127,6 +127,50 @@ func (s *CallRequestAnsweringMachineDetectionConfig) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *CreateTexmlApplicationRequest) setDefaults() {
+	{
+		val := ConnectionActive(true)
+		s.Active.SetTo(val)
+	}
+	{
+		val := AnchorsiteOverride("Latency")
+		s.AnchorsiteOverride.SetTo(val)
+	}
+	{
+		val := DtmfType("RFC 2833")
+		s.DtmfType.SetTo(val)
+	}
+	{
+		val := FirstCommandTimeout(false)
+		s.FirstCommandTimeout.SetTo(val)
+	}
+	{
+		val := FirstCommandTimeoutSecs(30)
+		s.FirstCommandTimeoutSecs.SetTo(val)
+	}
+	{
+		val := CreateTexmlApplicationRequestVoiceMethod("post")
+		s.VoiceMethod.SetTo(val)
+	}
+	{
+		val := CreateTexmlApplicationRequestStatusCallbackMethod("post")
+		s.StatusCallbackMethod.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateTexmlApplicationRequestInbound) setDefaults() {
+	{
+		val := bool(false)
+		s.ShakenStirEnabled.SetTo(val)
+	}
+	{
+		val := CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings("from_anyone")
+		s.SipSubdomainReceiveSettings.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *DialConferenceParticipantRequest) setDefaults() {
 	{
 		val := bool(false)
@@ -455,6 +499,50 @@ func (s *StopForkingRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *TexmlApplication) setDefaults() {
+	{
+		val := ConnectionActive(true)
+		s.Active.SetTo(val)
+	}
+	{
+		val := AnchorsiteOverride("Latency")
+		s.AnchorsiteOverride.SetTo(val)
+	}
+	{
+		val := DtmfType("RFC 2833")
+		s.DtmfType.SetTo(val)
+	}
+	{
+		val := FirstCommandTimeout(false)
+		s.FirstCommandTimeout.SetTo(val)
+	}
+	{
+		val := FirstCommandTimeoutSecs(30)
+		s.FirstCommandTimeoutSecs.SetTo(val)
+	}
+	{
+		val := TexmlApplicationVoiceMethod("post")
+		s.VoiceMethod.SetTo(val)
+	}
+	{
+		val := TexmlApplicationStatusCallbackMethod("post")
+		s.StatusCallbackMethod.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *TexmlApplicationInbound) setDefaults() {
+	{
+		val := bool(false)
+		s.ShakenStirEnabled.SetTo(val)
+	}
+	{
+		val := TexmlApplicationInboundSipSubdomainReceiveSettings("from_anyone")
+		s.SipSubdomainReceiveSettings.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *TexmlCreateCallRecordingRequestBody) setDefaults() {
 	{
 		val := PlayBeep(true)
@@ -575,5 +663,49 @@ func (s *TransferCallRequestAnsweringMachineDetectionConfig) setDefaults() {
 	{
 		val := int32(1500)
 		s.GreetingSilenceDurationMillis.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateTexmlApplicationRequest) setDefaults() {
+	{
+		val := ConnectionActive(true)
+		s.Active.SetTo(val)
+	}
+	{
+		val := AnchorsiteOverride("Latency")
+		s.AnchorsiteOverride.SetTo(val)
+	}
+	{
+		val := DtmfType("RFC 2833")
+		s.DtmfType.SetTo(val)
+	}
+	{
+		val := FirstCommandTimeout(false)
+		s.FirstCommandTimeout.SetTo(val)
+	}
+	{
+		val := FirstCommandTimeoutSecs(30)
+		s.FirstCommandTimeoutSecs.SetTo(val)
+	}
+	{
+		val := UpdateTexmlApplicationRequestVoiceMethod("post")
+		s.VoiceMethod.SetTo(val)
+	}
+	{
+		val := UpdateTexmlApplicationRequestStatusCallbackMethod("post")
+		s.StatusCallbackMethod.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateTexmlApplicationRequestInbound) setDefaults() {
+	{
+		val := bool(false)
+		s.ShakenStirEnabled.SetTo(val)
+	}
+	{
+		val := UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings("from_anyone")
+		s.SipSubdomainReceiveSettings.SetTo(val)
 	}
 }

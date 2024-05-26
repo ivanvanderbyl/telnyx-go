@@ -34,6 +34,12 @@ type DeleteTeXMLRecordingTranscriptionParams struct {
 	RecordingTranscriptionSid uuid.UUID
 }
 
+// DeleteTexmlApplicationParams is parameters of DeleteTexmlApplication operation.
+type DeleteTexmlApplicationParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
 // DeleteTexmlConferenceParticipantParams is parameters of DeleteTexmlConferenceParticipant operation.
 type DeleteTexmlConferenceParticipantParams struct {
 	// The id of the account the resource belongs to.
@@ -72,6 +78,32 @@ type FetchTeXMLConferenceRecordingsParams struct {
 	AccountSid string
 	// The ConferenceSid that uniquely identifies a conference.
 	ConferenceSid string
+}
+
+// FindTexmlApplicationsParams is parameters of FindTexmlApplications operation.
+type FindTexmlApplicationsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// If present, applications with <code>friendly_name</code> containing the given value will be
+	// returned. Matching is not case-sensitive. Requires at least three characters.
+	FilterFriendlyNameContains OptString
+	// Identifies the associated outbound voice profile.
+	FilterOutboundVoiceProfileID OptStringInt64
+	// Specifies the sort order for results. By default sorting direction is ascending. To have the
+	// results sorted in descending order add the <code> -</code> prefix.<br/><br/>
+	// That is: <ul>
+	// <li>
+	// <code>friendly_name</code>: sorts the result by the
+	// <code>friendly_name</code> field in ascending order.
+	// </li>
+	// <li>
+	// <code>-friendly_name</code>: sorts the result by the
+	// <code>friendly_name</code> field in descending order.
+	// </li>
+	// </ul> <br/> If not given, results are sorted by <code>created_at</code> in descending order.
+	Sort OptSortApplication
 }
 
 // GatherCallParams is parameters of GatherCall operation.
@@ -130,6 +162,12 @@ type GetTeXMLRecordingTranscriptionsParams struct {
 	PageToken OptString
 	// The size of the page.
 	PageSize OptInt
+}
+
+// GetTexmlApplicationParams is parameters of GetTexmlApplication operation.
+type GetTexmlApplicationParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // GetTexmlCallParams is parameters of GetTexmlCall operation.
@@ -220,6 +258,14 @@ type GetTexmlConferencesParams struct {
 	DateUpdated OptString
 }
 
+// GetUsageReportSyncParams is parameters of GetUsageReportSync operation.
+type GetUsageReportSyncParams struct {
+	StartDate       OptDateTime
+	EndDate         OptDateTime
+	AggregationType GetUsageReportSyncAggregationType
+	Profiles        []string
+}
+
 // HangupCallParams is parameters of HangupCall operation.
 type HangupCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -254,6 +300,13 @@ type ListQueueCallsParams struct {
 	PageSize OptInt
 }
 
+// ListUsageReportsOptionsParams is parameters of ListUsageReportsOptions operation.
+type ListUsageReportsOptionsParams struct {
+	// Options (dimensions and metrics) for a given product. If none specified, all products will be
+	// returned.
+	Product OptString
+}
+
 // NoiseSuppressionStartParams is parameters of noiseSuppressionStart operation.
 type NoiseSuppressionStartParams struct {
 	// Unique identifier and token for controlling the call.
@@ -282,6 +335,15 @@ type ReferCallParams struct {
 type RejectCallParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// ReportsCdrUsageReportsSyncGetParams is parameters of GET /reports/cdr_usage_reports/sync operation.
+type ReportsCdrUsageReportsSyncGetParams struct {
+	StartDate        OptDateTime
+	EndDate          OptDateTime
+	AggregationType  ReportsCdrUsageReportsSyncGetAggregationType
+	ProductBreakdown ReportsCdrUsageReportsSyncGetProductBreakdown
+	Connections      []float64
 }
 
 // ResumeCallRecordingParams is parameters of ResumeCallRecording operation.
@@ -410,6 +472,12 @@ type UpdateTeXMLCallRecordingParams struct {
 	CallSid string
 	// Uniquely identifies the recording by id.
 	RecordingSid uuid.UUID
+}
+
+// UpdateTexmlApplicationParams is parameters of UpdateTexmlApplication operation.
+type UpdateTexmlApplicationParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // UpdateTexmlCallParams is parameters of UpdateTexmlCall operation.

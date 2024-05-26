@@ -44,6 +44,20 @@ func encodeBridgeCallRequest(
 	return nil
 }
 
+func encodeCreateTexmlApplicationRequest(
+	req *CreateTexmlApplicationRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateTexmlSecretRequest(
 	req *CreateTeXMLSecretRequest,
 	r *http.Request,
@@ -1377,6 +1391,20 @@ func encodeUpdateTeXMLCallRecordingRequest(
 	}
 	encoded := q.Values().Encode()
 	ht.SetBody(r, strings.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateTexmlApplicationRequest(
+	req *UpdateTexmlApplicationRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
 	return nil
 }
 

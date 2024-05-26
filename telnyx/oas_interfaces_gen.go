@@ -9,6 +9,10 @@ type BridgeCallRes interface {
 	bridgeCallRes()
 }
 
+type CreateTexmlApplicationRes interface {
+	createTexmlApplicationRes()
+}
+
 type CreateTexmlSecretRes interface {
 	createTexmlSecretRes()
 }
@@ -19,6 +23,10 @@ type DeleteTeXMLCallRecordingRes interface {
 
 type DeleteTeXMLRecordingTranscriptionRes interface {
 	deleteTeXMLRecordingTranscriptionRes()
+}
+
+type DeleteTexmlApplicationRes interface {
+	deleteTexmlApplicationRes()
 }
 
 type DeleteTexmlConferenceParticipantRes interface {
@@ -43,6 +51,10 @@ type FetchTeXMLCallRecordingsRes interface {
 
 type FetchTeXMLConferenceRecordingsRes interface {
 	fetchTeXMLConferenceRecordingsRes()
+}
+
+type FindTexmlApplicationsRes interface {
+	findTexmlApplicationsRes()
 }
 
 type GatherCallRes interface {
@@ -71,6 +83,10 @@ type GetTeXMLRecordingTranscriptionRes interface {
 
 type GetTeXMLRecordingTranscriptionsRes interface {
 	getTeXMLRecordingTranscriptionsRes()
+}
+
+type GetTexmlApplicationRes interface {
+	getTexmlApplicationRes()
 }
 
 type GetTexmlCallRes interface {
@@ -111,6 +127,10 @@ type LeaveQueueRes interface {
 
 type ListQueueCallsRes interface {
 	listQueueCallsRes()
+}
+
+type ListUsageReportsOptionsRes interface {
+	listUsageReportsOptionsRes()
 }
 
 type NoiseSuppressionStartRes interface {
@@ -215,6 +235,10 @@ type UpdateClientStateRes interface {
 
 type UpdateTeXMLCallRecordingRes interface {
 	updateTeXMLCallRecordingRes()
+}
+
+type UpdateTexmlApplicationRes interface {
+	updateTexmlApplicationRes()
 }
 
 type UpdateTexmlConferenceParticipantRes interface {

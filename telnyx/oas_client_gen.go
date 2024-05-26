@@ -36,6 +36,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/bridge
 	BridgeCall(ctx context.Context, request *BridgeRequest, params BridgeCallParams) (BridgeCallRes, error)
+	// CreateTexmlApplication invokes CreateTexmlApplication operation.
+	//
+	// Creates a TeXML Application.
+	//
+	// POST /texml_applications
+	CreateTexmlApplication(ctx context.Context, request *CreateTexmlApplicationRequest) (CreateTexmlApplicationRes, error)
 	// CreateTexmlSecret invokes CreateTexmlSecret operation.
 	//
 	// Create a TeXML secret which can be later used as a Dynamic Parameter for TeXML when using Mustache
@@ -57,6 +63,12 @@ type Invoker interface {
 	//
 	// DELETE /texml/Accounts/{account_sid}/Transcriptions/{recording_transcription_sid}.json
 	DeleteTeXMLRecordingTranscription(ctx context.Context, params DeleteTeXMLRecordingTranscriptionParams) (DeleteTeXMLRecordingTranscriptionRes, error)
+	// DeleteTexmlApplication invokes DeleteTexmlApplication operation.
+	//
+	// Deletes a TeXML Application.
+	//
+	// DELETE /texml_applications/{id}
+	DeleteTexmlApplication(ctx context.Context, params DeleteTexmlApplicationParams) (DeleteTexmlApplicationRes, error)
 	// DeleteTexmlConferenceParticipant invokes DeleteTexmlConferenceParticipant operation.
 	//
 	// Deletes a conference participant.
@@ -104,6 +116,12 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings.json
 	FetchTeXMLConferenceRecordings(ctx context.Context, params FetchTeXMLConferenceRecordingsParams) (FetchTeXMLConferenceRecordingsRes, error)
+	// FindTexmlApplications invokes FindTexmlApplications operation.
+	//
+	// Returns a list of your TeXML Applications.
+	//
+	// GET /texml_applications
+	FindTexmlApplications(ctx context.Context, params FindTexmlApplicationsParams) (FindTexmlApplicationsRes, error)
 	// GatherCall invokes GatherCall operation.
 	//
 	// Gather DTMF signals to build interactive menus.
@@ -167,6 +185,12 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Transcriptions.json
 	GetTeXMLRecordingTranscriptions(ctx context.Context, params GetTeXMLRecordingTranscriptionsParams) (GetTeXMLRecordingTranscriptionsRes, error)
+	// GetTexmlApplication invokes GetTexmlApplication operation.
+	//
+	// Retrieves the details of an existing TeXML Application.
+	//
+	// GET /texml_applications/{id}
+	GetTexmlApplication(ctx context.Context, params GetTexmlApplicationParams) (GetTexmlApplicationRes, error)
 	// GetTexmlCall invokes GetTexmlCall operation.
 	//
 	// Returns an individual call identified by its CallSid. This endpoint is eventually consistent.
@@ -209,6 +233,14 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Conferences
 	GetTexmlConferences(ctx context.Context, params GetTexmlConferencesParams) (GetTexmlConferencesRes, error)
+	// GetUsageReportSync invokes GetUsageReportSync operation.
+	//
+	// Generate and fetch messaging usage report synchronously. This endpoint will both generate and
+	// fetch the messaging report over a specified time period. No polling is necessary but the response
+	// may take up to a couple of minutes.
+	//
+	// GET /reports/mdr_usage_reports/sync
+	GetUsageReportSync(ctx context.Context, params GetUsageReportSyncParams) (*MdrGetSyncUsageReportResponse, error)
 	// HangupCall invokes HangupCall operation.
 	//
 	// Hang up the call.
@@ -244,6 +276,13 @@ type Invoker interface {
 	//
 	// GET /queues/{queue_name}/calls
 	ListQueueCalls(ctx context.Context, params ListQueueCallsParams) (ListQueueCallsRes, error)
+	// ListUsageReportsOptions invokes ListUsageReportsOptions operation.
+	//
+	// Get the Usage Reports options for querying usage, including the products available and their
+	// respective metrics and dimensions.
+	//
+	// GET /usage_reports/options
+	ListUsageReportsOptions(ctx context.Context, params ListUsageReportsOptionsParams) (ListUsageReportsOptionsRes, error)
 	// NoiseSuppressionStart invokes noiseSuppressionStart operation.
 	//
 	// Noise Suppression Start (BETA).
@@ -289,6 +328,14 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/reject
 	RejectCall(ctx context.Context, request *RejectRequest, params RejectCallParams) (RejectCallRes, error)
+	// ReportsCdrUsageReportsSyncGet invokes GET /reports/cdr_usage_reports/sync operation.
+	//
+	// Generate and fetch voice usage report synchronously. This endpoint will both generate and fetch
+	// the voice report over a specified time period. No polling is necessary but the response may take
+	// up to a couple of minutes.
+	//
+	// GET /reports/cdr_usage_reports/sync
+	ReportsCdrUsageReportsSyncGet(ctx context.Context, params ReportsCdrUsageReportsSyncGetParams) (*CdrGetSyncUsageReportResponse, error)
 	// ResumeCallRecording invokes ResumeCallRecording operation.
 	//
 	// Resume recording the call.
@@ -650,6 +697,12 @@ type Invoker interface {
 	//
 	// POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Recordings/{recording_sid}.json
 	UpdateTeXMLCallRecording(ctx context.Context, request OptTexmlUpdateCallRecordingRequestBody, params UpdateTeXMLCallRecordingParams) (UpdateTeXMLCallRecordingRes, error)
+	// UpdateTexmlApplication invokes UpdateTexmlApplication operation.
+	//
+	// Updates settings of an existing TeXML Application.
+	//
+	// PATCH /texml_applications/{id}
+	UpdateTexmlApplication(ctx context.Context, request *UpdateTexmlApplicationRequest, params UpdateTexmlApplicationParams) (UpdateTexmlApplicationRes, error)
 	// UpdateTexmlCall invokes UpdateTexmlCall operation.
 	//
 	// Update TeXML call. Please note that the keys present in the payload MUST BE formatted in CamelCase
@@ -915,6 +968,87 @@ func (c *Client) sendBridgeCall(ctx context.Context, request *BridgeRequest, par
 	defer resp.Body.Close()
 
 	result, err := decodeBridgeCallResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateTexmlApplication invokes CreateTexmlApplication operation.
+//
+// Creates a TeXML Application.
+//
+// POST /texml_applications
+func (c *Client) CreateTexmlApplication(ctx context.Context, request *CreateTexmlApplicationRequest) (CreateTexmlApplicationRes, error) {
+	res, err := c.sendCreateTexmlApplication(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateTexmlApplication(ctx context.Context, request *CreateTexmlApplicationRequest) (res CreateTexmlApplicationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/texml_applications"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateTexmlApplicationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateTexmlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateTexmlApplicationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1204,6 +1338,93 @@ func (c *Client) sendDeleteTeXMLRecordingTranscription(ctx context.Context, para
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteTeXMLRecordingTranscriptionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteTexmlApplication invokes DeleteTexmlApplication operation.
+//
+// Deletes a TeXML Application.
+//
+// DELETE /texml_applications/{id}
+func (c *Client) DeleteTexmlApplication(ctx context.Context, params DeleteTexmlApplicationParams) (DeleteTexmlApplicationRes, error) {
+	res, err := c.sendDeleteTexmlApplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteTexmlApplication(ctx context.Context, params DeleteTexmlApplicationParams) (res DeleteTexmlApplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/texml_applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteTexmlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteTexmlApplicationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1845,6 +2066,163 @@ func (c *Client) sendFetchTeXMLConferenceRecordings(ctx context.Context, params 
 	defer resp.Body.Close()
 
 	result, err := decodeFetchTeXMLConferenceRecordingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// FindTexmlApplications invokes FindTexmlApplications operation.
+//
+// Returns a list of your TeXML Applications.
+//
+// GET /texml_applications
+func (c *Client) FindTexmlApplications(ctx context.Context, params FindTexmlApplicationsParams) (FindTexmlApplicationsRes, error) {
+	res, err := c.sendFindTexmlApplications(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendFindTexmlApplications(ctx context.Context, params FindTexmlApplicationsParams) (res FindTexmlApplicationsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/texml_applications"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[friendly_name][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[friendly_name][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterFriendlyNameContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[outbound_voice_profile_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[outbound_voice_profile_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterOutboundVoiceProfileID.Get(); ok {
+				return e.EncodeValue(conv.StringInt64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Sort.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "FindTexmlApplications", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeFindTexmlApplicationsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2629,6 +3007,93 @@ func (c *Client) sendGetTeXMLRecordingTranscriptions(ctx context.Context, params
 	defer resp.Body.Close()
 
 	result, err := decodeGetTeXMLRecordingTranscriptionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetTexmlApplication invokes GetTexmlApplication operation.
+//
+// Retrieves the details of an existing TeXML Application.
+//
+// GET /texml_applications/{id}
+func (c *Client) GetTexmlApplication(ctx context.Context, params GetTexmlApplicationParams) (GetTexmlApplicationRes, error) {
+	res, err := c.sendGetTexmlApplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetTexmlApplication(ctx context.Context, params GetTexmlApplicationParams) (res GetTexmlApplicationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/texml_applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetTexmlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetTexmlApplicationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3624,6 +4089,154 @@ func (c *Client) sendGetTexmlConferences(ctx context.Context, params GetTexmlCon
 	return result, nil
 }
 
+// GetUsageReportSync invokes GetUsageReportSync operation.
+//
+// Generate and fetch messaging usage report synchronously. This endpoint will both generate and
+// fetch the messaging report over a specified time period. No polling is necessary but the response
+// may take up to a couple of minutes.
+//
+// GET /reports/mdr_usage_reports/sync
+func (c *Client) GetUsageReportSync(ctx context.Context, params GetUsageReportSyncParams) (*MdrGetSyncUsageReportResponse, error) {
+	res, err := c.sendGetUsageReportSync(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetUsageReportSync(ctx context.Context, params GetUsageReportSyncParams) (res *MdrGetSyncUsageReportResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/reports/mdr_usage_reports/sync"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateTimeToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateTimeToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "aggregation_type" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "aggregation_type",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(string(params.AggregationType)))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "profiles" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "profiles",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Profiles != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Profiles {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetUsageReportSync", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetUsageReportSyncResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // HangupCall invokes HangupCall operation.
 //
 // Hang up the call.
@@ -4128,6 +4741,96 @@ func (c *Client) sendListQueueCalls(ctx context.Context, params ListQueueCallsPa
 	defer resp.Body.Close()
 
 	result, err := decodeListQueueCallsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListUsageReportsOptions invokes ListUsageReportsOptions operation.
+//
+// Get the Usage Reports options for querying usage, including the products available and their
+// respective metrics and dimensions.
+//
+// GET /usage_reports/options
+func (c *Client) ListUsageReportsOptions(ctx context.Context, params ListUsageReportsOptionsParams) (ListUsageReportsOptionsRes, error) {
+	res, err := c.sendListUsageReportsOptions(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListUsageReportsOptions(ctx context.Context, params ListUsageReportsOptionsParams) (res ListUsageReportsOptionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/usage_reports/options"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "product" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "product",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Product.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListUsageReportsOptions", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListUsageReportsOptionsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4691,6 +5394,168 @@ func (c *Client) sendRejectCall(ctx context.Context, request *RejectRequest, par
 	defer resp.Body.Close()
 
 	result, err := decodeRejectCallResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReportsCdrUsageReportsSyncGet invokes GET /reports/cdr_usage_reports/sync operation.
+//
+// Generate and fetch voice usage report synchronously. This endpoint will both generate and fetch
+// the voice report over a specified time period. No polling is necessary but the response may take
+// up to a couple of minutes.
+//
+// GET /reports/cdr_usage_reports/sync
+func (c *Client) ReportsCdrUsageReportsSyncGet(ctx context.Context, params ReportsCdrUsageReportsSyncGetParams) (*CdrGetSyncUsageReportResponse, error) {
+	res, err := c.sendReportsCdrUsageReportsSyncGet(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReportsCdrUsageReportsSyncGet(ctx context.Context, params ReportsCdrUsageReportsSyncGetParams) (res *CdrGetSyncUsageReportResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/reports/cdr_usage_reports/sync"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateTimeToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateTimeToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "aggregation_type" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "aggregation_type",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(string(params.AggregationType)))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "product_breakdown" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "product_breakdown",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(string(params.ProductBreakdown)))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "connections" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "connections",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Connections != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Connections {
+						if err := func() error {
+							return e.EncodeValue(conv.Float64ToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ReportsCdrUsageReportsSyncGet", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeReportsCdrUsageReportsSyncGetResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6924,6 +7789,105 @@ func (c *Client) sendUpdateTeXMLCallRecording(ctx context.Context, request OptTe
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateTeXMLCallRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateTexmlApplication invokes UpdateTexmlApplication operation.
+//
+// Updates settings of an existing TeXML Application.
+//
+// PATCH /texml_applications/{id}
+func (c *Client) UpdateTexmlApplication(ctx context.Context, request *UpdateTexmlApplicationRequest, params UpdateTexmlApplicationParams) (UpdateTexmlApplicationRes, error) {
+	res, err := c.sendUpdateTexmlApplication(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateTexmlApplication(ctx context.Context, request *UpdateTexmlApplicationRequest, params UpdateTexmlApplicationParams) (res UpdateTexmlApplicationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/texml_applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateTexmlApplicationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateTexmlApplication", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateTexmlApplicationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

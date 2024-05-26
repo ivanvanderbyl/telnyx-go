@@ -10,6 +10,33 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
+func (s AnchorsiteOverride) Validate() error {
+	switch s {
+	case "Latency":
+		return nil
+	case "Chicago, IL":
+		return nil
+	case "Ashburn, VA":
+		return nil
+	case "San Jose, CA":
+		return nil
+	case "Sydney, Australia":
+		return nil
+	case "Amsterdam, Netherlands":
+		return nil
+	case "London, UK":
+		return nil
+	case "Toronto, Canada":
+		return nil
+	case "Vancouver, Canada":
+		return nil
+	case "Frankfurt, Germany":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *AnswerRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -804,6 +831,147 @@ func (s CallResourceStatus) Validate() error {
 	}
 }
 
+func (s *CdrGetSyncUsageReportResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CdrUsageReportResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.AggregationType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "aggregation_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Status.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ProductBreakdown.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "product_breakdown",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s CdrUsageReportResponseAggregationType) Validate() error {
+	switch s {
+	case "NO_AGGREGATION":
+		return nil
+	case "CONNECTION":
+		return nil
+	case "TAG":
+		return nil
+	case "BILLING_GROUP":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s CdrUsageReportResponseProductBreakdown) Validate() error {
+	switch s {
+	case "NO_BREAKDOWN":
+		return nil
+	case "DID_VS_TOLL_FREE":
+		return nil
+	case "COUNTRY":
+		return nil
+	case "DID_VS_TOLL_FREE_PER_COUNTRY":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s CdrUsageReportResponseStatus) Validate() error {
+	switch s {
+	case "PENDING":
+		return nil
+	case "COMPLETE":
+		return nil
+	case "FAILED":
+		return nil
+	case "EXPIRED":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *ConferenceRecordingResource) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -1114,6 +1282,171 @@ func (s *CreateTeXMLSecretResult) Validate() error {
 func (s CreateTeXMLSecretResultValue) Validate() error {
 	switch s {
 	case "*****":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *CreateTexmlApplicationRequest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.AnchorsiteOverride.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "anchorsite_override",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.DtmfType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "dtmf_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.VoiceMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "voice_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.StatusCallbackMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status_callback_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Inbound.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "inbound",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CreateTexmlApplicationRequestInbound) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.SipSubdomainReceiveSettings.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "sip_subdomain_receive_settings",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s CreateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Validate() error {
+	switch s {
+	case "only_my_connections":
+		return nil
+	case "from_anyone":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s CreateTexmlApplicationRequestStatusCallbackMethod) Validate() error {
+	switch s {
+	case "get":
+		return nil
+	case "post":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s CreateTexmlApplicationRequestVoiceMethod) Validate() error {
+	switch s {
+	case "get":
+		return nil
+	case "post":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -1520,6 +1853,19 @@ func (s *DialParticipantResponse) Validate() error {
 	return nil
 }
 
+func (s DtmfType) Validate() error {
+	switch s {
+	case "RFC 2833":
+		return nil
+	case "Inband":
+		return nil
+	case "SIP INFO":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *GatherUsingSpeakRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -1693,6 +2039,43 @@ func (s GatherUsingSpeakRequestVoice) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *GetAllTexmlApplicationsResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *GetCallResponse) Validate() error {
@@ -1903,6 +2286,19 @@ func (s *GetParticipantsResponse) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s GetUsageReportSyncAggregationType) Validate() error {
+	switch s {
+	case "NO_AGGREGATION":
+		return nil
+	case "PROFILE":
+		return nil
+	case "TAGS":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *InitiateCallRequest) Validate() error {
@@ -2279,6 +2675,112 @@ func (s *ListQueueCallsResponse) Validate() error {
 	return nil
 }
 
+func (s *MdrGetSyncUsageReportResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *MdrUsageReportResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.AggregationType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "aggregation_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Status.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s MdrUsageReportResponseAggregationType) Validate() error {
+	switch s {
+	case "NO_AGGREGATION":
+		return nil
+	case "PROFILE":
+		return nil
+	case "TAGS":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s MdrUsageReportResponseStatus) Validate() error {
+	switch s {
+	case "PENDING":
+		return nil
+	case "COMPLETE":
+		return nil
+	case "FAILED":
+		return nil
+	case "EXPIRED":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *NewParticipantResource) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -2653,6 +3155,36 @@ func (s RejectRequestCause) Validate() error {
 	}
 }
 
+func (s ReportsCdrUsageReportsSyncGetAggregationType) Validate() error {
+	switch s {
+	case "NO_AGGREGATION":
+		return nil
+	case "CONNECTION":
+		return nil
+	case "TAG":
+		return nil
+	case "BILLING_GROUP":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s ReportsCdrUsageReportsSyncGetProductBreakdown) Validate() error {
+	switch s {
+	case "NO_BREAKDOWN":
+		return nil
+	case "DID_VS_TOLL_FREE":
+		return nil
+	case "COUNTRY":
+		return nil
+	case "DID_VS_TOLL_FREE_PER_COUNTRY":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *RetrieveCallStatusResponse) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -2709,6 +3241,19 @@ func (s *SipHeader) Validate() error {
 func (s SipHeaderName) Validate() error {
 	switch s {
 	case "User-to-User":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s SortApplication) Validate() error {
+	switch s {
+	case "created_at":
+		return nil
+	case "friendly_name":
+		return nil
+	case "active":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -3206,6 +3751,201 @@ func (s StopForkingRequestStreamType) Validate() error {
 	case "raw":
 		return nil
 	case "decrypted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *TexmlApplication) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.AnchorsiteOverride.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "anchorsite_override",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.DtmfType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "dtmf_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.VoiceMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "voice_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.StatusCallbackMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status_callback_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Inbound.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "inbound",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *TexmlApplicationInbound) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.SipSubdomainReceiveSettings.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "sip_subdomain_receive_settings",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s TexmlApplicationInboundSipSubdomainReceiveSettings) Validate() error {
+	switch s {
+	case "only_my_connections":
+		return nil
+	case "from_anyone":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *TexmlApplicationResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s TexmlApplicationStatusCallbackMethod) Validate() error {
+	switch s {
+	case "get":
+		return nil
+	case "post":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s TexmlApplicationVoiceMethod) Validate() error {
+	switch s {
+	case "get":
+		return nil
+	case "post":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -4106,6 +4846,171 @@ func (s UpdateConferenceRequestAnnounceMethod) Validate() error {
 	case "GET":
 		return nil
 	case "POST":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *UpdateTexmlApplicationRequest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.AnchorsiteOverride.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "anchorsite_override",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.DtmfType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "dtmf_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.VoiceMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "voice_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.StatusCallbackMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status_callback_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Inbound.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "inbound",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *UpdateTexmlApplicationRequestInbound) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.SipSubdomainReceiveSettings.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "sip_subdomain_receive_settings",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s UpdateTexmlApplicationRequestInboundSipSubdomainReceiveSettings) Validate() error {
+	switch s {
+	case "only_my_connections":
+		return nil
+	case "from_anyone":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s UpdateTexmlApplicationRequestStatusCallbackMethod) Validate() error {
+	switch s {
+	case "get":
+		return nil
+	case "post":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s UpdateTexmlApplicationRequestVoiceMethod) Validate() error {
+	switch s {
+	case "get":
+		return nil
+	case "post":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)

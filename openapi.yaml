@@ -38572,7 +38572,7 @@ components:
           description: >-
             URL to which Telnyx will deliver your XML Translator webhooks if we
             get an error response from your voice_url.
-          default: null
+          # default: null
           format: url
           example: https://fallback.example.com
         voice_method:
@@ -38590,7 +38590,7 @@ components:
           description: >-
             URL for Telnyx to send requests to containing information about call
             progress events.
-          default: null
+          # default: null
           format: url
           example: https://example.com
         status_callback_method:
@@ -38611,7 +38611,7 @@ components:
               description: >-
                 When set, this will limit the total number of inbound calls to
                 phone numbers associated with this connection.
-              default: null
+              # default: null
               example: 10
             shaken_stir_enabled:
               type: boolean
@@ -38630,7 +38630,7 @@ components:
                 "sip:@example.sip.telnyx.com" where the user part can be any
                 alphanumeric value. Please note TLS encrypted calls are not
                 allowed for subdomain calls.
-              default: null
+              # default: null
               example: example
             sip_subdomain_receive_settings:
               type: string
@@ -38651,7 +38651,7 @@ components:
               description: >-
                 When set, this will limit the total number of outbound calls to
                 phone numbers associated with this connection.
-              default: null
+              # default: null
               example: 10
             outbound_voice_profile_id:
               $ref: '#/components/schemas/OutboundVoiceProfileId'
@@ -56429,7 +56429,7 @@ components:
           description: >-
             URL to which Telnyx will deliver your XML Translator webhooks if we
             get an error response from your voice_url.
-          default: null
+          # default: null
           format: url
           example: https://fallback.example.com
         voice_method:
@@ -56447,7 +56447,7 @@ components:
           description: >-
             URL for Telnyx to send requests to containing information about call
             progress events.
-          default: null
+          # default: null
           format: url
           example: https://example.com
         status_callback_method:
@@ -56468,7 +56468,7 @@ components:
               description: >-
                 When set, this will limit the total number of inbound calls to
                 phone numbers associated with this connection.
-              default: null
+              # default: null
               example: 10
             shaken_stir_enabled:
               type: boolean
@@ -56487,7 +56487,7 @@ components:
                 "sip:@example.sip.telnyx.com" where the user part can be any
                 alphanumeric value. Please note TLS encrypted calls are not
                 allowed for subdomain calls.
-              default: null
+              # default: null
               example: example
             sip_subdomain_receive_settings:
               type: string
@@ -56508,7 +56508,7 @@ components:
               description: >-
                 When set, this will limit the total number of outbound calls to
                 phone numbers associated with this connection.
-              default: null
+              # default: null
               example: 10
             outbound_voice_profile_id:
               $ref: '#/components/schemas/OutboundVoiceProfileId'
@@ -59476,7 +59476,7 @@ components:
           description: >-
             URL to which Telnyx will deliver your XML Translator webhooks if we
             get an error response from your voice_url.
-          default: null
+          # default: null
           format: url
           example: https://fallback.example.com
         voice_method:
@@ -59494,7 +59494,7 @@ components:
           description: >-
             URL for Telnyx to send requests to containing information about call
             progress events.
-          default: null
+          # default: null
           format: url
           example: https://example.com
         status_callback_method:
@@ -59515,7 +59515,7 @@ components:
               description: >-
                 When set, this will limit the total number of inbound calls to
                 phone numbers associated with this connection.
-              default: null
+              # default: null
               example: 10
             shaken_stir_enabled:
               type: boolean
@@ -59534,7 +59534,7 @@ components:
                 "sip:@example.sip.telnyx.com" where the user part can be any
                 alphanumeric value. Please note TLS encrypted calls are not
                 allowed for subdomain calls.
-              default: null
+              # default: null
               example: example
             sip_subdomain_receive_settings:
               type: string
@@ -59555,7 +59555,7 @@ components:
               description: >-
                 When set, this will limit the total number of outbound calls to
                 phone numbers associated with this connection.
-              default: null
+              # default: null
               example: 10
             outbound_voice_profile_id:
               $ref: '#/components/schemas/OutboundVoiceProfileId'
