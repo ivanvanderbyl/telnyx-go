@@ -774,6 +774,31 @@ func (s *PortoutComment) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *PrivateWirelessGateway) setDefaults() {
+	{
+		val := string("ashburn-va")
+		s.RegionCode.SetTo(val)
+	}
+	{
+		s.IPRange.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *PrivateWirelessGatewayStatus) setDefaults() {
+	{
+		val := PrivateWirelessGatewayStatusValue("provisioning")
+		s.Value.SetTo(val)
+	}
+	{
+		s.ErrorDescription.Null = true
+	}
+	{
+		s.ErrorCode.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *SendDTMFRequest) setDefaults() {
 	{
 		val := int32(250)

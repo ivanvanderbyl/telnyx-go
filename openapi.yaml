@@ -51427,6 +51427,7 @@ components:
           example: 100.64.1.0/24
           readOnly: true
           default: null
+          nullable: true
         assigned_resources:
           type: array
           description: >-
@@ -51480,6 +51481,7 @@ components:
           readOnly: true
           default: null
           example: null
+          nullable: true
         error_code:
           type: string
           description: >-
@@ -51488,6 +51490,7 @@ components:
             code</a> related to the failure reason.
           readOnly: true
           default: null
+          nullable: true
           example: null
     ProfileAssignmentPhoneNumbers:
       title: ProfileAssignmentPhoneNumbers

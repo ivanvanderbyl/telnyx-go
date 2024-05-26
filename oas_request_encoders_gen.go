@@ -126,6 +126,20 @@ func encodeBridgeCallRequest(
 	return nil
 }
 
+func encodeCreateAdditionalDocumentsRequest(
+	req *CreateAdditionalDocumentsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateBulkTelephonyCredentialsRequest(
 	req *BulkCredentialRequest,
 	r *http.Request,
@@ -380,8 +394,36 @@ func encodeCreateNumberReservationRequest(
 	return nil
 }
 
+func encodeCreatePhoneNumberConfigurationsRequest(
+	req *CreatePhoneNumberConfigurationsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreatePhoneNumbersJobUpdateEmergencySettingsRequest(
 	req *PhoneNumbersJobUpdateEmergencySettingsRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreatePortingOrderRequest(
+	req *CreatePortingOrder,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1661,6 +1703,40 @@ func encodeSendMessageRequest(
 	return nil
 }
 
+func encodeSendPortingVerificationCodesRequest(
+	req OptSendPortingVerificationCodesReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeSharePortingOrderRequest(
+	req *SharePortingOrderReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeSpeakCallRequest(
 	req *SpeakRequest,
 	r *http.Request,
@@ -2175,6 +2251,34 @@ func encodeUpdatePhoneNumberVoiceSettingsRequest(
 	return nil
 }
 
+func encodeUpdatePortingOrderRequest(
+	req *UpdatePortingOrder,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdatePortingOrdersActivationJobRequest(
+	req *UpdatePortingOrdersActivationJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdatePortoutStatusRequest(
 	req *UpdatePortoutStatusReq,
 	r *http.Request,
@@ -2671,6 +2775,20 @@ func encodeUpdateTexmlConferenceParticipantRequest(
 
 func encodeUpdateVerifyProfileRequest(
 	req *UpdateVerifyProfileReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeVerifyPortingVerificationCodesRequest(
+	req *VerifyPortingVerificationCodesReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

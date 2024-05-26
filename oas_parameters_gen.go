@@ -6,6 +6,12 @@ import (
 	"github.com/google/uuid"
 )
 
+// ActivatePortingOrderParams is parameters of ActivatePortingOrder operation.
+type ActivatePortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
 // AnswerCallParams is parameters of AnswerCall operation.
 type AnswerCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -33,6 +39,24 @@ type BulkCredentialActionParams struct {
 	FilterTag string
 }
 
+// CancelPortingOrderParams is parameters of CancelPortingOrder operation.
+type CancelPortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
+// ConfirmPortingOrderParams is parameters of ConfirmPortingOrder operation.
+type ConfirmPortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
+// CreateAdditionalDocumentsParams is parameters of CreateAdditionalDocuments operation.
+type CreateAdditionalDocumentsParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
 // CreateCustomStorageCredentialsParams is parameters of CreateCustomStorageCredentials operation.
 type CreateCustomStorageCredentialsParams struct {
 	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
@@ -55,6 +79,14 @@ type CreateProfileVerificationRequestParams struct {
 type CreateTelephonyCredentialTokenParams struct {
 	// Identifies the resource.
 	ID string
+}
+
+// DeleteAdditionalDocumentParams is parameters of DeleteAdditionalDocument operation.
+type DeleteAdditionalDocumentParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// Additional document identification.
+	AdditionalDocumentID uuid.UUID
 }
 
 // DeleteCallControlApplicationParams is parameters of DeleteCallControlApplication operation.
@@ -109,6 +141,12 @@ type DeleteOutboundVoiceProfileParams struct {
 type DeletePhoneNumberParams struct {
 	// Identifies the resource.
 	ID int64
+}
+
+// DeletePortingOrderParams is parameters of DeletePortingOrder operation.
+type DeletePortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
 }
 
 // DeleteProfileParams is parameters of DeleteProfile operation.
@@ -224,6 +262,12 @@ type DeleteVerifiedCallDisplayProfileParams struct {
 type DeleteVerifiedNumberParams struct {
 	// The phone number being deleted.
 	PhoneNumber string
+}
+
+// DeleteWirelessGatewayParams is parameters of DeleteWirelessGateway operation.
+type DeleteWirelessGatewayParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
 }
 
 // DialTexmlConferenceParticipantParams is parameters of DialTexmlConferenceParticipant operation.
@@ -480,9 +524,46 @@ type GetPortRequestSupportingDocumentsParams struct {
 	ID uuid.UUID
 }
 
+// GetPortingOrderParams is parameters of GetPortingOrder operation.
+type GetPortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// Include the first 50 phone number objects in the results.
+	IncludePhoneNumbers OptBool
+}
+
+// GetPortingOrderLoaTemplateParams is parameters of GetPortingOrderLoaTemplate operation.
+type GetPortingOrderLoaTemplateParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// The identifier of the LOA configuration to use for the template. If not provided, the default LOA
+	// configuration will be used.
+	LoaConfigurationID OptUUID
+}
+
+// GetPortingOrderSubRequestParams is parameters of GetPortingOrderSubRequest operation.
+type GetPortingOrderSubRequestParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
+// GetPortingOrdersActivationJobParams is parameters of GetPortingOrdersActivationJob operation.
+type GetPortingOrdersActivationJobParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// Activation Job Identifier.
+	ActivationJobId uuid.UUID
+}
+
 // GetPortingReportParams is parameters of GetPortingReport operation.
 type GetPortingReportParams struct {
 	// Identifies a report.
+	ID uuid.UUID
+}
+
+// GetPrivateWirelessGatewayParams is parameters of GetPrivateWirelessGateway operation.
+type GetPrivateWirelessGatewayParams struct {
+	// Identifies the resource.
 	ID uuid.UUID
 }
 
@@ -729,6 +810,29 @@ type InitiateTexmlCallByApplicationParams struct {
 type LeaveQueueParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// ListAdditionalDocumentsParams is parameters of ListAdditionalDocuments operation.
+type ListAdditionalDocumentsParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter additional documents of a specific document type.
+	FilterDocumentType OptListAdditionalDocumentsFilterDocumentType
+	// Filter additional documents by a list of document types.
+	FilterDocumentTypeIn []ListAdditionalDocumentsFilterDocumentTypeInItem
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListAdditionalDocumentsSort
+}
+
+// ListAllowedFocWindowsParams is parameters of ListAllowedFocWindows operation.
+type ListAllowedFocWindowsParams struct {
+	// Porting Order id.
+	ID uuid.UUID
 }
 
 // ListAvailablePhoneNumberBlocksParams is parameters of ListAvailablePhoneNumberBlocks operation.
@@ -1003,6 +1107,29 @@ type ListOutboundVoiceProfilesParams struct {
 	Sort OptSortOutboundVoiceProfile
 }
 
+// ListPhoneNumberConfigurationsParams is parameters of ListPhoneNumberConfigurations operation.
+type ListPhoneNumberConfigurationsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter results by porting order id.
+	FilterPortingOrderID OptUUID
+	// Filter results by a list of porting order ids.
+	FilterPortingOrderIDIn []uuid.UUID
+	// Filter results by a specific user bundle ID.
+	FilterUserBundleID OptUUID
+	// Filter results by a list of user bundle IDs.
+	FilterUserBundleIDIn []uuid.UUID
+	// Filter results by a specific porting phone number ID.
+	FilterPortingPhoneNumber OptUUID
+	// Filter results by a list of porting phone number IDs.
+	FilterPortingPhoneNumberIn []uuid.UUID
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListPhoneNumberConfigurationsSort
+}
+
 // ListPhoneNumbersParams is parameters of ListPhoneNumbers operation.
 type ListPhoneNumbersParams struct {
 	// The page number to load.
@@ -1083,6 +1210,16 @@ type ListPhoneNumbersWithVoiceSettingsParams struct {
 	Sort OptListPhoneNumbersWithVoiceSettingsSort
 }
 
+// ListPortingOrderActivationJobsParams is parameters of ListPortingOrderActivationJobs operation.
+type ListPortingOrderActivationJobsParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
 // ListPortingOrderCommentsParams is parameters of ListPortingOrderComments operation.
 type ListPortingOrderCommentsParams struct {
 	// Porting Order id.
@@ -1091,6 +1228,55 @@ type ListPortingOrderCommentsParams struct {
 	PageNumber OptInt
 	// The size of the page.
 	PageSize OptInt
+}
+
+// ListPortingOrderRequirementsParams is parameters of ListPortingOrderRequirements operation.
+type ListPortingOrderRequirementsParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
+// ListPortingOrdersParams is parameters of ListPortingOrders operation.
+type ListPortingOrdersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Include the first 50 phone number objects in the results.
+	IncludePhoneNumbers OptBool
+	// Filter results by status.
+	FilterStatus OptFilterByPortingOrderStatus
+	// Filter porting orders by multiple statuses.
+	FilterStatusIn OptFilterByPortingOrderStatusIn
+	// Filter results by customer_reference.
+	FilterCustomerReference OptString
+	// Filter results by parent_support_key.
+	FilterParentSupportKey OptString
+	// Filter results by country ISO 3166-1 alpha-2 code.
+	FilterPhoneNumbersCountryCode OptString
+	// Filter results by old service provider.
+	FilterPhoneNumbersCarrierName OptString
+	// Filter results by porting order type.
+	FilterMiscType OptPortingOrderType
+	// Filter results by person or company name.
+	FilterEndUserAdminEntityName OptString
+	// Filter results by authorized person.
+	FilterEndUserAdminAuthPersonName OptString
+	// Filter results by fast port eligible.
+	FilterActivationSettingsFastPortEligible OptBool
+	// Filter results by foc date later than this value.
+	FilterActivationSettingsFocDatetimeRequestedGt OptString
+	// Filter results by foc date earlier than this value.
+	FilterActivationSettingsFocDatetimeRequestedLt OptString
+	// Filter results by full or partial phone_number.
+	FilterPhoneNumbersPhoneNumberContains OptString
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListPortingOrdersSort
 }
 
 // ListPortingPhoneNumbersParams is parameters of ListPortingPhoneNumbers operation.
@@ -1220,6 +1406,25 @@ type ListTagsParams struct {
 	PageNumber OptInt
 	// The size of the page.
 	PageSize OptInt
+}
+
+// ListVerificationCodesParams is parameters of ListVerificationCodes operation.
+type ListVerificationCodesParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter results by phone number.
+	FilterPhoneNumber OptString
+	// Filter results by a list of phone numbers.
+	FilterPhoneNumberIn []string
+	// Filter verification codes that have been verified or not.
+	FilterVerified OptBool
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListVerificationCodesSort
 }
 
 // ListVerificationsParams is parameters of ListVerifications operation.
@@ -1384,6 +1589,18 @@ type RetrieveVerificationParams struct {
 type SendDTMFParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// SendPortingVerificationCodesParams is parameters of SendPortingVerificationCodes operation.
+type SendPortingVerificationCodesParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
+// SharePortingOrderParams is parameters of SharePortingOrder operation.
+type SharePortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
 }
 
 // SlimListPhoneNumbersParams is parameters of SlimListPhoneNumbers operation.
@@ -1612,6 +1829,20 @@ type UpdatePhoneNumberVoiceSettingsParams struct {
 	ID int64
 }
 
+// UpdatePortingOrderParams is parameters of UpdatePortingOrder operation.
+type UpdatePortingOrderParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+}
+
+// UpdatePortingOrdersActivationJobParams is parameters of UpdatePortingOrdersActivationJob operation.
+type UpdatePortingOrdersActivationJobParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// Activation Job Identifier.
+	ActivationJobId uuid.UUID
+}
+
 // UpdatePortoutStatusParams is parameters of UpdatePortoutStatus operation.
 type UpdatePortoutStatusParams struct {
 	// Portout id.
@@ -1684,6 +1915,12 @@ type UpdateTexmlConferenceParticipantParams struct {
 type UpdateVerifyProfileParams struct {
 	// The identifier of the Verify profile to update.
 	VerifyProfileID uuid.UUID
+}
+
+// VerifyPortingVerificationCodesParams is parameters of VerifyPortingVerificationCodes operation.
+type VerifyPortingVerificationCodesParams struct {
+	// Porting Order id.
+	ID uuid.UUID
 }
 
 // VerifyVerificationCodeParams is parameters of VerifyVerificationCode operation.
