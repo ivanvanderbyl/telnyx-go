@@ -26,9 +26,8 @@ func (a *Authorizor) BearerAuth(ctx context.Context, operationName string) (teln
 func run(ctx context.Context) error {
 	var arg struct {
 		BaseURL string
-		ID      int64
 	}
-	flag.StringVar(&arg.BaseURL, "url", "https://api.telnyx.com/v2", "target server url")
+	flag.StringVar(&arg.BaseURL, "url", telnyx.TelnyxAPIServer, "target server url")
 	flag.Parse()
 
 	auth := &Authorizor{token: os.Getenv("TELNYX_API_KEY")}
@@ -59,30 +58,6 @@ func run(ctx context.Context) error {
 	case *telnyx.ListCallControlApplicationsNotFound:
 		return errors.New("not found")
 	}
-
-	// fmt.Println(resp.(*telnyx.ListCallControlApplicationsResponse).Data[0].GetApplicationName().Get())
-
-	// res, err := client.GetPetById(ctx, telnyx.GetPetByIdParams{
-	// 	PetId: arg.ID,
-	// })
-	// if err != nil {
-	// 	return fmt.Errorf("get pet %d: %w", arg.ID, err)
-	// }
-
-	// switch p := res.(type) {
-	// case *petstore.Pet:
-	// 	data, err := p.MarshalJSON()
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	var out bytes.Buffer
-	// 	if err := json.Indent(&out, data, "", "  "); err != nil {
-	// 		return err
-	// 	}
-	// 	color.New(color.FgGreen).Println(out.String())
-	// case *petstore.GetPetByIdNotFound:
-	// 	return errors.New("not found")
-	// }
 
 	return nil
 }
