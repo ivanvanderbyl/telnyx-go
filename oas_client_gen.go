@@ -212,6 +212,12 @@ type Invoker interface {
 	//
 	// DELETE /networks/{id}
 	DeleteNetwork(ctx context.Context, params DeleteNetworkParams) (DeleteNetworkRes, error)
+	// DeleteNotificationChannel invokes DeleteNotificationChannel operation.
+	//
+	// Delete a notification channel.
+	//
+	// DELETE /notification_channels/{id}
+	DeleteNotificationChannel(ctx context.Context, params DeleteNotificationChannelParams) (DeleteNotificationChannelRes, error)
 	// DeleteProfile invokes DeleteProfile operation.
 	//
 	// Delete Verify profile.
@@ -428,12 +434,27 @@ type Invoker interface {
 	//
 	// GET /messaging_hosted_number_orders/{id}
 	GetMessagingHostedNumberOrder(ctx context.Context, params GetMessagingHostedNumberOrderParams) (GetMessagingHostedNumberOrderRes, error)
+	// GetMobileNetworkOperators invokes GetMobileNetworkOperators operation.
+	//
+	// Telnyx has a set of GSM mobile operators partners that are available through our mobile network
+	// roaming. This resource is entirely managed by Telnyx and may change over time. That means that
+	// this resource won't allow any write operations for it. Still, it's available so it can be used as
+	// a support resource that can be related to other resources or become a configuration option.
+	//
+	// GET /mobile_network_operators
+	GetMobileNetworkOperators(ctx context.Context, params GetMobileNetworkOperatorsParams) (GetMobileNetworkOperatorsRes, error)
 	// GetNetwork invokes GetNetwork operation.
 	//
 	// Retrieve a Network.
 	//
 	// GET /networks/{id}
 	GetNetwork(ctx context.Context, params GetNetworkParams) (GetNetworkRes, error)
+	// GetNotificationChannel invokes GetNotificationChannel operation.
+	//
+	// Get a notification channel.
+	//
+	// GET /notification_channels/{id}
+	GetNotificationChannel(ctx context.Context, params GetNotificationChannelParams) (GetNotificationChannelRes, error)
 	// GetRecording invokes GetRecording operation.
 	//
 	// Retrieves the details of an existing call recording.
@@ -1139,6 +1160,12 @@ type Invoker interface {
 	//
 	// PATCH /networks/{id}
 	UpdateNetwork(ctx context.Context, request *NetworkCreate, params UpdateNetworkParams) (UpdateNetworkRes, error)
+	// UpdateNotificationChannel invokes UpdateNotificationChannel operation.
+	//
+	// Update a notification channel.
+	//
+	// PATCH /notification_channels/{id}
+	UpdateNotificationChannel(ctx context.Context, request *NotificationChannel, params UpdateNotificationChannelParams) (UpdateNotificationChannelRes, error)
 	// UpdateProfile invokes UpdateProfile operation.
 	//
 	// Update an existing Verified Calls Display Profile and allows adding/removing nested Call Reasons
@@ -3795,6 +3822,93 @@ func (c *Client) sendDeleteNetwork(ctx context.Context, params DeleteNetworkPara
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteNetworkResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteNotificationChannel invokes DeleteNotificationChannel operation.
+//
+// Delete a notification channel.
+//
+// DELETE /notification_channels/{id}
+func (c *Client) DeleteNotificationChannel(ctx context.Context, params DeleteNotificationChannelParams) (DeleteNotificationChannelRes, error) {
+	res, err := c.sendDeleteNotificationChannel(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteNotificationChannel(ctx context.Context, params DeleteNotificationChannelParams) (res DeleteNotificationChannelRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/notification_channels/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteNotificationChannel", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteNotificationChannelResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -7042,6 +7156,251 @@ func (c *Client) sendGetMessagingHostedNumberOrder(ctx context.Context, params G
 	return result, nil
 }
 
+// GetMobileNetworkOperators invokes GetMobileNetworkOperators operation.
+//
+// Telnyx has a set of GSM mobile operators partners that are available through our mobile network
+// roaming. This resource is entirely managed by Telnyx and may change over time. That means that
+// this resource won't allow any write operations for it. Still, it's available so it can be used as
+// a support resource that can be related to other resources or become a configuration option.
+//
+// GET /mobile_network_operators
+func (c *Client) GetMobileNetworkOperators(ctx context.Context, params GetMobileNetworkOperatorsParams) (GetMobileNetworkOperatorsRes, error) {
+	res, err := c.sendGetMobileNetworkOperators(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetMobileNetworkOperators(ctx context.Context, params GetMobileNetworkOperatorsParams) (res GetMobileNetworkOperatorsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/mobile_network_operators"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[name][starts_with]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name][starts_with]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNameStartsWith.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[name][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNameContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[name][ends_with]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name][ends_with]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNameEndsWith.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[country_code]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[country_code]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCountryCode.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[mcc]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[mcc]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterMcc.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[mnc]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[mnc]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterMnc.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[tadig]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[tadig]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterTadig.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[network_preferences_enabled]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[network_preferences_enabled]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNetworkPreferencesEnabled.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetMobileNetworkOperators", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetMobileNetworkOperatorsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetNetwork invokes GetNetwork operation.
 //
 // Retrieve a Network.
@@ -7122,6 +7481,93 @@ func (c *Client) sendGetNetwork(ctx context.Context, params GetNetworkParams) (r
 	defer resp.Body.Close()
 
 	result, err := decodeGetNetworkResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetNotificationChannel invokes GetNotificationChannel operation.
+//
+// Get a notification channel.
+//
+// GET /notification_channels/{id}
+func (c *Client) GetNotificationChannel(ctx context.Context, params GetNotificationChannelParams) (GetNotificationChannelRes, error) {
+	res, err := c.sendGetNotificationChannel(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetNotificationChannel(ctx context.Context, params GetNotificationChannelParams) (res GetNotificationChannelRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/notification_channels/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetNotificationChannel", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetNotificationChannelResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -15643,6 +16089,105 @@ func (c *Client) sendUpdateNetwork(ctx context.Context, request *NetworkCreate, 
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateNetworkResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNotificationChannel invokes UpdateNotificationChannel operation.
+//
+// Update a notification channel.
+//
+// PATCH /notification_channels/{id}
+func (c *Client) UpdateNotificationChannel(ctx context.Context, request *NotificationChannel, params UpdateNotificationChannelParams) (UpdateNotificationChannelRes, error) {
+	res, err := c.sendUpdateNotificationChannel(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateNotificationChannel(ctx context.Context, request *NotificationChannel, params UpdateNotificationChannelParams) (res UpdateNotificationChannelRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/notification_channels/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateNotificationChannelRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateNotificationChannel", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateNotificationChannelResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

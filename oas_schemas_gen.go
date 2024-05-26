@@ -7468,6 +7468,22 @@ type DeleteExternalConnectionLogMessageUnauthorized struct{}
 
 func (*DeleteExternalConnectionLogMessageUnauthorized) deleteExternalConnectionLogMessageRes() {}
 
+type DeleteNotificationChannelOK struct {
+	Data OptNotificationChannel `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *DeleteNotificationChannelOK) GetData() OptNotificationChannel {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *DeleteNotificationChannelOK) SetData(val OptNotificationChannel) {
+	s.Data = val
+}
+
+func (*DeleteNotificationChannelOK) deleteNotificationChannelRes() {}
+
 // DeleteRecordingsNoContent is response for DeleteRecordings operation.
 type DeleteRecordingsNoContent struct{}
 
@@ -10003,6 +10019,7 @@ func (*GenericErrorResponseStatusCode) createVerifyProfileRes()                 
 func (*GenericErrorResponseStatusCode) deleteCustomStorageCredentialsRes()      {}
 func (*GenericErrorResponseStatusCode) deleteDefaultGatewayRes()                {}
 func (*GenericErrorResponseStatusCode) deleteNetworkRes()                       {}
+func (*GenericErrorResponseStatusCode) deleteNotificationChannelRes()           {}
 func (*GenericErrorResponseStatusCode) deleteProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) deleteRecordingRes()                     {}
 func (*GenericErrorResponseStatusCode) deleteRecordingTranscriptionRes()        {}
@@ -10019,7 +10036,9 @@ func (*GenericErrorResponseStatusCode) getCustomStorageCredentialsRes()         
 func (*GenericErrorResponseStatusCode) getDefaultGatewayRes()                   {}
 func (*GenericErrorResponseStatusCode) getMessageRes()                          {}
 func (*GenericErrorResponseStatusCode) getMessagingHostedNumberOrderRes()       {}
+func (*GenericErrorResponseStatusCode) getMobileNetworkOperatorsRes()           {}
 func (*GenericErrorResponseStatusCode) getNetworkRes()                          {}
+func (*GenericErrorResponseStatusCode) getNotificationChannelRes()              {}
 func (*GenericErrorResponseStatusCode) getRecordingRes()                        {}
 func (*GenericErrorResponseStatusCode) getRecordingTranscriptionRes()           {}
 func (*GenericErrorResponseStatusCode) getRecordingTranscriptionsRes()          {}
@@ -10065,6 +10084,7 @@ func (*GenericErrorResponseStatusCode) transferCallRes()                        
 func (*GenericErrorResponseStatusCode) updateClientStateRes()                   {}
 func (*GenericErrorResponseStatusCode) updateCustomStorageCredentialsRes()      {}
 func (*GenericErrorResponseStatusCode) updateNetworkRes()                       {}
+func (*GenericErrorResponseStatusCode) updateNotificationChannelRes()           {}
 func (*GenericErrorResponseStatusCode) updateProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) updateVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeByPhoneNumberRes() {}
@@ -10230,6 +10250,22 @@ func (s *GetLogMessageResponse) SetLogMessages(val []LogMessage) {
 }
 
 func (*GetLogMessageResponse) getExternalConnectionLogMessageRes() {}
+
+type GetNotificationChannelOK struct {
+	Data OptNotificationChannel `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetNotificationChannelOK) GetData() OptNotificationChannel {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetNotificationChannelOK) SetData(val OptNotificationChannel) {
+	s.Data = val
+}
+
+func (*GetNotificationChannelOK) getNotificationChannelRes() {}
 
 type GetParticipantResponse struct {
 	Data OptParticipantResource `json:"data"`
@@ -12486,6 +12522,113 @@ func (s *MetaResponse) SetURL(val OptString) {
 	s.URL = val
 }
 
+// Ref: #/components/schemas/MobileNetworkOperator
+type MobileNetworkOperator struct {
+	// Identifies the resource.
+	ID OptUUID `json:"id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// The network operator name.
+	Name OptString `json:"name"`
+	// TADIG stands for Transferred Account Data Interchange Group. The TADIG code is a unique identifier
+	// for network operators in GSM mobile networks.
+	Tadig OptString `json:"tadig"`
+	// The mobile operator two-character (ISO 3166-1 alpha-2) origin country code.
+	CountryCode OptString `json:"country_code"`
+	// MCC stands for Mobile Country Code. It's a three decimal digit that identifies a country.<br/><br/>
+	// This code is commonly seen joined with a Mobile Network Code (MNC) in a tuple that allows
+	// identifying a carrier known as PLMN (Public Land Mobile Network) code.
+	Mcc OptString `json:"mcc"`
+	// MNC stands for Mobile Network Code. It's a two to three decimal digits that identify a network.
+	// <br/><br/>
+	// This code is commonly seen joined with a Mobile Country Code (MCC) in a tuple that allows
+	// identifying a carrier known as PLMN (Public Land Mobile Network) code.
+	Mnc OptString `json:"mnc"`
+	// Indicate whether the mobile network operator can be set as preferred in the Network Preferences
+	// API.
+	NetworkPreferencesEnabled OptBool `json:"network_preferences_enabled"`
+}
+
+// GetID returns the value of ID.
+func (s *MobileNetworkOperator) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *MobileNetworkOperator) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetName returns the value of Name.
+func (s *MobileNetworkOperator) GetName() OptString {
+	return s.Name
+}
+
+// GetTadig returns the value of Tadig.
+func (s *MobileNetworkOperator) GetTadig() OptString {
+	return s.Tadig
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *MobileNetworkOperator) GetCountryCode() OptString {
+	return s.CountryCode
+}
+
+// GetMcc returns the value of Mcc.
+func (s *MobileNetworkOperator) GetMcc() OptString {
+	return s.Mcc
+}
+
+// GetMnc returns the value of Mnc.
+func (s *MobileNetworkOperator) GetMnc() OptString {
+	return s.Mnc
+}
+
+// GetNetworkPreferencesEnabled returns the value of NetworkPreferencesEnabled.
+func (s *MobileNetworkOperator) GetNetworkPreferencesEnabled() OptBool {
+	return s.NetworkPreferencesEnabled
+}
+
+// SetID sets the value of ID.
+func (s *MobileNetworkOperator) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *MobileNetworkOperator) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetName sets the value of Name.
+func (s *MobileNetworkOperator) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetTadig sets the value of Tadig.
+func (s *MobileNetworkOperator) SetTadig(val OptString) {
+	s.Tadig = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *MobileNetworkOperator) SetCountryCode(val OptString) {
+	s.CountryCode = val
+}
+
+// SetMcc sets the value of Mcc.
+func (s *MobileNetworkOperator) SetMcc(val OptString) {
+	s.Mcc = val
+}
+
+// SetMnc sets the value of Mnc.
+func (s *MobileNetworkOperator) SetMnc(val OptString) {
+	s.Mnc = val
+}
+
+// SetNetworkPreferencesEnabled sets the value of NetworkPreferencesEnabled.
+func (s *MobileNetworkOperator) SetNetworkPreferencesEnabled(val OptBool) {
+	s.NetworkPreferencesEnabled = val
+}
+
 type Name string
 
 // Merged schema.
@@ -13131,6 +13274,139 @@ func (s *NoiseSuppressionStop) SetClientState(val OptString) {
 // SetCommandID sets the value of CommandID.
 func (s *NoiseSuppressionStop) SetCommandID(val OptString) {
 	s.CommandID = val
+}
+
+// A Notification Channel.
+// Ref: #/components/schemas/NotificationChannel
+type NotificationChannel struct {
+	// A UUID.
+	ID OptString `json:"id"`
+	// A UUID reference to the associated Notification Profile.
+	NotificationProfileID OptString `json:"notification_profile_id"`
+	// A Channel Type ID.
+	ChannelTypeID OptNotificationChannelChannelTypeID `json:"channel_type_id"`
+	// The destination associated with the channel type.
+	ChannelDestination OptString `json:"channel_destination"`
+	// ISO 8601 formatted date indicating when the resource was created.
+	CreatedAt OptDateTime `json:"created_at"`
+	// ISO 8601 formatted date indicating when the resource was updated.
+	UpdatedAt OptDateTime `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *NotificationChannel) GetID() OptString {
+	return s.ID
+}
+
+// GetNotificationProfileID returns the value of NotificationProfileID.
+func (s *NotificationChannel) GetNotificationProfileID() OptString {
+	return s.NotificationProfileID
+}
+
+// GetChannelTypeID returns the value of ChannelTypeID.
+func (s *NotificationChannel) GetChannelTypeID() OptNotificationChannelChannelTypeID {
+	return s.ChannelTypeID
+}
+
+// GetChannelDestination returns the value of ChannelDestination.
+func (s *NotificationChannel) GetChannelDestination() OptString {
+	return s.ChannelDestination
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *NotificationChannel) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *NotificationChannel) GetUpdatedAt() OptDateTime {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *NotificationChannel) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetNotificationProfileID sets the value of NotificationProfileID.
+func (s *NotificationChannel) SetNotificationProfileID(val OptString) {
+	s.NotificationProfileID = val
+}
+
+// SetChannelTypeID sets the value of ChannelTypeID.
+func (s *NotificationChannel) SetChannelTypeID(val OptNotificationChannelChannelTypeID) {
+	s.ChannelTypeID = val
+}
+
+// SetChannelDestination sets the value of ChannelDestination.
+func (s *NotificationChannel) SetChannelDestination(val OptString) {
+	s.ChannelDestination = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *NotificationChannel) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *NotificationChannel) SetUpdatedAt(val OptDateTime) {
+	s.UpdatedAt = val
+}
+
+// A Channel Type ID.
+type NotificationChannelChannelTypeID string
+
+const (
+	NotificationChannelChannelTypeIDSMS     NotificationChannelChannelTypeID = "sms"
+	NotificationChannelChannelTypeIDVoice   NotificationChannelChannelTypeID = "voice"
+	NotificationChannelChannelTypeIDEmail   NotificationChannelChannelTypeID = "email"
+	NotificationChannelChannelTypeIDWebhook NotificationChannelChannelTypeID = "webhook"
+)
+
+// AllValues returns all NotificationChannelChannelTypeID values.
+func (NotificationChannelChannelTypeID) AllValues() []NotificationChannelChannelTypeID {
+	return []NotificationChannelChannelTypeID{
+		NotificationChannelChannelTypeIDSMS,
+		NotificationChannelChannelTypeIDVoice,
+		NotificationChannelChannelTypeIDEmail,
+		NotificationChannelChannelTypeIDWebhook,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NotificationChannelChannelTypeID) MarshalText() ([]byte, error) {
+	switch s {
+	case NotificationChannelChannelTypeIDSMS:
+		return []byte(s), nil
+	case NotificationChannelChannelTypeIDVoice:
+		return []byte(s), nil
+	case NotificationChannelChannelTypeIDEmail:
+		return []byte(s), nil
+	case NotificationChannelChannelTypeIDWebhook:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NotificationChannelChannelTypeID) UnmarshalText(data []byte) error {
+	switch NotificationChannelChannelTypeID(data) {
+	case NotificationChannelChannelTypeIDSMS:
+		*s = NotificationChannelChannelTypeIDSMS
+		return nil
+	case NotificationChannelChannelTypeIDVoice:
+		*s = NotificationChannelChannelTypeIDVoice
+		return nil
+	case NotificationChannelChannelTypeIDEmail:
+		*s = NotificationChannelChannelTypeIDEmail
+		return nil
+	case NotificationChannelChannelTypeIDWebhook:
+		*s = NotificationChannelChannelTypeIDWebhook
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // NewOptAccountSid returns new OptAccountSid with value set to v.
@@ -20356,6 +20632,98 @@ func (o OptNoiseSuppressionDirection) Get() (v NoiseSuppressionDirection, ok boo
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNoiseSuppressionDirection) Or(d NoiseSuppressionDirection) NoiseSuppressionDirection {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNotificationChannel returns new OptNotificationChannel with value set to v.
+func NewOptNotificationChannel(v NotificationChannel) OptNotificationChannel {
+	return OptNotificationChannel{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNotificationChannel is optional NotificationChannel.
+type OptNotificationChannel struct {
+	Value NotificationChannel
+	Set   bool
+}
+
+// IsSet returns true if OptNotificationChannel was set.
+func (o OptNotificationChannel) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNotificationChannel) Reset() {
+	var v NotificationChannel
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNotificationChannel) SetTo(v NotificationChannel) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNotificationChannel) Get() (v NotificationChannel, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNotificationChannel) Or(d NotificationChannel) NotificationChannel {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNotificationChannelChannelTypeID returns new OptNotificationChannelChannelTypeID with value set to v.
+func NewOptNotificationChannelChannelTypeID(v NotificationChannelChannelTypeID) OptNotificationChannelChannelTypeID {
+	return OptNotificationChannelChannelTypeID{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNotificationChannelChannelTypeID is optional NotificationChannelChannelTypeID.
+type OptNotificationChannelChannelTypeID struct {
+	Value NotificationChannelChannelTypeID
+	Set   bool
+}
+
+// IsSet returns true if OptNotificationChannelChannelTypeID was set.
+func (o OptNotificationChannelChannelTypeID) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNotificationChannelChannelTypeID) Reset() {
+	var v NotificationChannelChannelTypeID
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNotificationChannelChannelTypeID) SetTo(v NotificationChannelChannelTypeID) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNotificationChannelChannelTypeID) Get() (v NotificationChannelChannelTypeID, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNotificationChannelChannelTypeID) Or(d NotificationChannelChannelTypeID) NotificationChannelChannelTypeID {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -29075,6 +29443,33 @@ func (s *S3ConfigurationData) SetAWSSecretAccessKey(val OptAwsSecretAccessKey) {
 	s.AWSSecretAccessKey = val
 }
 
+type SearchMobileNetworkOperatorsResponse struct {
+	Data []MobileNetworkOperator `json:"data"`
+	Meta OptPaginationMeta       `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *SearchMobileNetworkOperatorsResponse) GetData() []MobileNetworkOperator {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *SearchMobileNetworkOperatorsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *SearchMobileNetworkOperatorsResponse) SetData(val []MobileNetworkOperator) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *SearchMobileNetworkOperatorsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*SearchMobileNetworkOperatorsResponse) getMobileNetworkOperatorsRes() {}
+
 // Ref: #/components/schemas/SendDTMFRequest
 type SendDTMFRequest struct {
 	// DTMF digits to send. Valid digits are 0-9, A-D, *, and #. Pauses can be added using w (0.5s) and W
@@ -34056,6 +34451,22 @@ func (s *UpdateConferenceRequestAnnounceMethod) UnmarshalText(data []byte) error
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type UpdateNotificationChannelOK struct {
+	Data OptNotificationChannel `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateNotificationChannelOK) GetData() OptNotificationChannel {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateNotificationChannelOK) SetData(val OptNotificationChannel) {
+	s.Data = val
+}
+
+func (*UpdateNotificationChannelOK) updateNotificationChannelRes() {}
 
 // UpdateProfileOK is response for UpdateProfile operation.
 type UpdateProfileOK struct{}

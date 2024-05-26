@@ -81,6 +81,12 @@ type DeleteNetworkParams struct {
 	ID uuid.UUID
 }
 
+// DeleteNotificationChannelParams is parameters of DeleteNotificationChannel operation.
+type DeleteNotificationChannelParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
 // DeleteProfileParams is parameters of DeleteProfile operation.
 type DeleteProfileParams struct {
 	// The identifier of the Verify profile to delete.
@@ -324,8 +330,38 @@ type GetMessagingHostedNumberOrderParams struct {
 	ID string
 }
 
+// GetMobileNetworkOperatorsParams is parameters of GetMobileNetworkOperators operation.
+type GetMobileNetworkOperatorsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter by name starting with.
+	FilterNameStartsWith OptString
+	// Filter by name containing match.
+	FilterNameContains OptString
+	// Filter by name ending with.
+	FilterNameEndsWith OptString
+	// Filter by exact country_code.
+	FilterCountryCode OptString
+	// Filter by exact MCC.
+	FilterMcc OptString
+	// Filter by exact MNC.
+	FilterMnc OptString
+	// Filter by exact TADIG.
+	FilterTadig OptString
+	// Filter by network_preferences_enabled.
+	FilterNetworkPreferencesEnabled OptBool
+}
+
 // GetNetworkParams is parameters of GetNetwork operation.
 type GetNetworkParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
+// GetNotificationChannelParams is parameters of GetNotificationChannel operation.
+type GetNotificationChannelParams struct {
 	// Identifies the resource.
 	ID uuid.UUID
 }
@@ -939,6 +975,12 @@ type UpdateCustomStorageCredentialsParams struct {
 
 // UpdateNetworkParams is parameters of UpdateNetwork operation.
 type UpdateNetworkParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
+// UpdateNotificationChannelParams is parameters of UpdateNotificationChannel operation.
+type UpdateNotificationChannelParams struct {
 	// Identifies the resource.
 	ID uuid.UUID
 }

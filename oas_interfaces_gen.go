@@ -121,6 +121,10 @@ type DeleteNetworkRes interface {
 	deleteNetworkRes()
 }
 
+type DeleteNotificationChannelRes interface {
+	deleteNotificationChannelRes()
+}
+
 type DeleteProfileRes interface {
 	deleteProfileRes()
 }
@@ -241,8 +245,16 @@ type GetMessagingHostedNumberOrderRes interface {
 	getMessagingHostedNumberOrderRes()
 }
 
+type GetMobileNetworkOperatorsRes interface {
+	getMobileNetworkOperatorsRes()
+}
+
 type GetNetworkRes interface {
 	getNetworkRes()
+}
+
+type GetNotificationChannelRes interface {
+	getNotificationChannelRes()
 }
 
 type GetRecordingRes interface {
@@ -523,6 +535,10 @@ type UpdateCustomStorageCredentialsRes interface {
 
 type UpdateNetworkRes interface {
 	updateNetworkRes()
+}
+
+type UpdateNotificationChannelRes interface {
+	updateNotificationChannelRes()
 }
 
 type UpdateProfileRes interface {

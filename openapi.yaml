@@ -46738,6 +46738,7 @@ components:
         - detail
       title: NotFoundError
     NotificationChannel:
+      type: object
       description: A Notification Channel
       properties:
         id:
