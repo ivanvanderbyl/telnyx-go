@@ -772,6 +772,15 @@ type ListCallControlApplicationsParams struct {
 	Sort OptSortConnection
 }
 
+// ListCommentsParams is parameters of ListComments operation.
+type ListCommentsParams struct {
+	// Record type that the comment relates to i.e number_order, sub_number_order or
+	// number_order_phone_number.
+	FilterCommentRecordType string
+	// ID of the record the comments relate to.
+	FilterCommentRecordID string
+}
+
 // ListConnectionActiveCallsParams is parameters of ListConnectionActiveCalls operation.
 type ListConnectionActiveCallsParams struct {
 	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
@@ -878,6 +887,20 @@ type ListNotificationChannelsParams struct {
 	PageSize OptInt
 	// Filter by the id of a channel type.
 	FilterChannelTypeIDEq OptChannelTypeId
+}
+
+// ListNumberOrderDocumentsParams is parameters of ListNumberOrderDocuments operation.
+type ListNumberOrderDocumentsParams struct {
+	// Filter number order documents by `requirement_id`.
+	FilterRequirementID OptString
+	// Filter number order documents after this datetime.
+	FilterCreatedAtGt OptString
+	// Filter number order documents from before this datetime.
+	FilterCreatedAtLt OptString
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
 }
 
 // ListOtaUpdatesParams is parameters of ListOtaUpdates operation.
@@ -995,6 +1018,16 @@ type ListPhoneNumbersWithVoiceSettingsParams struct {
 	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
 	// order.
 	Sort OptListPhoneNumbersWithVoiceSettingsSort
+}
+
+// ListPortingOrderCommentsParams is parameters of ListPortingOrderComments operation.
+type ListPortingOrderCommentsParams struct {
+	// Porting Order id.
+	ID uuid.UUID
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
 }
 
 // ListPortingPhoneNumbersParams is parameters of ListPortingPhoneNumbers operation.
@@ -1142,6 +1175,12 @@ type LookupNumberParams struct {
 	Type OptNumberLookupType
 }
 
+// MarkCommentReadParams is parameters of MarkCommentRead operation.
+type MarkCommentReadParams struct {
+	// The comment ID.
+	ID string
+}
+
 // NoiseSuppressionStartParams is parameters of noiseSuppressionStart operation.
 type NoiseSuppressionStartParams struct {
 	// Unique identifier and token for controlling the call.
@@ -1166,6 +1205,12 @@ type PerformCredentialActionParams struct {
 	ID string
 	// Identifies the action to be taken.
 	Action PerformCredentialActionAction
+}
+
+// PortingOrdersIDCommentsPostParams is parameters of POST /porting_orders/{id}/comments operation.
+type PortingOrdersIDCommentsPostParams struct {
+	// Porting Order id.
+	ID uuid.UUID
 }
 
 // PostPortRequestCommentParams is parameters of PostPortRequestComment operation.
@@ -1216,6 +1261,12 @@ type RetrieveCallFromQueueParams struct {
 type RetrieveCallStatusParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// RetrieveCommentParams is parameters of RetrieveComment operation.
+type RetrieveCommentParams struct {
+	// The comment ID.
+	ID string
 }
 
 // RetrieveNumberOrderDocumentParams is parameters of RetrieveNumberOrderDocument operation.

@@ -29,6 +29,10 @@ type CreateCallControlApplicationRes interface {
 	createCallControlApplicationRes()
 }
 
+type CreateCommentRes interface {
+	createCommentRes()
+}
+
 type CreateCsvDownloadRes interface {
 	createCsvDownloadRes()
 }
@@ -67,6 +71,10 @@ type CreateNetworkRes interface {
 
 type CreateNotificationChannelsRes interface {
 	createNotificationChannelsRes()
+}
+
+type CreateNumberOrderDocumentRes interface {
+	createNumberOrderDocumentRes()
 }
 
 type CreateNumberPoolMessageRes interface {
@@ -441,6 +449,10 @@ type ListCallControlApplicationsRes interface {
 	listCallControlApplicationsRes()
 }
 
+type ListCommentsRes interface {
+	listCommentsRes()
+}
+
 type ListConnectionActiveCallsRes interface {
 	listConnectionActiveCallsRes()
 }
@@ -481,6 +493,10 @@ type ListNotificationChannelsRes interface {
 	listNotificationChannelsRes()
 }
 
+type ListNumberOrderDocumentsRes interface {
+	listNumberOrderDocumentsRes()
+}
+
 type ListOtaUpdatesRes interface {
 	listOtaUpdatesRes()
 }
@@ -503,6 +519,10 @@ type ListPhoneNumbersWithMessagingSettingsRes interface {
 
 type ListPhoneNumbersWithVoiceSettingsRes interface {
 	listPhoneNumbersWithVoiceSettingsRes()
+}
+
+type ListPortingOrderCommentsRes interface {
+	listPortingOrderCommentsRes()
 }
 
 type ListPortingPhoneNumbersRes interface {
@@ -549,6 +569,10 @@ type LookupNumberRes interface {
 	lookupNumberRes()
 }
 
+type MarkCommentReadRes interface {
+	markCommentReadRes()
+}
+
 type NoiseSuppressionStartRes interface {
 	noiseSuppressionStartRes()
 }
@@ -563,6 +587,10 @@ type PauseCallRecordingRes interface {
 
 type PerformCredentialActionRes interface {
 	performCredentialActionRes()
+}
+
+type PortingOrdersIDCommentsPostRes interface {
+	portingOrdersIDCommentsPostRes()
 }
 
 type PostPortRequestCommentRes interface {
@@ -599,6 +627,10 @@ type RetrieveCallFromQueueRes interface {
 
 type RetrieveCallStatusRes interface {
 	retrieveCallStatusRes()
+}
+
+type RetrieveCommentRes interface {
+	retrieveCommentRes()
 }
 
 type RetrieveNumberOrderDocumentRes interface {

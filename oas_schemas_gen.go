@@ -4636,6 +4636,413 @@ func (s *CnamListing) SetCnamListingDetails(val OptString) {
 	s.CnamListingDetails = val
 }
 
+// Ref: #/components/schemas/Comment
+type Comment struct {
+	ID                OptUUID                     `json:"id"`
+	Body              OptString                   `json:"body"`
+	Commenter         OptString                   `json:"commenter"`
+	CommenterType     OptCommentCommenterType     `json:"commenter_type"`
+	CommentRecordType OptCommentCommentRecordType `json:"comment_record_type"`
+	CommentRecordID   OptUUID                     `json:"comment_record_id"`
+	// An ISO 8901 datetime string for when the comment was read.
+	ReadAt OptString `json:"read_at"`
+	// An ISO 8901 datetime string denoting when the comment was created.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8901 datetime string for when the comment was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *Comment) GetID() OptUUID {
+	return s.ID
+}
+
+// GetBody returns the value of Body.
+func (s *Comment) GetBody() OptString {
+	return s.Body
+}
+
+// GetCommenter returns the value of Commenter.
+func (s *Comment) GetCommenter() OptString {
+	return s.Commenter
+}
+
+// GetCommenterType returns the value of CommenterType.
+func (s *Comment) GetCommenterType() OptCommentCommenterType {
+	return s.CommenterType
+}
+
+// GetCommentRecordType returns the value of CommentRecordType.
+func (s *Comment) GetCommentRecordType() OptCommentCommentRecordType {
+	return s.CommentRecordType
+}
+
+// GetCommentRecordID returns the value of CommentRecordID.
+func (s *Comment) GetCommentRecordID() OptUUID {
+	return s.CommentRecordID
+}
+
+// GetReadAt returns the value of ReadAt.
+func (s *Comment) GetReadAt() OptString {
+	return s.ReadAt
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *Comment) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *Comment) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *Comment) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetBody sets the value of Body.
+func (s *Comment) SetBody(val OptString) {
+	s.Body = val
+}
+
+// SetCommenter sets the value of Commenter.
+func (s *Comment) SetCommenter(val OptString) {
+	s.Commenter = val
+}
+
+// SetCommenterType sets the value of CommenterType.
+func (s *Comment) SetCommenterType(val OptCommentCommenterType) {
+	s.CommenterType = val
+}
+
+// SetCommentRecordType sets the value of CommentRecordType.
+func (s *Comment) SetCommentRecordType(val OptCommentCommentRecordType) {
+	s.CommentRecordType = val
+}
+
+// SetCommentRecordID sets the value of CommentRecordID.
+func (s *Comment) SetCommentRecordID(val OptUUID) {
+	s.CommentRecordID = val
+}
+
+// SetReadAt sets the value of ReadAt.
+func (s *Comment) SetReadAt(val OptString) {
+	s.ReadAt = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *Comment) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *Comment) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+type CommentCommentRecordType string
+
+const (
+	CommentCommentRecordTypeNumberOrder            CommentCommentRecordType = "number_order"
+	CommentCommentRecordTypeSubNumberOrder         CommentCommentRecordType = "sub_number_order"
+	CommentCommentRecordTypeNumberOrderPhoneNumber CommentCommentRecordType = "number_order_phone_number"
+)
+
+// AllValues returns all CommentCommentRecordType values.
+func (CommentCommentRecordType) AllValues() []CommentCommentRecordType {
+	return []CommentCommentRecordType{
+		CommentCommentRecordTypeNumberOrder,
+		CommentCommentRecordTypeSubNumberOrder,
+		CommentCommentRecordTypeNumberOrderPhoneNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CommentCommentRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case CommentCommentRecordTypeNumberOrder:
+		return []byte(s), nil
+	case CommentCommentRecordTypeSubNumberOrder:
+		return []byte(s), nil
+	case CommentCommentRecordTypeNumberOrderPhoneNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CommentCommentRecordType) UnmarshalText(data []byte) error {
+	switch CommentCommentRecordType(data) {
+	case CommentCommentRecordTypeNumberOrder:
+		*s = CommentCommentRecordTypeNumberOrder
+		return nil
+	case CommentCommentRecordTypeSubNumberOrder:
+		*s = CommentCommentRecordTypeSubNumberOrder
+		return nil
+	case CommentCommentRecordTypeNumberOrderPhoneNumber:
+		*s = CommentCommentRecordTypeNumberOrderPhoneNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CommentCommenterType string
+
+const (
+	CommentCommenterTypeAdmin CommentCommenterType = "admin"
+	CommentCommenterTypeUser  CommentCommenterType = "user"
+)
+
+// AllValues returns all CommentCommenterType values.
+func (CommentCommenterType) AllValues() []CommentCommenterType {
+	return []CommentCommenterType{
+		CommentCommenterTypeAdmin,
+		CommentCommenterTypeUser,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CommentCommenterType) MarshalText() ([]byte, error) {
+	switch s {
+	case CommentCommenterTypeAdmin:
+		return []byte(s), nil
+	case CommentCommenterTypeUser:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CommentCommenterType) UnmarshalText(data []byte) error {
+	switch CommentCommenterType(data) {
+	case CommentCommenterTypeAdmin:
+		*s = CommentCommenterTypeAdmin
+		return nil
+	case CommentCommenterTypeUser:
+		*s = CommentCommenterTypeUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CommentResponse struct {
+	Data OptCommentResponseData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CommentResponse) GetData() OptCommentResponseData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CommentResponse) SetData(val OptCommentResponseData) {
+	s.Data = val
+}
+
+func (*CommentResponse) createCommentRes()   {}
+func (*CommentResponse) retrieveCommentRes() {}
+
+// Merged schema.
+type CommentResponseData struct {
+	ID                OptUUID                                 `json:"id"`
+	Body              OptString                               `json:"body"`
+	Commenter         OptString                               `json:"commenter"`
+	CommenterType     OptCommentResponseDataCommenterType     `json:"commenter_type"`
+	CommentRecordType OptCommentResponseDataCommentRecordType `json:"comment_record_type"`
+	CommentRecordID   OptUUID                                 `json:"comment_record_id"`
+	// An ISO 8901 datetime string for when the comment was read.
+	ReadAt OptString `json:"read_at"`
+	// An ISO 8901 datetime string denoting when the comment was created.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8901 datetime string for when the comment was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *CommentResponseData) GetID() OptUUID {
+	return s.ID
+}
+
+// GetBody returns the value of Body.
+func (s *CommentResponseData) GetBody() OptString {
+	return s.Body
+}
+
+// GetCommenter returns the value of Commenter.
+func (s *CommentResponseData) GetCommenter() OptString {
+	return s.Commenter
+}
+
+// GetCommenterType returns the value of CommenterType.
+func (s *CommentResponseData) GetCommenterType() OptCommentResponseDataCommenterType {
+	return s.CommenterType
+}
+
+// GetCommentRecordType returns the value of CommentRecordType.
+func (s *CommentResponseData) GetCommentRecordType() OptCommentResponseDataCommentRecordType {
+	return s.CommentRecordType
+}
+
+// GetCommentRecordID returns the value of CommentRecordID.
+func (s *CommentResponseData) GetCommentRecordID() OptUUID {
+	return s.CommentRecordID
+}
+
+// GetReadAt returns the value of ReadAt.
+func (s *CommentResponseData) GetReadAt() OptString {
+	return s.ReadAt
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CommentResponseData) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *CommentResponseData) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *CommentResponseData) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetBody sets the value of Body.
+func (s *CommentResponseData) SetBody(val OptString) {
+	s.Body = val
+}
+
+// SetCommenter sets the value of Commenter.
+func (s *CommentResponseData) SetCommenter(val OptString) {
+	s.Commenter = val
+}
+
+// SetCommenterType sets the value of CommenterType.
+func (s *CommentResponseData) SetCommenterType(val OptCommentResponseDataCommenterType) {
+	s.CommenterType = val
+}
+
+// SetCommentRecordType sets the value of CommentRecordType.
+func (s *CommentResponseData) SetCommentRecordType(val OptCommentResponseDataCommentRecordType) {
+	s.CommentRecordType = val
+}
+
+// SetCommentRecordID sets the value of CommentRecordID.
+func (s *CommentResponseData) SetCommentRecordID(val OptUUID) {
+	s.CommentRecordID = val
+}
+
+// SetReadAt sets the value of ReadAt.
+func (s *CommentResponseData) SetReadAt(val OptString) {
+	s.ReadAt = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CommentResponseData) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *CommentResponseData) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+type CommentResponseDataCommentRecordType string
+
+const (
+	CommentResponseDataCommentRecordTypeNumberOrder            CommentResponseDataCommentRecordType = "number_order"
+	CommentResponseDataCommentRecordTypeSubNumberOrder         CommentResponseDataCommentRecordType = "sub_number_order"
+	CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber CommentResponseDataCommentRecordType = "number_order_phone_number"
+)
+
+// AllValues returns all CommentResponseDataCommentRecordType values.
+func (CommentResponseDataCommentRecordType) AllValues() []CommentResponseDataCommentRecordType {
+	return []CommentResponseDataCommentRecordType{
+		CommentResponseDataCommentRecordTypeNumberOrder,
+		CommentResponseDataCommentRecordTypeSubNumberOrder,
+		CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CommentResponseDataCommentRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case CommentResponseDataCommentRecordTypeNumberOrder:
+		return []byte(s), nil
+	case CommentResponseDataCommentRecordTypeSubNumberOrder:
+		return []byte(s), nil
+	case CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CommentResponseDataCommentRecordType) UnmarshalText(data []byte) error {
+	switch CommentResponseDataCommentRecordType(data) {
+	case CommentResponseDataCommentRecordTypeNumberOrder:
+		*s = CommentResponseDataCommentRecordTypeNumberOrder
+		return nil
+	case CommentResponseDataCommentRecordTypeSubNumberOrder:
+		*s = CommentResponseDataCommentRecordTypeSubNumberOrder
+		return nil
+	case CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber:
+		*s = CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CommentResponseDataCommenterType string
+
+const (
+	CommentResponseDataCommenterTypeAdmin CommentResponseDataCommenterType = "admin"
+	CommentResponseDataCommenterTypeUser  CommentResponseDataCommenterType = "user"
+)
+
+// AllValues returns all CommentResponseDataCommenterType values.
+func (CommentResponseDataCommenterType) AllValues() []CommentResponseDataCommenterType {
+	return []CommentResponseDataCommenterType{
+		CommentResponseDataCommenterTypeAdmin,
+		CommentResponseDataCommenterTypeUser,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CommentResponseDataCommenterType) MarshalText() ([]byte, error) {
+	switch s {
+	case CommentResponseDataCommenterTypeAdmin:
+		return []byte(s), nil
+	case CommentResponseDataCommenterTypeUser:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CommentResponseDataCommenterType) UnmarshalText(data []byte) error {
+	switch CommentResponseDataCommenterType(data) {
+	case CommentResponseDataCommenterTypeAdmin:
+		*s = CommentResponseDataCommenterTypeAdmin
+		return nil
+	case CommentResponseDataCommenterTypeUser:
+		*s = CommentResponseDataCommenterTypeUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // This object represents an Over the Air (OTA) update request. It allows tracking the current status
 // of a operation that apply settings in a particular SIM card. <br/><br/>.
 // Ref: #/components/schemas/CompleteOTAUpdate
@@ -6552,6 +6959,139 @@ func (s *CreateNotificationChannelsOK) SetData(val OptNotificationChannel) {
 
 func (*CreateNotificationChannelsOK) createNotificationChannelsRes() {}
 
+// Ref: #/components/schemas/CreateNumberOrderDocumentRequest
+type CreateNumberOrderDocumentRequest struct {
+	ID         OptUUID   `json:"id"`
+	RecordType OptString `json:"record_type"`
+	// The id of the file to associate as a number order document.
+	FileID OptString `json:"file_id"`
+	// Unique id for a requirement.
+	RequirementsID OptString `json:"requirements_id"`
+	// A customer reference string for customer look ups.
+	CustomerReference OptString                                          `json:"customer_reference"`
+	RequirementType   OptCreateNumberOrderDocumentRequestRequirementType `json:"requirement_type"`
+	// An ISO 8901 datetime string denoting when the number order document was uploaded.
+	CreatedAt OptString `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *CreateNumberOrderDocumentRequest) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CreateNumberOrderDocumentRequest) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetFileID returns the value of FileID.
+func (s *CreateNumberOrderDocumentRequest) GetFileID() OptString {
+	return s.FileID
+}
+
+// GetRequirementsID returns the value of RequirementsID.
+func (s *CreateNumberOrderDocumentRequest) GetRequirementsID() OptString {
+	return s.RequirementsID
+}
+
+// GetCustomerReference returns the value of CustomerReference.
+func (s *CreateNumberOrderDocumentRequest) GetCustomerReference() OptString {
+	return s.CustomerReference
+}
+
+// GetRequirementType returns the value of RequirementType.
+func (s *CreateNumberOrderDocumentRequest) GetRequirementType() OptCreateNumberOrderDocumentRequestRequirementType {
+	return s.RequirementType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CreateNumberOrderDocumentRequest) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *CreateNumberOrderDocumentRequest) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CreateNumberOrderDocumentRequest) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetFileID sets the value of FileID.
+func (s *CreateNumberOrderDocumentRequest) SetFileID(val OptString) {
+	s.FileID = val
+}
+
+// SetRequirementsID sets the value of RequirementsID.
+func (s *CreateNumberOrderDocumentRequest) SetRequirementsID(val OptString) {
+	s.RequirementsID = val
+}
+
+// SetCustomerReference sets the value of CustomerReference.
+func (s *CreateNumberOrderDocumentRequest) SetCustomerReference(val OptString) {
+	s.CustomerReference = val
+}
+
+// SetRequirementType sets the value of RequirementType.
+func (s *CreateNumberOrderDocumentRequest) SetRequirementType(val OptCreateNumberOrderDocumentRequestRequirementType) {
+	s.RequirementType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CreateNumberOrderDocumentRequest) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+type CreateNumberOrderDocumentRequestRequirementType string
+
+const (
+	CreateNumberOrderDocumentRequestRequirementTypeAddressProof   CreateNumberOrderDocumentRequestRequirementType = "address_proof"
+	CreateNumberOrderDocumentRequestRequirementTypeIdentification CreateNumberOrderDocumentRequestRequirementType = "identification"
+	CreateNumberOrderDocumentRequestRequirementTypeRegForm        CreateNumberOrderDocumentRequestRequirementType = "reg_form"
+)
+
+// AllValues returns all CreateNumberOrderDocumentRequestRequirementType values.
+func (CreateNumberOrderDocumentRequestRequirementType) AllValues() []CreateNumberOrderDocumentRequestRequirementType {
+	return []CreateNumberOrderDocumentRequestRequirementType{
+		CreateNumberOrderDocumentRequestRequirementTypeAddressProof,
+		CreateNumberOrderDocumentRequestRequirementTypeIdentification,
+		CreateNumberOrderDocumentRequestRequirementTypeRegForm,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateNumberOrderDocumentRequestRequirementType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateNumberOrderDocumentRequestRequirementTypeAddressProof:
+		return []byte(s), nil
+	case CreateNumberOrderDocumentRequestRequirementTypeIdentification:
+		return []byte(s), nil
+	case CreateNumberOrderDocumentRequestRequirementTypeRegForm:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateNumberOrderDocumentRequestRequirementType) UnmarshalText(data []byte) error {
+	switch CreateNumberOrderDocumentRequestRequirementType(data) {
+	case CreateNumberOrderDocumentRequestRequirementTypeAddressProof:
+		*s = CreateNumberOrderDocumentRequestRequirementTypeAddressProof
+		return nil
+	case CreateNumberOrderDocumentRequestRequirementTypeIdentification:
+		*s = CreateNumberOrderDocumentRequestRequirementTypeIdentification
+		return nil
+	case CreateNumberOrderDocumentRequestRequirementTypeRegForm:
+		*s = CreateNumberOrderDocumentRequestRequirementTypeRegForm
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/CreateNumberPoolMessageRequest
 type CreateNumberPoolMessageRequest struct {
 	// Unique identifier for a messaging profile.
@@ -6914,6 +7454,21 @@ func (s *CreatePortOutSupportingDocumentsResponse) SetData(val []PortOutSupporti
 }
 
 func (*CreatePortOutSupportingDocumentsResponse) postPortRequestSupportingDocumentsRes() {}
+
+// Ref: #/components/schemas/CreatePortingOrderComment
+type CreatePortingOrderComment struct {
+	Body OptString `json:"body"`
+}
+
+// GetBody returns the value of Body.
+func (s *CreatePortingOrderComment) GetBody() OptString {
+	return s.Body
+}
+
+// SetBody sets the value of Body.
+func (s *CreatePortingOrderComment) SetBody(val OptString) {
+	s.Body = val
+}
 
 // CreateProfileVerificationRequestCreated is response for CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestCreated struct{}
@@ -11839,6 +12394,7 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 func (*GenericErrorResponseStatusCode) answerCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) assignPhoneNumberRes()                            {}
 func (*GenericErrorResponseStatusCode) bridgeCallRes()                                   {}
+func (*GenericErrorResponseStatusCode) createCommentRes()                                {}
 func (*GenericErrorResponseStatusCode) createCsvDownloadRes()                            {}
 func (*GenericErrorResponseStatusCode) createCustomStorageCredentialsRes()               {}
 func (*GenericErrorResponseStatusCode) createDefaultGatewayRes()                         {}
@@ -11849,6 +12405,7 @@ func (*GenericErrorResponseStatusCode) createLongCodeMessageRes()               
 func (*GenericErrorResponseStatusCode) createMessagingHostedNumberOrderRes()             {}
 func (*GenericErrorResponseStatusCode) createNetworkRes()                                {}
 func (*GenericErrorResponseStatusCode) createNotificationChannelsRes()                   {}
+func (*GenericErrorResponseStatusCode) createNumberOrderDocumentRes()                    {}
 func (*GenericErrorResponseStatusCode) createNumberPoolMessageRes()                      {}
 func (*GenericErrorResponseStatusCode) createPhoneNumbersJobUpdateEmergencySettingsRes() {}
 func (*GenericErrorResponseStatusCode) createProfileRes()                                {}
@@ -11899,6 +12456,7 @@ func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                    
 func (*GenericErrorResponseStatusCode) hangupCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()                                   {}
 func (*GenericErrorResponseStatusCode) listAvailablePhoneNumbersRes()                    {}
+func (*GenericErrorResponseStatusCode) listCommentsRes()                                 {}
 func (*GenericErrorResponseStatusCode) listConnectionActiveCallsRes()                    {}
 func (*GenericErrorResponseStatusCode) listCsvDownloadsRes()                             {}
 func (*GenericErrorResponseStatusCode) listMessagingHostedNumberOrdersRes()              {}
@@ -11906,6 +12464,7 @@ func (*GenericErrorResponseStatusCode) listMessagingUrlDomainsRes()             
 func (*GenericErrorResponseStatusCode) listNetworkInterfacesRes()                        {}
 func (*GenericErrorResponseStatusCode) listNetworksRes()                                 {}
 func (*GenericErrorResponseStatusCode) listNotificationChannelsRes()                     {}
+func (*GenericErrorResponseStatusCode) listNumberOrderDocumentsRes()                     {}
 func (*GenericErrorResponseStatusCode) listOtaUpdatesRes()                               {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersJobsRes()                         {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersRes()                             {}
@@ -11918,6 +12477,7 @@ func (*GenericErrorResponseStatusCode) listVerificationsRes()                   
 func (*GenericErrorResponseStatusCode) listVerifiedCallDisplayProfilesRes()              {}
 func (*GenericErrorResponseStatusCode) listVerifiedNumbersRes()                          {}
 func (*GenericErrorResponseStatusCode) lookupNumberRes()                                 {}
+func (*GenericErrorResponseStatusCode) markCommentReadRes()                              {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()                        {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStopRes()                         {}
 func (*GenericErrorResponseStatusCode) pauseCallRecordingRes()                           {}
@@ -11926,6 +12486,7 @@ func (*GenericErrorResponseStatusCode) registerCallRes()                        
 func (*GenericErrorResponseStatusCode) rejectCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                          {}
 func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                           {}
+func (*GenericErrorResponseStatusCode) retrieveCommentRes()                              {}
 func (*GenericErrorResponseStatusCode) retrieveNumberOrderDocumentRes()                  {}
 func (*GenericErrorResponseStatusCode) retrieveOrderPhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumberRes()                          {}
@@ -13796,6 +14357,33 @@ func (s *ListCallControlApplicationsResponse) SetMeta(val OptPaginationMeta) {
 
 func (*ListCallControlApplicationsResponse) listCallControlApplicationsRes() {}
 
+type ListCommentsResponse struct {
+	Data []Comment         `json:"data"`
+	Meta OptPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListCommentsResponse) GetData() []Comment {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListCommentsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListCommentsResponse) SetData(val []Comment) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListCommentsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListCommentsResponse) listCommentsRes() {}
+
 type ListCsvDownloadsResponse struct {
 	Data []CsvDownload     `json:"data"`
 	Meta OptPaginationMeta `json:"meta"`
@@ -14068,6 +14656,33 @@ func (s *ListNotificationChannelsOK) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListNotificationChannelsOK) listNotificationChannelsRes() {}
+
+type ListNumberOrderDocumentsResponse struct {
+	Data []NumberOrderDocument `json:"data"`
+	Meta OptPaginationMeta     `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListNumberOrderDocumentsResponse) GetData() []NumberOrderDocument {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListNumberOrderDocumentsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListNumberOrderDocumentsResponse) SetData(val []NumberOrderDocument) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListNumberOrderDocumentsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListNumberOrderDocumentsResponse) listNumberOrderDocumentsRes() {}
 
 type ListNumberOrderPhoneNumbersResponse struct {
 	Data []NumberOrderPhoneNumber `json:"data"`
@@ -14639,6 +15254,43 @@ func (s *ListPhoneNumbersWithVoiceSettingsSort) UnmarshalText(data []byte) error
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+// ListPortingOrderCommentsUnauthorized is response for ListPortingOrderComments operation.
+type ListPortingOrderCommentsUnauthorized struct{}
+
+func (*ListPortingOrderCommentsUnauthorized) listPortingOrderCommentsRes() {}
+
+// ListPortingOrderCommentsUnprocessableEntity is response for ListPortingOrderComments operation.
+type ListPortingOrderCommentsUnprocessableEntity struct{}
+
+func (*ListPortingOrderCommentsUnprocessableEntity) listPortingOrderCommentsRes() {}
+
+type ListPortingOrdersComments struct {
+	Data []PortingOrdersComment `json:"data"`
+	Meta OptPaginationMeta      `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPortingOrdersComments) GetData() []PortingOrdersComment {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPortingOrdersComments) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPortingOrdersComments) SetData(val []PortingOrdersComment) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPortingOrdersComments) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListPortingOrdersComments) listPortingOrderCommentsRes() {}
 
 type ListPortingPhoneNumbersApplicationJSON struct {
 	Data []PortingPhoneNumber `json:"data"`
@@ -17108,6 +17760,7 @@ func (s *NumberOrderDocumentResponse) SetData(val OptNumberOrderDocument) {
 	s.Data = val
 }
 
+func (*NumberOrderDocumentResponse) createNumberOrderDocumentRes()   {}
 func (*NumberOrderDocumentResponse) retrieveNumberOrderDocumentRes() {}
 func (*NumberOrderDocumentResponse) updateNumberOrderDocumentRes()   {}
 
@@ -20046,6 +20699,236 @@ func (o OptCnamListing) Or(d CnamListing) CnamListing {
 	return d
 }
 
+// NewOptCommentCommentRecordType returns new OptCommentCommentRecordType with value set to v.
+func NewOptCommentCommentRecordType(v CommentCommentRecordType) OptCommentCommentRecordType {
+	return OptCommentCommentRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCommentCommentRecordType is optional CommentCommentRecordType.
+type OptCommentCommentRecordType struct {
+	Value CommentCommentRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptCommentCommentRecordType was set.
+func (o OptCommentCommentRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCommentCommentRecordType) Reset() {
+	var v CommentCommentRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCommentCommentRecordType) SetTo(v CommentCommentRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCommentCommentRecordType) Get() (v CommentCommentRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCommentCommentRecordType) Or(d CommentCommentRecordType) CommentCommentRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCommentCommenterType returns new OptCommentCommenterType with value set to v.
+func NewOptCommentCommenterType(v CommentCommenterType) OptCommentCommenterType {
+	return OptCommentCommenterType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCommentCommenterType is optional CommentCommenterType.
+type OptCommentCommenterType struct {
+	Value CommentCommenterType
+	Set   bool
+}
+
+// IsSet returns true if OptCommentCommenterType was set.
+func (o OptCommentCommenterType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCommentCommenterType) Reset() {
+	var v CommentCommenterType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCommentCommenterType) SetTo(v CommentCommenterType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCommentCommenterType) Get() (v CommentCommenterType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCommentCommenterType) Or(d CommentCommenterType) CommentCommenterType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCommentResponseData returns new OptCommentResponseData with value set to v.
+func NewOptCommentResponseData(v CommentResponseData) OptCommentResponseData {
+	return OptCommentResponseData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCommentResponseData is optional CommentResponseData.
+type OptCommentResponseData struct {
+	Value CommentResponseData
+	Set   bool
+}
+
+// IsSet returns true if OptCommentResponseData was set.
+func (o OptCommentResponseData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCommentResponseData) Reset() {
+	var v CommentResponseData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCommentResponseData) SetTo(v CommentResponseData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCommentResponseData) Get() (v CommentResponseData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCommentResponseData) Or(d CommentResponseData) CommentResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCommentResponseDataCommentRecordType returns new OptCommentResponseDataCommentRecordType with value set to v.
+func NewOptCommentResponseDataCommentRecordType(v CommentResponseDataCommentRecordType) OptCommentResponseDataCommentRecordType {
+	return OptCommentResponseDataCommentRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCommentResponseDataCommentRecordType is optional CommentResponseDataCommentRecordType.
+type OptCommentResponseDataCommentRecordType struct {
+	Value CommentResponseDataCommentRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptCommentResponseDataCommentRecordType was set.
+func (o OptCommentResponseDataCommentRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCommentResponseDataCommentRecordType) Reset() {
+	var v CommentResponseDataCommentRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCommentResponseDataCommentRecordType) SetTo(v CommentResponseDataCommentRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCommentResponseDataCommentRecordType) Get() (v CommentResponseDataCommentRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCommentResponseDataCommentRecordType) Or(d CommentResponseDataCommentRecordType) CommentResponseDataCommentRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCommentResponseDataCommenterType returns new OptCommentResponseDataCommenterType with value set to v.
+func NewOptCommentResponseDataCommenterType(v CommentResponseDataCommenterType) OptCommentResponseDataCommenterType {
+	return OptCommentResponseDataCommenterType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCommentResponseDataCommenterType is optional CommentResponseDataCommenterType.
+type OptCommentResponseDataCommenterType struct {
+	Value CommentResponseDataCommenterType
+	Set   bool
+}
+
+// IsSet returns true if OptCommentResponseDataCommenterType was set.
+func (o OptCommentResponseDataCommenterType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCommentResponseDataCommenterType) Reset() {
+	var v CommentResponseDataCommenterType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCommentResponseDataCommenterType) SetTo(v CommentResponseDataCommenterType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCommentResponseDataCommenterType) Get() (v CommentResponseDataCommenterType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCommentResponseDataCommenterType) Or(d CommentResponseDataCommenterType) CommentResponseDataCommenterType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCompleteOTAUpdate returns new OptCompleteOTAUpdate with value set to v.
 func NewOptCompleteOTAUpdate(v CompleteOTAUpdate) OptCompleteOTAUpdate {
 	return OptCompleteOTAUpdate{
@@ -21190,6 +22073,52 @@ func (o OptCreateMessagingHostedNumberOrderRequest) Get() (v CreateMessagingHost
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateMessagingHostedNumberOrderRequest) Or(d CreateMessagingHostedNumberOrderRequest) CreateMessagingHostedNumberOrderRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateNumberOrderDocumentRequestRequirementType returns new OptCreateNumberOrderDocumentRequestRequirementType with value set to v.
+func NewOptCreateNumberOrderDocumentRequestRequirementType(v CreateNumberOrderDocumentRequestRequirementType) OptCreateNumberOrderDocumentRequestRequirementType {
+	return OptCreateNumberOrderDocumentRequestRequirementType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateNumberOrderDocumentRequestRequirementType is optional CreateNumberOrderDocumentRequestRequirementType.
+type OptCreateNumberOrderDocumentRequestRequirementType struct {
+	Value CreateNumberOrderDocumentRequestRequirementType
+	Set   bool
+}
+
+// IsSet returns true if OptCreateNumberOrderDocumentRequestRequirementType was set.
+func (o OptCreateNumberOrderDocumentRequestRequirementType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateNumberOrderDocumentRequestRequirementType) Reset() {
+	var v CreateNumberOrderDocumentRequestRequirementType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateNumberOrderDocumentRequestRequirementType) SetTo(v CreateNumberOrderDocumentRequestRequirementType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateNumberOrderDocumentRequestRequirementType) Get() (v CreateNumberOrderDocumentRequestRequirementType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateNumberOrderDocumentRequestRequirementType) Or(d CreateNumberOrderDocumentRequestRequirementType) CreateNumberOrderDocumentRequestRequirementType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -28919,6 +29848,98 @@ func (o OptPortingOrderActivationStatus) Or(d PortingOrderActivationStatus) Port
 	return d
 }
 
+// NewOptPortingOrdersComment returns new OptPortingOrdersComment with value set to v.
+func NewOptPortingOrdersComment(v PortingOrdersComment) OptPortingOrdersComment {
+	return OptPortingOrdersComment{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingOrdersComment is optional PortingOrdersComment.
+type OptPortingOrdersComment struct {
+	Value PortingOrdersComment
+	Set   bool
+}
+
+// IsSet returns true if OptPortingOrdersComment was set.
+func (o OptPortingOrdersComment) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingOrdersComment) Reset() {
+	var v PortingOrdersComment
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingOrdersComment) SetTo(v PortingOrdersComment) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingOrdersComment) Get() (v PortingOrdersComment, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingOrdersComment) Or(d PortingOrdersComment) PortingOrdersComment {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingOrdersCommentUserType returns new OptPortingOrdersCommentUserType with value set to v.
+func NewOptPortingOrdersCommentUserType(v PortingOrdersCommentUserType) OptPortingOrdersCommentUserType {
+	return OptPortingOrdersCommentUserType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingOrdersCommentUserType is optional PortingOrdersCommentUserType.
+type OptPortingOrdersCommentUserType struct {
+	Value PortingOrdersCommentUserType
+	Set   bool
+}
+
+// IsSet returns true if OptPortingOrdersCommentUserType was set.
+func (o OptPortingOrdersCommentUserType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingOrdersCommentUserType) Reset() {
+	var v PortingOrdersCommentUserType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingOrdersCommentUserType) SetTo(v PortingOrdersCommentUserType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingOrdersCommentUserType) Get() (v PortingOrdersCommentUserType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingOrdersCommentUserType) Or(d PortingOrdersCommentUserType) PortingOrdersCommentUserType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPortingPhoneNumberPhoneNumberType returns new OptPortingPhoneNumberPhoneNumberType with value set to v.
 func NewOptPortingPhoneNumberPhoneNumberType(v PortingPhoneNumberPhoneNumberType) OptPortingPhoneNumberPhoneNumberType {
 	return OptPortingPhoneNumberPhoneNumberType{
@@ -29235,6 +30256,144 @@ func (o OptQueueCall) Get() (v QueueCall, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptQueueCall) Or(d QueueCall) QueueCall {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadCommentResponseData returns new OptReadCommentResponseData with value set to v.
+func NewOptReadCommentResponseData(v ReadCommentResponseData) OptReadCommentResponseData {
+	return OptReadCommentResponseData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadCommentResponseData is optional ReadCommentResponseData.
+type OptReadCommentResponseData struct {
+	Value ReadCommentResponseData
+	Set   bool
+}
+
+// IsSet returns true if OptReadCommentResponseData was set.
+func (o OptReadCommentResponseData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadCommentResponseData) Reset() {
+	var v ReadCommentResponseData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadCommentResponseData) SetTo(v ReadCommentResponseData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadCommentResponseData) Get() (v ReadCommentResponseData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadCommentResponseData) Or(d ReadCommentResponseData) ReadCommentResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadCommentResponseDataCommentRecordType returns new OptReadCommentResponseDataCommentRecordType with value set to v.
+func NewOptReadCommentResponseDataCommentRecordType(v ReadCommentResponseDataCommentRecordType) OptReadCommentResponseDataCommentRecordType {
+	return OptReadCommentResponseDataCommentRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadCommentResponseDataCommentRecordType is optional ReadCommentResponseDataCommentRecordType.
+type OptReadCommentResponseDataCommentRecordType struct {
+	Value ReadCommentResponseDataCommentRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptReadCommentResponseDataCommentRecordType was set.
+func (o OptReadCommentResponseDataCommentRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadCommentResponseDataCommentRecordType) Reset() {
+	var v ReadCommentResponseDataCommentRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadCommentResponseDataCommentRecordType) SetTo(v ReadCommentResponseDataCommentRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadCommentResponseDataCommentRecordType) Get() (v ReadCommentResponseDataCommentRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadCommentResponseDataCommentRecordType) Or(d ReadCommentResponseDataCommentRecordType) ReadCommentResponseDataCommentRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadCommentResponseDataCommenterType returns new OptReadCommentResponseDataCommenterType with value set to v.
+func NewOptReadCommentResponseDataCommenterType(v ReadCommentResponseDataCommenterType) OptReadCommentResponseDataCommenterType {
+	return OptReadCommentResponseDataCommenterType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadCommentResponseDataCommenterType is optional ReadCommentResponseDataCommenterType.
+type OptReadCommentResponseDataCommenterType struct {
+	Value ReadCommentResponseDataCommenterType
+	Set   bool
+}
+
+// IsSet returns true if OptReadCommentResponseDataCommenterType was set.
+func (o OptReadCommentResponseDataCommenterType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadCommentResponseDataCommenterType) Reset() {
+	var v ReadCommentResponseDataCommenterType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadCommentResponseDataCommenterType) SetTo(v ReadCommentResponseDataCommenterType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadCommentResponseDataCommenterType) Get() (v ReadCommentResponseDataCommenterType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadCommentResponseDataCommenterType) Or(d ReadCommentResponseDataCommenterType) ReadCommentResponseDataCommenterType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -39957,6 +41116,139 @@ func (s *PortingOrderActivationStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/PortingOrdersComment
+type PortingOrdersComment struct {
+	ID OptUUID `json:"id"`
+	// Body of comment.
+	Body           OptString `json:"body"`
+	PortingOrderID OptUUID   `json:"porting_order_id"`
+	// Indicates whether this comment was created by a Telnyx Admin, user, or system.
+	UserType OptPortingOrdersCommentUserType `json:"user_type"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date indicating when the resource was created.
+	CreatedAt OptDateTime `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *PortingOrdersComment) GetID() OptUUID {
+	return s.ID
+}
+
+// GetBody returns the value of Body.
+func (s *PortingOrdersComment) GetBody() OptString {
+	return s.Body
+}
+
+// GetPortingOrderID returns the value of PortingOrderID.
+func (s *PortingOrdersComment) GetPortingOrderID() OptUUID {
+	return s.PortingOrderID
+}
+
+// GetUserType returns the value of UserType.
+func (s *PortingOrdersComment) GetUserType() OptPortingOrdersCommentUserType {
+	return s.UserType
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortingOrdersComment) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PortingOrdersComment) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *PortingOrdersComment) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetBody sets the value of Body.
+func (s *PortingOrdersComment) SetBody(val OptString) {
+	s.Body = val
+}
+
+// SetPortingOrderID sets the value of PortingOrderID.
+func (s *PortingOrdersComment) SetPortingOrderID(val OptUUID) {
+	s.PortingOrderID = val
+}
+
+// SetUserType sets the value of UserType.
+func (s *PortingOrdersComment) SetUserType(val OptPortingOrdersCommentUserType) {
+	s.UserType = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortingOrdersComment) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PortingOrdersComment) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// Indicates whether this comment was created by a Telnyx Admin, user, or system.
+type PortingOrdersCommentUserType string
+
+const (
+	PortingOrdersCommentUserTypeAdmin  PortingOrdersCommentUserType = "admin"
+	PortingOrdersCommentUserTypeUser   PortingOrdersCommentUserType = "user"
+	PortingOrdersCommentUserTypeSystem PortingOrdersCommentUserType = "system"
+)
+
+// AllValues returns all PortingOrdersCommentUserType values.
+func (PortingOrdersCommentUserType) AllValues() []PortingOrdersCommentUserType {
+	return []PortingOrdersCommentUserType{
+		PortingOrdersCommentUserTypeAdmin,
+		PortingOrdersCommentUserTypeUser,
+		PortingOrdersCommentUserTypeSystem,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingOrdersCommentUserType) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingOrdersCommentUserTypeAdmin:
+		return []byte(s), nil
+	case PortingOrdersCommentUserTypeUser:
+		return []byte(s), nil
+	case PortingOrdersCommentUserTypeSystem:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingOrdersCommentUserType) UnmarshalText(data []byte) error {
+	switch PortingOrdersCommentUserType(data) {
+	case PortingOrdersCommentUserTypeAdmin:
+		*s = PortingOrdersCommentUserTypeAdmin
+		return nil
+	case PortingOrdersCommentUserTypeUser:
+		*s = PortingOrdersCommentUserTypeUser
+		return nil
+	case PortingOrdersCommentUserTypeSystem:
+		*s = PortingOrdersCommentUserTypeSystem
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// PortingOrdersIDCommentsPostUnauthorized is response for PortingOrdersIDCommentsPost operation.
+type PortingOrdersIDCommentsPostUnauthorized struct{}
+
+func (*PortingOrdersIDCommentsPostUnauthorized) portingOrdersIDCommentsPostRes() {}
+
+// PortingOrdersIDCommentsPostUnprocessableEntity is response for PortingOrdersIDCommentsPost operation.
+type PortingOrdersIDCommentsPostUnprocessableEntity struct{}
+
+func (*PortingOrdersIDCommentsPostUnprocessableEntity) portingOrdersIDCommentsPostRes() {}
+
 // Ref: #/components/schemas/PortingPhoneNumber
 type PortingPhoneNumber struct {
 	// The current status of the porting order.
@@ -41075,6 +42367,217 @@ func (s *QueueCallResponse) SetData(val OptQueueCall) {
 }
 
 func (*QueueCallResponse) retrieveCallFromQueueRes() {}
+
+type ReadCommentResponse struct {
+	Data OptReadCommentResponseData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ReadCommentResponse) GetData() OptReadCommentResponseData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ReadCommentResponse) SetData(val OptReadCommentResponseData) {
+	s.Data = val
+}
+
+func (*ReadCommentResponse) markCommentReadRes() {}
+
+// Merged schema.
+type ReadCommentResponseData struct {
+	ID                OptUUID                                     `json:"id"`
+	Body              OptString                                   `json:"body"`
+	Commenter         OptString                                   `json:"commenter"`
+	CommenterType     OptReadCommentResponseDataCommenterType     `json:"commenter_type"`
+	CommentRecordType OptReadCommentResponseDataCommentRecordType `json:"comment_record_type"`
+	CommentRecordID   OptUUID                                     `json:"comment_record_id"`
+	// Merged property.
+	ReadAt OptString `json:"read_at"`
+	// An ISO 8901 datetime string denoting when the comment was created.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8901 datetime string for when the comment was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *ReadCommentResponseData) GetID() OptUUID {
+	return s.ID
+}
+
+// GetBody returns the value of Body.
+func (s *ReadCommentResponseData) GetBody() OptString {
+	return s.Body
+}
+
+// GetCommenter returns the value of Commenter.
+func (s *ReadCommentResponseData) GetCommenter() OptString {
+	return s.Commenter
+}
+
+// GetCommenterType returns the value of CommenterType.
+func (s *ReadCommentResponseData) GetCommenterType() OptReadCommentResponseDataCommenterType {
+	return s.CommenterType
+}
+
+// GetCommentRecordType returns the value of CommentRecordType.
+func (s *ReadCommentResponseData) GetCommentRecordType() OptReadCommentResponseDataCommentRecordType {
+	return s.CommentRecordType
+}
+
+// GetCommentRecordID returns the value of CommentRecordID.
+func (s *ReadCommentResponseData) GetCommentRecordID() OptUUID {
+	return s.CommentRecordID
+}
+
+// GetReadAt returns the value of ReadAt.
+func (s *ReadCommentResponseData) GetReadAt() OptString {
+	return s.ReadAt
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadCommentResponseData) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReadCommentResponseData) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *ReadCommentResponseData) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetBody sets the value of Body.
+func (s *ReadCommentResponseData) SetBody(val OptString) {
+	s.Body = val
+}
+
+// SetCommenter sets the value of Commenter.
+func (s *ReadCommentResponseData) SetCommenter(val OptString) {
+	s.Commenter = val
+}
+
+// SetCommenterType sets the value of CommenterType.
+func (s *ReadCommentResponseData) SetCommenterType(val OptReadCommentResponseDataCommenterType) {
+	s.CommenterType = val
+}
+
+// SetCommentRecordType sets the value of CommentRecordType.
+func (s *ReadCommentResponseData) SetCommentRecordType(val OptReadCommentResponseDataCommentRecordType) {
+	s.CommentRecordType = val
+}
+
+// SetCommentRecordID sets the value of CommentRecordID.
+func (s *ReadCommentResponseData) SetCommentRecordID(val OptUUID) {
+	s.CommentRecordID = val
+}
+
+// SetReadAt sets the value of ReadAt.
+func (s *ReadCommentResponseData) SetReadAt(val OptString) {
+	s.ReadAt = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadCommentResponseData) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReadCommentResponseData) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+type ReadCommentResponseDataCommentRecordType string
+
+const (
+	ReadCommentResponseDataCommentRecordTypeNumberOrder            ReadCommentResponseDataCommentRecordType = "number_order"
+	ReadCommentResponseDataCommentRecordTypeSubNumberOrder         ReadCommentResponseDataCommentRecordType = "sub_number_order"
+	ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber ReadCommentResponseDataCommentRecordType = "number_order_phone_number"
+)
+
+// AllValues returns all ReadCommentResponseDataCommentRecordType values.
+func (ReadCommentResponseDataCommentRecordType) AllValues() []ReadCommentResponseDataCommentRecordType {
+	return []ReadCommentResponseDataCommentRecordType{
+		ReadCommentResponseDataCommentRecordTypeNumberOrder,
+		ReadCommentResponseDataCommentRecordTypeSubNumberOrder,
+		ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReadCommentResponseDataCommentRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case ReadCommentResponseDataCommentRecordTypeNumberOrder:
+		return []byte(s), nil
+	case ReadCommentResponseDataCommentRecordTypeSubNumberOrder:
+		return []byte(s), nil
+	case ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReadCommentResponseDataCommentRecordType) UnmarshalText(data []byte) error {
+	switch ReadCommentResponseDataCommentRecordType(data) {
+	case ReadCommentResponseDataCommentRecordTypeNumberOrder:
+		*s = ReadCommentResponseDataCommentRecordTypeNumberOrder
+		return nil
+	case ReadCommentResponseDataCommentRecordTypeSubNumberOrder:
+		*s = ReadCommentResponseDataCommentRecordTypeSubNumberOrder
+		return nil
+	case ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber:
+		*s = ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ReadCommentResponseDataCommenterType string
+
+const (
+	ReadCommentResponseDataCommenterTypeAdmin ReadCommentResponseDataCommenterType = "admin"
+	ReadCommentResponseDataCommenterTypeUser  ReadCommentResponseDataCommenterType = "user"
+)
+
+// AllValues returns all ReadCommentResponseDataCommenterType values.
+func (ReadCommentResponseDataCommenterType) AllValues() []ReadCommentResponseDataCommenterType {
+	return []ReadCommentResponseDataCommenterType{
+		ReadCommentResponseDataCommenterTypeAdmin,
+		ReadCommentResponseDataCommenterTypeUser,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReadCommentResponseDataCommenterType) MarshalText() ([]byte, error) {
+	switch s {
+	case ReadCommentResponseDataCommenterTypeAdmin:
+		return []byte(s), nil
+	case ReadCommentResponseDataCommenterTypeUser:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReadCommentResponseDataCommenterType) UnmarshalText(data []byte) error {
+	switch ReadCommentResponseDataCommenterType(data) {
+	case ReadCommentResponseDataCommenterTypeAdmin:
+		*s = ReadCommentResponseDataCommenterTypeAdmin
+		return nil
+	case ReadCommentResponseDataCommenterTypeUser:
+		*s = ReadCommentResponseDataCommenterTypeUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // An object following one of the schemas published in https://developers.telnyx.
 // com/docs/api/v2/detail-records.
@@ -42938,6 +44441,22 @@ func (s *ServicePlan) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ShowPortingOrdersComment struct {
+	Data OptPortingOrdersComment `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ShowPortingOrdersComment) GetData() OptPortingOrdersComment {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ShowPortingOrdersComment) SetData(val OptPortingOrdersComment) {
+	s.Data = val
+}
+
+func (*ShowPortingOrdersComment) portingOrdersIDCommentsPostRes() {}
 
 // This object represents an Over the Air (OTA) update request. It allows tracking the current status
 // of a operation that apply settings in a particular SIM card. <br/><br/>.

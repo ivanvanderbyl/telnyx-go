@@ -154,6 +154,20 @@ func encodeCreateCallControlApplicationRequest(
 	return nil
 }
 
+func encodeCreateCommentRequest(
+	req *Comment,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateCustomStorageCredentialsRequest(
 	req *CustomStorageConfiguration,
 	r *http.Request,
@@ -298,6 +312,20 @@ func encodeCreateNotificationChannelsRequest(
 		if req.Set {
 			req.Encode(e)
 		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateNumberOrderDocumentRequest(
+	req *CreateNumberOrderDocumentRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
 	}
 	encoded := e.Bytes()
 	ht.SetBody(r, bytes.NewReader(encoded), contentType)
@@ -1419,6 +1447,20 @@ func encodeNoiseSuppressionStopRequest(
 
 func encodePauseCallRecordingRequest(
 	req *PauseRecordingRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePortingOrdersIDCommentsPostRequest(
+	req *CreatePortingOrderComment,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

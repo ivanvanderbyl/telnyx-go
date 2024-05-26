@@ -7282,6 +7282,631 @@ func (s *CnamListing) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *Comment) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *Comment) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.Body.Set {
+			e.FieldStart("body")
+			s.Body.Encode(e)
+		}
+	}
+	{
+		if s.Commenter.Set {
+			e.FieldStart("commenter")
+			s.Commenter.Encode(e)
+		}
+	}
+	{
+		if s.CommenterType.Set {
+			e.FieldStart("commenter_type")
+			s.CommenterType.Encode(e)
+		}
+	}
+	{
+		if s.CommentRecordType.Set {
+			e.FieldStart("comment_record_type")
+			s.CommentRecordType.Encode(e)
+		}
+	}
+	{
+		if s.CommentRecordID.Set {
+			e.FieldStart("comment_record_id")
+			s.CommentRecordID.Encode(e)
+		}
+	}
+	{
+		if s.ReadAt.Set {
+			e.FieldStart("read_at")
+			s.ReadAt.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfComment = [9]string{
+	0: "id",
+	1: "body",
+	2: "commenter",
+	3: "commenter_type",
+	4: "comment_record_type",
+	5: "comment_record_id",
+	6: "read_at",
+	7: "created_at",
+	8: "updated_at",
+}
+
+// Decode decodes Comment from json.
+func (s *Comment) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode Comment to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "body":
+			if err := func() error {
+				s.Body.Reset()
+				if err := s.Body.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		case "commenter":
+			if err := func() error {
+				s.Commenter.Reset()
+				if err := s.Commenter.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"commenter\"")
+			}
+		case "commenter_type":
+			if err := func() error {
+				s.CommenterType.Reset()
+				if err := s.CommenterType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"commenter_type\"")
+			}
+		case "comment_record_type":
+			if err := func() error {
+				s.CommentRecordType.Reset()
+				if err := s.CommentRecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"comment_record_type\"")
+			}
+		case "comment_record_id":
+			if err := func() error {
+				s.CommentRecordID.Reset()
+				if err := s.CommentRecordID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"comment_record_id\"")
+			}
+		case "read_at":
+			if err := func() error {
+				s.ReadAt.Reset()
+				if err := s.ReadAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"read_at\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode Comment")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *Comment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *Comment) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentCommentRecordType as json.
+func (s CommentCommentRecordType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CommentCommentRecordType from json.
+func (s *CommentCommentRecordType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CommentCommentRecordType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CommentCommentRecordType(v) {
+	case CommentCommentRecordTypeNumberOrder:
+		*s = CommentCommentRecordTypeNumberOrder
+	case CommentCommentRecordTypeSubNumberOrder:
+		*s = CommentCommentRecordTypeSubNumberOrder
+	case CommentCommentRecordTypeNumberOrderPhoneNumber:
+		*s = CommentCommentRecordTypeNumberOrderPhoneNumber
+	default:
+		*s = CommentCommentRecordType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CommentCommentRecordType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CommentCommentRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentCommenterType as json.
+func (s CommentCommenterType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CommentCommenterType from json.
+func (s *CommentCommenterType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CommentCommenterType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CommentCommenterType(v) {
+	case CommentCommenterTypeAdmin:
+		*s = CommentCommenterTypeAdmin
+	case CommentCommenterTypeUser:
+		*s = CommentCommenterTypeUser
+	default:
+		*s = CommentCommenterType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CommentCommenterType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CommentCommenterType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CommentResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CommentResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCommentResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes CommentResponse from json.
+func (s *CommentResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CommentResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CommentResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CommentResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CommentResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CommentResponseData) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CommentResponseData) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.Body.Set {
+			e.FieldStart("body")
+			s.Body.Encode(e)
+		}
+	}
+	{
+		if s.Commenter.Set {
+			e.FieldStart("commenter")
+			s.Commenter.Encode(e)
+		}
+	}
+	{
+		if s.CommenterType.Set {
+			e.FieldStart("commenter_type")
+			s.CommenterType.Encode(e)
+		}
+	}
+	{
+		if s.CommentRecordType.Set {
+			e.FieldStart("comment_record_type")
+			s.CommentRecordType.Encode(e)
+		}
+	}
+	{
+		if s.CommentRecordID.Set {
+			e.FieldStart("comment_record_id")
+			s.CommentRecordID.Encode(e)
+		}
+	}
+	{
+		if s.ReadAt.Set {
+			e.FieldStart("read_at")
+			s.ReadAt.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCommentResponseData = [9]string{
+	0: "id",
+	1: "body",
+	2: "commenter",
+	3: "commenter_type",
+	4: "comment_record_type",
+	5: "comment_record_id",
+	6: "read_at",
+	7: "created_at",
+	8: "updated_at",
+}
+
+// Decode decodes CommentResponseData from json.
+func (s *CommentResponseData) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CommentResponseData to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "body":
+			if err := func() error {
+				s.Body.Reset()
+				if err := s.Body.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		case "commenter":
+			if err := func() error {
+				s.Commenter.Reset()
+				if err := s.Commenter.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"commenter\"")
+			}
+		case "commenter_type":
+			if err := func() error {
+				s.CommenterType.Reset()
+				if err := s.CommenterType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"commenter_type\"")
+			}
+		case "comment_record_type":
+			if err := func() error {
+				s.CommentRecordType.Reset()
+				if err := s.CommentRecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"comment_record_type\"")
+			}
+		case "comment_record_id":
+			if err := func() error {
+				s.CommentRecordID.Reset()
+				if err := s.CommentRecordID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"comment_record_id\"")
+			}
+		case "read_at":
+			if err := func() error {
+				s.ReadAt.Reset()
+				if err := s.ReadAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"read_at\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CommentResponseData")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CommentResponseData) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CommentResponseData) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentResponseDataCommentRecordType as json.
+func (s CommentResponseDataCommentRecordType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CommentResponseDataCommentRecordType from json.
+func (s *CommentResponseDataCommentRecordType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CommentResponseDataCommentRecordType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CommentResponseDataCommentRecordType(v) {
+	case CommentResponseDataCommentRecordTypeNumberOrder:
+		*s = CommentResponseDataCommentRecordTypeNumberOrder
+	case CommentResponseDataCommentRecordTypeSubNumberOrder:
+		*s = CommentResponseDataCommentRecordTypeSubNumberOrder
+	case CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber:
+		*s = CommentResponseDataCommentRecordTypeNumberOrderPhoneNumber
+	default:
+		*s = CommentResponseDataCommentRecordType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CommentResponseDataCommentRecordType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CommentResponseDataCommentRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentResponseDataCommenterType as json.
+func (s CommentResponseDataCommenterType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CommentResponseDataCommenterType from json.
+func (s *CommentResponseDataCommenterType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CommentResponseDataCommenterType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CommentResponseDataCommenterType(v) {
+	case CommentResponseDataCommenterTypeAdmin:
+		*s = CommentResponseDataCommenterTypeAdmin
+	case CommentResponseDataCommenterTypeUser:
+		*s = CommentResponseDataCommenterTypeUser
+	default:
+		*s = CommentResponseDataCommenterType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CommentResponseDataCommenterType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CommentResponseDataCommenterType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *CompleteOTAUpdate) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -10506,6 +11131,213 @@ func (s *CreateNotificationChannelsOK) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *CreateNumberOrderDocumentRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateNumberOrderDocumentRequest) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		if s.FileID.Set {
+			e.FieldStart("file_id")
+			s.FileID.Encode(e)
+		}
+	}
+	{
+		if s.RequirementsID.Set {
+			e.FieldStart("requirements_id")
+			s.RequirementsID.Encode(e)
+		}
+	}
+	{
+		if s.CustomerReference.Set {
+			e.FieldStart("customer_reference")
+			s.CustomerReference.Encode(e)
+		}
+	}
+	{
+		if s.RequirementType.Set {
+			e.FieldStart("requirement_type")
+			s.RequirementType.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateNumberOrderDocumentRequest = [7]string{
+	0: "id",
+	1: "record_type",
+	2: "file_id",
+	3: "requirements_id",
+	4: "customer_reference",
+	5: "requirement_type",
+	6: "created_at",
+}
+
+// Decode decodes CreateNumberOrderDocumentRequest from json.
+func (s *CreateNumberOrderDocumentRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateNumberOrderDocumentRequest to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "file_id":
+			if err := func() error {
+				s.FileID.Reset()
+				if err := s.FileID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"file_id\"")
+			}
+		case "requirements_id":
+			if err := func() error {
+				s.RequirementsID.Reset()
+				if err := s.RequirementsID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"requirements_id\"")
+			}
+		case "customer_reference":
+			if err := func() error {
+				s.CustomerReference.Reset()
+				if err := s.CustomerReference.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"customer_reference\"")
+			}
+		case "requirement_type":
+			if err := func() error {
+				s.RequirementType.Reset()
+				if err := s.RequirementType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"requirement_type\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateNumberOrderDocumentRequest")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateNumberOrderDocumentRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateNumberOrderDocumentRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateNumberOrderDocumentRequestRequirementType as json.
+func (s CreateNumberOrderDocumentRequestRequirementType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CreateNumberOrderDocumentRequestRequirementType from json.
+func (s *CreateNumberOrderDocumentRequestRequirementType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateNumberOrderDocumentRequestRequirementType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CreateNumberOrderDocumentRequestRequirementType(v) {
+	case CreateNumberOrderDocumentRequestRequirementTypeAddressProof:
+		*s = CreateNumberOrderDocumentRequestRequirementTypeAddressProof
+	case CreateNumberOrderDocumentRequestRequirementTypeIdentification:
+		*s = CreateNumberOrderDocumentRequestRequirementTypeIdentification
+	case CreateNumberOrderDocumentRequestRequirementTypeRegForm:
+		*s = CreateNumberOrderDocumentRequestRequirementTypeRegForm
+	default:
+		*s = CreateNumberOrderDocumentRequestRequirementType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateNumberOrderDocumentRequestRequirementType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateNumberOrderDocumentRequestRequirementType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *CreateNumberPoolMessageRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -11268,6 +12100,69 @@ func (s *CreatePortOutSupportingDocumentsResponse) MarshalJSON() ([]byte, error)
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *CreatePortOutSupportingDocumentsResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreatePortingOrderComment) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreatePortingOrderComment) encodeFields(e *jx.Encoder) {
+	{
+		if s.Body.Set {
+			e.FieldStart("body")
+			s.Body.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreatePortingOrderComment = [1]string{
+	0: "body",
+}
+
+// Decode decodes CreatePortingOrderComment from json.
+func (s *CreatePortingOrderComment) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreatePortingOrderComment to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "body":
+			if err := func() error {
+				s.Body.Reset()
+				if err := s.Body.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreatePortingOrderComment")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreatePortingOrderComment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreatePortingOrderComment) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -22356,6 +23251,97 @@ func (s *ListCallControlApplicationsResponse) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *ListCommentsResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListCommentsResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Meta.Set {
+			e.FieldStart("meta")
+			s.Meta.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfListCommentsResponse = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes ListCommentsResponse from json.
+func (s *ListCommentsResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListCommentsResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]Comment, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem Comment
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			if err := func() error {
+				s.Meta.Reset()
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListCommentsResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListCommentsResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListCommentsResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListCsvDownloadsResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -23136,6 +24122,97 @@ func (s *ListNotificationChannelsOK) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *ListNumberOrderDocumentsResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListNumberOrderDocumentsResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Meta.Set {
+			e.FieldStart("meta")
+			s.Meta.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfListNumberOrderDocumentsResponse = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes ListNumberOrderDocumentsResponse from json.
+func (s *ListNumberOrderDocumentsResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListNumberOrderDocumentsResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]NumberOrderDocument, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem NumberOrderDocument
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			if err := func() error {
+				s.Meta.Reset()
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListNumberOrderDocumentsResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListNumberOrderDocumentsResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListNumberOrderDocumentsResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListNumberOrderPhoneNumbersResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -23677,6 +24754,97 @@ func (s *ListPhoneNumbersWithVoiceSettingsResponse) MarshalJSON() ([]byte, error
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ListPhoneNumbersWithVoiceSettingsResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ListPortingOrdersComments) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListPortingOrdersComments) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Meta.Set {
+			e.FieldStart("meta")
+			s.Meta.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfListPortingOrdersComments = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes ListPortingOrdersComments from json.
+func (s *ListPortingOrdersComments) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListPortingOrdersComments to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]PortingOrdersComment, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem PortingOrdersComment
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			if err := func() error {
+				s.Meta.Reset()
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListPortingOrdersComments")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListPortingOrdersComments) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListPortingOrdersComments) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -31299,6 +32467,171 @@ func (s *OptCnamListing) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes CommentCommentRecordType as json.
+func (o OptCommentCommentRecordType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CommentCommentRecordType from json.
+func (o *OptCommentCommentRecordType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCommentCommentRecordType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCommentCommentRecordType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCommentCommentRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentCommenterType as json.
+func (o OptCommentCommenterType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CommentCommenterType from json.
+func (o *OptCommentCommenterType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCommentCommenterType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCommentCommenterType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCommentCommenterType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentResponseData as json.
+func (o OptCommentResponseData) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CommentResponseData from json.
+func (o *OptCommentResponseData) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCommentResponseData to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCommentResponseData) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCommentResponseData) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentResponseDataCommentRecordType as json.
+func (o OptCommentResponseDataCommentRecordType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CommentResponseDataCommentRecordType from json.
+func (o *OptCommentResponseDataCommentRecordType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCommentResponseDataCommentRecordType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCommentResponseDataCommentRecordType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCommentResponseDataCommentRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CommentResponseDataCommenterType as json.
+func (o OptCommentResponseDataCommenterType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CommentResponseDataCommenterType from json.
+func (o *OptCommentResponseDataCommenterType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCommentResponseDataCommenterType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCommentResponseDataCommenterType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCommentResponseDataCommenterType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes CompleteOTAUpdate as json.
 func (o OptCompleteOTAUpdate) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -32089,6 +33422,39 @@ func (s OptCreateMessagingHostedNumberOrderRequest) MarshalJSON() ([]byte, error
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptCreateMessagingHostedNumberOrderRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateNumberOrderDocumentRequestRequirementType as json.
+func (o OptCreateNumberOrderDocumentRequestRequirementType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes CreateNumberOrderDocumentRequestRequirementType from json.
+func (o *OptCreateNumberOrderDocumentRequestRequirementType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCreateNumberOrderDocumentRequestRequirementType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCreateNumberOrderDocumentRequestRequirementType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCreateNumberOrderDocumentRequestRequirementType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -36777,6 +38143,72 @@ func (s *OptPortingOrderActivationStatus) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes PortingOrdersComment as json.
+func (o OptPortingOrdersComment) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes PortingOrdersComment from json.
+func (o *OptPortingOrdersComment) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPortingOrdersComment to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPortingOrdersComment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPortingOrdersComment) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortingOrdersCommentUserType as json.
+func (o OptPortingOrdersCommentUserType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes PortingOrdersCommentUserType from json.
+func (o *OptPortingOrdersCommentUserType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPortingOrdersCommentUserType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPortingOrdersCommentUserType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPortingOrdersCommentUserType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes PortingPhoneNumberPhoneNumberType as json.
 func (o OptPortingPhoneNumberPhoneNumberType) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -37004,6 +38436,105 @@ func (s OptQueueCall) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptQueueCall) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadCommentResponseData as json.
+func (o OptReadCommentResponseData) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes ReadCommentResponseData from json.
+func (o *OptReadCommentResponseData) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptReadCommentResponseData to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptReadCommentResponseData) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptReadCommentResponseData) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadCommentResponseDataCommentRecordType as json.
+func (o OptReadCommentResponseDataCommentRecordType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes ReadCommentResponseDataCommentRecordType from json.
+func (o *OptReadCommentResponseDataCommentRecordType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptReadCommentResponseDataCommentRecordType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptReadCommentResponseDataCommentRecordType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptReadCommentResponseDataCommentRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadCommentResponseDataCommenterType as json.
+func (o OptReadCommentResponseDataCommenterType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes ReadCommentResponseDataCommenterType from json.
+func (o *OptReadCommentResponseDataCommenterType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptReadCommentResponseDataCommenterType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptReadCommentResponseDataCommenterType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptReadCommentResponseDataCommenterType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -48334,6 +49865,196 @@ func (s *PortingOrderActivationStatus) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *PortingOrdersComment) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortingOrdersComment) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.Body.Set {
+			e.FieldStart("body")
+			s.Body.Encode(e)
+		}
+	}
+	{
+		if s.PortingOrderID.Set {
+			e.FieldStart("porting_order_id")
+			s.PortingOrderID.Encode(e)
+		}
+	}
+	{
+		if s.UserType.Set {
+			e.FieldStart("user_type")
+			s.UserType.Encode(e)
+		}
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e, json.EncodeDateTime)
+		}
+	}
+}
+
+var jsonFieldsNameOfPortingOrdersComment = [6]string{
+	0: "id",
+	1: "body",
+	2: "porting_order_id",
+	3: "user_type",
+	4: "record_type",
+	5: "created_at",
+}
+
+// Decode decodes PortingOrdersComment from json.
+func (s *PortingOrdersComment) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortingOrdersComment to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "body":
+			if err := func() error {
+				s.Body.Reset()
+				if err := s.Body.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		case "porting_order_id":
+			if err := func() error {
+				s.PortingOrderID.Reset()
+				if err := s.PortingOrderID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"porting_order_id\"")
+			}
+		case "user_type":
+			if err := func() error {
+				s.UserType.Reset()
+				if err := s.UserType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"user_type\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d, json.DecodeDateTime); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortingOrdersComment")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortingOrdersComment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortingOrdersComment) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortingOrdersCommentUserType as json.
+func (s PortingOrdersCommentUserType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes PortingOrdersCommentUserType from json.
+func (s *PortingOrdersCommentUserType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortingOrdersCommentUserType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch PortingOrdersCommentUserType(v) {
+	case PortingOrdersCommentUserTypeAdmin:
+		*s = PortingOrdersCommentUserTypeAdmin
+	case PortingOrdersCommentUserTypeUser:
+		*s = PortingOrdersCommentUserTypeUser
+	case PortingOrdersCommentUserTypeSystem:
+		*s = PortingOrdersCommentUserTypeSystem
+	default:
+		*s = PortingOrdersCommentUserType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PortingOrdersCommentUserType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortingOrdersCommentUserType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *PortingPhoneNumber) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -50179,6 +51900,350 @@ func (s *QueueCallResponse) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *QueueCallResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ReadCommentResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ReadCommentResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfReadCommentResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes ReadCommentResponse from json.
+func (s *ReadCommentResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadCommentResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ReadCommentResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ReadCommentResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadCommentResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ReadCommentResponseData) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ReadCommentResponseData) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.Body.Set {
+			e.FieldStart("body")
+			s.Body.Encode(e)
+		}
+	}
+	{
+		if s.Commenter.Set {
+			e.FieldStart("commenter")
+			s.Commenter.Encode(e)
+		}
+	}
+	{
+		if s.CommenterType.Set {
+			e.FieldStart("commenter_type")
+			s.CommenterType.Encode(e)
+		}
+	}
+	{
+		if s.CommentRecordType.Set {
+			e.FieldStart("comment_record_type")
+			s.CommentRecordType.Encode(e)
+		}
+	}
+	{
+		if s.CommentRecordID.Set {
+			e.FieldStart("comment_record_id")
+			s.CommentRecordID.Encode(e)
+		}
+	}
+	{
+		if s.ReadAt.Set {
+			e.FieldStart("read_at")
+			s.ReadAt.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfReadCommentResponseData = [9]string{
+	0: "id",
+	1: "body",
+	2: "commenter",
+	3: "commenter_type",
+	4: "comment_record_type",
+	5: "comment_record_id",
+	6: "read_at",
+	7: "created_at",
+	8: "updated_at",
+}
+
+// Decode decodes ReadCommentResponseData from json.
+func (s *ReadCommentResponseData) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadCommentResponseData to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "body":
+			if err := func() error {
+				s.Body.Reset()
+				if err := s.Body.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		case "commenter":
+			if err := func() error {
+				s.Commenter.Reset()
+				if err := s.Commenter.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"commenter\"")
+			}
+		case "commenter_type":
+			if err := func() error {
+				s.CommenterType.Reset()
+				if err := s.CommenterType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"commenter_type\"")
+			}
+		case "comment_record_type":
+			if err := func() error {
+				s.CommentRecordType.Reset()
+				if err := s.CommentRecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"comment_record_type\"")
+			}
+		case "comment_record_id":
+			if err := func() error {
+				s.CommentRecordID.Reset()
+				if err := s.CommentRecordID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"comment_record_id\"")
+			}
+		case "read_at":
+			if err := func() error {
+				s.ReadAt.Reset()
+				if err := s.ReadAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"read_at\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ReadCommentResponseData")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ReadCommentResponseData) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadCommentResponseData) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadCommentResponseDataCommentRecordType as json.
+func (s ReadCommentResponseDataCommentRecordType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes ReadCommentResponseDataCommentRecordType from json.
+func (s *ReadCommentResponseDataCommentRecordType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadCommentResponseDataCommentRecordType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch ReadCommentResponseDataCommentRecordType(v) {
+	case ReadCommentResponseDataCommentRecordTypeNumberOrder:
+		*s = ReadCommentResponseDataCommentRecordTypeNumberOrder
+	case ReadCommentResponseDataCommentRecordTypeSubNumberOrder:
+		*s = ReadCommentResponseDataCommentRecordTypeSubNumberOrder
+	case ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber:
+		*s = ReadCommentResponseDataCommentRecordTypeNumberOrderPhoneNumber
+	default:
+		*s = ReadCommentResponseDataCommentRecordType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadCommentResponseDataCommentRecordType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadCommentResponseDataCommentRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadCommentResponseDataCommenterType as json.
+func (s ReadCommentResponseDataCommenterType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes ReadCommentResponseDataCommenterType from json.
+func (s *ReadCommentResponseDataCommenterType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadCommentResponseDataCommenterType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch ReadCommentResponseDataCommenterType(v) {
+	case ReadCommentResponseDataCommenterTypeAdmin:
+		*s = ReadCommentResponseDataCommenterTypeAdmin
+	case ReadCommentResponseDataCommenterTypeUser:
+		*s = ReadCommentResponseDataCommenterTypeUser
+	default:
+		*s = ReadCommentResponseDataCommenterType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadCommentResponseDataCommenterType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadCommentResponseDataCommenterType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -53891,6 +55956,69 @@ func (s ServicePlan) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ServicePlan) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ShowPortingOrdersComment) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ShowPortingOrdersComment) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfShowPortingOrdersComment = [1]string{
+	0: "data",
+}
+
+// Decode decodes ShowPortingOrdersComment from json.
+func (s *ShowPortingOrdersComment) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ShowPortingOrdersComment to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ShowPortingOrdersComment")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ShowPortingOrdersComment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ShowPortingOrdersComment) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

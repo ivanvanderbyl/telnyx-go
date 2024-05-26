@@ -72,6 +72,12 @@ type Invoker interface {
 	//
 	// POST /call_control_applications
 	CreateCallControlApplication(ctx context.Context, request *CreateCallControlApplicationRequest) (CreateCallControlApplicationRes, error)
+	// CreateComment invokes CreateComment operation.
+	//
+	// Create a comment.
+	//
+	// POST /comments
+	CreateComment(ctx context.Context, request *Comment) (CreateCommentRes, error)
 	// CreateCsvDownload invokes CreateCsvDownload operation.
 	//
 	// Create a CSV download.
@@ -133,6 +139,12 @@ type Invoker interface {
 	//
 	// POST /notification_channels
 	CreateNotificationChannels(ctx context.Context, request OptNotificationChannel) (CreateNotificationChannelsRes, error)
+	// CreateNumberOrderDocument invokes CreateNumberOrderDocument operation.
+	//
+	// Upload a phone number order document.
+	//
+	// POST /number_order_documents
+	CreateNumberOrderDocument(ctx context.Context, request *CreateNumberOrderDocumentRequest) (CreateNumberOrderDocumentRes, error)
 	// CreateNumberPoolMessage invokes CreateNumberPoolMessage operation.
 	//
 	// Send a message using number pool.
@@ -760,6 +772,12 @@ type Invoker interface {
 	//
 	// GET /call_control_applications
 	ListCallControlApplications(ctx context.Context, params ListCallControlApplicationsParams) (ListCallControlApplicationsRes, error)
+	// ListComments invokes ListComments operation.
+	//
+	// Retrieve all comments.
+	//
+	// GET /comments
+	ListComments(ctx context.Context, params ListCommentsParams) (ListCommentsRes, error)
 	// ListConnectionActiveCalls invokes ListConnectionActiveCalls operation.
 	//
 	// Lists all active calls for given connection. Acceptable connections are either SIP connections
@@ -823,6 +841,12 @@ type Invoker interface {
 	//
 	// GET /notification_channels
 	ListNotificationChannels(ctx context.Context, params ListNotificationChannelsParams) (ListNotificationChannelsRes, error)
+	// ListNumberOrderDocuments invokes ListNumberOrderDocuments operation.
+	//
+	// Gets a paginated list of number order documents.
+	//
+	// GET /number_order_documents
+	ListNumberOrderDocuments(ctx context.Context, params ListNumberOrderDocumentsParams) (ListNumberOrderDocumentsRes, error)
 	// ListOtaUpdates invokes ListOtaUpdates operation.
 	//
 	// List OTA updates.
@@ -859,6 +883,12 @@ type Invoker interface {
 	//
 	// GET /phone_numbers/voice
 	ListPhoneNumbersWithVoiceSettings(ctx context.Context, params ListPhoneNumbersWithVoiceSettingsParams) (ListPhoneNumbersWithVoiceSettingsRes, error)
+	// ListPortingOrderComments invokes ListPortingOrderComments operation.
+	//
+	// Returns a list of all comments of a porting order.
+	//
+	// GET /porting_orders/{id}/comments
+	ListPortingOrderComments(ctx context.Context, params ListPortingOrderCommentsParams) (ListPortingOrderCommentsRes, error)
 	// ListPortingPhoneNumbers invokes ListPortingPhoneNumbers operation.
 	//
 	// Returns a list of your porting phone numbers.
@@ -937,6 +967,12 @@ type Invoker interface {
 	//
 	// GET /number_lookup/{phone_number}
 	LookupNumber(ctx context.Context, params LookupNumberParams) (LookupNumberRes, error)
+	// MarkCommentRead invokes MarkCommentRead operation.
+	//
+	// Mark a comment as read.
+	//
+	// PATCH /comments/{id}/read
+	MarkCommentRead(ctx context.Context, params MarkCommentReadParams) (MarkCommentReadRes, error)
 	// NoiseSuppressionStart invokes noiseSuppressionStart operation.
 	//
 	// Noise Suppression Start (BETA).
@@ -965,6 +1001,12 @@ type Invoker interface {
 	//
 	// POST /telephony_credentials/{id}/actions/{action}
 	PerformCredentialAction(ctx context.Context, params PerformCredentialActionParams) (PerformCredentialActionRes, error)
+	// PortingOrdersIDCommentsPost invokes POST /porting_orders/{id}/comments operation.
+	//
+	// Creates a new comment for a porting order.
+	//
+	// POST /porting_orders/{id}/comments
+	PortingOrdersIDCommentsPost(ctx context.Context, request *CreatePortingOrderComment, params PortingOrdersIDCommentsPostParams) (PortingOrdersIDCommentsPostRes, error)
 	// PostPortRequestComment invokes PostPortRequestComment operation.
 	//
 	// Creates a comment on a portout request.
@@ -1028,6 +1070,12 @@ type Invoker interface {
 	//
 	// GET /calls/{call_control_id}
 	RetrieveCallStatus(ctx context.Context, params RetrieveCallStatusParams) (RetrieveCallStatusRes, error)
+	// RetrieveComment invokes RetrieveComment operation.
+	//
+	// Retrieve a comment.
+	//
+	// GET /comments/{id}
+	RetrieveComment(ctx context.Context, params RetrieveCommentParams) (RetrieveCommentRes, error)
 	// RetrieveNumberOrderDocument invokes RetrieveNumberOrderDocument operation.
 	//
 	// Gets a single number order document.
@@ -2260,6 +2308,87 @@ func (c *Client) sendCreateCallControlApplication(ctx context.Context, request *
 	return result, nil
 }
 
+// CreateComment invokes CreateComment operation.
+//
+// Create a comment.
+//
+// POST /comments
+func (c *Client) CreateComment(ctx context.Context, request *Comment) (CreateCommentRes, error) {
+	res, err := c.sendCreateComment(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateComment(ctx context.Context, request *Comment) (res CreateCommentRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/comments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCommentRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateComment", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateCommentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateCsvDownload invokes CreateCsvDownload operation.
 //
 // Create a CSV download.
@@ -3083,6 +3212,87 @@ func (c *Client) sendCreateNotificationChannels(ctx context.Context, request Opt
 	defer resp.Body.Close()
 
 	result, err := decodeCreateNotificationChannelsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateNumberOrderDocument invokes CreateNumberOrderDocument operation.
+//
+// Upload a phone number order document.
+//
+// POST /number_order_documents
+func (c *Client) CreateNumberOrderDocument(ctx context.Context, request *CreateNumberOrderDocumentRequest) (CreateNumberOrderDocumentRes, error) {
+	res, err := c.sendCreateNumberOrderDocument(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateNumberOrderDocument(ctx context.Context, request *CreateNumberOrderDocumentRequest) (res CreateNumberOrderDocumentRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/number_order_documents"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateNumberOrderDocumentRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateNumberOrderDocument", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateNumberOrderDocumentResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13348,6 +13558,106 @@ func (c *Client) sendListCallControlApplications(ctx context.Context, params Lis
 	return result, nil
 }
 
+// ListComments invokes ListComments operation.
+//
+// Retrieve all comments.
+//
+// GET /comments
+func (c *Client) ListComments(ctx context.Context, params ListCommentsParams) (ListCommentsRes, error) {
+	res, err := c.sendListComments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListComments(ctx context.Context, params ListCommentsParams) (res ListCommentsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/comments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[comment_record_type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[comment_record_type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterCommentRecordType))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[comment_record_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[comment_record_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterCommentRecordID))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListComments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListCommentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListConnectionActiveCalls invokes ListConnectionActiveCalls operation.
 //
 // Lists all active calls for given connection. Acceptable connections are either SIP connections
@@ -14669,6 +14979,163 @@ func (c *Client) sendListNotificationChannels(ctx context.Context, params ListNo
 	return result, nil
 }
 
+// ListNumberOrderDocuments invokes ListNumberOrderDocuments operation.
+//
+// Gets a paginated list of number order documents.
+//
+// GET /number_order_documents
+func (c *Client) ListNumberOrderDocuments(ctx context.Context, params ListNumberOrderDocumentsParams) (ListNumberOrderDocumentsRes, error) {
+	res, err := c.sendListNumberOrderDocuments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListNumberOrderDocuments(ctx context.Context, params ListNumberOrderDocumentsParams) (res ListNumberOrderDocumentsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/number_order_documents"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[requirement_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[requirement_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterRequirementID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at][gt]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at][gt]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAtGt.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at][lt]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at][lt]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAtLt.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListNumberOrderDocuments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListNumberOrderDocumentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListOtaUpdates invokes ListOtaUpdates operation.
 //
 // List OTA updates.
@@ -15723,6 +16190,131 @@ func (c *Client) sendListPhoneNumbersWithVoiceSettings(ctx context.Context, para
 	defer resp.Body.Close()
 
 	result, err := decodeListPhoneNumbersWithVoiceSettingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListPortingOrderComments invokes ListPortingOrderComments operation.
+//
+// Returns a list of all comments of a porting order.
+//
+// GET /porting_orders/{id}/comments
+func (c *Client) ListPortingOrderComments(ctx context.Context, params ListPortingOrderCommentsParams) (ListPortingOrderCommentsRes, error) {
+	res, err := c.sendListPortingOrderComments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListPortingOrderComments(ctx context.Context, params ListPortingOrderCommentsParams) (res ListPortingOrderCommentsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/porting_orders/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/comments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListPortingOrderComments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListPortingOrderCommentsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -17557,6 +18149,94 @@ func (c *Client) sendLookupNumber(ctx context.Context, params LookupNumberParams
 	return result, nil
 }
 
+// MarkCommentRead invokes MarkCommentRead operation.
+//
+// Mark a comment as read.
+//
+// PATCH /comments/{id}/read
+func (c *Client) MarkCommentRead(ctx context.Context, params MarkCommentReadParams) (MarkCommentReadRes, error) {
+	res, err := c.sendMarkCommentRead(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendMarkCommentRead(ctx context.Context, params MarkCommentReadParams) (res MarkCommentReadRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/comments/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/read"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "MarkCommentRead", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeMarkCommentReadResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // NoiseSuppressionStart invokes noiseSuppressionStart operation.
 //
 // Noise Suppression Start (BETA).
@@ -17942,6 +18622,97 @@ func (c *Client) sendPerformCredentialAction(ctx context.Context, params Perform
 	defer resp.Body.Close()
 
 	result, err := decodePerformCredentialActionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PortingOrdersIDCommentsPost invokes POST /porting_orders/{id}/comments operation.
+//
+// Creates a new comment for a porting order.
+//
+// POST /porting_orders/{id}/comments
+func (c *Client) PortingOrdersIDCommentsPost(ctx context.Context, request *CreatePortingOrderComment, params PortingOrdersIDCommentsPostParams) (PortingOrdersIDCommentsPostRes, error) {
+	res, err := c.sendPortingOrdersIDCommentsPost(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPortingOrdersIDCommentsPost(ctx context.Context, request *CreatePortingOrderComment, params PortingOrdersIDCommentsPostParams) (res PortingOrdersIDCommentsPostRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/porting_orders/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/comments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePortingOrdersIDCommentsPostRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PortingOrdersIDCommentsPost", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePortingOrdersIDCommentsPostResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -18785,6 +19556,93 @@ func (c *Client) sendRetrieveCallStatus(ctx context.Context, params RetrieveCall
 	defer resp.Body.Close()
 
 	result, err := decodeRetrieveCallStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveComment invokes RetrieveComment operation.
+//
+// Retrieve a comment.
+//
+// GET /comments/{id}
+func (c *Client) RetrieveComment(ctx context.Context, params RetrieveCommentParams) (RetrieveCommentRes, error) {
+	res, err := c.sendRetrieveComment(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveComment(ctx context.Context, params RetrieveCommentParams) (res RetrieveCommentRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/comments/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveComment", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveCommentResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
