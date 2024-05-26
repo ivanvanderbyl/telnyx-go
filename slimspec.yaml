@@ -48,7 +48,189 @@ paths:
           $ref: '#/components/responses/ListCallEventsResponse'
         default:
           $ref: '#/components/responses/GenericErrorResponse'
+  /calls:
+    post:
+      tags:
+      - Call Commands
+      summary: Dial
+      description: |
+        Dial a number or SIP URI from a given connection. A successful response will include a `call_leg_id` which can be used to correlate the command with subsequent webhooks.
 
+        **Expected Webhooks:**
+
+        - `call.initiated`
+        - `call.answered` or `call.hangup`
+        - `call.machine.detection.ended` if `answering_machine_detection` was requested
+        - `call.machine.greeting.ended` if `answering_machine_detection` was requested to detect the end of machine greeting
+        - `call.machine.premium.detection.ended` if `answering_machine_detection=premium` was requested
+        - `call.machine.premium.greeting.ended` if `answering_machine_detection=premium` was requested and a beep was detected
+        - `streaming.started`, `streaming.stopped` or `streaming.failed` if `stream_url` was set
+      operationId: DialCall
+      requestBody:
+        description: Call request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallRequest'
+        required: true
+      responses:
+        "200":
+          description: Successful response with details about a call status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Retrieve Call Status Response'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+      callbacks:
+        callInitiated:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallInitiatedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callBridged:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallBridgedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callAnswered:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallAnsweredEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callHangup:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallHangupEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callMachinePremiumDetectionEnded:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallMachinePremiumDetectionEndedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callMachinePremiumGreetingEnded:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallMachinePremiumGreetingEndedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callMachineDetectionEnded:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallMachineDetectionEndedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        callMachineGreetingEnded:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallMachineGreetingEndedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        streamingStarted:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallStreamingStartedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        streamingStopped:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallStreamingStoppedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+        streamingFailed:
+          '{$request.body#/webhook_url}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallStreamingFailedEvent'
+                required: true
+              responses:
+                "200":
+                  description: "The server must return an HTTP 200, otherwise we will\
+                    \ reattempt delivery at the failover webhook URL."
+      x-latency-category: interactive
 
 components:
   responses:

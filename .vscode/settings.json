@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "file:/Users/ivanvanderbyl/dev/wingtip/wingtip-api/eksctl-schema.json": "cluster.yaml",
+    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json": "file:///Users/ivanvanderbyl/dev/wingtip/telnyx-go/openapi.yaml"
+  }
+}

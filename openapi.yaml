@@ -902,6 +902,7 @@ paths:
       parameters:
         - name: assistant_id
           in: path
+          type: object
           required: true
           schema:
             type: string
@@ -2120,7 +2121,7 @@ paths:
       x-latency-category: responsive
   /bulk_sim_card_actions:
     get:
-      operationId: ListSimCardActions
+      operationId: ListBulkSimCardActions
       summary: List bulk SIM card actions
       description: >-
         This API lists a paginated collection of bulk SIM card actions. A bulk
@@ -6033,7 +6034,15 @@ paths:
       tags:
         - Call information
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
         - $ref: '#/components/parameters/PageLimit'
         - $ref: '#/components/parameters/PageAfter'
         - $ref: '#/components/parameters/PageBefore'
@@ -6241,7 +6250,15 @@ paths:
       tags:
         - Call Recordings
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       responses:
         '204':
           description: >-
@@ -6257,7 +6274,15 @@ paths:
       tags:
         - Call Recordings
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       responses:
         '200':
           $ref: '#/components/responses/CredentialsResponseBody'
@@ -6271,7 +6296,15 @@ paths:
       tags:
         - Call Recordings
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/CreateCredentialsRequest'
       responses:
@@ -6287,7 +6320,15 @@ paths:
       tags:
         - Call Recordings
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/CreateCredentialsRequest'
       responses:
@@ -6574,7 +6615,15 @@ paths:
       tags:
         - Dialogflow Integration
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       responses:
         '204':
           description: >-
@@ -6592,7 +6641,15 @@ paths:
       tags:
         - Dialogflow Integration
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       responses:
         '200':
           $ref: '#/components/responses/DialogflowConnectionResponseBody'
@@ -6608,7 +6665,15 @@ paths:
       tags:
         - Dialogflow Integration
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/DialogflowConnectionRequest'
       responses:
@@ -6624,7 +6689,15 @@ paths:
       tags:
         - Dialogflow Integration
       parameters:
-        - $ref: '#/components/parameters/ConnectionId'
+        - connection_id:
+          in: path
+          name: connection_id
+          required: true
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/DialogflowConnectionRequest'
       responses:
@@ -9181,7 +9254,6 @@ paths:
                     do not pass validations will not be re-enabled.
                   default: false
                   example: true
-                  required: false
       responses:
         '200':
           $ref: '#/components/responses/ManagedAccountResponse'
@@ -14287,7 +14359,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PathPortingOrderID'
       description: Creates a new comment for a porting order.
-      operationId: CreateComment
+      # operationId: CreateComment
       requestBody:
         required: true
         content:
@@ -15184,7 +15256,7 @@ paths:
         both generate and fetch the voice report over a specified time period.
         No polling is necessary but the response may take up to a couple of
         minutes.
-      operationId: GetUsageReportSync
+      # operationId: GetUsageReportSync
       parameters:
         - name: start_date
           in: query
@@ -15769,7 +15841,7 @@ paths:
     get:
       summary: View a list of room participants.
       description: ''
-      operationId: ListRoomParticipants
+      # operationId: ListRoomParticipants
       x-endpoint-cost: medium
       tags:
         - Room Participants
@@ -16162,7 +16234,7 @@ paths:
     get:
       summary: View a list of room sessions.
       description: ''
-      operationId: ListRoomSessions
+      # operationId: ListRoomSessions
       x-endpoint-cost: medium
       tags:
         - Room Sessions
@@ -18438,7 +18510,7 @@ paths:
         Request URL configured for the connection in the Mission Control Portal.
       x-latency-category: responsive
       x-group-parameters: 'true'
-      operationId: InitiateTexmlCall
+      operationId: InitiateTexmlCallByAccount
       tags:
         - TeXML REST Commands
       parameters:
@@ -18478,7 +18550,7 @@ paths:
         BE formatted in CamelCase as specified in the example.
       x-latency-category: responsive
       x-group-parameters: 'true'
-      operationId: UpdateTexmlCall
+      operationId: UpdateTexmlCallByAccount
       tags:
         - TeXML REST Commands
       parameters:
@@ -18579,6 +18651,9 @@ paths:
       description: Returns a conference resource.
       x-latency-category: responsive
       operationId: GetTexmlConference
+      required:
+        - conference_sid
+        - account_sid
       tags:
         - TeXML REST Commands
       parameters:
@@ -18849,7 +18924,7 @@ paths:
         Request URL configured for the connection in the Mission Control Portal.
       x-latency-category: responsive
       x-group-parameters: 'true'
-      operationId: InitiateTexmlCall
+      operationId: InitiateTexmlCallByApplication
       tags:
         - TeXML REST Commands
       parameters:
@@ -19047,7 +19122,7 @@ paths:
         - Usage Reports (BETA)
       summary: Get Telnyx product usage data (BETA)
       description: Get Telnyx usage data by product, broken out by the specified dimensions
-      operationId: GetUsageReport
+      operationId: GetUsageReportByApplication
       parameters:
         - name: product
           in: query
@@ -19218,11 +19293,6 @@ paths:
             format=csv:
               value: csv
               summary: Get the response in CSV format
-        - name: 'Authorization: Bearer <TOKEN>'
-          in: header
-          schema:
-            type: string
-            description: Authenticates the request with your Telnyx API V2 KEY
       responses:
         '200':
           description: Successful
@@ -19277,7 +19347,7 @@ paths:
             product=wireless:
               value: wireless
               summary: Specify a product if you know what you're looking for
-        - name: 'Authorization: Bearer <TOKEN>'
+        - name: Authorization
           in: header
           schema:
             type: string
@@ -19400,7 +19470,7 @@ paths:
       tags:
         - Verify
       summary: Submit verification code
-      operationId: VerifyVerificationCode
+      operationId: VerifyVerificationCodeByPhoneNumber
       parameters:
         - required: true
           description: >-
@@ -19524,7 +19594,7 @@ paths:
       summary: >-
         Lists the Verified Calls Display Profiles owned by the current
         user/organization
-      operationId: ListProfiles
+      operationId: ListVerifiedCallDisplayProfiles
       tags:
         - Verified Calls Display Profile
       x-group-parameters: 'true'
@@ -19568,7 +19638,7 @@ paths:
         verification requests have been made for this Verified Calls Display
         Profile. Please contact support@telnyx.com in case you want to delete a
         Verified Calls Display Profile in that situation.
-      operationId: DeleteProfile
+      operationId: DeleteVerifiedCallDisplayProfile
       tags:
         - Verified Calls Display Profile
       parameters:
@@ -21137,17 +21207,17 @@ components:
           - in-progress
           - completed
       example: in-progress
-    ConnectionId:
-      name: connection_id
-      description: >-
-        Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
-        connection resource.
-      in: path
-      required: true
-      schema:
-        type: string
+    # ConnectionId:
+    #   in: path
+    #   name: connection_id
+    #   required: true
+    #   description: >-
+    #     Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+    #     connection resource.
+    #   schema:
+    #     type: string
     CreatedAtGtFilter:
-      name: filter[created_at][lt]
+      name: filter[created_at][gt]
       in: query
       description: Filters records to those created after a specific date.
       schema:
@@ -21831,7 +21901,7 @@ components:
         format: int64
         example: '1293384261075731499'
     FilterPhoneNumber:
-      name: filter[phone_number][contains]
+      name: filter[phone_number]
       in: query
       description: >-
         If present, connections associated with the given phone_number will be
@@ -29120,7 +29190,8 @@ components:
           type: array
           items:
             type: string
-          maximum: 2
+          maxItems: 2
+          # max: 2
           example:
             - https://telnyx.com
             - https://portal.telnyx.com
@@ -31102,7 +31173,6 @@ components:
                 - file_not_found
                 - call_hangup
                 - unknown
-                - failed
                 - cancelled_amd
                 - completed
                 - failed
@@ -33375,9 +33445,9 @@ components:
           example: '2018-02-02T22:25:27.521Z'
         connections:
           type: array
-          properties:
-            empty:
-              type: boolean
+          # properties:
+          #   empty:
+          #     type: boolean
           example: '[1234567890L, 9876543210L]'
           items:
             type: integer
@@ -39128,11 +39198,11 @@ components:
           maximum: 120
           default: 3
         timeout_2xx_secs:
-          type: string
+          type: integer
           description: 'Time(sec) before aborting if call is unanswered (min: 1, max: 600).'
           minimum: 1
           maximum: 600
-          default: '90'
+          default: 90
         shaken_stir_enabled:
           type: boolean
           description: >-
@@ -39240,7 +39310,13 @@ components:
         data:
           $ref: '#/components/schemas/CustomStorageConfiguration'
         connection_id:
-          $ref: '#/components/parameters/ConnectionId'
+          in: path
+          name: connection_id
+          description: >-
+            Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
+            connection resource.
+          schema:
+            type: string
         record_type:
           $ref: '#/components/schemas/RecordType'
     CsvDownload:
@@ -40863,13 +40939,14 @@ components:
     EnqueueRequest:
       type: object
       title: Enqueue Request
+      required:
+        - "queue_name"
       properties:
         queue_name:
           description: >-
             The name of the queue the call should be put in. If a queue with a
             given name doesn't exist yet it will be created.
           type: string
-          required: true
           example: tier_1_support
         client_state:
           description: >-
@@ -40938,6 +41015,7 @@ components:
         "NASDAQ", "displayName": "10X GENOMICS INC CLASS A"}], "totalRecords":
         2}
     Error:
+      type: object
       required:
         - code
         - title
@@ -40997,6 +41075,7 @@ components:
           items:
             $ref: '#/components/schemas/ErrorRecord'
     Errors:
+      type: object
       properties:
         errors:
           type: array
@@ -43229,9 +43308,9 @@ components:
       title: ImageURL
     ImmutableSetLong:
       type: array
-      properties:
-        empty:
-          type: boolean
+      # properties:
+      #   empty:
+      #     type: boolean
       example: '[1234567890L, 9876543210L]'
       items:
         type: integer
@@ -50918,7 +50997,6 @@ components:
             - PHONE_NUMBER_MISMATCH
             - PHONE_NUMBER_NOT_PORTABLE
             - PORT_TYPE_INCORRECT
-            - PORTING_ORDER_SPLIT_REQUIRED
             - PORTING_ORDER_SPLIT_REQUIRED
             - POSTAL_CODE_MISMATCH
             - RATE_CENTER_NOT_PORTABLE

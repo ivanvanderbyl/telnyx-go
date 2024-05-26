@@ -1,0 +1,10 @@
+
+generator:
+  filters:
+    path_regex: /calls|texml/
+  features:
+    disable_all: true
+    enable:
+      - paths/client
+      - client/request/validation
+  ignore_not_implemented: ["all"]
