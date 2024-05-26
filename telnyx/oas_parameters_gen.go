@@ -351,6 +351,13 @@ type LeaveQueueParams struct {
 	CallControlID string
 }
 
+// ListProfilesParams is parameters of ListProfiles operation.
+type ListProfilesParams struct {
+	FilterName OptString
+	PageSize   OptInt
+	PageNumber OptInt
+}
+
 // ListQueueCallsParams is parameters of ListQueueCalls operation.
 type ListQueueCallsParams struct {
 	// Uniquely identifies the queue by name.

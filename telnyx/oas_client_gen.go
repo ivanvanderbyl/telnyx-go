@@ -75,6 +75,12 @@ type Invoker interface {
 	//
 	// POST /verified_numbers
 	CreateVerifiedNumber(ctx context.Context, request *CreateVerifiedNumberReq) (CreateVerifiedNumberRes, error)
+	// CreateVerifyProfile invokes CreateVerifyProfile operation.
+	//
+	// Creates a new Verify profile to associate verifications with.
+	//
+	// POST /verify_profiles
+	CreateVerifyProfile(ctx context.Context, request *CreateVerifyProfileReq) (CreateVerifyProfileRes, error)
 	// DeleteProfile invokes DeleteProfile operation.
 	//
 	// Delete Verify profile.
@@ -337,6 +343,12 @@ type Invoker interface {
 	//
 	// GET /verify_profiles/templates
 	ListProfileMessageTemplates(ctx context.Context) (*ListVerifyProfileMessageTemplateResponse, error)
+	// ListProfiles invokes ListProfiles operation.
+	//
+	// Gets a paginated list of Verify profiles.
+	//
+	// GET /verify_profiles
+	ListProfiles(ctx context.Context, params ListProfilesParams) (ListProfilesRes, error)
 	// ListQueueCalls invokes ListQueueCalls operation.
 	//
 	// Retrieve the list of calls in an existing queue.
@@ -1524,6 +1536,87 @@ func (c *Client) sendCreateVerifiedNumber(ctx context.Context, request *CreateVe
 	defer resp.Body.Close()
 
 	result, err := decodeCreateVerifiedNumberResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateVerifyProfile invokes CreateVerifyProfile operation.
+//
+// Creates a new Verify profile to associate verifications with.
+//
+// POST /verify_profiles
+func (c *Client) CreateVerifyProfile(ctx context.Context, request *CreateVerifyProfileReq) (CreateVerifyProfileRes, error) {
+	res, err := c.sendCreateVerifyProfile(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateVerifyProfile(ctx context.Context, request *CreateVerifyProfileReq) (res CreateVerifyProfileRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verify_profiles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVerifyProfileRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateVerifyProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateVerifyProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5834,6 +5927,129 @@ func (c *Client) sendListProfileMessageTemplates(ctx context.Context) (res *List
 	defer resp.Body.Close()
 
 	result, err := decodeListProfileMessageTemplatesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListProfiles invokes ListProfiles operation.
+//
+// Gets a paginated list of Verify profiles.
+//
+// GET /verify_profiles
+func (c *Client) ListProfiles(ctx context.Context, params ListProfilesParams) (ListProfilesRes, error) {
+	res, err := c.sendListProfiles(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListProfiles(ctx context.Context, params ListProfilesParams) (res ListProfilesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verify_profiles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[name]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[name]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterName.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListProfiles", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListProfilesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

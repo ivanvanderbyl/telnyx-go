@@ -7266,6 +7266,600 @@ func (s *CreateVerifiedNumberResponse) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *CreateVerifyProfileCallRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateVerifyProfileCallRequest) encodeFields(e *jx.Encoder) {
+	{
+		if s.MessagingTemplateID.Set {
+			e.FieldStart("messaging_template_id")
+			s.MessagingTemplateID.Encode(e)
+		}
+	}
+	{
+		if s.AppName.Set {
+			e.FieldStart("app_name")
+			s.AppName.Encode(e)
+		}
+	}
+	{
+		if s.WhitelistedDestinations != nil {
+			e.FieldStart("whitelisted_destinations")
+			e.ArrStart()
+			for _, elem := range s.WhitelistedDestinations {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.DefaultVerificationTimeoutSecs.Set {
+			e.FieldStart("default_verification_timeout_secs")
+			s.DefaultVerificationTimeoutSecs.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateVerifyProfileCallRequest = [4]string{
+	0: "messaging_template_id",
+	1: "app_name",
+	2: "whitelisted_destinations",
+	3: "default_verification_timeout_secs",
+}
+
+// Decode decodes CreateVerifyProfileCallRequest from json.
+func (s *CreateVerifyProfileCallRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateVerifyProfileCallRequest to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "messaging_template_id":
+			if err := func() error {
+				s.MessagingTemplateID.Reset()
+				if err := s.MessagingTemplateID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"messaging_template_id\"")
+			}
+		case "app_name":
+			if err := func() error {
+				s.AppName.Reset()
+				if err := s.AppName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"app_name\"")
+			}
+		case "whitelisted_destinations":
+			if err := func() error {
+				s.WhitelistedDestinations = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.WhitelistedDestinations = append(s.WhitelistedDestinations, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"whitelisted_destinations\"")
+			}
+		case "default_verification_timeout_secs":
+			if err := func() error {
+				s.DefaultVerificationTimeoutSecs.Reset()
+				if err := s.DefaultVerificationTimeoutSecs.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"default_verification_timeout_secs\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateVerifyProfileCallRequest")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateVerifyProfileCallRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateVerifyProfileCallRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateVerifyProfileFlashcallRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateVerifyProfileFlashcallRequest) encodeFields(e *jx.Encoder) {
+	{
+		if s.WhitelistedDestinations != nil {
+			e.FieldStart("whitelisted_destinations")
+			e.ArrStart()
+			for _, elem := range s.WhitelistedDestinations {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.DefaultVerificationTimeoutSecs.Set {
+			e.FieldStart("default_verification_timeout_secs")
+			s.DefaultVerificationTimeoutSecs.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateVerifyProfileFlashcallRequest = [2]string{
+	0: "whitelisted_destinations",
+	1: "default_verification_timeout_secs",
+}
+
+// Decode decodes CreateVerifyProfileFlashcallRequest from json.
+func (s *CreateVerifyProfileFlashcallRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateVerifyProfileFlashcallRequest to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "whitelisted_destinations":
+			if err := func() error {
+				s.WhitelistedDestinations = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.WhitelistedDestinations = append(s.WhitelistedDestinations, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"whitelisted_destinations\"")
+			}
+		case "default_verification_timeout_secs":
+			if err := func() error {
+				s.DefaultVerificationTimeoutSecs.Reset()
+				if err := s.DefaultVerificationTimeoutSecs.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"default_verification_timeout_secs\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateVerifyProfileFlashcallRequest")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateVerifyProfileFlashcallRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateVerifyProfileFlashcallRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateVerifyProfileReq) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateVerifyProfileReq) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		if s.WebhookURL.Set {
+			e.FieldStart("webhook_url")
+			s.WebhookURL.Encode(e)
+		}
+	}
+	{
+		if s.WebhookFailoverURL.Set {
+			e.FieldStart("webhook_failover_url")
+			s.WebhookFailoverURL.Encode(e)
+		}
+	}
+	{
+		if s.SMS.Set {
+			e.FieldStart("sms")
+			s.SMS.Encode(e)
+		}
+	}
+	{
+		if s.Call.Set {
+			e.FieldStart("call")
+			s.Call.Encode(e)
+		}
+	}
+	{
+		if s.Flashcall.Set {
+			e.FieldStart("flashcall")
+			s.Flashcall.Encode(e)
+		}
+	}
+	{
+		if s.Language.Set {
+			e.FieldStart("language")
+			s.Language.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateVerifyProfileReq = [7]string{
+	0: "name",
+	1: "webhook_url",
+	2: "webhook_failover_url",
+	3: "sms",
+	4: "call",
+	5: "flashcall",
+	6: "language",
+}
+
+// Decode decodes CreateVerifyProfileReq from json.
+func (s *CreateVerifyProfileReq) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateVerifyProfileReq to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "webhook_url":
+			if err := func() error {
+				s.WebhookURL.Reset()
+				if err := s.WebhookURL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"webhook_url\"")
+			}
+		case "webhook_failover_url":
+			if err := func() error {
+				s.WebhookFailoverURL.Reset()
+				if err := s.WebhookFailoverURL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"webhook_failover_url\"")
+			}
+		case "sms":
+			if err := func() error {
+				s.SMS.Reset()
+				if err := s.SMS.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"sms\"")
+			}
+		case "call":
+			if err := func() error {
+				s.Call.Reset()
+				if err := s.Call.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call\"")
+			}
+		case "flashcall":
+			if err := func() error {
+				s.Flashcall.Reset()
+				if err := s.Flashcall.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"flashcall\"")
+			}
+		case "language":
+			if err := func() error {
+				s.Language.Reset()
+				if err := s.Language.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"language\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateVerifyProfileReq")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateVerifyProfileReq) {
+					name = jsonFieldsNameOfCreateVerifyProfileReq[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateVerifyProfileReq) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateVerifyProfileReq) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateVerifyProfileSMSRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateVerifyProfileSMSRequest) encodeFields(e *jx.Encoder) {
+	{
+		if s.MessagingTemplateID.Set {
+			e.FieldStart("messaging_template_id")
+			s.MessagingTemplateID.Encode(e)
+		}
+	}
+	{
+		if s.AppName.Set {
+			e.FieldStart("app_name")
+			s.AppName.Encode(e)
+		}
+	}
+	{
+		if s.AlphaSender.Set {
+			e.FieldStart("alpha_sender")
+			s.AlphaSender.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("whitelisted_destinations")
+		e.ArrStart()
+		for _, elem := range s.WhitelistedDestinations {
+			e.Str(elem)
+		}
+		e.ArrEnd()
+	}
+	{
+		if s.DefaultVerificationTimeoutSecs.Set {
+			e.FieldStart("default_verification_timeout_secs")
+			s.DefaultVerificationTimeoutSecs.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateVerifyProfileSMSRequest = [5]string{
+	0: "messaging_template_id",
+	1: "app_name",
+	2: "alpha_sender",
+	3: "whitelisted_destinations",
+	4: "default_verification_timeout_secs",
+}
+
+// Decode decodes CreateVerifyProfileSMSRequest from json.
+func (s *CreateVerifyProfileSMSRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateVerifyProfileSMSRequest to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "messaging_template_id":
+			if err := func() error {
+				s.MessagingTemplateID.Reset()
+				if err := s.MessagingTemplateID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"messaging_template_id\"")
+			}
+		case "app_name":
+			if err := func() error {
+				s.AppName.Reset()
+				if err := s.AppName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"app_name\"")
+			}
+		case "alpha_sender":
+			if err := func() error {
+				s.AlphaSender.Reset()
+				if err := s.AlphaSender.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"alpha_sender\"")
+			}
+		case "whitelisted_destinations":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				s.WhitelistedDestinations = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.WhitelistedDestinations = append(s.WhitelistedDestinations, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"whitelisted_destinations\"")
+			}
+		case "default_verification_timeout_secs":
+			if err := func() error {
+				s.DefaultVerificationTimeoutSecs.Reset()
+				if err := s.DefaultVerificationTimeoutSecs.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"default_verification_timeout_secs\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateVerifyProfileSMSRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00001000,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateVerifyProfileSMSRequest) {
+					name = jsonFieldsNameOfCreateVerifyProfileSMSRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateVerifyProfileSMSRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateVerifyProfileSMSRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes CreatedAt as json.
 func (s CreatedAt) Encode(e *jx.Encoder) {
 	unwrapped := string(s)
@@ -12503,6 +13097,127 @@ func (s *ListVerifyProfileMessageTemplateResponse) UnmarshalJSON(data []byte) er
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *ListVerifyProfilesResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListVerifyProfilesResponse) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("data")
+		e.ArrStart()
+		for _, elem := range s.Data {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+	{
+		e.FieldStart("meta")
+		s.Meta.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfListVerifyProfilesResponse = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes ListVerifyProfilesResponse from json.
+func (s *ListVerifyProfilesResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListVerifyProfilesResponse to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				s.Data = make([]VerifyProfileResponse, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem VerifyProfileResponse
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListVerifyProfilesResponse")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfListVerifyProfilesResponse) {
+					name = jsonFieldsNameOfListVerifyProfilesResponse[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListVerifyProfilesResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListVerifyProfilesResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes Loopcount as json.
 func (s Loopcount) Encode(e *jx.Encoder) {
 	switch s.Type {
@@ -15640,6 +16355,105 @@ func (s OptCreateTexmlApplicationRequestVoiceMethod) MarshalJSON() ([]byte, erro
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptCreateTexmlApplicationRequestVoiceMethod) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateVerifyProfileCallRequest as json.
+func (o OptCreateVerifyProfileCallRequest) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CreateVerifyProfileCallRequest from json.
+func (o *OptCreateVerifyProfileCallRequest) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCreateVerifyProfileCallRequest to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCreateVerifyProfileCallRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCreateVerifyProfileCallRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateVerifyProfileFlashcallRequest as json.
+func (o OptCreateVerifyProfileFlashcallRequest) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CreateVerifyProfileFlashcallRequest from json.
+func (o *OptCreateVerifyProfileFlashcallRequest) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCreateVerifyProfileFlashcallRequest to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCreateVerifyProfileFlashcallRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCreateVerifyProfileFlashcallRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateVerifyProfileSMSRequest as json.
+func (o OptCreateVerifyProfileSMSRequest) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CreateVerifyProfileSMSRequest from json.
+func (o *OptCreateVerifyProfileSMSRequest) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCreateVerifyProfileSMSRequest to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCreateVerifyProfileSMSRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCreateVerifyProfileSMSRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

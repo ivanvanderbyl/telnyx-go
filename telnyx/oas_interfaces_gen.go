@@ -33,6 +33,10 @@ type CreateVerifiedNumberRes interface {
 	createVerifiedNumberRes()
 }
 
+type CreateVerifyProfileRes interface {
+	createVerifyProfileRes()
+}
+
 type DeleteProfileRes interface {
 	deleteProfileRes()
 }
@@ -159,6 +163,10 @@ type HangupCallRes interface {
 
 type LeaveQueueRes interface {
 	leaveQueueRes()
+}
+
+type ListProfilesRes interface {
+	listProfilesRes()
 }
 
 type ListQueueCallsRes interface {

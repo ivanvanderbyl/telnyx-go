@@ -128,6 +128,20 @@ func encodeCreateVerifiedNumberRequest(
 	return nil
 }
 
+func encodeCreateVerifyProfileRequest(
+	req *CreateVerifyProfileReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeDialCallRequest(
 	req *CallRequest,
 	r *http.Request,

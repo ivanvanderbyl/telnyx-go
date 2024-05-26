@@ -4501,6 +4501,240 @@ func (s *CreateVerifiedNumberResponse) SetVerificationMethod(val OptString) {
 
 func (*CreateVerifiedNumberResponse) createVerifiedNumberRes() {}
 
+// Ref: #/components/schemas/CreateVerifyProfileCallRequest
+type CreateVerifyProfileCallRequest struct {
+	// The message template identifier selected from /verify_profiles/templates.
+	MessagingTemplateID OptUUID `json:"messaging_template_id"`
+	// The name that identifies the application requesting 2fa in the verification message.
+	AppName OptString `json:"app_name"`
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetMessagingTemplateID returns the value of MessagingTemplateID.
+func (s *CreateVerifyProfileCallRequest) GetMessagingTemplateID() OptUUID {
+	return s.MessagingTemplateID
+}
+
+// GetAppName returns the value of AppName.
+func (s *CreateVerifyProfileCallRequest) GetAppName() OptString {
+	return s.AppName
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *CreateVerifyProfileCallRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *CreateVerifyProfileCallRequest) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetMessagingTemplateID sets the value of MessagingTemplateID.
+func (s *CreateVerifyProfileCallRequest) SetMessagingTemplateID(val OptUUID) {
+	s.MessagingTemplateID = val
+}
+
+// SetAppName sets the value of AppName.
+func (s *CreateVerifyProfileCallRequest) SetAppName(val OptString) {
+	s.AppName = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *CreateVerifyProfileCallRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *CreateVerifyProfileCallRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
+// Ref: #/components/schemas/CreateVerifyProfileFlashcallRequest
+type CreateVerifyProfileFlashcallRequest struct {
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *CreateVerifyProfileFlashcallRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *CreateVerifyProfileFlashcallRequest) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *CreateVerifyProfileFlashcallRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *CreateVerifyProfileFlashcallRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
+type CreateVerifyProfileReq struct {
+	Name               string                                 `json:"name"`
+	WebhookURL         OptString                              `json:"webhook_url"`
+	WebhookFailoverURL OptString                              `json:"webhook_failover_url"`
+	SMS                OptCreateVerifyProfileSMSRequest       `json:"sms"`
+	Call               OptCreateVerifyProfileCallRequest      `json:"call"`
+	Flashcall          OptCreateVerifyProfileFlashcallRequest `json:"flashcall"`
+	Language           OptString                              `json:"language"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateVerifyProfileReq) GetName() string {
+	return s.Name
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *CreateVerifyProfileReq) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *CreateVerifyProfileReq) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetSMS returns the value of SMS.
+func (s *CreateVerifyProfileReq) GetSMS() OptCreateVerifyProfileSMSRequest {
+	return s.SMS
+}
+
+// GetCall returns the value of Call.
+func (s *CreateVerifyProfileReq) GetCall() OptCreateVerifyProfileCallRequest {
+	return s.Call
+}
+
+// GetFlashcall returns the value of Flashcall.
+func (s *CreateVerifyProfileReq) GetFlashcall() OptCreateVerifyProfileFlashcallRequest {
+	return s.Flashcall
+}
+
+// GetLanguage returns the value of Language.
+func (s *CreateVerifyProfileReq) GetLanguage() OptString {
+	return s.Language
+}
+
+// SetName sets the value of Name.
+func (s *CreateVerifyProfileReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *CreateVerifyProfileReq) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *CreateVerifyProfileReq) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetSMS sets the value of SMS.
+func (s *CreateVerifyProfileReq) SetSMS(val OptCreateVerifyProfileSMSRequest) {
+	s.SMS = val
+}
+
+// SetCall sets the value of Call.
+func (s *CreateVerifyProfileReq) SetCall(val OptCreateVerifyProfileCallRequest) {
+	s.Call = val
+}
+
+// SetFlashcall sets the value of Flashcall.
+func (s *CreateVerifyProfileReq) SetFlashcall(val OptCreateVerifyProfileFlashcallRequest) {
+	s.Flashcall = val
+}
+
+// SetLanguage sets the value of Language.
+func (s *CreateVerifyProfileReq) SetLanguage(val OptString) {
+	s.Language = val
+}
+
+// Ref: #/components/schemas/CreateVerifyProfileSMSRequest
+type CreateVerifyProfileSMSRequest struct {
+	// The message template identifier selected from /verify_profiles/templates.
+	MessagingTemplateID OptUUID `json:"messaging_template_id"`
+	// The name that identifies the application requesting 2fa in the verification message.
+	AppName OptString `json:"app_name"`
+	// The alphanumeric sender ID to use when sending to destinations that require an alphanumeric sender
+	// ID.
+	AlphaSender OptNilString `json:"alpha_sender"`
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetMessagingTemplateID returns the value of MessagingTemplateID.
+func (s *CreateVerifyProfileSMSRequest) GetMessagingTemplateID() OptUUID {
+	return s.MessagingTemplateID
+}
+
+// GetAppName returns the value of AppName.
+func (s *CreateVerifyProfileSMSRequest) GetAppName() OptString {
+	return s.AppName
+}
+
+// GetAlphaSender returns the value of AlphaSender.
+func (s *CreateVerifyProfileSMSRequest) GetAlphaSender() OptNilString {
+	return s.AlphaSender
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *CreateVerifyProfileSMSRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *CreateVerifyProfileSMSRequest) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetMessagingTemplateID sets the value of MessagingTemplateID.
+func (s *CreateVerifyProfileSMSRequest) SetMessagingTemplateID(val OptUUID) {
+	s.MessagingTemplateID = val
+}
+
+// SetAppName sets the value of AppName.
+func (s *CreateVerifyProfileSMSRequest) SetAppName(val OptString) {
+	s.AppName = val
+}
+
+// SetAlphaSender sets the value of AlphaSender.
+func (s *CreateVerifyProfileSMSRequest) SetAlphaSender(val OptNilString) {
+	s.AlphaSender = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *CreateVerifyProfileSMSRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *CreateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
 type CreatedAt string
 
 // Ref: #/components/schemas/CustomSipHeader
@@ -6958,6 +7192,7 @@ func (*GenericErrorResponseStatusCode) createFlashcallVerificationRes()         
 func (*GenericErrorResponseStatusCode) createVerificationCallRes()              {}
 func (*GenericErrorResponseStatusCode) createVerificationSmsRes()               {}
 func (*GenericErrorResponseStatusCode) createVerifiedNumberRes()                {}
+func (*GenericErrorResponseStatusCode) createVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) deleteProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) deleteVerifiedNumberRes()                {}
 func (*GenericErrorResponseStatusCode) dialCallRes()                            {}
@@ -6969,6 +7204,7 @@ func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()                   
 func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                    {}
 func (*GenericErrorResponseStatusCode) hangupCallRes()                          {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()                          {}
+func (*GenericErrorResponseStatusCode) listProfilesRes()                        {}
 func (*GenericErrorResponseStatusCode) listVerificationsRes()                   {}
 func (*GenericErrorResponseStatusCode) listVerifiedNumbersRes()                 {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()               {}
@@ -8337,6 +8573,35 @@ func (s *ListVerifyProfileMessageTemplateResponse) GetData() []VerifyProfileMess
 func (s *ListVerifyProfileMessageTemplateResponse) SetData(val []VerifyProfileMessageTemplateResponse) {
 	s.Data = val
 }
+
+// A paginated list of Verify profiles.
+// Ref: #/components/schemas/ListVerifyProfilesResponse
+type ListVerifyProfilesResponse struct {
+	Data []VerifyProfileResponse `json:"data"`
+	Meta Meta                    `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListVerifyProfilesResponse) GetData() []VerifyProfileResponse {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListVerifyProfilesResponse) GetMeta() Meta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListVerifyProfilesResponse) SetData(val []VerifyProfileResponse) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListVerifyProfilesResponse) SetMeta(val Meta) {
+	s.Meta = val
+}
+
+func (*ListVerifyProfilesResponse) listProfilesRes() {}
 
 // Ref: #/components/schemas/Loopcount
 // Loopcount represents sum type.
@@ -11528,6 +11793,144 @@ func (o OptCreateTexmlApplicationRequestVoiceMethod) Get() (v CreateTexmlApplica
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateTexmlApplicationRequestVoiceMethod) Or(d CreateTexmlApplicationRequestVoiceMethod) CreateTexmlApplicationRequestVoiceMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateVerifyProfileCallRequest returns new OptCreateVerifyProfileCallRequest with value set to v.
+func NewOptCreateVerifyProfileCallRequest(v CreateVerifyProfileCallRequest) OptCreateVerifyProfileCallRequest {
+	return OptCreateVerifyProfileCallRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateVerifyProfileCallRequest is optional CreateVerifyProfileCallRequest.
+type OptCreateVerifyProfileCallRequest struct {
+	Value CreateVerifyProfileCallRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateVerifyProfileCallRequest was set.
+func (o OptCreateVerifyProfileCallRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateVerifyProfileCallRequest) Reset() {
+	var v CreateVerifyProfileCallRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateVerifyProfileCallRequest) SetTo(v CreateVerifyProfileCallRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateVerifyProfileCallRequest) Get() (v CreateVerifyProfileCallRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateVerifyProfileCallRequest) Or(d CreateVerifyProfileCallRequest) CreateVerifyProfileCallRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateVerifyProfileFlashcallRequest returns new OptCreateVerifyProfileFlashcallRequest with value set to v.
+func NewOptCreateVerifyProfileFlashcallRequest(v CreateVerifyProfileFlashcallRequest) OptCreateVerifyProfileFlashcallRequest {
+	return OptCreateVerifyProfileFlashcallRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateVerifyProfileFlashcallRequest is optional CreateVerifyProfileFlashcallRequest.
+type OptCreateVerifyProfileFlashcallRequest struct {
+	Value CreateVerifyProfileFlashcallRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateVerifyProfileFlashcallRequest was set.
+func (o OptCreateVerifyProfileFlashcallRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateVerifyProfileFlashcallRequest) Reset() {
+	var v CreateVerifyProfileFlashcallRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateVerifyProfileFlashcallRequest) SetTo(v CreateVerifyProfileFlashcallRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateVerifyProfileFlashcallRequest) Get() (v CreateVerifyProfileFlashcallRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateVerifyProfileFlashcallRequest) Or(d CreateVerifyProfileFlashcallRequest) CreateVerifyProfileFlashcallRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateVerifyProfileSMSRequest returns new OptCreateVerifyProfileSMSRequest with value set to v.
+func NewOptCreateVerifyProfileSMSRequest(v CreateVerifyProfileSMSRequest) OptCreateVerifyProfileSMSRequest {
+	return OptCreateVerifyProfileSMSRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateVerifyProfileSMSRequest is optional CreateVerifyProfileSMSRequest.
+type OptCreateVerifyProfileSMSRequest struct {
+	Value CreateVerifyProfileSMSRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateVerifyProfileSMSRequest was set.
+func (o OptCreateVerifyProfileSMSRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateVerifyProfileSMSRequest) Reset() {
+	var v CreateVerifyProfileSMSRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateVerifyProfileSMSRequest) SetTo(v CreateVerifyProfileSMSRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateVerifyProfileSMSRequest) Get() (v CreateVerifyProfileSMSRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateVerifyProfileSMSRequest) Or(d CreateVerifyProfileSMSRequest) CreateVerifyProfileSMSRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -25114,6 +25517,7 @@ func (s *VerifyProfileResponseDataWrapper) SetData(val OptVerifyProfileResponse)
 	s.Data = val
 }
 
+func (*VerifyProfileResponseDataWrapper) createVerifyProfileRes() {}
 func (*VerifyProfileResponseDataWrapper) deleteProfileRes()       {}
 func (*VerifyProfileResponseDataWrapper) getVerifyProfileRes()    {}
 func (*VerifyProfileResponseDataWrapper) updateVerifyProfileRes() {}
