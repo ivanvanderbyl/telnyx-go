@@ -25,12 +25,20 @@ type CreateCallControlApplicationRes interface {
 	createCallControlApplicationRes()
 }
 
+type CreateCsvDownloadRes interface {
+	createCsvDownloadRes()
+}
+
 type CreateCustomStorageCredentialsRes interface {
 	createCustomStorageCredentialsRes()
 }
 
 type CreateDefaultGatewayRes interface {
 	createDefaultGatewayRes()
+}
+
+type CreateDeletePhoneNumbersJobRes interface {
+	createDeletePhoneNumbersJobRes()
 }
 
 type CreateFlashcallVerificationRes interface {
@@ -53,8 +61,16 @@ type CreateNetworkRes interface {
 	createNetworkRes()
 }
 
+type CreateNotificationChannelsRes interface {
+	createNotificationChannelsRes()
+}
+
 type CreateNumberPoolMessageRes interface {
 	createNumberPoolMessageRes()
+}
+
+type CreatePhoneNumbersJobUpdateEmergencySettingsRes interface {
+	createPhoneNumbersJobUpdateEmergencySettingsRes()
 }
 
 type CreateProfileRes interface {
@@ -83,6 +99,10 @@ type CreateTexmlApplicationRes interface {
 
 type CreateTexmlSecretRes interface {
 	createTexmlSecretRes()
+}
+
+type CreateUpdatePhoneNumbersJobRes interface {
+	createUpdatePhoneNumbersJobRes()
 }
 
 type CreateVerificationCallRes interface {
@@ -123,6 +143,10 @@ type DeleteNetworkRes interface {
 
 type DeleteNotificationChannelRes interface {
 	deleteNotificationChannelRes()
+}
+
+type DeletePhoneNumberRes interface {
+	deletePhoneNumberRes()
 }
 
 type DeleteProfileRes interface {
@@ -193,6 +217,10 @@ type DisplayProfileRes interface {
 	displayProfileRes()
 }
 
+type EnablePhoneNumberEmergencyRes interface {
+	enablePhoneNumberEmergencyRes()
+}
+
 type EnqueueCallRes interface {
 	enqueueCallRes()
 }
@@ -225,6 +253,10 @@ type GatherUsingSpeakRes interface {
 	gatherUsingSpeakRes()
 }
 
+type GetCsvDownloadRes interface {
+	getCsvDownloadRes()
+}
+
 type GetCustomStorageCredentialsRes interface {
 	getCustomStorageCredentialsRes()
 }
@@ -235,6 +267,10 @@ type GetDefaultGatewayRes interface {
 
 type GetExternalConnectionLogMessageRes interface {
 	getExternalConnectionLogMessageRes()
+}
+
+type GetExternalConnectionPhoneNumberRes interface {
+	getExternalConnectionPhoneNumberRes()
 }
 
 type GetMessageRes interface {
@@ -255,6 +291,18 @@ type GetNetworkRes interface {
 
 type GetNotificationChannelRes interface {
 	getNotificationChannelRes()
+}
+
+type GetNumberOrderPhoneNumberRes interface {
+	getNumberOrderPhoneNumberRes()
+}
+
+type GetPhoneNumberMessagingSettingsRes interface {
+	getPhoneNumberMessagingSettingsRes()
+}
+
+type GetPhoneNumberVoiceSettingsRes interface {
+	getPhoneNumberVoiceSettingsRes()
 }
 
 type GetRecordingRes interface {
@@ -361,8 +409,16 @@ type ListConnectionActiveCallsRes interface {
 	listConnectionActiveCallsRes()
 }
 
+type ListCsvDownloadsRes interface {
+	listCsvDownloadsRes()
+}
+
 type ListExternalConnectionLogMessagesRes interface {
 	listExternalConnectionLogMessagesRes()
+}
+
+type ListInboundChannelsRes interface {
+	listInboundChannelsRes()
 }
 
 type ListMessagingHostedNumberOrdersRes interface {
@@ -379,6 +435,22 @@ type ListNetworkInterfacesRes interface {
 
 type ListNetworksRes interface {
 	listNetworksRes()
+}
+
+type ListNotificationChannelsRes interface {
+	listNotificationChannelsRes()
+}
+
+type ListPhoneNumbersJobsRes interface {
+	listPhoneNumbersJobsRes()
+}
+
+type ListPhoneNumbersWithMessagingSettingsRes interface {
+	listPhoneNumbersWithMessagingSettingsRes()
+}
+
+type ListPhoneNumbersWithVoiceSettingsRes interface {
+	listPhoneNumbersWithVoiceSettingsRes()
 }
 
 type ListProfilesRes interface {
@@ -449,6 +521,14 @@ type RetrieveCallStatusRes interface {
 	retrieveCallStatusRes()
 }
 
+type RetrievePhoneNumberRes interface {
+	retrievePhoneNumberRes()
+}
+
+type RetrievePhoneNumbersJobRes interface {
+	retrievePhoneNumbersJobRes()
+}
+
 type RetrieveVerificationRes interface {
 	retrieveVerificationRes()
 }
@@ -459,6 +539,10 @@ type SendDTMFRes interface {
 
 type SendMessageRes interface {
 	sendMessageRes()
+}
+
+type SlimListPhoneNumbersRes interface {
+	slimListPhoneNumbersRes()
 }
 
 type SpeakCallRes interface {
@@ -517,6 +601,10 @@ type TransferCallRes interface {
 	transferCallRes()
 }
 
+type UnassignPhoneNumberRes interface {
+	unassignPhoneNumberRes()
+}
+
 type UpdateBulkTelephonyCredentialRes interface {
 	updateBulkTelephonyCredentialRes()
 }
@@ -533,12 +621,36 @@ type UpdateCustomStorageCredentialsRes interface {
 	updateCustomStorageCredentialsRes()
 }
 
+type UpdateExternalConnectionPhoneNumberRes interface {
+	updateExternalConnectionPhoneNumberRes()
+}
+
 type UpdateNetworkRes interface {
 	updateNetworkRes()
 }
 
 type UpdateNotificationChannelRes interface {
 	updateNotificationChannelRes()
+}
+
+type UpdateNumberOrderPhoneNumberRes interface {
+	updateNumberOrderPhoneNumberRes()
+}
+
+type UpdateOutboundChannelsRes interface {
+	updateOutboundChannelsRes()
+}
+
+type UpdatePhoneNumberMessagingSettingsRes interface {
+	updatePhoneNumberMessagingSettingsRes()
+}
+
+type UpdatePhoneNumberRes interface {
+	updatePhoneNumberRes()
+}
+
+type UpdatePhoneNumberVoiceSettingsRes interface {
+	updatePhoneNumberVoiceSettingsRes()
 }
 
 type UpdateProfileRes interface {

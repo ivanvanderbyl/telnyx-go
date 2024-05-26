@@ -87,6 +87,12 @@ type DeleteNotificationChannelParams struct {
 	ID uuid.UUID
 }
 
+// DeletePhoneNumberParams is parameters of DeletePhoneNumber operation.
+type DeletePhoneNumberParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
 // DeleteProfileParams is parameters of DeleteProfile operation.
 type DeleteProfileParams struct {
 	// The identifier of the Verify profile to delete.
@@ -216,6 +222,12 @@ type DisplayProfileParams struct {
 	ID string
 }
 
+// EnablePhoneNumberEmergencyParams is parameters of EnablePhoneNumberEmergency operation.
+type EnablePhoneNumberEmergencyParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
 // EnqueueCallParams is parameters of EnqueueCall operation.
 type EnqueueCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -300,6 +312,12 @@ type GatherUsingSpeakParams struct {
 	CallControlID string
 }
 
+// GetCsvDownloadParams is parameters of GetCsvDownload operation.
+type GetCsvDownloadParams struct {
+	// Identifies the CSV download.
+	ID string
+}
+
 // GetCustomStorageCredentialsParams is parameters of GetCustomStorageCredentials operation.
 type GetCustomStorageCredentialsParams struct {
 	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
@@ -316,6 +334,14 @@ type GetDefaultGatewayParams struct {
 type GetExternalConnectionLogMessageParams struct {
 	// Identifies the resource.
 	ID int64
+}
+
+// GetExternalConnectionPhoneNumberParams is parameters of GetExternalConnectionPhoneNumber operation.
+type GetExternalConnectionPhoneNumberParams struct {
+	// Identifies the resource.
+	ID int64
+	// A phone number's ID via the Telnyx API.
+	PhoneNumberID string
 }
 
 // GetMessageParams is parameters of GetMessage operation.
@@ -364,6 +390,24 @@ type GetNetworkParams struct {
 type GetNotificationChannelParams struct {
 	// Identifies the resource.
 	ID uuid.UUID
+}
+
+// GetNumberOrderPhoneNumberParams is parameters of GetNumberOrderPhoneNumber operation.
+type GetNumberOrderPhoneNumberParams struct {
+	// The number order phone number ID.
+	NumberOrderPhoneNumberID string
+}
+
+// GetPhoneNumberMessagingSettingsParams is parameters of GetPhoneNumberMessagingSettings operation.
+type GetPhoneNumberMessagingSettingsParams struct {
+	// Identifies the type of resource.
+	ID string
+}
+
+// GetPhoneNumberVoiceSettingsParams is parameters of GetPhoneNumberVoiceSettings operation.
+type GetPhoneNumberVoiceSettingsParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // GetRecordingParams is parameters of GetRecording operation.
@@ -649,6 +693,14 @@ type ListConnectionActiveCallsParams struct {
 	PageBefore OptString
 }
 
+// ListCsvDownloadsParams is parameters of ListCsvDownloads operation.
+type ListCsvDownloadsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
 // ListExternalConnectionLogMessagesParams is parameters of ListExternalConnectionLogMessages operation.
 type ListExternalConnectionLogMessagesParams struct {
 	// The page number to load.
@@ -704,6 +756,57 @@ type ListNetworksParams struct {
 	PageSize OptInt
 	// The network name to filter on.
 	FilterName OptString
+}
+
+// ListNotificationChannelsParams is parameters of ListNotificationChannels operation.
+type ListNotificationChannelsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter by the id of a channel type.
+	FilterChannelTypeIDEq OptChannelTypeId
+}
+
+// ListPhoneNumbersJobsParams is parameters of ListPhoneNumbersJobs operation.
+type ListPhoneNumbersJobsParams struct {
+	// Filter the phone number jobs by type.
+	FilterType OptListPhoneNumbersJobsFilterType
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListPhoneNumbersJobsSort
+}
+
+// ListPhoneNumbersWithMessagingSettingsParams is parameters of ListPhoneNumbersWithMessagingSettings operation.
+type ListPhoneNumbersWithMessagingSettingsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
+// ListPhoneNumbersWithVoiceSettingsParams is parameters of ListPhoneNumbersWithVoiceSettings operation.
+type ListPhoneNumbersWithVoiceSettingsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter by phone number. Requires at least three digits.
+	// Non-numerical characters will result in no values being returned.
+	FilterPhoneNumber OptString
+	// Filter contains connection name. Requires at least three characters.
+	FilterConnectionNameContains OptString
+	// Filter numbers via the customer_reference set.
+	FilterCustomerReference OptString
+	// Filter by usage_payment_method.
+	FilterVoiceUsagePaymentMethod OptListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListPhoneNumbersWithVoiceSettingsSort
 }
 
 // ListProfilesParams is parameters of ListProfiles operation.
@@ -851,6 +954,18 @@ type RetrieveCallStatusParams struct {
 	CallControlID string
 }
 
+// RetrievePhoneNumberParams is parameters of RetrievePhoneNumber operation.
+type RetrievePhoneNumberParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
+// RetrievePhoneNumbersJobParams is parameters of RetrievePhoneNumbersJob operation.
+type RetrievePhoneNumbersJobParams struct {
+	// Identifies the Phone Numbers Job.
+	ID string
+}
+
 // RetrieveVerificationParams is parameters of RetrieveVerification operation.
 type RetrieveVerificationParams struct {
 	// The identifier of the verification to retrieve.
@@ -861,6 +976,52 @@ type RetrieveVerificationParams struct {
 type SendDTMFParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// SlimListPhoneNumbersParams is parameters of SlimListPhoneNumbers operation.
+type SlimListPhoneNumbersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Include the connection associated with the phone number.
+	IncludeConnection OptBool
+	// Include the tags associated with the phone number.
+	IncludeTags OptBool
+	// Filter by phone number tags. (This requires the include_tags param).
+	FilterTag OptString
+	// Filter by phone number. Requires at least three digits.
+	// Non-numerical characters will result in no values being returned.
+	FilterPhoneNumber OptString
+	// Filter by phone number status.
+	FilterStatus OptSlimListPhoneNumbersFilterStatus
+	// Filter by connection_id.
+	FilterConnectionID OptStringInt64
+	// Filter contains connection name. Requires at least three characters and the include_connection
+	// param.
+	FilterVoiceConnectionNameContains OptString
+	// Filter starts with connection name. Requires at least three characters and the include_connection
+	// param.
+	FilterVoiceConnectionNameStartsWith OptString
+	// Filter ends with connection name. Requires at least three characters and the include_connection
+	// param.
+	FilterVoiceConnectionNameEndsWith OptString
+	// Filter by connection name , requires the include_connection param and the include_connection param.
+	FilterVoiceConnectionName OptString
+	// Filter by usage_payment_method.
+	FilterVoiceUsagePaymentMethod OptSlimListPhoneNumbersFilterVoiceUsagePaymentMethod
+	// Filter by the billing_group_id associated with phone numbers. To filter to only phone numbers that
+	// have no billing group associated them, set the value of this filter to the string 'null'.
+	FilterBillingGroupID OptString
+	// Filter by the emergency_address_id associated with phone numbers. To filter only phone numbers
+	// that have no emergency address associated with them, set the value of this filter to the string
+	// 'null'.
+	FilterEmergencyAddressID OptStringInt64
+	// Filter numbers via the customer_reference set.
+	FilterCustomerReference OptString
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptSlimListPhoneNumbersSort
 }
 
 // SpeakCallParams is parameters of SpeakCall operation.
@@ -949,6 +1110,14 @@ type TransferCallParams struct {
 	CallControlID string
 }
 
+// UnassignPhoneNumberParams is parameters of UnassignPhoneNumber operation.
+type UnassignPhoneNumberParams struct {
+	// Channel zone identifier.
+	ChannelZoneID string
+	// The phone number to be looked up.
+	PhoneNumber string
+}
+
 // UpdateBulkTelephonyCredentialParams is parameters of UpdateBulkTelephonyCredential operation.
 type UpdateBulkTelephonyCredentialParams struct {
 	// Filter by tag, required by bulk operations.
@@ -973,6 +1142,14 @@ type UpdateCustomStorageCredentialsParams struct {
 	ConnectionID string
 }
 
+// UpdateExternalConnectionPhoneNumberParams is parameters of UpdateExternalConnectionPhoneNumber operation.
+type UpdateExternalConnectionPhoneNumberParams struct {
+	// Identifies the resource.
+	ID int64
+	// A phone number's ID via the Telnyx API.
+	PhoneNumberID string
+}
+
 // UpdateNetworkParams is parameters of UpdateNetwork operation.
 type UpdateNetworkParams struct {
 	// Identifies the resource.
@@ -983,6 +1160,30 @@ type UpdateNetworkParams struct {
 type UpdateNotificationChannelParams struct {
 	// Identifies the resource.
 	ID uuid.UUID
+}
+
+// UpdateNumberOrderPhoneNumberParams is parameters of UpdateNumberOrderPhoneNumber operation.
+type UpdateNumberOrderPhoneNumberParams struct {
+	// The number order phone number ID.
+	NumberOrderPhoneNumberID string
+}
+
+// UpdatePhoneNumberParams is parameters of UpdatePhoneNumber operation.
+type UpdatePhoneNumberParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
+// UpdatePhoneNumberMessagingSettingsParams is parameters of UpdatePhoneNumberMessagingSettings operation.
+type UpdatePhoneNumberMessagingSettingsParams struct {
+	// Identifies the type of resource.
+	ID string
+}
+
+// UpdatePhoneNumberVoiceSettingsParams is parameters of UpdatePhoneNumberVoiceSettings operation.
+type UpdatePhoneNumberVoiceSettingsParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // UpdateProfileParams is parameters of UpdateProfile operation.

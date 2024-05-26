@@ -86,6 +86,30 @@ func (s *CallControlApplicationInbound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *CallForwarding) setDefaults() {
+	{
+		val := bool(true)
+		s.CallForwardingEnabled.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CallRecording) setDefaults() {
+	{
+		val := bool(false)
+		s.InboundCallRecordingEnabled.SetTo(val)
+	}
+	{
+		val := CallRecordingInboundCallRecordingFormat("wav")
+		s.InboundCallRecordingFormat.SetTo(val)
+	}
+	{
+		val := CallRecordingInboundCallRecordingChannels("single")
+		s.InboundCallRecordingChannels.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *CallRequest) setDefaults() {
 	{
 		val := int32(30)
@@ -182,6 +206,14 @@ func (s *CallRequestAnsweringMachineDetectionConfig) setDefaults() {
 	{
 		val := int32(1500)
 		s.GreetingSilenceDurationMillis.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CnamListing) setDefaults() {
+	{
+		val := bool(false)
+		s.CnamListingEnabled.SetTo(val)
 	}
 }
 
@@ -321,6 +353,14 @@ func (s *CreateTexmlApplicationRequestInbound) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *CsvDownload) setDefaults() {
+	{
+		val := CsvDownloadStatus("pending")
+		s.Status.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *DialConferenceParticipantRequest) setDefaults() {
 	{
 		val := bool(false)
@@ -361,6 +401,18 @@ func (s *DialogflowConfig) setDefaults() {
 	{
 		val := bool(false)
 		s.PartialAutomatedAgentReply.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *EmergencySettings) setDefaults() {
+	{
+		val := bool(false)
+		s.EmergencyEnabled.SetTo(val)
+	}
+	{
+		val := EmergencySettingsEmergencyStatus("disabled")
+		s.EmergencyStatus.SetTo(val)
 	}
 }
 
@@ -537,10 +589,82 @@ func (s *InitiateCallRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *MediaFeatures) setDefaults() {
+	{
+		val := bool(true)
+		s.RtpAutoAdjustEnabled.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.AcceptAnyRtpPacketsEnabled.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.T38FaxGatewayEnabled.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *NoiseSuppressionStart) setDefaults() {
 	{
 		val := NoiseSuppressionDirection("inbound")
 		s.Direction.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *PhoneNumberDeletedDetailed) setDefaults() {
+	{
+		val := bool(true)
+		s.CallForwardingEnabled.SetTo(val)
+	}
+	{
+		val := PhoneNumberDeletedDetailedNumberLevelRouting("disabled")
+		s.NumberLevelRouting.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *PhoneNumberDetailed) setDefaults() {
+	{
+		val := bool(true)
+		s.CallForwardingEnabled.SetTo(val)
+	}
+	{
+		val := PhoneNumberDetailedNumberLevelRouting("disabled")
+		s.NumberLevelRouting.SetTo(val)
+	}
+	{
+		val := PhoneNumberDetailedInboundCallScreening("disabled")
+		s.InboundCallScreening.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *PhoneNumberWithVoiceSettings) setDefaults() {
+	{
+		val := bool(false)
+		s.TechPrefixEnabled.SetTo(val)
+	}
+	{
+		val := string("")
+		s.TranslatedNumber.SetTo(val)
+	}
+	{
+		val := PhoneNumberWithVoiceSettingsUsagePaymentMethod("pay-per-minute")
+		s.UsagePaymentMethod.SetTo(val)
+	}
+	{
+		val := PhoneNumberWithVoiceSettingsInboundCallScreening("disabled")
+		s.InboundCallScreening.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *PhoneNumbersJob) setDefaults() {
+	{
+		val := PhoneNumbersJobStatus("pending")
+		s.Status.SetTo(val)
 	}
 }
 
@@ -581,6 +705,22 @@ func (s *SendDTMFRequest) setDefaults() {
 	{
 		val := int32(250)
 		s.DurationMillis.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *SlimPhoneNumberDetailed) setDefaults() {
+	{
+		val := bool(true)
+		s.CallForwardingEnabled.SetTo(val)
+	}
+	{
+		val := SlimPhoneNumberDetailedNumberLevelRouting("disabled")
+		s.NumberLevelRouting.SetTo(val)
+	}
+	{
+		val := SlimPhoneNumberDetailedInboundCallScreening("disabled")
+		s.InboundCallScreening.SetTo(val)
 	}
 }
 
@@ -848,6 +988,34 @@ func (s *UpdateCallControlApplicationRequest) setDefaults() {
 	}
 	{
 		s.WebhookTimeoutSecs.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdatePhoneNumberRequest) setDefaults() {
+	{
+		val := UpdatePhoneNumberRequestNumberLevelRouting("enabled")
+		s.NumberLevelRouting.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdatePhoneNumberVoiceSettingsRequest) setDefaults() {
+	{
+		val := bool(false)
+		s.TechPrefixEnabled.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.CallerIDNameEnabled.SetTo(val)
+	}
+	{
+		val := UpdatePhoneNumberVoiceSettingsRequestUsagePaymentMethod("pay-per-minute")
+		s.UsagePaymentMethod.SetTo(val)
+	}
+	{
+		val := UpdatePhoneNumberVoiceSettingsRequestInboundCallScreening("disabled")
+		s.InboundCallScreening.SetTo(val)
 	}
 }
 

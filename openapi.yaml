@@ -12761,10 +12761,12 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 properties:
                   errors:
                     type: array
                     items:
+                      type: object
                       required:
                         - code
                         - title
@@ -47241,6 +47243,7 @@ components:
         requirement_type: address_proof
         created_at: '2018-01-01T00:00:00.000000Z'
     NumberOrderPhoneNumber:
+      type: object
       properties:
         id:
           type: string
@@ -49831,6 +49834,7 @@ components:
           - '+19715555098'
           - '32873127836'
     PhoneNumbersJobFailedOperation:
+      type: object
       properties:
         phone_number:
           type: string
@@ -49845,6 +49849,7 @@ components:
           items:
             $ref: '#/components/schemas/Error'
     PhoneNumbersJobPendingOperation:
+      type: object
       properties:
         phone_number:
           type: string
@@ -49855,6 +49860,7 @@ components:
           format: int64
           description: The phone number's ID
     PhoneNumbersJobPhoneNumber:
+      type: object
       properties:
         phone_number:
           type: string
@@ -49866,6 +49872,7 @@ components:
           format: int64
           description: The phone number's ID
     PhoneNumbersJobSuccessfulOperation:
+      type: object
       properties:
         phone_number:
           type: string
@@ -55602,6 +55609,7 @@ components:
           example: address
           readOnly: true
     SubNumberOrderRegulatoryRequirementWithValue:
+      type: object
       properties:
         record_type:
           type: string
@@ -59100,6 +59108,7 @@ components:
         requirement_type: address_proof
         created_at: '2018-01-01T00:00:00.000000Z'
     UpdateNumberOrderPhoneNumberRequest:
+      type: object
       properties:
         regulatory_requirements:
           type: array
@@ -59397,6 +59406,7 @@ components:
           description: Identifies the requirement type that meets this requirement
           example: 59b0762a-b274-4f76-ac32-4d5cf0272e66
     UpdateRegulatoryRequirement:
+      type: object
       properties:
         requirement_id:
           type: string
