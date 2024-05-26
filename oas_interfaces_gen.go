@@ -29,8 +29,32 @@ type CreateCustomStorageCredentialsRes interface {
 	createCustomStorageCredentialsRes()
 }
 
+type CreateDefaultGatewayRes interface {
+	createDefaultGatewayRes()
+}
+
 type CreateFlashcallVerificationRes interface {
 	createFlashcallVerificationRes()
+}
+
+type CreateGroupMmsMessageRes interface {
+	createGroupMmsMessageRes()
+}
+
+type CreateLongCodeMessageRes interface {
+	createLongCodeMessageRes()
+}
+
+type CreateMessagingHostedNumberOrderRes interface {
+	createMessagingHostedNumberOrderRes()
+}
+
+type CreateNetworkRes interface {
+	createNetworkRes()
+}
+
+type CreateNumberPoolMessageRes interface {
+	createNumberPoolMessageRes()
 }
 
 type CreateProfileRes interface {
@@ -39,6 +63,10 @@ type CreateProfileRes interface {
 
 type CreateProfileVerificationRequestRes interface {
 	createProfileVerificationRequestRes()
+}
+
+type CreateShortCodeMessageRes interface {
+	createShortCodeMessageRes()
 }
 
 type CreateTelephonyCredentialRes interface {
@@ -79,6 +107,18 @@ type DeleteCallControlApplicationRes interface {
 
 type DeleteCustomStorageCredentialsRes interface {
 	deleteCustomStorageCredentialsRes()
+}
+
+type DeleteDefaultGatewayRes interface {
+	deleteDefaultGatewayRes()
+}
+
+type DeleteExternalConnectionLogMessageRes interface {
+	deleteExternalConnectionLogMessageRes()
+}
+
+type DeleteNetworkRes interface {
+	deleteNetworkRes()
 }
 
 type DeleteProfileRes interface {
@@ -185,6 +225,26 @@ type GetCustomStorageCredentialsRes interface {
 	getCustomStorageCredentialsRes()
 }
 
+type GetDefaultGatewayRes interface {
+	getDefaultGatewayRes()
+}
+
+type GetExternalConnectionLogMessageRes interface {
+	getExternalConnectionLogMessageRes()
+}
+
+type GetMessageRes interface {
+	getMessageRes()
+}
+
+type GetMessagingHostedNumberOrderRes interface {
+	getMessagingHostedNumberOrderRes()
+}
+
+type GetNetworkRes interface {
+	getNetworkRes()
+}
+
 type GetRecordingRes interface {
 	getRecordingRes()
 }
@@ -265,6 +325,10 @@ type GetVerifyProfileRes interface {
 	getVerifyProfileRes()
 }
 
+type GetWebhookDeliveriesRes interface {
+	getWebhookDeliveriesRes()
+}
+
 type GetWebhookDeliveryRes interface {
 	getWebhookDeliveryRes()
 }
@@ -283,6 +347,26 @@ type ListCallControlApplicationsRes interface {
 
 type ListConnectionActiveCallsRes interface {
 	listConnectionActiveCallsRes()
+}
+
+type ListExternalConnectionLogMessagesRes interface {
+	listExternalConnectionLogMessagesRes()
+}
+
+type ListMessagingHostedNumberOrdersRes interface {
+	listMessagingHostedNumberOrdersRes()
+}
+
+type ListMessagingUrlDomainsRes interface {
+	listMessagingUrlDomainsRes()
+}
+
+type ListNetworkInterfacesRes interface {
+	listNetworkInterfacesRes()
+}
+
+type ListNetworksRes interface {
+	listNetworksRes()
 }
 
 type ListProfilesRes interface {
@@ -361,6 +445,10 @@ type SendDTMFRes interface {
 	sendDTMFRes()
 }
 
+type SendMessageRes interface {
+	sendMessageRes()
+}
+
 type SpeakCallRes interface {
 	speakCallRes()
 }
@@ -431,6 +519,10 @@ type UpdateClientStateRes interface {
 
 type UpdateCustomStorageCredentialsRes interface {
 	updateCustomStorageCredentialsRes()
+}
+
+type UpdateNetworkRes interface {
+	updateNetworkRes()
 }
 
 type UpdateProfileRes interface {

@@ -221,6 +221,62 @@ func (s *CreateCallControlApplicationRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *CreateGroupMMSMessageRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.UseProfileWebhooks.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateLongCodeMessageRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.UseProfileWebhooks.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.AutoDetect.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateMessageRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.UseProfileWebhooks.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.AutoDetect.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateNumberPoolMessageRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.UseProfileWebhooks.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.AutoDetect.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *CreateShortCodeMessageRequest) setDefaults() {
+	{
+		val := bool(true)
+		s.UseProfileWebhooks.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.AutoDetect.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *CreateTexmlApplicationRequest) setDefaults() {
 	{
 		val := ConnectionActive(true)

@@ -33,6 +33,12 @@ type CreateCustomStorageCredentialsParams struct {
 	ConnectionID string
 }
 
+// CreateDefaultGatewayParams is parameters of CreateDefaultGateway operation.
+type CreateDefaultGatewayParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
 // CreateProfileVerificationRequestParams is parameters of CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestParams struct {
 	// Identifies the Verified Calls Display Profile.
@@ -55,6 +61,24 @@ type DeleteCallControlApplicationParams struct {
 type DeleteCustomStorageCredentialsParams struct {
 	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
 	ConnectionID string
+}
+
+// DeleteDefaultGatewayParams is parameters of DeleteDefaultGateway operation.
+type DeleteDefaultGatewayParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
+// DeleteExternalConnectionLogMessageParams is parameters of DeleteExternalConnectionLogMessage operation.
+type DeleteExternalConnectionLogMessageParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
+// DeleteNetworkParams is parameters of DeleteNetwork operation.
+type DeleteNetworkParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
 }
 
 // DeleteProfileParams is parameters of DeleteProfile operation.
@@ -276,6 +300,36 @@ type GetCustomStorageCredentialsParams struct {
 	ConnectionID string
 }
 
+// GetDefaultGatewayParams is parameters of GetDefaultGateway operation.
+type GetDefaultGatewayParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
+// GetExternalConnectionLogMessageParams is parameters of GetExternalConnectionLogMessage operation.
+type GetExternalConnectionLogMessageParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
+// GetMessageParams is parameters of GetMessage operation.
+type GetMessageParams struct {
+	// The id of the message.
+	ID uuid.UUID
+}
+
+// GetMessagingHostedNumberOrderParams is parameters of GetMessagingHostedNumberOrder operation.
+type GetMessagingHostedNumberOrderParams struct {
+	// Identifies the type of resource.
+	ID string
+}
+
+// GetNetworkParams is parameters of GetNetwork operation.
+type GetNetworkParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+}
+
 // GetRecordingParams is parameters of GetRecording operation.
 type GetRecordingParams struct {
 	// Uniquely identifies the recording by id.
@@ -466,6 +520,31 @@ type GetVerifyProfileParams struct {
 	VerifyProfileID uuid.UUID
 }
 
+// GetWebhookDeliveriesParams is parameters of GetWebhookDeliveries operation.
+type GetWebhookDeliveriesParams struct {
+	// Return only webhook_deliveries matching the given `status`.
+	FilterStatusEq OptGetWebhookDeliveriesFilterStatusEq
+	// Return only webhook_deliveries matching the given value of `event_type`. Accepts multiple values
+	// separated by a `,`.
+	FilterEventType OptString
+	// Return only webhook deliveries whose `webhook` component contains the given text.
+	FilterWebhookContains OptString
+	// Return only webhook_deliveries whose `attempts` component contains the given text.
+	FilterAttemptsContains OptString
+	// Return only webhook_deliveries whose delivery started later than or at given ISO 8601 datetime.
+	FilterStartedAtGte OptString
+	// Return only webhook_deliveries whose delivery started earlier than or at given ISO 8601 datetime.
+	FilterStartedAtLte OptString
+	// Return only webhook_deliveries whose delivery finished later than or at given ISO 8601 datetime.
+	FilterFinishedAtGte OptString
+	// Return only webhook_deliveries whose delivery finished earlier than or at given ISO 8601 datetime.
+	FilterFinishedAtLte OptString
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
 // GetWebhookDeliveryParams is parameters of GetWebhookDelivery operation.
 type GetWebhookDeliveryParams struct {
 	// Uniquely identifies the webhook_delivery.
@@ -532,6 +611,63 @@ type ListConnectionActiveCallsParams struct {
 	PageAfter OptString
 	// Opaque identifier of previous page.
 	PageBefore OptString
+}
+
+// ListExternalConnectionLogMessagesParams is parameters of ListExternalConnectionLogMessages operation.
+type ListExternalConnectionLogMessagesParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The external connection ID to filter by or "null" to filter for logs without an external
+	// connection ID.
+	FilterExternalConnectionID OptString
+	// The partial phone number to filter log messages for. Requires 3-15 digits.
+	FilterTelephoneNumberContains OptString
+	// The phone number to filter log messages for or "null" to filter for logs without a phone number.
+	FilterTelephoneNumberEq OptString
+}
+
+// ListMessagingHostedNumberOrdersParams is parameters of ListMessagingHostedNumberOrders operation.
+type ListMessagingHostedNumberOrdersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
+// ListMessagingUrlDomainsParams is parameters of ListMessagingUrlDomains operation.
+type ListMessagingUrlDomainsParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+}
+
+// ListNetworkInterfacesParams is parameters of ListNetworkInterfaces operation.
+type ListNetworkInterfacesParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The interface name to filter on.
+	FilterName OptString
+	// The interface type to filter on.
+	FilterType OptString
+	// The interface status to filter on.
+	FilterStatus OptInterfaceStatus
+}
+
+// ListNetworksParams is parameters of ListNetworks operation.
+type ListNetworksParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The network name to filter on.
+	FilterName OptString
 }
 
 // ListProfilesParams is parameters of ListProfiles operation.
@@ -799,6 +935,12 @@ type UpdateClientStateParams struct {
 type UpdateCustomStorageCredentialsParams struct {
 	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
 	ConnectionID string
+}
+
+// UpdateNetworkParams is parameters of UpdateNetwork operation.
+type UpdateNetworkParams struct {
+	// Identifies the resource.
+	ID uuid.UUID
 }
 
 // UpdateProfileParams is parameters of UpdateProfile operation.

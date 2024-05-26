@@ -5097,10 +5097,839 @@ type CreateCallControlApplicationUnprocessableEntity struct{}
 
 func (*CreateCallControlApplicationUnprocessableEntity) createCallControlApplicationRes() {}
 
+// Ref: #/components/schemas/CreateGroupMMSMessageRequest
+type CreateGroupMMSMessageRequest struct {
+	// Phone number, in +E.164 format, used to send the message.
+	From string `json:"from"`
+	// A list of destinations. No more than 8 destinations are allowed.
+	To []ToNumber `json:"to"`
+	// Message body (i.e., content) as a non-empty string.
+	Text OptString `json:"text"`
+	// Subject of multimedia message.
+	Subject OptString `json:"subject"`
+	// A list of media URLs. The total media size must be less than 1 MB.
+	MediaUrls []string `json:"media_urls"`
+	// The URL where webhooks related to this message will be sent.
+	WebhookURL OptString `json:"webhook_url"`
+	// The failover URL where webhooks related to this message will be sent if sending to the primary URL
+	// fails.
+	WebhookFailoverURL OptString `json:"webhook_failover_url"`
+	// If the profile this number is associated with has webhooks, use them for delivery notifications.
+	// If webhooks are also specified on the message itself, they will be attempted first, then those on
+	// the profile.
+	UseProfileWebhooks OptBool `json:"use_profile_webhooks"`
+}
+
+// GetFrom returns the value of From.
+func (s *CreateGroupMMSMessageRequest) GetFrom() string {
+	return s.From
+}
+
+// GetTo returns the value of To.
+func (s *CreateGroupMMSMessageRequest) GetTo() []ToNumber {
+	return s.To
+}
+
+// GetText returns the value of Text.
+func (s *CreateGroupMMSMessageRequest) GetText() OptString {
+	return s.Text
+}
+
+// GetSubject returns the value of Subject.
+func (s *CreateGroupMMSMessageRequest) GetSubject() OptString {
+	return s.Subject
+}
+
+// GetMediaUrls returns the value of MediaUrls.
+func (s *CreateGroupMMSMessageRequest) GetMediaUrls() []string {
+	return s.MediaUrls
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *CreateGroupMMSMessageRequest) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *CreateGroupMMSMessageRequest) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetUseProfileWebhooks returns the value of UseProfileWebhooks.
+func (s *CreateGroupMMSMessageRequest) GetUseProfileWebhooks() OptBool {
+	return s.UseProfileWebhooks
+}
+
+// SetFrom sets the value of From.
+func (s *CreateGroupMMSMessageRequest) SetFrom(val string) {
+	s.From = val
+}
+
+// SetTo sets the value of To.
+func (s *CreateGroupMMSMessageRequest) SetTo(val []ToNumber) {
+	s.To = val
+}
+
+// SetText sets the value of Text.
+func (s *CreateGroupMMSMessageRequest) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetSubject sets the value of Subject.
+func (s *CreateGroupMMSMessageRequest) SetSubject(val OptString) {
+	s.Subject = val
+}
+
+// SetMediaUrls sets the value of MediaUrls.
+func (s *CreateGroupMMSMessageRequest) SetMediaUrls(val []string) {
+	s.MediaUrls = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *CreateGroupMMSMessageRequest) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *CreateGroupMMSMessageRequest) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetUseProfileWebhooks sets the value of UseProfileWebhooks.
+func (s *CreateGroupMMSMessageRequest) SetUseProfileWebhooks(val OptBool) {
+	s.UseProfileWebhooks = val
+}
+
+// Ref: #/components/schemas/CreateLongCodeMessageRequest
+type CreateLongCodeMessageRequest struct {
+	// Phone number, in +E.164 format, used to send the message.
+	From string   `json:"from"`
+	To   ToNumber `json:"to"`
+	// Message body (i.e., content) as a non-empty string.
+	// **Required for SMS**.
+	Text OptString `json:"text"`
+	// Subject of multimedia message.
+	Subject OptString `json:"subject"`
+	// A list of media URLs. The total media size must be less than 1 MB.
+	// **Required for MMS**.
+	MediaUrls []string `json:"media_urls"`
+	// The URL where webhooks related to this message will be sent.
+	WebhookURL OptString `json:"webhook_url"`
+	// The failover URL where webhooks related to this message will be sent if sending to the primary URL
+	// fails.
+	WebhookFailoverURL OptString `json:"webhook_failover_url"`
+	// If the profile this number is associated with has webhooks, use them for delivery notifications.
+	// If webhooks are also specified on the message itself, they will be attempted first, then those on
+	// the profile.
+	UseProfileWebhooks OptBool `json:"use_profile_webhooks"`
+	// The protocol for sending the message, either SMS or MMS.
+	Type OptCreateLongCodeMessageRequestType `json:"type"`
+	// Automatically detect if an SMS message is unusually long and exceeds a recommended limit of
+	// message parts.
+	AutoDetect OptBool `json:"auto_detect"`
+}
+
+// GetFrom returns the value of From.
+func (s *CreateLongCodeMessageRequest) GetFrom() string {
+	return s.From
+}
+
+// GetTo returns the value of To.
+func (s *CreateLongCodeMessageRequest) GetTo() ToNumber {
+	return s.To
+}
+
+// GetText returns the value of Text.
+func (s *CreateLongCodeMessageRequest) GetText() OptString {
+	return s.Text
+}
+
+// GetSubject returns the value of Subject.
+func (s *CreateLongCodeMessageRequest) GetSubject() OptString {
+	return s.Subject
+}
+
+// GetMediaUrls returns the value of MediaUrls.
+func (s *CreateLongCodeMessageRequest) GetMediaUrls() []string {
+	return s.MediaUrls
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *CreateLongCodeMessageRequest) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *CreateLongCodeMessageRequest) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetUseProfileWebhooks returns the value of UseProfileWebhooks.
+func (s *CreateLongCodeMessageRequest) GetUseProfileWebhooks() OptBool {
+	return s.UseProfileWebhooks
+}
+
+// GetType returns the value of Type.
+func (s *CreateLongCodeMessageRequest) GetType() OptCreateLongCodeMessageRequestType {
+	return s.Type
+}
+
+// GetAutoDetect returns the value of AutoDetect.
+func (s *CreateLongCodeMessageRequest) GetAutoDetect() OptBool {
+	return s.AutoDetect
+}
+
+// SetFrom sets the value of From.
+func (s *CreateLongCodeMessageRequest) SetFrom(val string) {
+	s.From = val
+}
+
+// SetTo sets the value of To.
+func (s *CreateLongCodeMessageRequest) SetTo(val ToNumber) {
+	s.To = val
+}
+
+// SetText sets the value of Text.
+func (s *CreateLongCodeMessageRequest) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetSubject sets the value of Subject.
+func (s *CreateLongCodeMessageRequest) SetSubject(val OptString) {
+	s.Subject = val
+}
+
+// SetMediaUrls sets the value of MediaUrls.
+func (s *CreateLongCodeMessageRequest) SetMediaUrls(val []string) {
+	s.MediaUrls = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *CreateLongCodeMessageRequest) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *CreateLongCodeMessageRequest) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetUseProfileWebhooks sets the value of UseProfileWebhooks.
+func (s *CreateLongCodeMessageRequest) SetUseProfileWebhooks(val OptBool) {
+	s.UseProfileWebhooks = val
+}
+
+// SetType sets the value of Type.
+func (s *CreateLongCodeMessageRequest) SetType(val OptCreateLongCodeMessageRequestType) {
+	s.Type = val
+}
+
+// SetAutoDetect sets the value of AutoDetect.
+func (s *CreateLongCodeMessageRequest) SetAutoDetect(val OptBool) {
+	s.AutoDetect = val
+}
+
+// The protocol for sending the message, either SMS or MMS.
+type CreateLongCodeMessageRequestType string
+
+const (
+	CreateLongCodeMessageRequestTypeSMS CreateLongCodeMessageRequestType = "SMS"
+	CreateLongCodeMessageRequestTypeMMS CreateLongCodeMessageRequestType = "MMS"
+)
+
+// AllValues returns all CreateLongCodeMessageRequestType values.
+func (CreateLongCodeMessageRequestType) AllValues() []CreateLongCodeMessageRequestType {
+	return []CreateLongCodeMessageRequestType{
+		CreateLongCodeMessageRequestTypeSMS,
+		CreateLongCodeMessageRequestTypeMMS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateLongCodeMessageRequestType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateLongCodeMessageRequestTypeSMS:
+		return []byte(s), nil
+	case CreateLongCodeMessageRequestTypeMMS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateLongCodeMessageRequestType) UnmarshalText(data []byte) error {
+	switch CreateLongCodeMessageRequestType(data) {
+	case CreateLongCodeMessageRequestTypeSMS:
+		*s = CreateLongCodeMessageRequestTypeSMS
+		return nil
+	case CreateLongCodeMessageRequestTypeMMS:
+		*s = CreateLongCodeMessageRequestTypeMMS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CreateMessageRequest
+type CreateMessageRequest struct {
+	// Sending address (+E.164 formatted phone number, alphanumeric sender ID, or short code).
+	// **Required if sending with a phone number, short code, or alphanumeric sender ID.**.
+	From OptString `json:"from"`
+	// Unique identifier for a messaging profile.
+	// **Required if sending via number pool or with an alphanumeric sender ID.**.
+	MessagingProfileID OptString `json:"messaging_profile_id"`
+	To                 ToNumber  `json:"to"`
+	// Message body (i.e., content) as a non-empty string.
+	// **Required for SMS**.
+	Text OptString `json:"text"`
+	// Subject of multimedia message.
+	Subject OptString `json:"subject"`
+	// A list of media URLs. The total media size must be less than 1 MB.
+	// **Required for MMS**.
+	MediaUrls []string `json:"media_urls"`
+	// The URL where webhooks related to this message will be sent.
+	WebhookURL OptString `json:"webhook_url"`
+	// The failover URL where webhooks related to this message will be sent if sending to the primary URL
+	// fails.
+	WebhookFailoverURL OptString `json:"webhook_failover_url"`
+	// If the profile this number is associated with has webhooks, use them for delivery notifications.
+	// If webhooks are also specified on the message itself, they will be attempted first, then those on
+	// the profile.
+	UseProfileWebhooks OptBool `json:"use_profile_webhooks"`
+	// The protocol for sending the message, either SMS or MMS.
+	Type OptCreateMessageRequestType `json:"type"`
+	// Automatically detect if an SMS message is unusually long and exceeds a recommended limit of
+	// message parts.
+	AutoDetect OptBool `json:"auto_detect"`
+}
+
+// GetFrom returns the value of From.
+func (s *CreateMessageRequest) GetFrom() OptString {
+	return s.From
+}
+
+// GetMessagingProfileID returns the value of MessagingProfileID.
+func (s *CreateMessageRequest) GetMessagingProfileID() OptString {
+	return s.MessagingProfileID
+}
+
+// GetTo returns the value of To.
+func (s *CreateMessageRequest) GetTo() ToNumber {
+	return s.To
+}
+
+// GetText returns the value of Text.
+func (s *CreateMessageRequest) GetText() OptString {
+	return s.Text
+}
+
+// GetSubject returns the value of Subject.
+func (s *CreateMessageRequest) GetSubject() OptString {
+	return s.Subject
+}
+
+// GetMediaUrls returns the value of MediaUrls.
+func (s *CreateMessageRequest) GetMediaUrls() []string {
+	return s.MediaUrls
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *CreateMessageRequest) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *CreateMessageRequest) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetUseProfileWebhooks returns the value of UseProfileWebhooks.
+func (s *CreateMessageRequest) GetUseProfileWebhooks() OptBool {
+	return s.UseProfileWebhooks
+}
+
+// GetType returns the value of Type.
+func (s *CreateMessageRequest) GetType() OptCreateMessageRequestType {
+	return s.Type
+}
+
+// GetAutoDetect returns the value of AutoDetect.
+func (s *CreateMessageRequest) GetAutoDetect() OptBool {
+	return s.AutoDetect
+}
+
+// SetFrom sets the value of From.
+func (s *CreateMessageRequest) SetFrom(val OptString) {
+	s.From = val
+}
+
+// SetMessagingProfileID sets the value of MessagingProfileID.
+func (s *CreateMessageRequest) SetMessagingProfileID(val OptString) {
+	s.MessagingProfileID = val
+}
+
+// SetTo sets the value of To.
+func (s *CreateMessageRequest) SetTo(val ToNumber) {
+	s.To = val
+}
+
+// SetText sets the value of Text.
+func (s *CreateMessageRequest) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetSubject sets the value of Subject.
+func (s *CreateMessageRequest) SetSubject(val OptString) {
+	s.Subject = val
+}
+
+// SetMediaUrls sets the value of MediaUrls.
+func (s *CreateMessageRequest) SetMediaUrls(val []string) {
+	s.MediaUrls = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *CreateMessageRequest) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *CreateMessageRequest) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetUseProfileWebhooks sets the value of UseProfileWebhooks.
+func (s *CreateMessageRequest) SetUseProfileWebhooks(val OptBool) {
+	s.UseProfileWebhooks = val
+}
+
+// SetType sets the value of Type.
+func (s *CreateMessageRequest) SetType(val OptCreateMessageRequestType) {
+	s.Type = val
+}
+
+// SetAutoDetect sets the value of AutoDetect.
+func (s *CreateMessageRequest) SetAutoDetect(val OptBool) {
+	s.AutoDetect = val
+}
+
+// The protocol for sending the message, either SMS or MMS.
+type CreateMessageRequestType string
+
+const (
+	CreateMessageRequestTypeSMS CreateMessageRequestType = "SMS"
+	CreateMessageRequestTypeMMS CreateMessageRequestType = "MMS"
+)
+
+// AllValues returns all CreateMessageRequestType values.
+func (CreateMessageRequestType) AllValues() []CreateMessageRequestType {
+	return []CreateMessageRequestType{
+		CreateMessageRequestTypeSMS,
+		CreateMessageRequestTypeMMS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateMessageRequestType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateMessageRequestTypeSMS:
+		return []byte(s), nil
+	case CreateMessageRequestTypeMMS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateMessageRequestType) UnmarshalText(data []byte) error {
+	switch CreateMessageRequestType(data) {
+	case CreateMessageRequestTypeSMS:
+		*s = CreateMessageRequestTypeSMS
+		return nil
+	case CreateMessageRequestTypeMMS:
+		*s = CreateMessageRequestTypeMMS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CreateMessagingHostedNumberOrderRequest
+type CreateMessagingHostedNumberOrderRequest struct {
+	// Phone numbers to be used for hosted messaging.
+	PhoneNumbers []string `json:"phone_numbers"`
+	// Automatically associate the number with this messaging profile ID when the order is complete.
+	MessagingProfileID OptString `json:"messaging_profile_id"`
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *CreateMessagingHostedNumberOrderRequest) GetPhoneNumbers() []string {
+	return s.PhoneNumbers
+}
+
+// GetMessagingProfileID returns the value of MessagingProfileID.
+func (s *CreateMessagingHostedNumberOrderRequest) GetMessagingProfileID() OptString {
+	return s.MessagingProfileID
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *CreateMessagingHostedNumberOrderRequest) SetPhoneNumbers(val []string) {
+	s.PhoneNumbers = val
+}
+
+// SetMessagingProfileID sets the value of MessagingProfileID.
+func (s *CreateMessagingHostedNumberOrderRequest) SetMessagingProfileID(val OptString) {
+	s.MessagingProfileID = val
+}
+
+// Ref: #/components/schemas/CreateNumberPoolMessageRequest
+type CreateNumberPoolMessageRequest struct {
+	// Unique identifier for a messaging profile.
+	MessagingProfileID string   `json:"messaging_profile_id"`
+	To                 ToNumber `json:"to"`
+	// Message body (i.e., content) as a non-empty string.
+	// **Required for SMS**.
+	Text OptString `json:"text"`
+	// Subject of multimedia message.
+	Subject OptString `json:"subject"`
+	// A list of media URLs. The total media size must be less than 1 MB.
+	// **Required for MMS**.
+	MediaUrls []string `json:"media_urls"`
+	// The URL where webhooks related to this message will be sent.
+	WebhookURL OptString `json:"webhook_url"`
+	// The failover URL where webhooks related to this message will be sent if sending to the primary URL
+	// fails.
+	WebhookFailoverURL OptString `json:"webhook_failover_url"`
+	// If the profile this number is associated with has webhooks, use them for delivery notifications.
+	// If webhooks are also specified on the message itself, they will be attempted first, then those on
+	// the profile.
+	UseProfileWebhooks OptBool `json:"use_profile_webhooks"`
+	// The protocol for sending the message, either SMS or MMS.
+	Type OptCreateNumberPoolMessageRequestType `json:"type"`
+	// Automatically detect if an SMS message is unusually long and exceeds a recommended limit of
+	// message parts.
+	AutoDetect OptBool `json:"auto_detect"`
+}
+
+// GetMessagingProfileID returns the value of MessagingProfileID.
+func (s *CreateNumberPoolMessageRequest) GetMessagingProfileID() string {
+	return s.MessagingProfileID
+}
+
+// GetTo returns the value of To.
+func (s *CreateNumberPoolMessageRequest) GetTo() ToNumber {
+	return s.To
+}
+
+// GetText returns the value of Text.
+func (s *CreateNumberPoolMessageRequest) GetText() OptString {
+	return s.Text
+}
+
+// GetSubject returns the value of Subject.
+func (s *CreateNumberPoolMessageRequest) GetSubject() OptString {
+	return s.Subject
+}
+
+// GetMediaUrls returns the value of MediaUrls.
+func (s *CreateNumberPoolMessageRequest) GetMediaUrls() []string {
+	return s.MediaUrls
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *CreateNumberPoolMessageRequest) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *CreateNumberPoolMessageRequest) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetUseProfileWebhooks returns the value of UseProfileWebhooks.
+func (s *CreateNumberPoolMessageRequest) GetUseProfileWebhooks() OptBool {
+	return s.UseProfileWebhooks
+}
+
+// GetType returns the value of Type.
+func (s *CreateNumberPoolMessageRequest) GetType() OptCreateNumberPoolMessageRequestType {
+	return s.Type
+}
+
+// GetAutoDetect returns the value of AutoDetect.
+func (s *CreateNumberPoolMessageRequest) GetAutoDetect() OptBool {
+	return s.AutoDetect
+}
+
+// SetMessagingProfileID sets the value of MessagingProfileID.
+func (s *CreateNumberPoolMessageRequest) SetMessagingProfileID(val string) {
+	s.MessagingProfileID = val
+}
+
+// SetTo sets the value of To.
+func (s *CreateNumberPoolMessageRequest) SetTo(val ToNumber) {
+	s.To = val
+}
+
+// SetText sets the value of Text.
+func (s *CreateNumberPoolMessageRequest) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetSubject sets the value of Subject.
+func (s *CreateNumberPoolMessageRequest) SetSubject(val OptString) {
+	s.Subject = val
+}
+
+// SetMediaUrls sets the value of MediaUrls.
+func (s *CreateNumberPoolMessageRequest) SetMediaUrls(val []string) {
+	s.MediaUrls = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *CreateNumberPoolMessageRequest) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *CreateNumberPoolMessageRequest) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetUseProfileWebhooks sets the value of UseProfileWebhooks.
+func (s *CreateNumberPoolMessageRequest) SetUseProfileWebhooks(val OptBool) {
+	s.UseProfileWebhooks = val
+}
+
+// SetType sets the value of Type.
+func (s *CreateNumberPoolMessageRequest) SetType(val OptCreateNumberPoolMessageRequestType) {
+	s.Type = val
+}
+
+// SetAutoDetect sets the value of AutoDetect.
+func (s *CreateNumberPoolMessageRequest) SetAutoDetect(val OptBool) {
+	s.AutoDetect = val
+}
+
+// The protocol for sending the message, either SMS or MMS.
+type CreateNumberPoolMessageRequestType string
+
+const (
+	CreateNumberPoolMessageRequestTypeSMS CreateNumberPoolMessageRequestType = "SMS"
+	CreateNumberPoolMessageRequestTypeMMS CreateNumberPoolMessageRequestType = "MMS"
+)
+
+// AllValues returns all CreateNumberPoolMessageRequestType values.
+func (CreateNumberPoolMessageRequestType) AllValues() []CreateNumberPoolMessageRequestType {
+	return []CreateNumberPoolMessageRequestType{
+		CreateNumberPoolMessageRequestTypeSMS,
+		CreateNumberPoolMessageRequestTypeMMS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateNumberPoolMessageRequestType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateNumberPoolMessageRequestTypeSMS:
+		return []byte(s), nil
+	case CreateNumberPoolMessageRequestTypeMMS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateNumberPoolMessageRequestType) UnmarshalText(data []byte) error {
+	switch CreateNumberPoolMessageRequestType(data) {
+	case CreateNumberPoolMessageRequestTypeSMS:
+		*s = CreateNumberPoolMessageRequestTypeSMS
+		return nil
+	case CreateNumberPoolMessageRequestTypeMMS:
+		*s = CreateNumberPoolMessageRequestTypeMMS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // CreateProfileVerificationRequestCreated is response for CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestCreated struct{}
 
 func (*CreateProfileVerificationRequestCreated) createProfileVerificationRequestRes() {}
+
+// Ref: #/components/schemas/CreateShortCodeMessageRequest
+type CreateShortCodeMessageRequest struct {
+	// Phone number, in +E.164 format, used to send the message.
+	From string   `json:"from"`
+	To   ToNumber `json:"to"`
+	// Message body (i.e., content) as a non-empty string.
+	// **Required for SMS**.
+	Text OptString `json:"text"`
+	// Subject of multimedia message.
+	Subject OptString `json:"subject"`
+	// A list of media URLs. The total media size must be less than 1 MB.
+	// **Required for MMS**.
+	MediaUrls []string `json:"media_urls"`
+	// The URL where webhooks related to this message will be sent.
+	WebhookURL OptString `json:"webhook_url"`
+	// The failover URL where webhooks related to this message will be sent if sending to the primary URL
+	// fails.
+	WebhookFailoverURL OptString `json:"webhook_failover_url"`
+	// If the profile this number is associated with has webhooks, use them for delivery notifications.
+	// If webhooks are also specified on the message itself, they will be attempted first, then those on
+	// the profile.
+	UseProfileWebhooks OptBool `json:"use_profile_webhooks"`
+	// The protocol for sending the message, either SMS or MMS.
+	Type OptCreateShortCodeMessageRequestType `json:"type"`
+	// Automatically detect if an SMS message is unusually long and exceeds a recommended limit of
+	// message parts.
+	AutoDetect OptBool `json:"auto_detect"`
+}
+
+// GetFrom returns the value of From.
+func (s *CreateShortCodeMessageRequest) GetFrom() string {
+	return s.From
+}
+
+// GetTo returns the value of To.
+func (s *CreateShortCodeMessageRequest) GetTo() ToNumber {
+	return s.To
+}
+
+// GetText returns the value of Text.
+func (s *CreateShortCodeMessageRequest) GetText() OptString {
+	return s.Text
+}
+
+// GetSubject returns the value of Subject.
+func (s *CreateShortCodeMessageRequest) GetSubject() OptString {
+	return s.Subject
+}
+
+// GetMediaUrls returns the value of MediaUrls.
+func (s *CreateShortCodeMessageRequest) GetMediaUrls() []string {
+	return s.MediaUrls
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *CreateShortCodeMessageRequest) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *CreateShortCodeMessageRequest) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetUseProfileWebhooks returns the value of UseProfileWebhooks.
+func (s *CreateShortCodeMessageRequest) GetUseProfileWebhooks() OptBool {
+	return s.UseProfileWebhooks
+}
+
+// GetType returns the value of Type.
+func (s *CreateShortCodeMessageRequest) GetType() OptCreateShortCodeMessageRequestType {
+	return s.Type
+}
+
+// GetAutoDetect returns the value of AutoDetect.
+func (s *CreateShortCodeMessageRequest) GetAutoDetect() OptBool {
+	return s.AutoDetect
+}
+
+// SetFrom sets the value of From.
+func (s *CreateShortCodeMessageRequest) SetFrom(val string) {
+	s.From = val
+}
+
+// SetTo sets the value of To.
+func (s *CreateShortCodeMessageRequest) SetTo(val ToNumber) {
+	s.To = val
+}
+
+// SetText sets the value of Text.
+func (s *CreateShortCodeMessageRequest) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetSubject sets the value of Subject.
+func (s *CreateShortCodeMessageRequest) SetSubject(val OptString) {
+	s.Subject = val
+}
+
+// SetMediaUrls sets the value of MediaUrls.
+func (s *CreateShortCodeMessageRequest) SetMediaUrls(val []string) {
+	s.MediaUrls = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *CreateShortCodeMessageRequest) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *CreateShortCodeMessageRequest) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetUseProfileWebhooks sets the value of UseProfileWebhooks.
+func (s *CreateShortCodeMessageRequest) SetUseProfileWebhooks(val OptBool) {
+	s.UseProfileWebhooks = val
+}
+
+// SetType sets the value of Type.
+func (s *CreateShortCodeMessageRequest) SetType(val OptCreateShortCodeMessageRequestType) {
+	s.Type = val
+}
+
+// SetAutoDetect sets the value of AutoDetect.
+func (s *CreateShortCodeMessageRequest) SetAutoDetect(val OptBool) {
+	s.AutoDetect = val
+}
+
+// The protocol for sending the message, either SMS or MMS.
+type CreateShortCodeMessageRequestType string
+
+const (
+	CreateShortCodeMessageRequestTypeSMS CreateShortCodeMessageRequestType = "SMS"
+	CreateShortCodeMessageRequestTypeMMS CreateShortCodeMessageRequestType = "MMS"
+)
+
+// AllValues returns all CreateShortCodeMessageRequestType values.
+func (CreateShortCodeMessageRequestType) AllValues() []CreateShortCodeMessageRequestType {
+	return []CreateShortCodeMessageRequestType{
+		CreateShortCodeMessageRequestTypeSMS,
+		CreateShortCodeMessageRequestTypeMMS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateShortCodeMessageRequestType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateShortCodeMessageRequestTypeSMS:
+		return []byte(s), nil
+	case CreateShortCodeMessageRequestTypeMMS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateShortCodeMessageRequestType) UnmarshalText(data []byte) error {
+	switch CreateShortCodeMessageRequestType(data) {
+	case CreateShortCodeMessageRequestTypeSMS:
+		*s = CreateShortCodeMessageRequestTypeSMS
+		return nil
+	case CreateShortCodeMessageRequestTypeMMS:
+		*s = CreateShortCodeMessageRequestTypeMMS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/CreateTeXMLSecretRequest
 type CreateTeXMLSecretRequest struct {
@@ -6480,6 +7309,123 @@ func NewAzureConfigurationDataCustomStorageConfigurationConfiguration(v AzureCon
 
 type DateTimeRFC2822 string
 
+// Merged schema.
+// Ref: #/components/schemas/DefaultGateway
+type DefaultGateway struct {
+	// Identifies the resource.
+	ID OptUUID `json:"id"`
+	// Merged property.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// Network ID.
+	NetworkID OptUUID `json:"network_id"`
+	// Wireguard peer ID.
+	WireguardPeerID OptUUID            `json:"wireguard_peer_id"`
+	Status          OptInterfaceStatus `json:"status"`
+}
+
+// GetID returns the value of ID.
+func (s *DefaultGateway) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *DefaultGateway) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *DefaultGateway) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *DefaultGateway) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetNetworkID returns the value of NetworkID.
+func (s *DefaultGateway) GetNetworkID() OptUUID {
+	return s.NetworkID
+}
+
+// GetWireguardPeerID returns the value of WireguardPeerID.
+func (s *DefaultGateway) GetWireguardPeerID() OptUUID {
+	return s.WireguardPeerID
+}
+
+// GetStatus returns the value of Status.
+func (s *DefaultGateway) GetStatus() OptInterfaceStatus {
+	return s.Status
+}
+
+// SetID sets the value of ID.
+func (s *DefaultGateway) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *DefaultGateway) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *DefaultGateway) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *DefaultGateway) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetNetworkID sets the value of NetworkID.
+func (s *DefaultGateway) SetNetworkID(val OptUUID) {
+	s.NetworkID = val
+}
+
+// SetWireguardPeerID sets the value of WireguardPeerID.
+func (s *DefaultGateway) SetWireguardPeerID(val OptUUID) {
+	s.WireguardPeerID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *DefaultGateway) SetStatus(val OptInterfaceStatus) {
+	s.Status = val
+}
+
+type DefaultGatewayResponse struct {
+	Data []DefaultGateway  `json:"data"`
+	Meta OptPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *DefaultGatewayResponse) GetData() []DefaultGateway {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *DefaultGatewayResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *DefaultGatewayResponse) SetData(val []DefaultGateway) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *DefaultGatewayResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*DefaultGatewayResponse) createDefaultGatewayRes() {}
+func (*DefaultGatewayResponse) deleteDefaultGatewayRes() {}
+func (*DefaultGatewayResponse) getDefaultGatewayRes()    {}
+
 // DeleteCallControlApplicationNotFound is response for DeleteCallControlApplication operation.
 type DeleteCallControlApplicationNotFound struct{}
 
@@ -6494,6 +7440,33 @@ func (*DeleteCallControlApplicationUnprocessableEntity) deleteCallControlApplica
 type DeleteCustomStorageCredentialsNoContent struct{}
 
 func (*DeleteCustomStorageCredentialsNoContent) deleteCustomStorageCredentialsRes() {}
+
+// DeleteExternalConnectionLogMessageNotFound is response for DeleteExternalConnectionLogMessage operation.
+type DeleteExternalConnectionLogMessageNotFound struct{}
+
+func (*DeleteExternalConnectionLogMessageNotFound) deleteExternalConnectionLogMessageRes() {}
+
+type DeleteExternalConnectionLogMessageOK struct {
+	// Describes wether or not the operation was successful.
+	Success OptBool `json:"success"`
+}
+
+// GetSuccess returns the value of Success.
+func (s *DeleteExternalConnectionLogMessageOK) GetSuccess() OptBool {
+	return s.Success
+}
+
+// SetSuccess sets the value of Success.
+func (s *DeleteExternalConnectionLogMessageOK) SetSuccess(val OptBool) {
+	s.Success = val
+}
+
+func (*DeleteExternalConnectionLogMessageOK) deleteExternalConnectionLogMessageRes() {}
+
+// DeleteExternalConnectionLogMessageUnauthorized is response for DeleteExternalConnectionLogMessage operation.
+type DeleteExternalConnectionLogMessageUnauthorized struct{}
+
+func (*DeleteExternalConnectionLogMessageUnauthorized) deleteExternalConnectionLogMessageRes() {}
 
 // DeleteRecordingsNoContent is response for DeleteRecordings operation.
 type DeleteRecordingsNoContent struct{}
@@ -8078,6 +9051,7 @@ func (s *Errors) SetErrors(val []Error) {
 	s.Errors = val
 }
 
+func (*Errors) createNetworkRes()        {}
 func (*Errors) createVerifiedNumberRes() {}
 func (*Errors) deleteRoomRecordingsRes() {}
 func (*Errors) listVerifiedNumbersRes()  {}
@@ -9012,14 +9986,23 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 func (*GenericErrorResponseStatusCode) answerCallRes()                          {}
 func (*GenericErrorResponseStatusCode) bridgeCallRes()                          {}
 func (*GenericErrorResponseStatusCode) createCustomStorageCredentialsRes()      {}
+func (*GenericErrorResponseStatusCode) createDefaultGatewayRes()                {}
 func (*GenericErrorResponseStatusCode) createFlashcallVerificationRes()         {}
+func (*GenericErrorResponseStatusCode) createGroupMmsMessageRes()               {}
+func (*GenericErrorResponseStatusCode) createLongCodeMessageRes()               {}
+func (*GenericErrorResponseStatusCode) createMessagingHostedNumberOrderRes()    {}
+func (*GenericErrorResponseStatusCode) createNetworkRes()                       {}
+func (*GenericErrorResponseStatusCode) createNumberPoolMessageRes()             {}
 func (*GenericErrorResponseStatusCode) createProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) createProfileVerificationRequestRes()    {}
+func (*GenericErrorResponseStatusCode) createShortCodeMessageRes()              {}
 func (*GenericErrorResponseStatusCode) createVerificationCallRes()              {}
 func (*GenericErrorResponseStatusCode) createVerificationSmsRes()               {}
 func (*GenericErrorResponseStatusCode) createVerifiedNumberRes()                {}
 func (*GenericErrorResponseStatusCode) createVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) deleteCustomStorageCredentialsRes()      {}
+func (*GenericErrorResponseStatusCode) deleteDefaultGatewayRes()                {}
+func (*GenericErrorResponseStatusCode) deleteNetworkRes()                       {}
 func (*GenericErrorResponseStatusCode) deleteProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) deleteRecordingRes()                     {}
 func (*GenericErrorResponseStatusCode) deleteRecordingTranscriptionRes()        {}
@@ -9033,6 +10016,10 @@ func (*GenericErrorResponseStatusCode) gatherCallRes()                          
 func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()                    {}
 func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()                    {}
 func (*GenericErrorResponseStatusCode) getCustomStorageCredentialsRes()         {}
+func (*GenericErrorResponseStatusCode) getDefaultGatewayRes()                   {}
+func (*GenericErrorResponseStatusCode) getMessageRes()                          {}
+func (*GenericErrorResponseStatusCode) getMessagingHostedNumberOrderRes()       {}
+func (*GenericErrorResponseStatusCode) getNetworkRes()                          {}
 func (*GenericErrorResponseStatusCode) getRecordingRes()                        {}
 func (*GenericErrorResponseStatusCode) getRecordingTranscriptionRes()           {}
 func (*GenericErrorResponseStatusCode) getRecordingTranscriptionsRes()          {}
@@ -9043,6 +10030,10 @@ func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                    
 func (*GenericErrorResponseStatusCode) hangupCallRes()                          {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()                          {}
 func (*GenericErrorResponseStatusCode) listConnectionActiveCallsRes()           {}
+func (*GenericErrorResponseStatusCode) listMessagingHostedNumberOrdersRes()     {}
+func (*GenericErrorResponseStatusCode) listMessagingUrlDomainsRes()             {}
+func (*GenericErrorResponseStatusCode) listNetworkInterfacesRes()               {}
+func (*GenericErrorResponseStatusCode) listNetworksRes()                        {}
 func (*GenericErrorResponseStatusCode) listProfilesRes()                        {}
 func (*GenericErrorResponseStatusCode) listVerificationsRes()                   {}
 func (*GenericErrorResponseStatusCode) listVerifiedCallDisplayProfilesRes()     {}
@@ -9057,6 +10048,7 @@ func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                 
 func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                  {}
 func (*GenericErrorResponseStatusCode) retrieveVerificationRes()                {}
 func (*GenericErrorResponseStatusCode) sendDTMFRes()                            {}
+func (*GenericErrorResponseStatusCode) sendMessageRes()                         {}
 func (*GenericErrorResponseStatusCode) speakCallRes()                           {}
 func (*GenericErrorResponseStatusCode) startCallForkRes()                       {}
 func (*GenericErrorResponseStatusCode) startCallPlaybackRes()                   {}
@@ -9072,6 +10064,7 @@ func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()               
 func (*GenericErrorResponseStatusCode) transferCallRes()                        {}
 func (*GenericErrorResponseStatusCode) updateClientStateRes()                   {}
 func (*GenericErrorResponseStatusCode) updateCustomStorageCredentialsRes()      {}
+func (*GenericErrorResponseStatusCode) updateNetworkRes()                       {}
 func (*GenericErrorResponseStatusCode) updateProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) updateVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeByPhoneNumberRes() {}
@@ -9212,6 +10205,32 @@ func (s *GetConferencesResponse) SetData(val OptConferenceResourceIndex) {
 
 func (*GetConferencesResponse) getTexmlConferencesRes() {}
 
+// GetExternalConnectionLogMessageNotFound is response for GetExternalConnectionLogMessage operation.
+type GetExternalConnectionLogMessageNotFound struct{}
+
+func (*GetExternalConnectionLogMessageNotFound) getExternalConnectionLogMessageRes() {}
+
+// GetExternalConnectionLogMessageUnauthorized is response for GetExternalConnectionLogMessage operation.
+type GetExternalConnectionLogMessageUnauthorized struct{}
+
+func (*GetExternalConnectionLogMessageUnauthorized) getExternalConnectionLogMessageRes() {}
+
+type GetLogMessageResponse struct {
+	LogMessages []LogMessage `json:"log_messages"`
+}
+
+// GetLogMessages returns the value of LogMessages.
+func (s *GetLogMessageResponse) GetLogMessages() []LogMessage {
+	return s.LogMessages
+}
+
+// SetLogMessages sets the value of LogMessages.
+func (s *GetLogMessageResponse) SetLogMessages(val []LogMessage) {
+	s.LogMessages = val
+}
+
+func (*GetLogMessageResponse) getExternalConnectionLogMessageRes() {}
+
 type GetParticipantResponse struct {
 	Data OptParticipantResource `json:"data"`
 }
@@ -9295,6 +10314,57 @@ func (*GetVerifiedNumberNotFound) getVerifiedNumberRes() {}
 type GetVerifiedNumberUnauthorized Errors
 
 func (*GetVerifiedNumberUnauthorized) getVerifiedNumberRes() {}
+
+type GetWebhookDeliveriesFilterStatusEq string
+
+const (
+	GetWebhookDeliveriesFilterStatusEqDelivered GetWebhookDeliveriesFilterStatusEq = "delivered"
+	GetWebhookDeliveriesFilterStatusEqFailed    GetWebhookDeliveriesFilterStatusEq = "failed"
+)
+
+// AllValues returns all GetWebhookDeliveriesFilterStatusEq values.
+func (GetWebhookDeliveriesFilterStatusEq) AllValues() []GetWebhookDeliveriesFilterStatusEq {
+	return []GetWebhookDeliveriesFilterStatusEq{
+		GetWebhookDeliveriesFilterStatusEqDelivered,
+		GetWebhookDeliveriesFilterStatusEqFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetWebhookDeliveriesFilterStatusEq) MarshalText() ([]byte, error) {
+	switch s {
+	case GetWebhookDeliveriesFilterStatusEqDelivered:
+		return []byte(s), nil
+	case GetWebhookDeliveriesFilterStatusEqFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetWebhookDeliveriesFilterStatusEq) UnmarshalText(data []byte) error {
+	switch GetWebhookDeliveriesFilterStatusEq(data) {
+	case GetWebhookDeliveriesFilterStatusEqDelivered:
+		*s = GetWebhookDeliveriesFilterStatusEqDelivered
+		return nil
+	case GetWebhookDeliveriesFilterStatusEqFailed:
+		*s = GetWebhookDeliveriesFilterStatusEqFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// GetWebhookDeliveriesUnauthorized is response for GetWebhookDeliveries operation.
+type GetWebhookDeliveriesUnauthorized struct{}
+
+func (*GetWebhookDeliveriesUnauthorized) getWebhookDeliveriesRes() {}
+
+// GetWebhookDeliveriesUnprocessableEntity is response for GetWebhookDeliveries operation.
+type GetWebhookDeliveriesUnprocessableEntity struct{}
+
+func (*GetWebhookDeliveriesUnprocessableEntity) getWebhookDeliveriesRes() {}
 
 // GetWebhookDeliveryNotFound is response for GetWebhookDelivery operation.
 type GetWebhookDeliveryNotFound struct{}
@@ -9461,6 +10531,111 @@ func (s *HangupRequest) SetClientState(val OptString) {
 // SetCommandID sets the value of CommandID.
 func (s *HangupRequest) SetCommandID(val OptString) {
 	s.CommandID = val
+}
+
+// Ref: #/components/schemas/HostedNumber
+type HostedNumber struct {
+	RecordType OptString `json:"record_type"`
+	// Identifies the type of resource.
+	ID OptUUID `json:"id"`
+	// The messaging hosted phone number (+E.164 format).
+	PhoneNumber OptString             `json:"phone_number"`
+	Status      OptHostedNumberStatus `json:"status"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *HostedNumber) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *HostedNumber) GetID() OptUUID {
+	return s.ID
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *HostedNumber) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetStatus returns the value of Status.
+func (s *HostedNumber) GetStatus() OptHostedNumberStatus {
+	return s.Status
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *HostedNumber) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *HostedNumber) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *HostedNumber) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetStatus sets the value of Status.
+func (s *HostedNumber) SetStatus(val OptHostedNumberStatus) {
+	s.Status = val
+}
+
+type HostedNumberStatus string
+
+const (
+	HostedNumberStatusDeleted    HostedNumberStatus = "deleted"
+	HostedNumberStatusFailed     HostedNumberStatus = "failed"
+	HostedNumberStatusPending    HostedNumberStatus = "pending"
+	HostedNumberStatusSuccessful HostedNumberStatus = "successful"
+)
+
+// AllValues returns all HostedNumberStatus values.
+func (HostedNumberStatus) AllValues() []HostedNumberStatus {
+	return []HostedNumberStatus{
+		HostedNumberStatusDeleted,
+		HostedNumberStatusFailed,
+		HostedNumberStatusPending,
+		HostedNumberStatusSuccessful,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HostedNumberStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case HostedNumberStatusDeleted:
+		return []byte(s), nil
+	case HostedNumberStatusFailed:
+		return []byte(s), nil
+	case HostedNumberStatusPending:
+		return []byte(s), nil
+	case HostedNumberStatusSuccessful:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HostedNumberStatus) UnmarshalText(data []byte) error {
+	switch HostedNumberStatus(data) {
+	case HostedNumberStatusDeleted:
+		*s = HostedNumberStatusDeleted
+		return nil
+	case HostedNumberStatusFailed:
+		*s = HostedNumberStatusFailed
+		return nil
+	case HostedNumberStatusPending:
+		*s = HostedNumberStatusPending
+		return nil
+	case HostedNumberStatusSuccessful:
+		*s = HostedNumberStatusSuccessful
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/InitiateCallRequest
@@ -10355,6 +11530,63 @@ func (s *InitiateCallResult) SetStatus(val OptString) {
 
 type IntId int64
 
+// The current status of the interface deployment.
+// Ref: #/components/schemas/InterfaceStatus
+type InterfaceStatus string
+
+const (
+	InterfaceStatusCreated      InterfaceStatus = "created"
+	InterfaceStatusProvisioning InterfaceStatus = "provisioning"
+	InterfaceStatusProvisioned  InterfaceStatus = "provisioned"
+	InterfaceStatusDeleting     InterfaceStatus = "deleting"
+)
+
+// AllValues returns all InterfaceStatus values.
+func (InterfaceStatus) AllValues() []InterfaceStatus {
+	return []InterfaceStatus{
+		InterfaceStatusCreated,
+		InterfaceStatusProvisioning,
+		InterfaceStatusProvisioned,
+		InterfaceStatusDeleting,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s InterfaceStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case InterfaceStatusCreated:
+		return []byte(s), nil
+	case InterfaceStatusProvisioning:
+		return []byte(s), nil
+	case InterfaceStatusProvisioned:
+		return []byte(s), nil
+	case InterfaceStatusDeleting:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *InterfaceStatus) UnmarshalText(data []byte) error {
+	switch InterfaceStatus(data) {
+	case InterfaceStatusCreated:
+		*s = InterfaceStatusCreated
+		return nil
+	case InterfaceStatusProvisioning:
+		*s = InterfaceStatusProvisioning
+		return nil
+	case InterfaceStatusProvisioned:
+		*s = InterfaceStatusProvisioned
+		return nil
+	case InterfaceStatusDeleting:
+		*s = InterfaceStatusDeleting
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/LeaveQueueRequest
 type LeaveQueueRequest struct {
 	// Use this field to add state to every subsequent webhook. It must be a valid Base-64 encoded string.
@@ -10420,6 +11652,97 @@ func (s *ListCallControlApplicationsResponse) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListCallControlApplicationsResponse) listCallControlApplicationsRes() {}
+
+// ListExternalConnectionLogMessagesUnauthorized is response for ListExternalConnectionLogMessages operation.
+type ListExternalConnectionLogMessagesUnauthorized struct{}
+
+func (*ListExternalConnectionLogMessagesUnauthorized) listExternalConnectionLogMessagesRes() {}
+
+// ListExternalConnectionLogMessagesUnprocessableEntity is response for ListExternalConnectionLogMessages operation.
+type ListExternalConnectionLogMessagesUnprocessableEntity struct{}
+
+func (*ListExternalConnectionLogMessagesUnprocessableEntity) listExternalConnectionLogMessagesRes() {}
+
+type ListLogMessagesResponse struct {
+	LogMessages []LogMessage      `json:"log_messages"`
+	Meta        OptPaginationMeta `json:"meta"`
+}
+
+// GetLogMessages returns the value of LogMessages.
+func (s *ListLogMessagesResponse) GetLogMessages() []LogMessage {
+	return s.LogMessages
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListLogMessagesResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetLogMessages sets the value of LogMessages.
+func (s *ListLogMessagesResponse) SetLogMessages(val []LogMessage) {
+	s.LogMessages = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListLogMessagesResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListLogMessagesResponse) listExternalConnectionLogMessagesRes() {}
+
+type ListMessagingHostedNumberOrdersResponse struct {
+	Data []MessagingHostedNumberOrder `json:"data"`
+	Meta OptPaginationMeta            `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListMessagingHostedNumberOrdersResponse) GetData() []MessagingHostedNumberOrder {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListMessagingHostedNumberOrdersResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListMessagingHostedNumberOrdersResponse) SetData(val []MessagingHostedNumberOrder) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListMessagingHostedNumberOrdersResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListMessagingHostedNumberOrdersResponse) listMessagingHostedNumberOrdersRes() {}
+
+type ListMessagingUrlDomains struct {
+	Data []MessagingUrlDomain `json:"data"`
+	Meta OptPaginationMeta    `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListMessagingUrlDomains) GetData() []MessagingUrlDomain {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListMessagingUrlDomains) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListMessagingUrlDomains) SetData(val []MessagingUrlDomain) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListMessagingUrlDomains) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListMessagingUrlDomains) listMessagingUrlDomainsRes() {}
 
 type ListQueueCallsResponse struct {
 	Data []QueueCall       `json:"data"`
@@ -10696,6 +12019,146 @@ func (s *ListVerifyProfilesResponse) SetMeta(val Meta) {
 
 func (*ListVerifyProfilesResponse) listProfilesRes() {}
 
+type ListWebhookDeliveriesResponse struct {
+	Data []WebhookDelivery       `json:"data"`
+	Meta OptPaginationMetaSimple `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListWebhookDeliveriesResponse) GetData() []WebhookDelivery {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListWebhookDeliveriesResponse) GetMeta() OptPaginationMetaSimple {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListWebhookDeliveriesResponse) SetData(val []WebhookDelivery) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListWebhookDeliveriesResponse) SetMeta(val OptPaginationMetaSimple) {
+	s.Meta = val
+}
+
+func (*ListWebhookDeliveriesResponse) getWebhookDeliveriesRes() {}
+
+// Ref: #/components/schemas/LogMessage
+type LogMessage struct {
+	Code   string              `json:"code"`
+	Title  string              `json:"title"`
+	Detail OptString           `json:"detail"`
+	Source OptLogMessageSource `json:"source"`
+	Meta   OptLogMessageMeta   `json:"meta"`
+}
+
+// GetCode returns the value of Code.
+func (s *LogMessage) GetCode() string {
+	return s.Code
+}
+
+// GetTitle returns the value of Title.
+func (s *LogMessage) GetTitle() string {
+	return s.Title
+}
+
+// GetDetail returns the value of Detail.
+func (s *LogMessage) GetDetail() OptString {
+	return s.Detail
+}
+
+// GetSource returns the value of Source.
+func (s *LogMessage) GetSource() OptLogMessageSource {
+	return s.Source
+}
+
+// GetMeta returns the value of Meta.
+func (s *LogMessage) GetMeta() OptLogMessageMeta {
+	return s.Meta
+}
+
+// SetCode sets the value of Code.
+func (s *LogMessage) SetCode(val string) {
+	s.Code = val
+}
+
+// SetTitle sets the value of Title.
+func (s *LogMessage) SetTitle(val string) {
+	s.Title = val
+}
+
+// SetDetail sets the value of Detail.
+func (s *LogMessage) SetDetail(val OptString) {
+	s.Detail = val
+}
+
+// SetSource sets the value of Source.
+func (s *LogMessage) SetSource(val OptLogMessageSource) {
+	s.Source = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *LogMessage) SetMeta(val OptLogMessageMeta) {
+	s.Meta = val
+}
+
+type LogMessageMeta struct {
+	// The telephone number the log message is associated with, if any.
+	TelephoneNumber OptString `json:"telephone_number"`
+	// The external connection the log message is associated with, if any.
+	ExternalConnectionID OptStringInt64 `json:"external_connection_id"`
+	// The ticket ID for an operation that generated the log message, if any.
+	TicketID OptUUID `json:"ticket_id"`
+}
+
+// GetTelephoneNumber returns the value of TelephoneNumber.
+func (s *LogMessageMeta) GetTelephoneNumber() OptString {
+	return s.TelephoneNumber
+}
+
+// GetExternalConnectionID returns the value of ExternalConnectionID.
+func (s *LogMessageMeta) GetExternalConnectionID() OptStringInt64 {
+	return s.ExternalConnectionID
+}
+
+// GetTicketID returns the value of TicketID.
+func (s *LogMessageMeta) GetTicketID() OptUUID {
+	return s.TicketID
+}
+
+// SetTelephoneNumber sets the value of TelephoneNumber.
+func (s *LogMessageMeta) SetTelephoneNumber(val OptString) {
+	s.TelephoneNumber = val
+}
+
+// SetExternalConnectionID sets the value of ExternalConnectionID.
+func (s *LogMessageMeta) SetExternalConnectionID(val OptStringInt64) {
+	s.ExternalConnectionID = val
+}
+
+// SetTicketID sets the value of TicketID.
+func (s *LogMessageMeta) SetTicketID(val OptUUID) {
+	s.TicketID = val
+}
+
+type LogMessageSource struct {
+	// JSON pointer (RFC6901) to the offending entity.
+	Pointer OptString `json:"pointer"`
+}
+
+// GetPointer returns the value of Pointer.
+func (s *LogMessageSource) GetPointer() OptString {
+	return s.Pointer
+}
+
+// SetPointer sets the value of Pointer.
+func (s *LogMessageSource) SetPointer(val OptString) {
+	s.Pointer = val
+}
+
 type LogoURL string
 
 // Ref: #/components/schemas/Loopcount
@@ -10763,6 +12226,202 @@ func NewIntLoopcount(v int) Loopcount {
 	return s
 }
 
+type MessageResponse struct {
+	Data OptOutboundMessagePayload `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *MessageResponse) GetData() OptOutboundMessagePayload {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *MessageResponse) SetData(val OptOutboundMessagePayload) {
+	s.Data = val
+}
+
+func (*MessageResponse) createGroupMmsMessageRes()   {}
+func (*MessageResponse) createLongCodeMessageRes()   {}
+func (*MessageResponse) createNumberPoolMessageRes() {}
+func (*MessageResponse) createShortCodeMessageRes()  {}
+func (*MessageResponse) getMessageRes()              {}
+func (*MessageResponse) sendMessageRes()             {}
+
+// Ref: #/components/schemas/MessagingHostedNumberOrder
+type MessagingHostedNumberOrder struct {
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// Resource unique identifier.
+	ID OptUUID `json:"id"`
+	// Automatically associate the number with this messaging profile ID when the order is complete.
+	MessagingProfileID OptNilString                        `json:"messaging_profile_id"`
+	Status             OptMessagingHostedNumberOrderStatus `json:"status"`
+	PhoneNumbers       []HostedNumber                      `json:"phone_numbers"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *MessagingHostedNumberOrder) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *MessagingHostedNumberOrder) GetID() OptUUID {
+	return s.ID
+}
+
+// GetMessagingProfileID returns the value of MessagingProfileID.
+func (s *MessagingHostedNumberOrder) GetMessagingProfileID() OptNilString {
+	return s.MessagingProfileID
+}
+
+// GetStatus returns the value of Status.
+func (s *MessagingHostedNumberOrder) GetStatus() OptMessagingHostedNumberOrderStatus {
+	return s.Status
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *MessagingHostedNumberOrder) GetPhoneNumbers() []HostedNumber {
+	return s.PhoneNumbers
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *MessagingHostedNumberOrder) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *MessagingHostedNumberOrder) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetMessagingProfileID sets the value of MessagingProfileID.
+func (s *MessagingHostedNumberOrder) SetMessagingProfileID(val OptNilString) {
+	s.MessagingProfileID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *MessagingHostedNumberOrder) SetStatus(val OptMessagingHostedNumberOrderStatus) {
+	s.Status = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *MessagingHostedNumberOrder) SetPhoneNumbers(val []HostedNumber) {
+	s.PhoneNumbers = val
+}
+
+type MessagingHostedNumberOrderResponse struct {
+	Data OptMessagingHostedNumberOrder `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *MessagingHostedNumberOrderResponse) GetData() OptMessagingHostedNumberOrder {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *MessagingHostedNumberOrderResponse) SetData(val OptMessagingHostedNumberOrder) {
+	s.Data = val
+}
+
+func (*MessagingHostedNumberOrderResponse) createMessagingHostedNumberOrderRes() {}
+func (*MessagingHostedNumberOrderResponse) getMessagingHostedNumberOrderRes()    {}
+
+type MessagingHostedNumberOrderStatus string
+
+const (
+	MessagingHostedNumberOrderStatusFailed     MessagingHostedNumberOrderStatus = "failed"
+	MessagingHostedNumberOrderStatusPending    MessagingHostedNumberOrderStatus = "pending"
+	MessagingHostedNumberOrderStatusSuccessful MessagingHostedNumberOrderStatus = "successful"
+)
+
+// AllValues returns all MessagingHostedNumberOrderStatus values.
+func (MessagingHostedNumberOrderStatus) AllValues() []MessagingHostedNumberOrderStatus {
+	return []MessagingHostedNumberOrderStatus{
+		MessagingHostedNumberOrderStatusFailed,
+		MessagingHostedNumberOrderStatusPending,
+		MessagingHostedNumberOrderStatusSuccessful,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MessagingHostedNumberOrderStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case MessagingHostedNumberOrderStatusFailed:
+		return []byte(s), nil
+	case MessagingHostedNumberOrderStatusPending:
+		return []byte(s), nil
+	case MessagingHostedNumberOrderStatusSuccessful:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MessagingHostedNumberOrderStatus) UnmarshalText(data []byte) error {
+	switch MessagingHostedNumberOrderStatus(data) {
+	case MessagingHostedNumberOrderStatusFailed:
+		*s = MessagingHostedNumberOrderStatusFailed
+		return nil
+	case MessagingHostedNumberOrderStatusPending:
+		*s = MessagingHostedNumberOrderStatusPending
+		return nil
+	case MessagingHostedNumberOrderStatusSuccessful:
+		*s = MessagingHostedNumberOrderStatusSuccessful
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/MessagingUrlDomain
+type MessagingUrlDomain struct {
+	RecordType OptString `json:"record_type"`
+	ID         OptString `json:"id"`
+	URLDomain  OptString `json:"url_domain"`
+	UseCase    OptString `json:"use_case"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *MessagingUrlDomain) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetID returns the value of ID.
+func (s *MessagingUrlDomain) GetID() OptString {
+	return s.ID
+}
+
+// GetURLDomain returns the value of URLDomain.
+func (s *MessagingUrlDomain) GetURLDomain() OptString {
+	return s.URLDomain
+}
+
+// GetUseCase returns the value of UseCase.
+func (s *MessagingUrlDomain) GetUseCase() OptString {
+	return s.UseCase
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *MessagingUrlDomain) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetID sets the value of ID.
+func (s *MessagingUrlDomain) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetURLDomain sets the value of URLDomain.
+func (s *MessagingUrlDomain) SetURLDomain(val OptString) {
+	s.URLDomain = val
+}
+
+// SetUseCase sets the value of UseCase.
+func (s *MessagingUrlDomain) SetUseCase(val OptString) {
+	s.UseCase = val
+}
+
 // Ref: #/components/schemas/Meta
 type Meta struct {
 	TotalPages   OptInt `json:"total_pages"`
@@ -10828,6 +12487,371 @@ func (s *MetaResponse) SetURL(val OptString) {
 }
 
 type Name string
+
+// Merged schema.
+// Ref: #/components/schemas/Network
+type Network struct {
+	// Identifies the resource.
+	ID OptUUID `json:"id"`
+	// Merged property.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// A user specified name for the network.
+	Name OptString `json:"name"`
+}
+
+// GetID returns the value of ID.
+func (s *Network) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *Network) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *Network) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *Network) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetName returns the value of Name.
+func (s *Network) GetName() OptString {
+	return s.Name
+}
+
+// SetID sets the value of ID.
+func (s *Network) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *Network) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *Network) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *Network) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetName sets the value of Name.
+func (s *Network) SetName(val OptString) {
+	s.Name = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/NetworkCreate
+type NetworkCreate struct {
+	// Identifies the resource.
+	ID OptUUID `json:"id"`
+	// Merged property.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// A user specified name for the network.
+	Name string `json:"name"`
+}
+
+// GetID returns the value of ID.
+func (s *NetworkCreate) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *NetworkCreate) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *NetworkCreate) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *NetworkCreate) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetName returns the value of Name.
+func (s *NetworkCreate) GetName() string {
+	return s.Name
+}
+
+// SetID sets the value of ID.
+func (s *NetworkCreate) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *NetworkCreate) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *NetworkCreate) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *NetworkCreate) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetName sets the value of Name.
+func (s *NetworkCreate) SetName(val string) {
+	s.Name = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/NetworkInterface
+type NetworkInterface struct {
+	// Identifies the resource.
+	ID OptUUID `json:"id"`
+	// Merged property.
+	RecordType OptString `json:"record_type"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// The id of the network associated with the interface.
+	NetworkID OptUUID `json:"network_id"`
+	// A user specified name for the interface.
+	Name   OptString          `json:"name"`
+	Status OptInterfaceStatus `json:"status"`
+	// The region interface is deployed to.
+	RegionCode OptString                 `json:"region_code"`
+	Region     OptNetworkInterfaceRegion `json:"region"`
+	// Identifies the type of the interface.
+	Type OptString `json:"type"`
+}
+
+// GetID returns the value of ID.
+func (s *NetworkInterface) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *NetworkInterface) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *NetworkInterface) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *NetworkInterface) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetNetworkID returns the value of NetworkID.
+func (s *NetworkInterface) GetNetworkID() OptUUID {
+	return s.NetworkID
+}
+
+// GetName returns the value of Name.
+func (s *NetworkInterface) GetName() OptString {
+	return s.Name
+}
+
+// GetStatus returns the value of Status.
+func (s *NetworkInterface) GetStatus() OptInterfaceStatus {
+	return s.Status
+}
+
+// GetRegionCode returns the value of RegionCode.
+func (s *NetworkInterface) GetRegionCode() OptString {
+	return s.RegionCode
+}
+
+// GetRegion returns the value of Region.
+func (s *NetworkInterface) GetRegion() OptNetworkInterfaceRegion {
+	return s.Region
+}
+
+// GetType returns the value of Type.
+func (s *NetworkInterface) GetType() OptString {
+	return s.Type
+}
+
+// SetID sets the value of ID.
+func (s *NetworkInterface) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *NetworkInterface) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *NetworkInterface) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *NetworkInterface) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetNetworkID sets the value of NetworkID.
+func (s *NetworkInterface) SetNetworkID(val OptUUID) {
+	s.NetworkID = val
+}
+
+// SetName sets the value of Name.
+func (s *NetworkInterface) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetStatus sets the value of Status.
+func (s *NetworkInterface) SetStatus(val OptInterfaceStatus) {
+	s.Status = val
+}
+
+// SetRegionCode sets the value of RegionCode.
+func (s *NetworkInterface) SetRegionCode(val OptString) {
+	s.RegionCode = val
+}
+
+// SetRegion sets the value of Region.
+func (s *NetworkInterface) SetRegion(val OptNetworkInterfaceRegion) {
+	s.Region = val
+}
+
+// SetType sets the value of Type.
+func (s *NetworkInterface) SetType(val OptString) {
+	s.Type = val
+}
+
+type NetworkInterfaceListResponse struct {
+	Data []NetworkInterface `json:"data"`
+	Meta OptPaginationMeta  `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *NetworkInterfaceListResponse) GetData() []NetworkInterface {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *NetworkInterfaceListResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *NetworkInterfaceListResponse) SetData(val []NetworkInterface) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *NetworkInterfaceListResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*NetworkInterfaceListResponse) listNetworkInterfacesRes() {}
+
+type NetworkInterfaceRegion struct {
+	// Region code of the interface.
+	Code OptString `json:"code"`
+	// Region name of the interface.
+	Name OptString `json:"name"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+}
+
+// GetCode returns the value of Code.
+func (s *NetworkInterfaceRegion) GetCode() OptString {
+	return s.Code
+}
+
+// GetName returns the value of Name.
+func (s *NetworkInterfaceRegion) GetName() OptString {
+	return s.Name
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *NetworkInterfaceRegion) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// SetCode sets the value of Code.
+func (s *NetworkInterfaceRegion) SetCode(val OptString) {
+	s.Code = val
+}
+
+// SetName sets the value of Name.
+func (s *NetworkInterfaceRegion) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *NetworkInterfaceRegion) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+type NetworkListResponse struct {
+	Data []Network         `json:"data"`
+	Meta OptPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *NetworkListResponse) GetData() []Network {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *NetworkListResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *NetworkListResponse) SetData(val []Network) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *NetworkListResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*NetworkListResponse) listNetworksRes() {}
+
+type NetworkResponse struct {
+	Data OptNetwork `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *NetworkResponse) GetData() OptNetwork {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *NetworkResponse) SetData(val OptNetwork) {
+	s.Data = val
+}
+
+func (*NetworkResponse) createNetworkRes() {}
+func (*NetworkResponse) deleteNetworkRes() {}
+func (*NetworkResponse) getNetworkRes()    {}
+func (*NetworkResponse) updateNetworkRes() {}
 
 // Ref: #/components/schemas/NewParticipantResource
 type NewParticipantResource struct {
@@ -13869,6 +15893,466 @@ func (o OptCreateCallControlApplicationRequestWebhookAPIVersion) Or(d CreateCall
 	return d
 }
 
+// NewOptCreateGroupMMSMessageRequest returns new OptCreateGroupMMSMessageRequest with value set to v.
+func NewOptCreateGroupMMSMessageRequest(v CreateGroupMMSMessageRequest) OptCreateGroupMMSMessageRequest {
+	return OptCreateGroupMMSMessageRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateGroupMMSMessageRequest is optional CreateGroupMMSMessageRequest.
+type OptCreateGroupMMSMessageRequest struct {
+	Value CreateGroupMMSMessageRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateGroupMMSMessageRequest was set.
+func (o OptCreateGroupMMSMessageRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateGroupMMSMessageRequest) Reset() {
+	var v CreateGroupMMSMessageRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateGroupMMSMessageRequest) SetTo(v CreateGroupMMSMessageRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateGroupMMSMessageRequest) Get() (v CreateGroupMMSMessageRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateGroupMMSMessageRequest) Or(d CreateGroupMMSMessageRequest) CreateGroupMMSMessageRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateLongCodeMessageRequest returns new OptCreateLongCodeMessageRequest with value set to v.
+func NewOptCreateLongCodeMessageRequest(v CreateLongCodeMessageRequest) OptCreateLongCodeMessageRequest {
+	return OptCreateLongCodeMessageRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateLongCodeMessageRequest is optional CreateLongCodeMessageRequest.
+type OptCreateLongCodeMessageRequest struct {
+	Value CreateLongCodeMessageRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateLongCodeMessageRequest was set.
+func (o OptCreateLongCodeMessageRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateLongCodeMessageRequest) Reset() {
+	var v CreateLongCodeMessageRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateLongCodeMessageRequest) SetTo(v CreateLongCodeMessageRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateLongCodeMessageRequest) Get() (v CreateLongCodeMessageRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateLongCodeMessageRequest) Or(d CreateLongCodeMessageRequest) CreateLongCodeMessageRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateLongCodeMessageRequestType returns new OptCreateLongCodeMessageRequestType with value set to v.
+func NewOptCreateLongCodeMessageRequestType(v CreateLongCodeMessageRequestType) OptCreateLongCodeMessageRequestType {
+	return OptCreateLongCodeMessageRequestType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateLongCodeMessageRequestType is optional CreateLongCodeMessageRequestType.
+type OptCreateLongCodeMessageRequestType struct {
+	Value CreateLongCodeMessageRequestType
+	Set   bool
+}
+
+// IsSet returns true if OptCreateLongCodeMessageRequestType was set.
+func (o OptCreateLongCodeMessageRequestType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateLongCodeMessageRequestType) Reset() {
+	var v CreateLongCodeMessageRequestType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateLongCodeMessageRequestType) SetTo(v CreateLongCodeMessageRequestType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateLongCodeMessageRequestType) Get() (v CreateLongCodeMessageRequestType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateLongCodeMessageRequestType) Or(d CreateLongCodeMessageRequestType) CreateLongCodeMessageRequestType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateMessageRequest returns new OptCreateMessageRequest with value set to v.
+func NewOptCreateMessageRequest(v CreateMessageRequest) OptCreateMessageRequest {
+	return OptCreateMessageRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateMessageRequest is optional CreateMessageRequest.
+type OptCreateMessageRequest struct {
+	Value CreateMessageRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateMessageRequest was set.
+func (o OptCreateMessageRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateMessageRequest) Reset() {
+	var v CreateMessageRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateMessageRequest) SetTo(v CreateMessageRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateMessageRequest) Get() (v CreateMessageRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateMessageRequest) Or(d CreateMessageRequest) CreateMessageRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateMessageRequestType returns new OptCreateMessageRequestType with value set to v.
+func NewOptCreateMessageRequestType(v CreateMessageRequestType) OptCreateMessageRequestType {
+	return OptCreateMessageRequestType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateMessageRequestType is optional CreateMessageRequestType.
+type OptCreateMessageRequestType struct {
+	Value CreateMessageRequestType
+	Set   bool
+}
+
+// IsSet returns true if OptCreateMessageRequestType was set.
+func (o OptCreateMessageRequestType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateMessageRequestType) Reset() {
+	var v CreateMessageRequestType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateMessageRequestType) SetTo(v CreateMessageRequestType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateMessageRequestType) Get() (v CreateMessageRequestType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateMessageRequestType) Or(d CreateMessageRequestType) CreateMessageRequestType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateMessagingHostedNumberOrderRequest returns new OptCreateMessagingHostedNumberOrderRequest with value set to v.
+func NewOptCreateMessagingHostedNumberOrderRequest(v CreateMessagingHostedNumberOrderRequest) OptCreateMessagingHostedNumberOrderRequest {
+	return OptCreateMessagingHostedNumberOrderRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateMessagingHostedNumberOrderRequest is optional CreateMessagingHostedNumberOrderRequest.
+type OptCreateMessagingHostedNumberOrderRequest struct {
+	Value CreateMessagingHostedNumberOrderRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateMessagingHostedNumberOrderRequest was set.
+func (o OptCreateMessagingHostedNumberOrderRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateMessagingHostedNumberOrderRequest) Reset() {
+	var v CreateMessagingHostedNumberOrderRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateMessagingHostedNumberOrderRequest) SetTo(v CreateMessagingHostedNumberOrderRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateMessagingHostedNumberOrderRequest) Get() (v CreateMessagingHostedNumberOrderRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateMessagingHostedNumberOrderRequest) Or(d CreateMessagingHostedNumberOrderRequest) CreateMessagingHostedNumberOrderRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateNumberPoolMessageRequest returns new OptCreateNumberPoolMessageRequest with value set to v.
+func NewOptCreateNumberPoolMessageRequest(v CreateNumberPoolMessageRequest) OptCreateNumberPoolMessageRequest {
+	return OptCreateNumberPoolMessageRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateNumberPoolMessageRequest is optional CreateNumberPoolMessageRequest.
+type OptCreateNumberPoolMessageRequest struct {
+	Value CreateNumberPoolMessageRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateNumberPoolMessageRequest was set.
+func (o OptCreateNumberPoolMessageRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateNumberPoolMessageRequest) Reset() {
+	var v CreateNumberPoolMessageRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateNumberPoolMessageRequest) SetTo(v CreateNumberPoolMessageRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateNumberPoolMessageRequest) Get() (v CreateNumberPoolMessageRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateNumberPoolMessageRequest) Or(d CreateNumberPoolMessageRequest) CreateNumberPoolMessageRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateNumberPoolMessageRequestType returns new OptCreateNumberPoolMessageRequestType with value set to v.
+func NewOptCreateNumberPoolMessageRequestType(v CreateNumberPoolMessageRequestType) OptCreateNumberPoolMessageRequestType {
+	return OptCreateNumberPoolMessageRequestType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateNumberPoolMessageRequestType is optional CreateNumberPoolMessageRequestType.
+type OptCreateNumberPoolMessageRequestType struct {
+	Value CreateNumberPoolMessageRequestType
+	Set   bool
+}
+
+// IsSet returns true if OptCreateNumberPoolMessageRequestType was set.
+func (o OptCreateNumberPoolMessageRequestType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateNumberPoolMessageRequestType) Reset() {
+	var v CreateNumberPoolMessageRequestType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateNumberPoolMessageRequestType) SetTo(v CreateNumberPoolMessageRequestType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateNumberPoolMessageRequestType) Get() (v CreateNumberPoolMessageRequestType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateNumberPoolMessageRequestType) Or(d CreateNumberPoolMessageRequestType) CreateNumberPoolMessageRequestType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateShortCodeMessageRequest returns new OptCreateShortCodeMessageRequest with value set to v.
+func NewOptCreateShortCodeMessageRequest(v CreateShortCodeMessageRequest) OptCreateShortCodeMessageRequest {
+	return OptCreateShortCodeMessageRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateShortCodeMessageRequest is optional CreateShortCodeMessageRequest.
+type OptCreateShortCodeMessageRequest struct {
+	Value CreateShortCodeMessageRequest
+	Set   bool
+}
+
+// IsSet returns true if OptCreateShortCodeMessageRequest was set.
+func (o OptCreateShortCodeMessageRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateShortCodeMessageRequest) Reset() {
+	var v CreateShortCodeMessageRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateShortCodeMessageRequest) SetTo(v CreateShortCodeMessageRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateShortCodeMessageRequest) Get() (v CreateShortCodeMessageRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateShortCodeMessageRequest) Or(d CreateShortCodeMessageRequest) CreateShortCodeMessageRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateShortCodeMessageRequestType returns new OptCreateShortCodeMessageRequestType with value set to v.
+func NewOptCreateShortCodeMessageRequestType(v CreateShortCodeMessageRequestType) OptCreateShortCodeMessageRequestType {
+	return OptCreateShortCodeMessageRequestType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateShortCodeMessageRequestType is optional CreateShortCodeMessageRequestType.
+type OptCreateShortCodeMessageRequestType struct {
+	Value CreateShortCodeMessageRequestType
+	Set   bool
+}
+
+// IsSet returns true if OptCreateShortCodeMessageRequestType was set.
+func (o OptCreateShortCodeMessageRequestType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateShortCodeMessageRequestType) Reset() {
+	var v CreateShortCodeMessageRequestType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateShortCodeMessageRequestType) SetTo(v CreateShortCodeMessageRequestType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateShortCodeMessageRequestType) Get() (v CreateShortCodeMessageRequestType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateShortCodeMessageRequestType) Or(d CreateShortCodeMessageRequestType) CreateShortCodeMessageRequestType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateTeXMLSecretResult returns new OptCreateTeXMLSecretResult with value set to v.
 func NewOptCreateTeXMLSecretResult(v CreateTeXMLSecretResult) OptCreateTeXMLSecretResult {
 	return OptCreateTeXMLSecretResult{
@@ -15759,6 +18243,52 @@ func (o OptGatherUsingSpeakRequestServiceLevel) Or(d GatherUsingSpeakRequestServ
 	return d
 }
 
+// NewOptGetWebhookDeliveriesFilterStatusEq returns new OptGetWebhookDeliveriesFilterStatusEq with value set to v.
+func NewOptGetWebhookDeliveriesFilterStatusEq(v GetWebhookDeliveriesFilterStatusEq) OptGetWebhookDeliveriesFilterStatusEq {
+	return OptGetWebhookDeliveriesFilterStatusEq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetWebhookDeliveriesFilterStatusEq is optional GetWebhookDeliveriesFilterStatusEq.
+type OptGetWebhookDeliveriesFilterStatusEq struct {
+	Value GetWebhookDeliveriesFilterStatusEq
+	Set   bool
+}
+
+// IsSet returns true if OptGetWebhookDeliveriesFilterStatusEq was set.
+func (o OptGetWebhookDeliveriesFilterStatusEq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetWebhookDeliveriesFilterStatusEq) Reset() {
+	var v GetWebhookDeliveriesFilterStatusEq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetWebhookDeliveriesFilterStatusEq) SetTo(v GetWebhookDeliveriesFilterStatusEq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetWebhookDeliveriesFilterStatusEq) Get() (v GetWebhookDeliveriesFilterStatusEq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetWebhookDeliveriesFilterStatusEq) Or(d GetWebhookDeliveriesFilterStatusEq) GetWebhookDeliveriesFilterStatusEq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptHTTP returns new OptHTTP with value set to v.
 func NewOptHTTP(v HTTP) OptHTTP {
 	return OptHTTP{
@@ -15845,6 +18375,52 @@ func (o OptHTTPRequest) Get() (v HTTPRequest, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptHTTPRequest) Or(d HTTPRequest) HTTPRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptHostedNumberStatus returns new OptHostedNumberStatus with value set to v.
+func NewOptHostedNumberStatus(v HostedNumberStatus) OptHostedNumberStatus {
+	return OptHostedNumberStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptHostedNumberStatus is optional HostedNumberStatus.
+type OptHostedNumberStatus struct {
+	Value HostedNumberStatus
+	Set   bool
+}
+
+// IsSet returns true if OptHostedNumberStatus was set.
+func (o OptHostedNumberStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptHostedNumberStatus) Reset() {
+	var v HostedNumberStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptHostedNumberStatus) SetTo(v HostedNumberStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptHostedNumberStatus) Get() (v HostedNumberStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptHostedNumberStatus) Or(d HostedNumberStatus) HostedNumberStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -16495,6 +19071,144 @@ func (o OptIntId) Or(d IntId) IntId {
 	return d
 }
 
+// NewOptInterfaceStatus returns new OptInterfaceStatus with value set to v.
+func NewOptInterfaceStatus(v InterfaceStatus) OptInterfaceStatus {
+	return OptInterfaceStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptInterfaceStatus is optional InterfaceStatus.
+type OptInterfaceStatus struct {
+	Value InterfaceStatus
+	Set   bool
+}
+
+// IsSet returns true if OptInterfaceStatus was set.
+func (o OptInterfaceStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptInterfaceStatus) Reset() {
+	var v InterfaceStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptInterfaceStatus) SetTo(v InterfaceStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptInterfaceStatus) Get() (v InterfaceStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptInterfaceStatus) Or(d InterfaceStatus) InterfaceStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLogMessageMeta returns new OptLogMessageMeta with value set to v.
+func NewOptLogMessageMeta(v LogMessageMeta) OptLogMessageMeta {
+	return OptLogMessageMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLogMessageMeta is optional LogMessageMeta.
+type OptLogMessageMeta struct {
+	Value LogMessageMeta
+	Set   bool
+}
+
+// IsSet returns true if OptLogMessageMeta was set.
+func (o OptLogMessageMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLogMessageMeta) Reset() {
+	var v LogMessageMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLogMessageMeta) SetTo(v LogMessageMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLogMessageMeta) Get() (v LogMessageMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLogMessageMeta) Or(d LogMessageMeta) LogMessageMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLogMessageSource returns new OptLogMessageSource with value set to v.
+func NewOptLogMessageSource(v LogMessageSource) OptLogMessageSource {
+	return OptLogMessageSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLogMessageSource is optional LogMessageSource.
+type OptLogMessageSource struct {
+	Value LogMessageSource
+	Set   bool
+}
+
+// IsSet returns true if OptLogMessageSource was set.
+func (o OptLogMessageSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLogMessageSource) Reset() {
+	var v LogMessageSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLogMessageSource) SetTo(v LogMessageSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLogMessageSource) Get() (v LogMessageSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLogMessageSource) Or(d LogMessageSource) LogMessageSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptLogoURL returns new OptLogoURL with value set to v.
 func NewOptLogoURL(v LogoURL) OptLogoURL {
 	return OptLogoURL{
@@ -16587,6 +19301,98 @@ func (o OptLoopcount) Or(d Loopcount) Loopcount {
 	return d
 }
 
+// NewOptMessagingHostedNumberOrder returns new OptMessagingHostedNumberOrder with value set to v.
+func NewOptMessagingHostedNumberOrder(v MessagingHostedNumberOrder) OptMessagingHostedNumberOrder {
+	return OptMessagingHostedNumberOrder{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMessagingHostedNumberOrder is optional MessagingHostedNumberOrder.
+type OptMessagingHostedNumberOrder struct {
+	Value MessagingHostedNumberOrder
+	Set   bool
+}
+
+// IsSet returns true if OptMessagingHostedNumberOrder was set.
+func (o OptMessagingHostedNumberOrder) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMessagingHostedNumberOrder) Reset() {
+	var v MessagingHostedNumberOrder
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMessagingHostedNumberOrder) SetTo(v MessagingHostedNumberOrder) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMessagingHostedNumberOrder) Get() (v MessagingHostedNumberOrder, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMessagingHostedNumberOrder) Or(d MessagingHostedNumberOrder) MessagingHostedNumberOrder {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptMessagingHostedNumberOrderStatus returns new OptMessagingHostedNumberOrderStatus with value set to v.
+func NewOptMessagingHostedNumberOrderStatus(v MessagingHostedNumberOrderStatus) OptMessagingHostedNumberOrderStatus {
+	return OptMessagingHostedNumberOrderStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMessagingHostedNumberOrderStatus is optional MessagingHostedNumberOrderStatus.
+type OptMessagingHostedNumberOrderStatus struct {
+	Value MessagingHostedNumberOrderStatus
+	Set   bool
+}
+
+// IsSet returns true if OptMessagingHostedNumberOrderStatus was set.
+func (o OptMessagingHostedNumberOrderStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMessagingHostedNumberOrderStatus) Reset() {
+	var v MessagingHostedNumberOrderStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMessagingHostedNumberOrderStatus) SetTo(v MessagingHostedNumberOrderStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMessagingHostedNumberOrderStatus) Get() (v MessagingHostedNumberOrderStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMessagingHostedNumberOrderStatus) Or(d MessagingHostedNumberOrderStatus) MessagingHostedNumberOrderStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptMetaResponse returns new OptMetaResponse with value set to v.
 func NewOptMetaResponse(v MetaResponse) OptMetaResponse {
 	return OptMetaResponse{
@@ -16627,6 +19433,98 @@ func (o OptMetaResponse) Get() (v MetaResponse, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptMetaResponse) Or(d MetaResponse) MetaResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNetwork returns new OptNetwork with value set to v.
+func NewOptNetwork(v Network) OptNetwork {
+	return OptNetwork{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNetwork is optional Network.
+type OptNetwork struct {
+	Value Network
+	Set   bool
+}
+
+// IsSet returns true if OptNetwork was set.
+func (o OptNetwork) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNetwork) Reset() {
+	var v Network
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNetwork) SetTo(v Network) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNetwork) Get() (v Network, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNetwork) Or(d Network) Network {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNetworkInterfaceRegion returns new OptNetworkInterfaceRegion with value set to v.
+func NewOptNetworkInterfaceRegion(v NetworkInterfaceRegion) OptNetworkInterfaceRegion {
+	return OptNetworkInterfaceRegion{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNetworkInterfaceRegion is optional NetworkInterfaceRegion.
+type OptNetworkInterfaceRegion struct {
+	Value NetworkInterfaceRegion
+	Set   bool
+}
+
+// IsSet returns true if OptNetworkInterfaceRegion was set.
+func (o OptNetworkInterfaceRegion) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNetworkInterfaceRegion) Reset() {
+	var v NetworkInterfaceRegion
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNetworkInterfaceRegion) SetTo(v NetworkInterfaceRegion) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNetworkInterfaceRegion) Get() (v NetworkInterfaceRegion, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNetworkInterfaceRegion) Or(d NetworkInterfaceRegion) NetworkInterfaceRegion {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -16788,6 +19686,69 @@ func (o OptNilConferenceSid) Or(d ConferenceSid) ConferenceSid {
 	return d
 }
 
+// NewOptNilDateTime returns new OptNilDateTime with value set to v.
+func NewOptNilDateTime(v time.Time) OptNilDateTime {
+	return OptNilDateTime{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilDateTime is optional nullable time.Time.
+type OptNilDateTime struct {
+	Value time.Time
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilDateTime was set.
+func (o OptNilDateTime) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilDateTime) Reset() {
+	var v time.Time
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilDateTime) SetTo(v time.Time) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilDateTime) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilDateTime) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v time.Time
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilDateTime) Get() (v time.Time, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilDateTime) Or(d time.Time) time.Time {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilHTTPResponse returns new OptNilHTTPResponse with value set to v.
 func NewOptNilHTTPResponse(v HTTPResponse) OptNilHTTPResponse {
 	return OptNilHTTPResponse{
@@ -16908,6 +19869,69 @@ func (o OptNilInt) Get() (v int, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilOutboundMessagePayloadCost returns new OptNilOutboundMessagePayloadCost with value set to v.
+func NewOptNilOutboundMessagePayloadCost(v OutboundMessagePayloadCost) OptNilOutboundMessagePayloadCost {
+	return OptNilOutboundMessagePayloadCost{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilOutboundMessagePayloadCost is optional nullable OutboundMessagePayloadCost.
+type OptNilOutboundMessagePayloadCost struct {
+	Value OutboundMessagePayloadCost
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilOutboundMessagePayloadCost was set.
+func (o OptNilOutboundMessagePayloadCost) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilOutboundMessagePayloadCost) Reset() {
+	var v OutboundMessagePayloadCost
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilOutboundMessagePayloadCost) SetTo(v OutboundMessagePayloadCost) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilOutboundMessagePayloadCost) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilOutboundMessagePayloadCost) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v OutboundMessagePayloadCost
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilOutboundMessagePayloadCost) Get() (v OutboundMessagePayloadCost, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilOutboundMessagePayloadCost) Or(d OutboundMessagePayloadCost) OutboundMessagePayloadCost {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -17338,6 +20362,374 @@ func (o OptNoiseSuppressionDirection) Or(d NoiseSuppressionDirection) NoiseSuppr
 	return d
 }
 
+// NewOptOutboundMessagePayload returns new OptOutboundMessagePayload with value set to v.
+func NewOptOutboundMessagePayload(v OutboundMessagePayload) OptOutboundMessagePayload {
+	return OptOutboundMessagePayload{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayload is optional OutboundMessagePayload.
+type OptOutboundMessagePayload struct {
+	Value OutboundMessagePayload
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayload was set.
+func (o OptOutboundMessagePayload) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayload) Reset() {
+	var v OutboundMessagePayload
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayload) SetTo(v OutboundMessagePayload) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayload) Get() (v OutboundMessagePayload, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayload) Or(d OutboundMessagePayload) OutboundMessagePayload {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadDirection returns new OptOutboundMessagePayloadDirection with value set to v.
+func NewOptOutboundMessagePayloadDirection(v OutboundMessagePayloadDirection) OptOutboundMessagePayloadDirection {
+	return OptOutboundMessagePayloadDirection{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadDirection is optional OutboundMessagePayloadDirection.
+type OptOutboundMessagePayloadDirection struct {
+	Value OutboundMessagePayloadDirection
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadDirection was set.
+func (o OptOutboundMessagePayloadDirection) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadDirection) Reset() {
+	var v OutboundMessagePayloadDirection
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadDirection) SetTo(v OutboundMessagePayloadDirection) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadDirection) Get() (v OutboundMessagePayloadDirection, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadDirection) Or(d OutboundMessagePayloadDirection) OutboundMessagePayloadDirection {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadFrom returns new OptOutboundMessagePayloadFrom with value set to v.
+func NewOptOutboundMessagePayloadFrom(v OutboundMessagePayloadFrom) OptOutboundMessagePayloadFrom {
+	return OptOutboundMessagePayloadFrom{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadFrom is optional OutboundMessagePayloadFrom.
+type OptOutboundMessagePayloadFrom struct {
+	Value OutboundMessagePayloadFrom
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadFrom was set.
+func (o OptOutboundMessagePayloadFrom) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadFrom) Reset() {
+	var v OutboundMessagePayloadFrom
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadFrom) SetTo(v OutboundMessagePayloadFrom) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadFrom) Get() (v OutboundMessagePayloadFrom, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadFrom) Or(d OutboundMessagePayloadFrom) OutboundMessagePayloadFrom {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadFromLineType returns new OptOutboundMessagePayloadFromLineType with value set to v.
+func NewOptOutboundMessagePayloadFromLineType(v OutboundMessagePayloadFromLineType) OptOutboundMessagePayloadFromLineType {
+	return OptOutboundMessagePayloadFromLineType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadFromLineType is optional OutboundMessagePayloadFromLineType.
+type OptOutboundMessagePayloadFromLineType struct {
+	Value OutboundMessagePayloadFromLineType
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadFromLineType was set.
+func (o OptOutboundMessagePayloadFromLineType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadFromLineType) Reset() {
+	var v OutboundMessagePayloadFromLineType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadFromLineType) SetTo(v OutboundMessagePayloadFromLineType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadFromLineType) Get() (v OutboundMessagePayloadFromLineType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadFromLineType) Or(d OutboundMessagePayloadFromLineType) OutboundMessagePayloadFromLineType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadRecordType returns new OptOutboundMessagePayloadRecordType with value set to v.
+func NewOptOutboundMessagePayloadRecordType(v OutboundMessagePayloadRecordType) OptOutboundMessagePayloadRecordType {
+	return OptOutboundMessagePayloadRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadRecordType is optional OutboundMessagePayloadRecordType.
+type OptOutboundMessagePayloadRecordType struct {
+	Value OutboundMessagePayloadRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadRecordType was set.
+func (o OptOutboundMessagePayloadRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadRecordType) Reset() {
+	var v OutboundMessagePayloadRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadRecordType) SetTo(v OutboundMessagePayloadRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadRecordType) Get() (v OutboundMessagePayloadRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadRecordType) Or(d OutboundMessagePayloadRecordType) OutboundMessagePayloadRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadToItemLineType returns new OptOutboundMessagePayloadToItemLineType with value set to v.
+func NewOptOutboundMessagePayloadToItemLineType(v OutboundMessagePayloadToItemLineType) OptOutboundMessagePayloadToItemLineType {
+	return OptOutboundMessagePayloadToItemLineType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadToItemLineType is optional OutboundMessagePayloadToItemLineType.
+type OptOutboundMessagePayloadToItemLineType struct {
+	Value OutboundMessagePayloadToItemLineType
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadToItemLineType was set.
+func (o OptOutboundMessagePayloadToItemLineType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadToItemLineType) Reset() {
+	var v OutboundMessagePayloadToItemLineType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadToItemLineType) SetTo(v OutboundMessagePayloadToItemLineType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadToItemLineType) Get() (v OutboundMessagePayloadToItemLineType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadToItemLineType) Or(d OutboundMessagePayloadToItemLineType) OutboundMessagePayloadToItemLineType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadToItemStatus returns new OptOutboundMessagePayloadToItemStatus with value set to v.
+func NewOptOutboundMessagePayloadToItemStatus(v OutboundMessagePayloadToItemStatus) OptOutboundMessagePayloadToItemStatus {
+	return OptOutboundMessagePayloadToItemStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadToItemStatus is optional OutboundMessagePayloadToItemStatus.
+type OptOutboundMessagePayloadToItemStatus struct {
+	Value OutboundMessagePayloadToItemStatus
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadToItemStatus was set.
+func (o OptOutboundMessagePayloadToItemStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadToItemStatus) Reset() {
+	var v OutboundMessagePayloadToItemStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadToItemStatus) SetTo(v OutboundMessagePayloadToItemStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadToItemStatus) Get() (v OutboundMessagePayloadToItemStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadToItemStatus) Or(d OutboundMessagePayloadToItemStatus) OutboundMessagePayloadToItemStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundMessagePayloadType returns new OptOutboundMessagePayloadType with value set to v.
+func NewOptOutboundMessagePayloadType(v OutboundMessagePayloadType) OptOutboundMessagePayloadType {
+	return OptOutboundMessagePayloadType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundMessagePayloadType is optional OutboundMessagePayloadType.
+type OptOutboundMessagePayloadType struct {
+	Value OutboundMessagePayloadType
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundMessagePayloadType was set.
+func (o OptOutboundMessagePayloadType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundMessagePayloadType) Reset() {
+	var v OutboundMessagePayloadType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundMessagePayloadType) SetTo(v OutboundMessagePayloadType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundMessagePayloadType) Get() (v OutboundMessagePayloadType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundMessagePayloadType) Or(d OutboundMessagePayloadType) OutboundMessagePayloadType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptOutboundVoiceProfileId returns new OptOutboundVoiceProfileId with value set to v.
 func NewOptOutboundVoiceProfileId(v OutboundVoiceProfileId) OptOutboundVoiceProfileId {
 	return OptOutboundVoiceProfileId{
@@ -17424,6 +20816,52 @@ func (o OptPaginationMeta) Get() (v PaginationMeta, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPaginationMeta) Or(d PaginationMeta) PaginationMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaginationMetaSimple returns new OptPaginationMetaSimple with value set to v.
+func NewOptPaginationMetaSimple(v PaginationMetaSimple) OptPaginationMetaSimple {
+	return OptPaginationMetaSimple{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaginationMetaSimple is optional PaginationMetaSimple.
+type OptPaginationMetaSimple struct {
+	Value PaginationMetaSimple
+	Set   bool
+}
+
+// IsSet returns true if OptPaginationMetaSimple was set.
+func (o OptPaginationMetaSimple) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaginationMetaSimple) Reset() {
+	var v PaginationMetaSimple
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaginationMetaSimple) SetTo(v PaginationMetaSimple) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaginationMetaSimple) Get() (v PaginationMetaSimple, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaginationMetaSimple) Or(d PaginationMetaSimple) PaginationMetaSimple {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -22358,6 +25796,779 @@ func (o OptWebhookDeliveryWebhookRecordType) Or(d WebhookDeliveryWebhookRecordTy
 	return d
 }
 
+// Ref: #/components/schemas/OutboundMessagePayload
+type OutboundMessagePayload struct {
+	// Identifies the type of the resource.
+	RecordType OptOutboundMessagePayloadRecordType `json:"record_type"`
+	// The direction of the message. Inbound messages are sent to you whereas outbound messages are sent
+	// from you.
+	Direction OptOutboundMessagePayloadDirection `json:"direction"`
+	// Identifies the type of resource.
+	ID OptUUID `json:"id"`
+	// The type of message.
+	Type OptOutboundMessagePayloadType `json:"type"`
+	// Unique identifier for a messaging profile.
+	MessagingProfileID OptString `json:"messaging_profile_id"`
+	// The id of the organization the messaging profile belongs to.
+	OrganizationID OptUUID                        `json:"organization_id"`
+	From           OptOutboundMessagePayloadFrom  `json:"from"`
+	To             []OutboundMessagePayloadToItem `json:"to"`
+	// Message body (i.e., content) as a non-empty string.
+	// **Required for SMS**.
+	Text OptString `json:"text"`
+	// Subject of multimedia message.
+	Subject OptNilString                      `json:"subject"`
+	Media   []OutboundMessagePayloadMediaItem `json:"media"`
+	// The URL where webhooks related to this message will be sent.
+	WebhookURL OptNilString `json:"webhook_url"`
+	// The failover URL where webhooks related to this message will be sent if sending to the primary URL
+	// fails.
+	WebhookFailoverURL OptNilString `json:"webhook_failover_url"`
+	// Encoding scheme used for the message body.
+	Encoding OptString `json:"encoding"`
+	// Number of parts into which the message's body must be split.
+	Parts OptInt `json:"parts"`
+	// Tags associated with the resource.
+	Tags []string                         `json:"tags"`
+	Cost OptNilOutboundMessagePayloadCost `json:"cost"`
+	// ISO 8601 formatted date indicating when the message request was received.
+	ReceivedAt OptDateTime `json:"received_at"`
+	// ISO 8601 formatted date indicating when the message was sent.
+	SentAt OptDateTime `json:"sent_at"`
+	// ISO 8601 formatted date indicating when the message was finalized.
+	CompletedAt OptDateTime `json:"completed_at"`
+	// Message must be out of the queue by this time or else it will be discarded and marked as
+	// 'sending_failed'. Once the message moves out of the queue, this field will be nulled.
+	ValidUntil OptNilDateTime `json:"valid_until"`
+	// These errors may point at addressees when referring to unsuccessful/unconfirmed delivery statuses.
+	Errors []Error `json:"errors"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *OutboundMessagePayload) GetRecordType() OptOutboundMessagePayloadRecordType {
+	return s.RecordType
+}
+
+// GetDirection returns the value of Direction.
+func (s *OutboundMessagePayload) GetDirection() OptOutboundMessagePayloadDirection {
+	return s.Direction
+}
+
+// GetID returns the value of ID.
+func (s *OutboundMessagePayload) GetID() OptUUID {
+	return s.ID
+}
+
+// GetType returns the value of Type.
+func (s *OutboundMessagePayload) GetType() OptOutboundMessagePayloadType {
+	return s.Type
+}
+
+// GetMessagingProfileID returns the value of MessagingProfileID.
+func (s *OutboundMessagePayload) GetMessagingProfileID() OptString {
+	return s.MessagingProfileID
+}
+
+// GetOrganizationID returns the value of OrganizationID.
+func (s *OutboundMessagePayload) GetOrganizationID() OptUUID {
+	return s.OrganizationID
+}
+
+// GetFrom returns the value of From.
+func (s *OutboundMessagePayload) GetFrom() OptOutboundMessagePayloadFrom {
+	return s.From
+}
+
+// GetTo returns the value of To.
+func (s *OutboundMessagePayload) GetTo() []OutboundMessagePayloadToItem {
+	return s.To
+}
+
+// GetText returns the value of Text.
+func (s *OutboundMessagePayload) GetText() OptString {
+	return s.Text
+}
+
+// GetSubject returns the value of Subject.
+func (s *OutboundMessagePayload) GetSubject() OptNilString {
+	return s.Subject
+}
+
+// GetMedia returns the value of Media.
+func (s *OutboundMessagePayload) GetMedia() []OutboundMessagePayloadMediaItem {
+	return s.Media
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *OutboundMessagePayload) GetWebhookURL() OptNilString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *OutboundMessagePayload) GetWebhookFailoverURL() OptNilString {
+	return s.WebhookFailoverURL
+}
+
+// GetEncoding returns the value of Encoding.
+func (s *OutboundMessagePayload) GetEncoding() OptString {
+	return s.Encoding
+}
+
+// GetParts returns the value of Parts.
+func (s *OutboundMessagePayload) GetParts() OptInt {
+	return s.Parts
+}
+
+// GetTags returns the value of Tags.
+func (s *OutboundMessagePayload) GetTags() []string {
+	return s.Tags
+}
+
+// GetCost returns the value of Cost.
+func (s *OutboundMessagePayload) GetCost() OptNilOutboundMessagePayloadCost {
+	return s.Cost
+}
+
+// GetReceivedAt returns the value of ReceivedAt.
+func (s *OutboundMessagePayload) GetReceivedAt() OptDateTime {
+	return s.ReceivedAt
+}
+
+// GetSentAt returns the value of SentAt.
+func (s *OutboundMessagePayload) GetSentAt() OptDateTime {
+	return s.SentAt
+}
+
+// GetCompletedAt returns the value of CompletedAt.
+func (s *OutboundMessagePayload) GetCompletedAt() OptDateTime {
+	return s.CompletedAt
+}
+
+// GetValidUntil returns the value of ValidUntil.
+func (s *OutboundMessagePayload) GetValidUntil() OptNilDateTime {
+	return s.ValidUntil
+}
+
+// GetErrors returns the value of Errors.
+func (s *OutboundMessagePayload) GetErrors() []Error {
+	return s.Errors
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *OutboundMessagePayload) SetRecordType(val OptOutboundMessagePayloadRecordType) {
+	s.RecordType = val
+}
+
+// SetDirection sets the value of Direction.
+func (s *OutboundMessagePayload) SetDirection(val OptOutboundMessagePayloadDirection) {
+	s.Direction = val
+}
+
+// SetID sets the value of ID.
+func (s *OutboundMessagePayload) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetType sets the value of Type.
+func (s *OutboundMessagePayload) SetType(val OptOutboundMessagePayloadType) {
+	s.Type = val
+}
+
+// SetMessagingProfileID sets the value of MessagingProfileID.
+func (s *OutboundMessagePayload) SetMessagingProfileID(val OptString) {
+	s.MessagingProfileID = val
+}
+
+// SetOrganizationID sets the value of OrganizationID.
+func (s *OutboundMessagePayload) SetOrganizationID(val OptUUID) {
+	s.OrganizationID = val
+}
+
+// SetFrom sets the value of From.
+func (s *OutboundMessagePayload) SetFrom(val OptOutboundMessagePayloadFrom) {
+	s.From = val
+}
+
+// SetTo sets the value of To.
+func (s *OutboundMessagePayload) SetTo(val []OutboundMessagePayloadToItem) {
+	s.To = val
+}
+
+// SetText sets the value of Text.
+func (s *OutboundMessagePayload) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetSubject sets the value of Subject.
+func (s *OutboundMessagePayload) SetSubject(val OptNilString) {
+	s.Subject = val
+}
+
+// SetMedia sets the value of Media.
+func (s *OutboundMessagePayload) SetMedia(val []OutboundMessagePayloadMediaItem) {
+	s.Media = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *OutboundMessagePayload) SetWebhookURL(val OptNilString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *OutboundMessagePayload) SetWebhookFailoverURL(val OptNilString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetEncoding sets the value of Encoding.
+func (s *OutboundMessagePayload) SetEncoding(val OptString) {
+	s.Encoding = val
+}
+
+// SetParts sets the value of Parts.
+func (s *OutboundMessagePayload) SetParts(val OptInt) {
+	s.Parts = val
+}
+
+// SetTags sets the value of Tags.
+func (s *OutboundMessagePayload) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetCost sets the value of Cost.
+func (s *OutboundMessagePayload) SetCost(val OptNilOutboundMessagePayloadCost) {
+	s.Cost = val
+}
+
+// SetReceivedAt sets the value of ReceivedAt.
+func (s *OutboundMessagePayload) SetReceivedAt(val OptDateTime) {
+	s.ReceivedAt = val
+}
+
+// SetSentAt sets the value of SentAt.
+func (s *OutboundMessagePayload) SetSentAt(val OptDateTime) {
+	s.SentAt = val
+}
+
+// SetCompletedAt sets the value of CompletedAt.
+func (s *OutboundMessagePayload) SetCompletedAt(val OptDateTime) {
+	s.CompletedAt = val
+}
+
+// SetValidUntil sets the value of ValidUntil.
+func (s *OutboundMessagePayload) SetValidUntil(val OptNilDateTime) {
+	s.ValidUntil = val
+}
+
+// SetErrors sets the value of Errors.
+func (s *OutboundMessagePayload) SetErrors(val []Error) {
+	s.Errors = val
+}
+
+type OutboundMessagePayloadCost struct {
+	// The amount deducted from your account.
+	Amount OptString `json:"amount"`
+	// The ISO 4217 currency identifier.
+	Currency OptString `json:"currency"`
+}
+
+// GetAmount returns the value of Amount.
+func (s *OutboundMessagePayloadCost) GetAmount() OptString {
+	return s.Amount
+}
+
+// GetCurrency returns the value of Currency.
+func (s *OutboundMessagePayloadCost) GetCurrency() OptString {
+	return s.Currency
+}
+
+// SetAmount sets the value of Amount.
+func (s *OutboundMessagePayloadCost) SetAmount(val OptString) {
+	s.Amount = val
+}
+
+// SetCurrency sets the value of Currency.
+func (s *OutboundMessagePayloadCost) SetCurrency(val OptString) {
+	s.Currency = val
+}
+
+// The direction of the message. Inbound messages are sent to you whereas outbound messages are sent
+// from you.
+type OutboundMessagePayloadDirection string
+
+const (
+	OutboundMessagePayloadDirectionOutbound OutboundMessagePayloadDirection = "outbound"
+)
+
+// AllValues returns all OutboundMessagePayloadDirection values.
+func (OutboundMessagePayloadDirection) AllValues() []OutboundMessagePayloadDirection {
+	return []OutboundMessagePayloadDirection{
+		OutboundMessagePayloadDirectionOutbound,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundMessagePayloadDirection) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundMessagePayloadDirectionOutbound:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundMessagePayloadDirection) UnmarshalText(data []byte) error {
+	switch OutboundMessagePayloadDirection(data) {
+	case OutboundMessagePayloadDirectionOutbound:
+		*s = OutboundMessagePayloadDirectionOutbound
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type OutboundMessagePayloadFrom struct {
+	// Sending address (+E.164 formatted phone number, alphanumeric sender ID, or short code).
+	PhoneNumber OptString `json:"phone_number"`
+	// The carrier of the receiver.
+	Carrier OptString `json:"carrier"`
+	// The line-type of the receiver.
+	LineType OptOutboundMessagePayloadFromLineType `json:"line_type"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *OutboundMessagePayloadFrom) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetCarrier returns the value of Carrier.
+func (s *OutboundMessagePayloadFrom) GetCarrier() OptString {
+	return s.Carrier
+}
+
+// GetLineType returns the value of LineType.
+func (s *OutboundMessagePayloadFrom) GetLineType() OptOutboundMessagePayloadFromLineType {
+	return s.LineType
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *OutboundMessagePayloadFrom) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetCarrier sets the value of Carrier.
+func (s *OutboundMessagePayloadFrom) SetCarrier(val OptString) {
+	s.Carrier = val
+}
+
+// SetLineType sets the value of LineType.
+func (s *OutboundMessagePayloadFrom) SetLineType(val OptOutboundMessagePayloadFromLineType) {
+	s.LineType = val
+}
+
+// The line-type of the receiver.
+type OutboundMessagePayloadFromLineType string
+
+const (
+	OutboundMessagePayloadFromLineTypeWireline        OutboundMessagePayloadFromLineType = "Wireline"
+	OutboundMessagePayloadFromLineTypeWireless        OutboundMessagePayloadFromLineType = "Wireless"
+	OutboundMessagePayloadFromLineTypeVoWiFi          OutboundMessagePayloadFromLineType = "VoWiFi"
+	OutboundMessagePayloadFromLineTypeVoIP            OutboundMessagePayloadFromLineType = "VoIP"
+	OutboundMessagePayloadFromLineTypePrePaidWireless OutboundMessagePayloadFromLineType = "Pre-Paid Wireless"
+	OutboundMessagePayloadFromLineTypeEmpty           OutboundMessagePayloadFromLineType = ""
+)
+
+// AllValues returns all OutboundMessagePayloadFromLineType values.
+func (OutboundMessagePayloadFromLineType) AllValues() []OutboundMessagePayloadFromLineType {
+	return []OutboundMessagePayloadFromLineType{
+		OutboundMessagePayloadFromLineTypeWireline,
+		OutboundMessagePayloadFromLineTypeWireless,
+		OutboundMessagePayloadFromLineTypeVoWiFi,
+		OutboundMessagePayloadFromLineTypeVoIP,
+		OutboundMessagePayloadFromLineTypePrePaidWireless,
+		OutboundMessagePayloadFromLineTypeEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundMessagePayloadFromLineType) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundMessagePayloadFromLineTypeWireline:
+		return []byte(s), nil
+	case OutboundMessagePayloadFromLineTypeWireless:
+		return []byte(s), nil
+	case OutboundMessagePayloadFromLineTypeVoWiFi:
+		return []byte(s), nil
+	case OutboundMessagePayloadFromLineTypeVoIP:
+		return []byte(s), nil
+	case OutboundMessagePayloadFromLineTypePrePaidWireless:
+		return []byte(s), nil
+	case OutboundMessagePayloadFromLineTypeEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundMessagePayloadFromLineType) UnmarshalText(data []byte) error {
+	switch OutboundMessagePayloadFromLineType(data) {
+	case OutboundMessagePayloadFromLineTypeWireline:
+		*s = OutboundMessagePayloadFromLineTypeWireline
+		return nil
+	case OutboundMessagePayloadFromLineTypeWireless:
+		*s = OutboundMessagePayloadFromLineTypeWireless
+		return nil
+	case OutboundMessagePayloadFromLineTypeVoWiFi:
+		*s = OutboundMessagePayloadFromLineTypeVoWiFi
+		return nil
+	case OutboundMessagePayloadFromLineTypeVoIP:
+		*s = OutboundMessagePayloadFromLineTypeVoIP
+		return nil
+	case OutboundMessagePayloadFromLineTypePrePaidWireless:
+		*s = OutboundMessagePayloadFromLineTypePrePaidWireless
+		return nil
+	case OutboundMessagePayloadFromLineTypeEmpty:
+		*s = OutboundMessagePayloadFromLineTypeEmpty
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type OutboundMessagePayloadMediaItem struct {
+	// The url of the media requested to be sent.
+	URL OptString `json:"url"`
+	// The MIME type of the requested media.
+	ContentType OptNilString `json:"content_type"`
+	// The SHA256 hash of the requested media.
+	SHA256 OptNilString `json:"sha256"`
+	// The size of the requested media.
+	Size OptNilInt `json:"size"`
+}
+
+// GetURL returns the value of URL.
+func (s *OutboundMessagePayloadMediaItem) GetURL() OptString {
+	return s.URL
+}
+
+// GetContentType returns the value of ContentType.
+func (s *OutboundMessagePayloadMediaItem) GetContentType() OptNilString {
+	return s.ContentType
+}
+
+// GetSHA256 returns the value of SHA256.
+func (s *OutboundMessagePayloadMediaItem) GetSHA256() OptNilString {
+	return s.SHA256
+}
+
+// GetSize returns the value of Size.
+func (s *OutboundMessagePayloadMediaItem) GetSize() OptNilInt {
+	return s.Size
+}
+
+// SetURL sets the value of URL.
+func (s *OutboundMessagePayloadMediaItem) SetURL(val OptString) {
+	s.URL = val
+}
+
+// SetContentType sets the value of ContentType.
+func (s *OutboundMessagePayloadMediaItem) SetContentType(val OptNilString) {
+	s.ContentType = val
+}
+
+// SetSHA256 sets the value of SHA256.
+func (s *OutboundMessagePayloadMediaItem) SetSHA256(val OptNilString) {
+	s.SHA256 = val
+}
+
+// SetSize sets the value of Size.
+func (s *OutboundMessagePayloadMediaItem) SetSize(val OptNilInt) {
+	s.Size = val
+}
+
+// Identifies the type of the resource.
+type OutboundMessagePayloadRecordType string
+
+const (
+	OutboundMessagePayloadRecordTypeMessage OutboundMessagePayloadRecordType = "message"
+)
+
+// AllValues returns all OutboundMessagePayloadRecordType values.
+func (OutboundMessagePayloadRecordType) AllValues() []OutboundMessagePayloadRecordType {
+	return []OutboundMessagePayloadRecordType{
+		OutboundMessagePayloadRecordTypeMessage,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundMessagePayloadRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundMessagePayloadRecordTypeMessage:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundMessagePayloadRecordType) UnmarshalText(data []byte) error {
+	switch OutboundMessagePayloadRecordType(data) {
+	case OutboundMessagePayloadRecordTypeMessage:
+		*s = OutboundMessagePayloadRecordTypeMessage
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type OutboundMessagePayloadToItem struct {
+	// Receiving address (+E.164 formatted phone number or short code).
+	PhoneNumber OptString `json:"phone_number"`
+	// The delivery status of the message.
+	Status OptOutboundMessagePayloadToItemStatus `json:"status"`
+	// The carrier of the receiver.
+	Carrier OptString `json:"carrier"`
+	// The line-type of the receiver.
+	LineType OptOutboundMessagePayloadToItemLineType `json:"line_type"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *OutboundMessagePayloadToItem) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetStatus returns the value of Status.
+func (s *OutboundMessagePayloadToItem) GetStatus() OptOutboundMessagePayloadToItemStatus {
+	return s.Status
+}
+
+// GetCarrier returns the value of Carrier.
+func (s *OutboundMessagePayloadToItem) GetCarrier() OptString {
+	return s.Carrier
+}
+
+// GetLineType returns the value of LineType.
+func (s *OutboundMessagePayloadToItem) GetLineType() OptOutboundMessagePayloadToItemLineType {
+	return s.LineType
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *OutboundMessagePayloadToItem) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetStatus sets the value of Status.
+func (s *OutboundMessagePayloadToItem) SetStatus(val OptOutboundMessagePayloadToItemStatus) {
+	s.Status = val
+}
+
+// SetCarrier sets the value of Carrier.
+func (s *OutboundMessagePayloadToItem) SetCarrier(val OptString) {
+	s.Carrier = val
+}
+
+// SetLineType sets the value of LineType.
+func (s *OutboundMessagePayloadToItem) SetLineType(val OptOutboundMessagePayloadToItemLineType) {
+	s.LineType = val
+}
+
+// The line-type of the receiver.
+type OutboundMessagePayloadToItemLineType string
+
+const (
+	OutboundMessagePayloadToItemLineTypeWireline        OutboundMessagePayloadToItemLineType = "Wireline"
+	OutboundMessagePayloadToItemLineTypeWireless        OutboundMessagePayloadToItemLineType = "Wireless"
+	OutboundMessagePayloadToItemLineTypeVoWiFi          OutboundMessagePayloadToItemLineType = "VoWiFi"
+	OutboundMessagePayloadToItemLineTypeVoIP            OutboundMessagePayloadToItemLineType = "VoIP"
+	OutboundMessagePayloadToItemLineTypePrePaidWireless OutboundMessagePayloadToItemLineType = "Pre-Paid Wireless"
+	OutboundMessagePayloadToItemLineTypeEmpty           OutboundMessagePayloadToItemLineType = ""
+)
+
+// AllValues returns all OutboundMessagePayloadToItemLineType values.
+func (OutboundMessagePayloadToItemLineType) AllValues() []OutboundMessagePayloadToItemLineType {
+	return []OutboundMessagePayloadToItemLineType{
+		OutboundMessagePayloadToItemLineTypeWireline,
+		OutboundMessagePayloadToItemLineTypeWireless,
+		OutboundMessagePayloadToItemLineTypeVoWiFi,
+		OutboundMessagePayloadToItemLineTypeVoIP,
+		OutboundMessagePayloadToItemLineTypePrePaidWireless,
+		OutboundMessagePayloadToItemLineTypeEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundMessagePayloadToItemLineType) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundMessagePayloadToItemLineTypeWireline:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemLineTypeWireless:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemLineTypeVoWiFi:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemLineTypeVoIP:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemLineTypePrePaidWireless:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemLineTypeEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundMessagePayloadToItemLineType) UnmarshalText(data []byte) error {
+	switch OutboundMessagePayloadToItemLineType(data) {
+	case OutboundMessagePayloadToItemLineTypeWireline:
+		*s = OutboundMessagePayloadToItemLineTypeWireline
+		return nil
+	case OutboundMessagePayloadToItemLineTypeWireless:
+		*s = OutboundMessagePayloadToItemLineTypeWireless
+		return nil
+	case OutboundMessagePayloadToItemLineTypeVoWiFi:
+		*s = OutboundMessagePayloadToItemLineTypeVoWiFi
+		return nil
+	case OutboundMessagePayloadToItemLineTypeVoIP:
+		*s = OutboundMessagePayloadToItemLineTypeVoIP
+		return nil
+	case OutboundMessagePayloadToItemLineTypePrePaidWireless:
+		*s = OutboundMessagePayloadToItemLineTypePrePaidWireless
+		return nil
+	case OutboundMessagePayloadToItemLineTypeEmpty:
+		*s = OutboundMessagePayloadToItemLineTypeEmpty
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The delivery status of the message.
+type OutboundMessagePayloadToItemStatus string
+
+const (
+	OutboundMessagePayloadToItemStatusQueued              OutboundMessagePayloadToItemStatus = "queued"
+	OutboundMessagePayloadToItemStatusSending             OutboundMessagePayloadToItemStatus = "sending"
+	OutboundMessagePayloadToItemStatusSent                OutboundMessagePayloadToItemStatus = "sent"
+	OutboundMessagePayloadToItemStatusExpired             OutboundMessagePayloadToItemStatus = "expired"
+	OutboundMessagePayloadToItemStatusSendingFailed       OutboundMessagePayloadToItemStatus = "sending_failed"
+	OutboundMessagePayloadToItemStatusDeliveryUnconfirmed OutboundMessagePayloadToItemStatus = "delivery_unconfirmed"
+	OutboundMessagePayloadToItemStatusDelivered           OutboundMessagePayloadToItemStatus = "delivered"
+	OutboundMessagePayloadToItemStatusDeliveryFailed      OutboundMessagePayloadToItemStatus = "delivery_failed"
+)
+
+// AllValues returns all OutboundMessagePayloadToItemStatus values.
+func (OutboundMessagePayloadToItemStatus) AllValues() []OutboundMessagePayloadToItemStatus {
+	return []OutboundMessagePayloadToItemStatus{
+		OutboundMessagePayloadToItemStatusQueued,
+		OutboundMessagePayloadToItemStatusSending,
+		OutboundMessagePayloadToItemStatusSent,
+		OutboundMessagePayloadToItemStatusExpired,
+		OutboundMessagePayloadToItemStatusSendingFailed,
+		OutboundMessagePayloadToItemStatusDeliveryUnconfirmed,
+		OutboundMessagePayloadToItemStatusDelivered,
+		OutboundMessagePayloadToItemStatusDeliveryFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundMessagePayloadToItemStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundMessagePayloadToItemStatusQueued:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusSending:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusSent:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusExpired:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusSendingFailed:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusDeliveryUnconfirmed:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusDelivered:
+		return []byte(s), nil
+	case OutboundMessagePayloadToItemStatusDeliveryFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundMessagePayloadToItemStatus) UnmarshalText(data []byte) error {
+	switch OutboundMessagePayloadToItemStatus(data) {
+	case OutboundMessagePayloadToItemStatusQueued:
+		*s = OutboundMessagePayloadToItemStatusQueued
+		return nil
+	case OutboundMessagePayloadToItemStatusSending:
+		*s = OutboundMessagePayloadToItemStatusSending
+		return nil
+	case OutboundMessagePayloadToItemStatusSent:
+		*s = OutboundMessagePayloadToItemStatusSent
+		return nil
+	case OutboundMessagePayloadToItemStatusExpired:
+		*s = OutboundMessagePayloadToItemStatusExpired
+		return nil
+	case OutboundMessagePayloadToItemStatusSendingFailed:
+		*s = OutboundMessagePayloadToItemStatusSendingFailed
+		return nil
+	case OutboundMessagePayloadToItemStatusDeliveryUnconfirmed:
+		*s = OutboundMessagePayloadToItemStatusDeliveryUnconfirmed
+		return nil
+	case OutboundMessagePayloadToItemStatusDelivered:
+		*s = OutboundMessagePayloadToItemStatusDelivered
+		return nil
+	case OutboundMessagePayloadToItemStatusDeliveryFailed:
+		*s = OutboundMessagePayloadToItemStatusDeliveryFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The type of message.
+type OutboundMessagePayloadType string
+
+const (
+	OutboundMessagePayloadTypeSMS OutboundMessagePayloadType = "SMS"
+	OutboundMessagePayloadTypeMMS OutboundMessagePayloadType = "MMS"
+)
+
+// AllValues returns all OutboundMessagePayloadType values.
+func (OutboundMessagePayloadType) AllValues() []OutboundMessagePayloadType {
+	return []OutboundMessagePayloadType{
+		OutboundMessagePayloadTypeSMS,
+		OutboundMessagePayloadTypeMMS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundMessagePayloadType) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundMessagePayloadTypeSMS:
+		return []byte(s), nil
+	case OutboundMessagePayloadTypeMMS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundMessagePayloadType) UnmarshalText(data []byte) error {
+	switch OutboundMessagePayloadType(data) {
+	case OutboundMessagePayloadTypeSMS:
+		*s = OutboundMessagePayloadTypeSMS
+		return nil
+	case OutboundMessagePayloadTypeMMS:
+		*s = OutboundMessagePayloadTypeMMS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type OutboundVoiceProfileId int64
 
 // Ref: #/components/schemas/PaginationMeta
@@ -22406,6 +26617,54 @@ func (s *PaginationMeta) SetPageNumber(val OptInt) {
 // SetPageSize sets the value of PageSize.
 func (s *PaginationMeta) SetPageSize(val OptInt) {
 	s.PageSize = val
+}
+
+// Ref: #/components/schemas/PaginationMetaSimple
+type PaginationMetaSimple struct {
+	PageNumber   OptInt `json:"page_number"`
+	PageSize     OptInt `json:"page_size"`
+	TotalPages   OptInt `json:"total_pages"`
+	TotalResults OptInt `json:"total_results"`
+}
+
+// GetPageNumber returns the value of PageNumber.
+func (s *PaginationMetaSimple) GetPageNumber() OptInt {
+	return s.PageNumber
+}
+
+// GetPageSize returns the value of PageSize.
+func (s *PaginationMetaSimple) GetPageSize() OptInt {
+	return s.PageSize
+}
+
+// GetTotalPages returns the value of TotalPages.
+func (s *PaginationMetaSimple) GetTotalPages() OptInt {
+	return s.TotalPages
+}
+
+// GetTotalResults returns the value of TotalResults.
+func (s *PaginationMetaSimple) GetTotalResults() OptInt {
+	return s.TotalResults
+}
+
+// SetPageNumber sets the value of PageNumber.
+func (s *PaginationMetaSimple) SetPageNumber(val OptInt) {
+	s.PageNumber = val
+}
+
+// SetPageSize sets the value of PageSize.
+func (s *PaginationMetaSimple) SetPageSize(val OptInt) {
+	s.PageSize = val
+}
+
+// SetTotalPages sets the value of TotalPages.
+func (s *PaginationMetaSimple) SetTotalPages(val OptInt) {
+	s.TotalPages = val
+}
+
+// SetTotalResults sets the value of TotalResults.
+func (s *PaginationMetaSimple) SetTotalResults(val OptInt) {
+	s.TotalResults = val
 }
 
 // Ref: #/components/schemas/ParticipantResource
@@ -28094,6 +32353,8 @@ func (s *TexmlUpdateCallRecordingRequestBodyStatus) UnmarshalText(data []byte) e
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ToNumber string
 
 // Ref: #/components/schemas/TranscriptionStartRequest
 type TranscriptionStartRequest struct {
