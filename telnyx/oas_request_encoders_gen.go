@@ -44,6 +44,20 @@ func encodeBridgeCallRequest(
 	return nil
 }
 
+func encodeCreateFlashcallVerificationRequest(
+	req *CreateVerificationRequestFlashcall,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateTexmlApplicationRequest(
 	req *CreateTexmlApplicationRequest,
 	r *http.Request,
@@ -60,6 +74,48 @@ func encodeCreateTexmlApplicationRequest(
 
 func encodeCreateTexmlSecretRequest(
 	req *CreateTeXMLSecretRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateVerificationCallRequest(
+	req *CreateVerificationRequestCall,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateVerificationSmsRequest(
+	req *CreateVerificationRequestSMS,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateVerifiedNumberRequest(
+	req *CreateVerifiedNumberReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1813,8 +1869,36 @@ func encodeUpdateTexmlConferenceParticipantRequest(
 	return nil
 }
 
+func encodeUpdateVerifyProfileRequest(
+	req *UpdateVerifyProfileReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeVerifyVerificationCodeRequest(
 	req *VerifyVerificationCodeReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeVerifyVerificationCodeByPhoneNumberRequest(
+	req *VerifyVerificationCodeRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

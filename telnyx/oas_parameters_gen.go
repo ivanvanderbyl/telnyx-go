@@ -18,6 +18,12 @@ type BridgeCallParams struct {
 	CallControlID string
 }
 
+// DeleteProfileParams is parameters of DeleteProfile operation.
+type DeleteProfileParams struct {
+	// The identifier of the Verify profile to delete.
+	VerifyProfileID uuid.UUID
+}
+
 // DeleteTeXMLCallRecordingParams is parameters of DeleteTeXMLCallRecording operation.
 type DeleteTeXMLCallRecordingParams struct {
 	// The id of the account the resource belongs to.
@@ -315,6 +321,12 @@ type GetVerifiedNumberParams struct {
 	PhoneNumber string
 }
 
+// GetVerifyProfileParams is parameters of GetVerifyProfile operation.
+type GetVerifyProfileParams struct {
+	// The identifier of the Verify profile to retrieve.
+	VerifyProfileID uuid.UUID
+}
+
 // HangupCallParams is parameters of HangupCall operation.
 type HangupCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -354,6 +366,18 @@ type ListUsageReportsOptionsParams struct {
 	// Options (dimensions and metrics) for a given product. If none specified, all products will be
 	// returned.
 	Product OptString
+}
+
+// ListVerificationsParams is parameters of ListVerifications operation.
+type ListVerificationsParams struct {
+	// The phone number associated with the verifications to retrieve.
+	PhoneNumber string
+}
+
+// ListVerifiedNumbersParams is parameters of ListVerifiedNumbers operation.
+type ListVerifiedNumbersParams struct {
+	PageSize   OptInt
+	PageNumber OptInt
 }
 
 // NoiseSuppressionStartParams is parameters of noiseSuppressionStart operation.
@@ -413,6 +437,12 @@ type RetrieveCallFromQueueParams struct {
 type RetrieveCallStatusParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// RetrieveVerificationParams is parameters of RetrieveVerification operation.
+type RetrieveVerificationParams struct {
+	// The identifier of the verification to retrieve.
+	VerificationID uuid.UUID
 }
 
 // SendDTMFParams is parameters of SendDTMF operation.
@@ -561,8 +591,20 @@ type UpdateTexmlConferenceParticipantParams struct {
 	CallSid string
 }
 
+// UpdateVerifyProfileParams is parameters of UpdateVerifyProfile operation.
+type UpdateVerifyProfileParams struct {
+	// The identifier of the Verify profile to update.
+	VerifyProfileID uuid.UUID
+}
+
 // VerifyVerificationCodeParams is parameters of VerifyVerificationCode operation.
 type VerifyVerificationCodeParams struct {
 	// The phone number being verified.
+	PhoneNumber string
+}
+
+// VerifyVerificationCodeByPhoneNumberParams is parameters of VerifyVerificationCodeByPhoneNumber operation.
+type VerifyVerificationCodeByPhoneNumberParams struct {
+	// The phone number associated with the verification code being verified.
 	PhoneNumber string
 }

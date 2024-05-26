@@ -9,12 +9,32 @@ type BridgeCallRes interface {
 	bridgeCallRes()
 }
 
+type CreateFlashcallVerificationRes interface {
+	createFlashcallVerificationRes()
+}
+
 type CreateTexmlApplicationRes interface {
 	createTexmlApplicationRes()
 }
 
 type CreateTexmlSecretRes interface {
 	createTexmlSecretRes()
+}
+
+type CreateVerificationCallRes interface {
+	createVerificationCallRes()
+}
+
+type CreateVerificationSmsRes interface {
+	createVerificationSmsRes()
+}
+
+type CreateVerifiedNumberRes interface {
+	createVerifiedNumberRes()
+}
+
+type DeleteProfileRes interface {
+	deleteProfileRes()
 }
 
 type DeleteTeXMLCallRecordingRes interface {
@@ -129,6 +149,10 @@ type GetVerifiedNumberRes interface {
 	getVerifiedNumberRes()
 }
 
+type GetVerifyProfileRes interface {
+	getVerifyProfileRes()
+}
+
 type HangupCallRes interface {
 	hangupCallRes()
 }
@@ -143,6 +167,14 @@ type ListQueueCallsRes interface {
 
 type ListUsageReportsOptionsRes interface {
 	listUsageReportsOptionsRes()
+}
+
+type ListVerificationsRes interface {
+	listVerificationsRes()
+}
+
+type ListVerifiedNumbersRes interface {
+	listVerifiedNumbersRes()
 }
 
 type NoiseSuppressionStartRes interface {
@@ -179,6 +211,10 @@ type RetrieveCallFromQueueRes interface {
 
 type RetrieveCallStatusRes interface {
 	retrieveCallStatusRes()
+}
+
+type RetrieveVerificationRes interface {
+	retrieveVerificationRes()
 }
 
 type SendDTMFRes interface {
@@ -259,6 +295,14 @@ type UpdateTexmlConferenceParticipantRes interface {
 
 type UpdateTexmlConferenceRes interface {
 	updateTexmlConferenceRes()
+}
+
+type UpdateVerifyProfileRes interface {
+	updateVerifyProfileRes()
+}
+
+type VerifyVerificationCodeByPhoneNumberRes interface {
+	verifyVerificationCodeByPhoneNumberRes()
 }
 
 type VerifyVerificationCodeRes interface {

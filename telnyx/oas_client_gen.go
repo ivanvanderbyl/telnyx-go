@@ -36,6 +36,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/bridge
 	BridgeCall(ctx context.Context, request *BridgeRequest, params BridgeCallParams) (BridgeCallRes, error)
+	// CreateFlashcallVerification invokes CreateFlashcallVerification operation.
+	//
+	// Trigger Flash call verification.
+	//
+	// POST /verifications/flashcall
+	CreateFlashcallVerification(ctx context.Context, request *CreateVerificationRequestFlashcall) (CreateFlashcallVerificationRes, error)
 	// CreateTexmlApplication invokes CreateTexmlApplication operation.
 	//
 	// Creates a TeXML Application.
@@ -51,6 +57,30 @@ type Invoker interface {
 	//
 	// POST /texml/secrets
 	CreateTexmlSecret(ctx context.Context, request *CreateTeXMLSecretRequest) (CreateTexmlSecretRes, error)
+	// CreateVerificationCall invokes CreateVerificationCall operation.
+	//
+	// Trigger Call verification.
+	//
+	// POST /verifications/call
+	CreateVerificationCall(ctx context.Context, request *CreateVerificationRequestCall) (CreateVerificationCallRes, error)
+	// CreateVerificationSms invokes CreateVerificationSms operation.
+	//
+	// Trigger SMS verification.
+	//
+	// POST /verifications/sms
+	CreateVerificationSms(ctx context.Context, request *CreateVerificationRequestSMS) (CreateVerificationSmsRes, error)
+	// CreateVerifiedNumber invokes CreateVerifiedNumber operation.
+	//
+	// Initiates phone number verification procedure.
+	//
+	// POST /verified_numbers
+	CreateVerifiedNumber(ctx context.Context, request *CreateVerifiedNumberReq) (CreateVerifiedNumberRes, error)
+	// DeleteProfile invokes DeleteProfile operation.
+	//
+	// Delete Verify profile.
+	//
+	// DELETE /verify_profiles/{verify_profile_id}
+	DeleteProfile(ctx context.Context, params DeleteProfileParams) (DeleteProfileRes, error)
 	// DeleteTeXMLCallRecording invokes DeleteTeXMLCallRecording operation.
 	//
 	// Deletes recording resource identified by recording id.
@@ -266,6 +296,12 @@ type Invoker interface {
 	//
 	// GET /verified_numbers/{phone_number}
 	GetVerifiedNumber(ctx context.Context, params GetVerifiedNumberParams) (GetVerifiedNumberRes, error)
+	// GetVerifyProfile invokes GetVerifyProfile operation.
+	//
+	// Gets a single Verify profile.
+	//
+	// GET /verify_profiles/{verify_profile_id}
+	GetVerifyProfile(ctx context.Context, params GetVerifyProfileParams) (GetVerifyProfileRes, error)
 	// HangupCall invokes HangupCall operation.
 	//
 	// Hang up the call.
@@ -295,6 +331,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/leave_queue
 	LeaveQueue(ctx context.Context, request *LeaveQueueRequest, params LeaveQueueParams) (LeaveQueueRes, error)
+	// ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
+	//
+	// List all Verify profile message templates.
+	//
+	// GET /verify_profiles/templates
+	ListProfileMessageTemplates(ctx context.Context) (*ListVerifyProfileMessageTemplateResponse, error)
 	// ListQueueCalls invokes ListQueueCalls operation.
 	//
 	// Retrieve the list of calls in an existing queue.
@@ -308,6 +350,18 @@ type Invoker interface {
 	//
 	// GET /usage_reports/options
 	ListUsageReportsOptions(ctx context.Context, params ListUsageReportsOptionsParams) (ListUsageReportsOptionsRes, error)
+	// ListVerifications invokes ListVerifications operation.
+	//
+	// List verifications by phone number.
+	//
+	// GET /verifications/by_phone_number/{phone_number}
+	ListVerifications(ctx context.Context, params ListVerificationsParams) (ListVerificationsRes, error)
+	// ListVerifiedNumbers invokes ListVerifiedNumbers operation.
+	//
+	// Gets a paginated list of Verified Numbers.
+	//
+	// GET /verified_numbers
+	ListVerifiedNumbers(ctx context.Context, params ListVerifiedNumbersParams) (ListVerifiedNumbersRes, error)
 	// NoiseSuppressionStart invokes noiseSuppressionStart operation.
 	//
 	// Noise Suppression Start (BETA).
@@ -381,6 +435,12 @@ type Invoker interface {
 	//
 	// GET /calls/{call_control_id}
 	RetrieveCallStatus(ctx context.Context, params RetrieveCallStatusParams) (RetrieveCallStatusRes, error)
+	// RetrieveVerification invokes RetrieveVerification operation.
+	//
+	// Retrieve verification.
+	//
+	// GET /verifications/{verification_id}
+	RetrieveVerification(ctx context.Context, params RetrieveVerificationParams) (RetrieveVerificationRes, error)
 	// SendDTMF invokes SendDTMF operation.
 	//
 	// Sends DTMF tones from this leg. DTMF tones will be heard by the other end of the call.
@@ -754,12 +814,24 @@ type Invoker interface {
 	//
 	// POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid}
 	UpdateTexmlConferenceParticipant(ctx context.Context, request *UpdateConferenceParticipantRequest, params UpdateTexmlConferenceParticipantParams) (UpdateTexmlConferenceParticipantRes, error)
+	// UpdateVerifyProfile invokes UpdateVerifyProfile operation.
+	//
+	// Update Verify profile.
+	//
+	// PATCH /verify_profiles/{verify_profile_id}
+	UpdateVerifyProfile(ctx context.Context, request *UpdateVerifyProfileReq, params UpdateVerifyProfileParams) (UpdateVerifyProfileRes, error)
 	// VerifyVerificationCode invokes VerifyVerificationCode operation.
 	//
 	// Submit verification code.
 	//
 	// POST /verified_numbers/{phone_number}/actions/verify
 	VerifyVerificationCode(ctx context.Context, request *VerifyVerificationCodeReq, params VerifyVerificationCodeParams) (VerifyVerificationCodeRes, error)
+	// VerifyVerificationCodeByPhoneNumber invokes VerifyVerificationCodeByPhoneNumber operation.
+	//
+	// Submit verification code.
+	//
+	// POST /verifications/by_phone_number/{phone_number}/actions/verify
+	VerifyVerificationCodeByPhoneNumber(ctx context.Context, request *VerifyVerificationCodeRequest, params VerifyVerificationCodeByPhoneNumberParams) (VerifyVerificationCodeByPhoneNumberRes, error)
 }
 
 // Client implements OAS client.
@@ -1006,6 +1078,78 @@ func (c *Client) sendBridgeCall(ctx context.Context, request *BridgeRequest, par
 	return result, nil
 }
 
+// CreateFlashcallVerification invokes CreateFlashcallVerification operation.
+//
+// Trigger Flash call verification.
+//
+// POST /verifications/flashcall
+func (c *Client) CreateFlashcallVerification(ctx context.Context, request *CreateVerificationRequestFlashcall) (CreateFlashcallVerificationRes, error) {
+	res, err := c.sendCreateFlashcallVerification(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateFlashcallVerification(ctx context.Context, request *CreateVerificationRequestFlashcall) (res CreateFlashcallVerificationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verifications/flashcall"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateFlashcallVerificationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateFlashcallVerification", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateFlashcallVerificationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateTexmlApplication invokes CreateTexmlApplication operation.
 //
 // Creates a TeXML Application.
@@ -1155,6 +1299,318 @@ func (c *Client) sendCreateTexmlSecret(ctx context.Context, request *CreateTeXML
 	defer resp.Body.Close()
 
 	result, err := decodeCreateTexmlSecretResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateVerificationCall invokes CreateVerificationCall operation.
+//
+// Trigger Call verification.
+//
+// POST /verifications/call
+func (c *Client) CreateVerificationCall(ctx context.Context, request *CreateVerificationRequestCall) (CreateVerificationCallRes, error) {
+	res, err := c.sendCreateVerificationCall(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateVerificationCall(ctx context.Context, request *CreateVerificationRequestCall) (res CreateVerificationCallRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verifications/call"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVerificationCallRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateVerificationCall", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateVerificationCallResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateVerificationSms invokes CreateVerificationSms operation.
+//
+// Trigger SMS verification.
+//
+// POST /verifications/sms
+func (c *Client) CreateVerificationSms(ctx context.Context, request *CreateVerificationRequestSMS) (CreateVerificationSmsRes, error) {
+	res, err := c.sendCreateVerificationSms(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateVerificationSms(ctx context.Context, request *CreateVerificationRequestSMS) (res CreateVerificationSmsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verifications/sms"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVerificationSmsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateVerificationSms", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateVerificationSmsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateVerifiedNumber invokes CreateVerifiedNumber operation.
+//
+// Initiates phone number verification procedure.
+//
+// POST /verified_numbers
+func (c *Client) CreateVerifiedNumber(ctx context.Context, request *CreateVerifiedNumberReq) (CreateVerifiedNumberRes, error) {
+	res, err := c.sendCreateVerifiedNumber(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateVerifiedNumber(ctx context.Context, request *CreateVerifiedNumberReq) (res CreateVerifiedNumberRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verified_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVerifiedNumberRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateVerifiedNumber", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateVerifiedNumberResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteProfile invokes DeleteProfile operation.
+//
+// Delete Verify profile.
+//
+// DELETE /verify_profiles/{verify_profile_id}
+func (c *Client) DeleteProfile(ctx context.Context, params DeleteProfileParams) (DeleteProfileRes, error) {
+	res, err := c.sendDeleteProfile(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteProfile(ctx context.Context, params DeleteProfileParams) (res DeleteProfileRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verify_profiles/"
+	{
+		// Encode "verify_profile_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "verify_profile_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.VerifyProfileID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4843,6 +5299,93 @@ func (c *Client) sendGetVerifiedNumber(ctx context.Context, params GetVerifiedNu
 	return result, nil
 }
 
+// GetVerifyProfile invokes GetVerifyProfile operation.
+//
+// Gets a single Verify profile.
+//
+// GET /verify_profiles/{verify_profile_id}
+func (c *Client) GetVerifyProfile(ctx context.Context, params GetVerifyProfileParams) (GetVerifyProfileRes, error) {
+	res, err := c.sendGetVerifyProfile(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetVerifyProfile(ctx context.Context, params GetVerifyProfileParams) (res GetVerifyProfileRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verify_profiles/"
+	{
+		// Encode "verify_profile_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "verify_profile_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.VerifyProfileID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetVerifyProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetVerifyProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // HangupCall invokes HangupCall operation.
 //
 // Hang up the call.
@@ -5229,6 +5772,75 @@ func (c *Client) sendLeaveQueue(ctx context.Context, request *LeaveQueueRequest,
 	return result, nil
 }
 
+// ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
+//
+// List all Verify profile message templates.
+//
+// GET /verify_profiles/templates
+func (c *Client) ListProfileMessageTemplates(ctx context.Context) (*ListVerifyProfileMessageTemplateResponse, error) {
+	res, err := c.sendListProfileMessageTemplates(ctx)
+	return res, err
+}
+
+func (c *Client) sendListProfileMessageTemplates(ctx context.Context) (res *ListVerifyProfileMessageTemplateResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verify_profiles/templates"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListProfileMessageTemplates", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListProfileMessageTemplatesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListQueueCalls invokes ListQueueCalls operation.
 //
 // Retrieve the list of calls in an existing queue.
@@ -5437,6 +6049,199 @@ func (c *Client) sendListUsageReportsOptions(ctx context.Context, params ListUsa
 	defer resp.Body.Close()
 
 	result, err := decodeListUsageReportsOptionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListVerifications invokes ListVerifications operation.
+//
+// List verifications by phone number.
+//
+// GET /verifications/by_phone_number/{phone_number}
+func (c *Client) ListVerifications(ctx context.Context, params ListVerificationsParams) (ListVerificationsRes, error) {
+	res, err := c.sendListVerifications(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListVerifications(ctx context.Context, params ListVerificationsParams) (res ListVerificationsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verifications/by_phone_number/"
+	{
+		// Encode "phone_number" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "phone_number",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PhoneNumber))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListVerifications", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListVerificationsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListVerifiedNumbers invokes ListVerifiedNumbers operation.
+//
+// Gets a paginated list of Verified Numbers.
+//
+// GET /verified_numbers
+func (c *Client) ListVerifiedNumbers(ctx context.Context, params ListVerifiedNumbersParams) (ListVerifiedNumbersRes, error) {
+	res, err := c.sendListVerifiedNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListVerifiedNumbers(ctx context.Context, params ListVerifiedNumbersParams) (res ListVerifiedNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/verified_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListVerifiedNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListVerifiedNumbersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6448,6 +7253,93 @@ func (c *Client) sendRetrieveCallStatus(ctx context.Context, params RetrieveCall
 	defer resp.Body.Close()
 
 	result, err := decodeRetrieveCallStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveVerification invokes RetrieveVerification operation.
+//
+// Retrieve verification.
+//
+// GET /verifications/{verification_id}
+func (c *Client) RetrieveVerification(ctx context.Context, params RetrieveVerificationParams) (RetrieveVerificationRes, error) {
+	res, err := c.sendRetrieveVerification(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveVerification(ctx context.Context, params RetrieveVerificationParams) (res RetrieveVerificationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verifications/"
+	{
+		// Encode "verification_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "verification_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.VerificationID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveVerification", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveVerificationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8976,6 +9868,105 @@ func (c *Client) sendUpdateTexmlConferenceParticipant(ctx context.Context, reque
 	return result, nil
 }
 
+// UpdateVerifyProfile invokes UpdateVerifyProfile operation.
+//
+// Update Verify profile.
+//
+// PATCH /verify_profiles/{verify_profile_id}
+func (c *Client) UpdateVerifyProfile(ctx context.Context, request *UpdateVerifyProfileReq, params UpdateVerifyProfileParams) (UpdateVerifyProfileRes, error) {
+	res, err := c.sendUpdateVerifyProfile(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateVerifyProfile(ctx context.Context, request *UpdateVerifyProfileReq, params UpdateVerifyProfileParams) (res UpdateVerifyProfileRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/verify_profiles/"
+	{
+		// Encode "verify_profile_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "verify_profile_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.VerifyProfileID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateVerifyProfileRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateVerifyProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateVerifyProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // VerifyVerificationCode invokes VerifyVerificationCode operation.
 //
 // Submit verification code.
@@ -9060,6 +10051,97 @@ func (c *Client) sendVerifyVerificationCode(ctx context.Context, request *Verify
 	defer resp.Body.Close()
 
 	result, err := decodeVerifyVerificationCodeResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// VerifyVerificationCodeByPhoneNumber invokes VerifyVerificationCodeByPhoneNumber operation.
+//
+// Submit verification code.
+//
+// POST /verifications/by_phone_number/{phone_number}/actions/verify
+func (c *Client) VerifyVerificationCodeByPhoneNumber(ctx context.Context, request *VerifyVerificationCodeRequest, params VerifyVerificationCodeByPhoneNumberParams) (VerifyVerificationCodeByPhoneNumberRes, error) {
+	res, err := c.sendVerifyVerificationCodeByPhoneNumber(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendVerifyVerificationCodeByPhoneNumber(ctx context.Context, request *VerifyVerificationCodeRequest, params VerifyVerificationCodeByPhoneNumberParams) (res VerifyVerificationCodeByPhoneNumberRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/verifications/by_phone_number/"
+	{
+		// Encode "phone_number" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "phone_number",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PhoneNumber))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/actions/verify"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeVerifyVerificationCodeByPhoneNumberRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "VerifyVerificationCodeByPhoneNumber", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeVerifyVerificationCodeByPhoneNumberResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

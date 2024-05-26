@@ -4250,6 +4250,257 @@ type CreateTexmlApplicationUnprocessableEntity ErrorResponse
 
 func (*CreateTexmlApplicationUnprocessableEntity) createTexmlApplicationRes() {}
 
+// The request body when creating a verification.
+// Ref: #/components/schemas/CreateVerificationRequestCall
+type CreateVerificationRequestCall struct {
+	// +E164 formatted phone number.
+	PhoneNumber string `json:"phone_number"`
+	// The identifier of the associated Verify profile.
+	VerifyProfileID uuid.UUID `json:"verify_profile_id"`
+	// The number of seconds the verification code is valid for.
+	TimeoutSecs OptInt `json:"timeout_secs"`
+	// Must be less than the profile's default_verification_timeout_secs or timeout_secs, whichever is
+	// lesser.
+	CallTimeoutSecs OptInt `json:"call_timeout_secs"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *CreateVerificationRequestCall) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// GetVerifyProfileID returns the value of VerifyProfileID.
+func (s *CreateVerificationRequestCall) GetVerifyProfileID() uuid.UUID {
+	return s.VerifyProfileID
+}
+
+// GetTimeoutSecs returns the value of TimeoutSecs.
+func (s *CreateVerificationRequestCall) GetTimeoutSecs() OptInt {
+	return s.TimeoutSecs
+}
+
+// GetCallTimeoutSecs returns the value of CallTimeoutSecs.
+func (s *CreateVerificationRequestCall) GetCallTimeoutSecs() OptInt {
+	return s.CallTimeoutSecs
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *CreateVerificationRequestCall) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// SetVerifyProfileID sets the value of VerifyProfileID.
+func (s *CreateVerificationRequestCall) SetVerifyProfileID(val uuid.UUID) {
+	s.VerifyProfileID = val
+}
+
+// SetTimeoutSecs sets the value of TimeoutSecs.
+func (s *CreateVerificationRequestCall) SetTimeoutSecs(val OptInt) {
+	s.TimeoutSecs = val
+}
+
+// SetCallTimeoutSecs sets the value of CallTimeoutSecs.
+func (s *CreateVerificationRequestCall) SetCallTimeoutSecs(val OptInt) {
+	s.CallTimeoutSecs = val
+}
+
+// The request body when creating a verification.
+// Ref: #/components/schemas/CreateVerificationRequestFlashcall
+type CreateVerificationRequestFlashcall struct {
+	// +E164 formatted phone number.
+	PhoneNumber string `json:"phone_number"`
+	// The identifier of the associated Verify profile.
+	VerifyProfileID uuid.UUID `json:"verify_profile_id"`
+	// The number of seconds the verification code is valid for.
+	TimeoutSecs OptInt `json:"timeout_secs"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *CreateVerificationRequestFlashcall) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// GetVerifyProfileID returns the value of VerifyProfileID.
+func (s *CreateVerificationRequestFlashcall) GetVerifyProfileID() uuid.UUID {
+	return s.VerifyProfileID
+}
+
+// GetTimeoutSecs returns the value of TimeoutSecs.
+func (s *CreateVerificationRequestFlashcall) GetTimeoutSecs() OptInt {
+	return s.TimeoutSecs
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *CreateVerificationRequestFlashcall) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// SetVerifyProfileID sets the value of VerifyProfileID.
+func (s *CreateVerificationRequestFlashcall) SetVerifyProfileID(val uuid.UUID) {
+	s.VerifyProfileID = val
+}
+
+// SetTimeoutSecs sets the value of TimeoutSecs.
+func (s *CreateVerificationRequestFlashcall) SetTimeoutSecs(val OptInt) {
+	s.TimeoutSecs = val
+}
+
+// The request body when creating a verification.
+// Ref: #/components/schemas/CreateVerificationRequestSMS
+type CreateVerificationRequestSMS struct {
+	// +E164 formatted phone number.
+	PhoneNumber string `json:"phone_number"`
+	// The identifier of the associated Verify profile.
+	VerifyProfileID uuid.UUID `json:"verify_profile_id"`
+	// The number of seconds the verification code is valid for.
+	TimeoutSecs OptInt `json:"timeout_secs"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *CreateVerificationRequestSMS) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// GetVerifyProfileID returns the value of VerifyProfileID.
+func (s *CreateVerificationRequestSMS) GetVerifyProfileID() uuid.UUID {
+	return s.VerifyProfileID
+}
+
+// GetTimeoutSecs returns the value of TimeoutSecs.
+func (s *CreateVerificationRequestSMS) GetTimeoutSecs() OptInt {
+	return s.TimeoutSecs
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *CreateVerificationRequestSMS) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// SetVerifyProfileID sets the value of VerifyProfileID.
+func (s *CreateVerificationRequestSMS) SetVerifyProfileID(val uuid.UUID) {
+	s.VerifyProfileID = val
+}
+
+// SetTimeoutSecs sets the value of TimeoutSecs.
+func (s *CreateVerificationRequestSMS) SetTimeoutSecs(val OptInt) {
+	s.TimeoutSecs = val
+}
+
+// Ref: #/components/schemas/CreateVerificationResponse
+type CreateVerificationResponse struct {
+	Data Verification `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateVerificationResponse) GetData() Verification {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateVerificationResponse) SetData(val Verification) {
+	s.Data = val
+}
+
+func (*CreateVerificationResponse) createFlashcallVerificationRes() {}
+func (*CreateVerificationResponse) createVerificationCallRes()      {}
+func (*CreateVerificationResponse) createVerificationSmsRes()       {}
+
+type CreateVerifiedNumberReq struct {
+	PhoneNumber string `json:"phone_number"`
+	// Verification method.
+	VerificationMethod CreateVerifiedNumberReqVerificationMethod `json:"verification_method"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *CreateVerifiedNumberReq) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// GetVerificationMethod returns the value of VerificationMethod.
+func (s *CreateVerifiedNumberReq) GetVerificationMethod() CreateVerifiedNumberReqVerificationMethod {
+	return s.VerificationMethod
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *CreateVerifiedNumberReq) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// SetVerificationMethod sets the value of VerificationMethod.
+func (s *CreateVerifiedNumberReq) SetVerificationMethod(val CreateVerifiedNumberReqVerificationMethod) {
+	s.VerificationMethod = val
+}
+
+// Verification method.
+type CreateVerifiedNumberReqVerificationMethod string
+
+const (
+	CreateVerifiedNumberReqVerificationMethodSMS  CreateVerifiedNumberReqVerificationMethod = "sms"
+	CreateVerifiedNumberReqVerificationMethodCall CreateVerifiedNumberReqVerificationMethod = "call"
+)
+
+// AllValues returns all CreateVerifiedNumberReqVerificationMethod values.
+func (CreateVerifiedNumberReqVerificationMethod) AllValues() []CreateVerifiedNumberReqVerificationMethod {
+	return []CreateVerifiedNumberReqVerificationMethod{
+		CreateVerifiedNumberReqVerificationMethodSMS,
+		CreateVerifiedNumberReqVerificationMethodCall,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateVerifiedNumberReqVerificationMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateVerifiedNumberReqVerificationMethodSMS:
+		return []byte(s), nil
+	case CreateVerifiedNumberReqVerificationMethodCall:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateVerifiedNumberReqVerificationMethod) UnmarshalText(data []byte) error {
+	switch CreateVerifiedNumberReqVerificationMethod(data) {
+	case CreateVerifiedNumberReqVerificationMethodSMS:
+		*s = CreateVerifiedNumberReqVerificationMethodSMS
+		return nil
+	case CreateVerifiedNumberReqVerificationMethodCall:
+		*s = CreateVerifiedNumberReqVerificationMethodCall
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CreateVerifiedNumberResponse
+type CreateVerifiedNumberResponse struct {
+	PhoneNumber        OptString `json:"phone_number"`
+	VerificationMethod OptString `json:"verification_method"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *CreateVerifiedNumberResponse) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetVerificationMethod returns the value of VerificationMethod.
+func (s *CreateVerifiedNumberResponse) GetVerificationMethod() OptString {
+	return s.VerificationMethod
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *CreateVerifiedNumberResponse) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetVerificationMethod sets the value of VerificationMethod.
+func (s *CreateVerifiedNumberResponse) SetVerificationMethod(val OptString) {
+	s.VerificationMethod = val
+}
+
+func (*CreateVerifiedNumberResponse) createVerifiedNumberRes() {}
+
 type CreatedAt string
 
 // Ref: #/components/schemas/CustomSipHeader
@@ -5812,6 +6063,9 @@ func (s *Errors) SetErrors(val []Error) {
 	s.Errors = val
 }
 
+func (*Errors) createVerifiedNumberRes() {}
+func (*Errors) listVerifiedNumbersRes()  {}
+
 type FindTexmlApplicationsBadRequest ErrorResponse
 
 func (*FindTexmlApplicationsBadRequest) findTexmlApplicationsRes() {}
@@ -6698,41 +6952,52 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 	s.Response = val
 }
 
-func (*GenericErrorResponseStatusCode) answerCallRes()             {}
-func (*GenericErrorResponseStatusCode) bridgeCallRes()             {}
-func (*GenericErrorResponseStatusCode) deleteVerifiedNumberRes()   {}
-func (*GenericErrorResponseStatusCode) dialCallRes()               {}
-func (*GenericErrorResponseStatusCode) enqueueCallRes()            {}
-func (*GenericErrorResponseStatusCode) gatherCallRes()             {}
-func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()       {}
-func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()       {}
-func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()      {}
-func (*GenericErrorResponseStatusCode) hangupCallRes()             {}
-func (*GenericErrorResponseStatusCode) leaveQueueRes()             {}
-func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()  {}
-func (*GenericErrorResponseStatusCode) noiseSuppressionStopRes()   {}
-func (*GenericErrorResponseStatusCode) pauseCallRecordingRes()     {}
-func (*GenericErrorResponseStatusCode) referCallRes()              {}
-func (*GenericErrorResponseStatusCode) registerCallRes()           {}
-func (*GenericErrorResponseStatusCode) rejectCallRes()             {}
-func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()    {}
-func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()     {}
-func (*GenericErrorResponseStatusCode) sendDTMFRes()               {}
-func (*GenericErrorResponseStatusCode) speakCallRes()              {}
-func (*GenericErrorResponseStatusCode) startCallForkRes()          {}
-func (*GenericErrorResponseStatusCode) startCallPlaybackRes()      {}
-func (*GenericErrorResponseStatusCode) startCallRecordRes()        {}
-func (*GenericErrorResponseStatusCode) startCallStreamingRes()     {}
-func (*GenericErrorResponseStatusCode) startCallTranscriptionRes() {}
-func (*GenericErrorResponseStatusCode) stopCallForkRes()           {}
-func (*GenericErrorResponseStatusCode) stopCallGatherRes()         {}
-func (*GenericErrorResponseStatusCode) stopCallPlaybackRes()       {}
-func (*GenericErrorResponseStatusCode) stopCallRecordingRes()      {}
-func (*GenericErrorResponseStatusCode) stopCallStreamingRes()      {}
-func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()  {}
-func (*GenericErrorResponseStatusCode) transferCallRes()           {}
-func (*GenericErrorResponseStatusCode) updateClientStateRes()      {}
-func (*GenericErrorResponseStatusCode) verifyVerificationCodeRes() {}
+func (*GenericErrorResponseStatusCode) answerCallRes()                          {}
+func (*GenericErrorResponseStatusCode) bridgeCallRes()                          {}
+func (*GenericErrorResponseStatusCode) createFlashcallVerificationRes()         {}
+func (*GenericErrorResponseStatusCode) createVerificationCallRes()              {}
+func (*GenericErrorResponseStatusCode) createVerificationSmsRes()               {}
+func (*GenericErrorResponseStatusCode) createVerifiedNumberRes()                {}
+func (*GenericErrorResponseStatusCode) deleteProfileRes()                       {}
+func (*GenericErrorResponseStatusCode) deleteVerifiedNumberRes()                {}
+func (*GenericErrorResponseStatusCode) dialCallRes()                            {}
+func (*GenericErrorResponseStatusCode) enqueueCallRes()                         {}
+func (*GenericErrorResponseStatusCode) gatherCallRes()                          {}
+func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()                    {}
+func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()                    {}
+func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()                   {}
+func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                    {}
+func (*GenericErrorResponseStatusCode) hangupCallRes()                          {}
+func (*GenericErrorResponseStatusCode) leaveQueueRes()                          {}
+func (*GenericErrorResponseStatusCode) listVerificationsRes()                   {}
+func (*GenericErrorResponseStatusCode) listVerifiedNumbersRes()                 {}
+func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()               {}
+func (*GenericErrorResponseStatusCode) noiseSuppressionStopRes()                {}
+func (*GenericErrorResponseStatusCode) pauseCallRecordingRes()                  {}
+func (*GenericErrorResponseStatusCode) referCallRes()                           {}
+func (*GenericErrorResponseStatusCode) registerCallRes()                        {}
+func (*GenericErrorResponseStatusCode) rejectCallRes()                          {}
+func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                 {}
+func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                  {}
+func (*GenericErrorResponseStatusCode) retrieveVerificationRes()                {}
+func (*GenericErrorResponseStatusCode) sendDTMFRes()                            {}
+func (*GenericErrorResponseStatusCode) speakCallRes()                           {}
+func (*GenericErrorResponseStatusCode) startCallForkRes()                       {}
+func (*GenericErrorResponseStatusCode) startCallPlaybackRes()                   {}
+func (*GenericErrorResponseStatusCode) startCallRecordRes()                     {}
+func (*GenericErrorResponseStatusCode) startCallStreamingRes()                  {}
+func (*GenericErrorResponseStatusCode) startCallTranscriptionRes()              {}
+func (*GenericErrorResponseStatusCode) stopCallForkRes()                        {}
+func (*GenericErrorResponseStatusCode) stopCallGatherRes()                      {}
+func (*GenericErrorResponseStatusCode) stopCallPlaybackRes()                    {}
+func (*GenericErrorResponseStatusCode) stopCallRecordingRes()                   {}
+func (*GenericErrorResponseStatusCode) stopCallStreamingRes()                   {}
+func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()               {}
+func (*GenericErrorResponseStatusCode) transferCallRes()                        {}
+func (*GenericErrorResponseStatusCode) updateClientStateRes()                   {}
+func (*GenericErrorResponseStatusCode) updateVerifyProfileRes()                 {}
+func (*GenericErrorResponseStatusCode) verifyVerificationCodeByPhoneNumberRes() {}
+func (*GenericErrorResponseStatusCode) verifyVerificationCodeRes()              {}
 
 type GetAllTexmlApplicationsResponse struct {
 	Data []TexmlApplication `json:"data"`
@@ -7994,6 +8259,85 @@ type ListUsageReportsOptionsInternalServerError ErrorResponse
 
 func (*ListUsageReportsOptionsInternalServerError) listUsageReportsOptionsRes() {}
 
+// Ref: #/components/schemas/ListVerificationsResponse
+type ListVerificationsResponse struct {
+	Data []Verification `json:"data"`
+	Meta Meta           `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListVerificationsResponse) GetData() []Verification {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListVerificationsResponse) GetMeta() Meta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListVerificationsResponse) SetData(val []Verification) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListVerificationsResponse) SetMeta(val Meta) {
+	s.Meta = val
+}
+
+func (*ListVerificationsResponse) listVerificationsRes() {}
+
+// A paginated list of Verified Numbers.
+// Ref: #/components/schemas/ListVerifiedNumbersResponse
+type ListVerifiedNumbersResponse struct {
+	Data []VerifiedNumberResponse `json:"data"`
+	Meta Meta                     `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListVerifiedNumbersResponse) GetData() []VerifiedNumberResponse {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListVerifiedNumbersResponse) GetMeta() Meta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListVerifiedNumbersResponse) SetData(val []VerifiedNumberResponse) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListVerifiedNumbersResponse) SetMeta(val Meta) {
+	s.Meta = val
+}
+
+func (*ListVerifiedNumbersResponse) listVerifiedNumbersRes() {}
+
+type ListVerifiedNumbersUnprocessableEntityApplicationJSON jx.Raw
+
+func (*ListVerifiedNumbersUnprocessableEntityApplicationJSON) createVerifiedNumberRes()   {}
+func (*ListVerifiedNumbersUnprocessableEntityApplicationJSON) listVerifiedNumbersRes()    {}
+func (*ListVerifiedNumbersUnprocessableEntityApplicationJSON) verifyVerificationCodeRes() {}
+
+// A list of Verify profile message templates.
+// Ref: #/components/schemas/ListVerifyProfileMessageTemplateResponse
+type ListVerifyProfileMessageTemplateResponse struct {
+	Data []VerifyProfileMessageTemplateResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ListVerifyProfileMessageTemplateResponse) GetData() []VerifyProfileMessageTemplateResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ListVerifyProfileMessageTemplateResponse) SetData(val []VerifyProfileMessageTemplateResponse) {
+	s.Data = val
+}
+
 // Ref: #/components/schemas/Loopcount
 // Loopcount represents sum type.
 type Loopcount struct {
@@ -8496,6 +8840,54 @@ func (s *MdrUsageReportResponseStatus) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// Ref: #/components/schemas/Meta
+type Meta struct {
+	TotalPages   OptInt `json:"total_pages"`
+	TotalResults OptInt `json:"total_results"`
+	PageNumber   OptInt `json:"page_number"`
+	PageSize     OptInt `json:"page_size"`
+}
+
+// GetTotalPages returns the value of TotalPages.
+func (s *Meta) GetTotalPages() OptInt {
+	return s.TotalPages
+}
+
+// GetTotalResults returns the value of TotalResults.
+func (s *Meta) GetTotalResults() OptInt {
+	return s.TotalResults
+}
+
+// GetPageNumber returns the value of PageNumber.
+func (s *Meta) GetPageNumber() OptInt {
+	return s.PageNumber
+}
+
+// GetPageSize returns the value of PageSize.
+func (s *Meta) GetPageSize() OptInt {
+	return s.PageSize
+}
+
+// SetTotalPages sets the value of TotalPages.
+func (s *Meta) SetTotalPages(val OptInt) {
+	s.TotalPages = val
+}
+
+// SetTotalResults sets the value of TotalResults.
+func (s *Meta) SetTotalResults(val OptInt) {
+	s.TotalResults = val
+}
+
+// SetPageNumber sets the value of PageNumber.
+func (s *Meta) SetPageNumber(val OptInt) {
+	s.PageNumber = val
+}
+
+// SetPageSize sets the value of PageSize.
+func (s *Meta) SetPageSize(val OptInt) {
+	s.PageSize = val
 }
 
 // Ref: #/components/schemas/MetaResponse
@@ -13369,6 +13761,69 @@ func (o OptNilConferenceSid) Or(d ConferenceSid) ConferenceSid {
 	return d
 }
 
+// NewOptNilString returns new OptNilString with value set to v.
+func NewOptNilString(v string) OptNilString {
+	return OptNilString{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilString is optional nullable string.
+type OptNilString struct {
+	Value string
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilString was set.
+func (o OptNilString) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilString) Reset() {
+	var v string
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilString) SetTo(v string) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilString) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilString) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v string
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilString) Get() (v string, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilTexmlErrorCode returns new OptNilTexmlErrorCode with value set to v.
 func NewOptNilTexmlErrorCode(v TexmlErrorCode) OptNilTexmlErrorCode {
 	return OptNilTexmlErrorCode{
@@ -16768,6 +17223,144 @@ func (o OptUpdateTexmlApplicationRequestVoiceMethod) Or(d UpdateTexmlApplication
 	return d
 }
 
+// NewOptUpdateVerifyProfileCallRequest returns new OptUpdateVerifyProfileCallRequest with value set to v.
+func NewOptUpdateVerifyProfileCallRequest(v UpdateVerifyProfileCallRequest) OptUpdateVerifyProfileCallRequest {
+	return OptUpdateVerifyProfileCallRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateVerifyProfileCallRequest is optional UpdateVerifyProfileCallRequest.
+type OptUpdateVerifyProfileCallRequest struct {
+	Value UpdateVerifyProfileCallRequest
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateVerifyProfileCallRequest was set.
+func (o OptUpdateVerifyProfileCallRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateVerifyProfileCallRequest) Reset() {
+	var v UpdateVerifyProfileCallRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateVerifyProfileCallRequest) SetTo(v UpdateVerifyProfileCallRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateVerifyProfileCallRequest) Get() (v UpdateVerifyProfileCallRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateVerifyProfileCallRequest) Or(d UpdateVerifyProfileCallRequest) UpdateVerifyProfileCallRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateVerifyProfileFlashcallRequest returns new OptUpdateVerifyProfileFlashcallRequest with value set to v.
+func NewOptUpdateVerifyProfileFlashcallRequest(v UpdateVerifyProfileFlashcallRequest) OptUpdateVerifyProfileFlashcallRequest {
+	return OptUpdateVerifyProfileFlashcallRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateVerifyProfileFlashcallRequest is optional UpdateVerifyProfileFlashcallRequest.
+type OptUpdateVerifyProfileFlashcallRequest struct {
+	Value UpdateVerifyProfileFlashcallRequest
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateVerifyProfileFlashcallRequest was set.
+func (o OptUpdateVerifyProfileFlashcallRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateVerifyProfileFlashcallRequest) Reset() {
+	var v UpdateVerifyProfileFlashcallRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateVerifyProfileFlashcallRequest) SetTo(v UpdateVerifyProfileFlashcallRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateVerifyProfileFlashcallRequest) Get() (v UpdateVerifyProfileFlashcallRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateVerifyProfileFlashcallRequest) Or(d UpdateVerifyProfileFlashcallRequest) UpdateVerifyProfileFlashcallRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateVerifyProfileSMSRequest returns new OptUpdateVerifyProfileSMSRequest with value set to v.
+func NewOptUpdateVerifyProfileSMSRequest(v UpdateVerifyProfileSMSRequest) OptUpdateVerifyProfileSMSRequest {
+	return OptUpdateVerifyProfileSMSRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateVerifyProfileSMSRequest is optional UpdateVerifyProfileSMSRequest.
+type OptUpdateVerifyProfileSMSRequest struct {
+	Value UpdateVerifyProfileSMSRequest
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateVerifyProfileSMSRequest was set.
+func (o OptUpdateVerifyProfileSMSRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateVerifyProfileSMSRequest) Reset() {
+	var v UpdateVerifyProfileSMSRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateVerifyProfileSMSRequest) SetTo(v UpdateVerifyProfileSMSRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateVerifyProfileSMSRequest) Get() (v UpdateVerifyProfileSMSRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateVerifyProfileSMSRequest) Or(d UpdateVerifyProfileSMSRequest) UpdateVerifyProfileSMSRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUpdatedAt returns new OptUpdatedAt with value set to v.
 func NewOptUpdatedAt(v UpdatedAt) OptUpdatedAt {
 	return OptUpdatedAt{
@@ -16808,6 +17401,190 @@ func (o OptUpdatedAt) Get() (v UpdatedAt, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptUpdatedAt) Or(d UpdatedAt) UpdatedAt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerificationProfileRecordType returns new OptVerificationProfileRecordType with value set to v.
+func NewOptVerificationProfileRecordType(v VerificationProfileRecordType) OptVerificationProfileRecordType {
+	return OptVerificationProfileRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerificationProfileRecordType is optional VerificationProfileRecordType.
+type OptVerificationProfileRecordType struct {
+	Value VerificationProfileRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptVerificationProfileRecordType was set.
+func (o OptVerificationProfileRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerificationProfileRecordType) Reset() {
+	var v VerificationProfileRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerificationProfileRecordType) SetTo(v VerificationProfileRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerificationProfileRecordType) Get() (v VerificationProfileRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerificationProfileRecordType) Or(d VerificationProfileRecordType) VerificationProfileRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerificationRecordType returns new OptVerificationRecordType with value set to v.
+func NewOptVerificationRecordType(v VerificationRecordType) OptVerificationRecordType {
+	return OptVerificationRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerificationRecordType is optional VerificationRecordType.
+type OptVerificationRecordType struct {
+	Value VerificationRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptVerificationRecordType was set.
+func (o OptVerificationRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerificationRecordType) Reset() {
+	var v VerificationRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerificationRecordType) SetTo(v VerificationRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerificationRecordType) Get() (v VerificationRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerificationRecordType) Or(d VerificationRecordType) VerificationRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerificationStatus returns new OptVerificationStatus with value set to v.
+func NewOptVerificationStatus(v VerificationStatus) OptVerificationStatus {
+	return OptVerificationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerificationStatus is optional VerificationStatus.
+type OptVerificationStatus struct {
+	Value VerificationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptVerificationStatus was set.
+func (o OptVerificationStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerificationStatus) Reset() {
+	var v VerificationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerificationStatus) SetTo(v VerificationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerificationStatus) Get() (v VerificationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerificationStatus) Or(d VerificationStatus) VerificationStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerificationType returns new OptVerificationType with value set to v.
+func NewOptVerificationType(v VerificationType) OptVerificationType {
+	return OptVerificationType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerificationType is optional VerificationType.
+type OptVerificationType struct {
+	Value VerificationType
+	Set   bool
+}
+
+// IsSet returns true if OptVerificationType was set.
+func (o OptVerificationType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerificationType) Reset() {
+	var v VerificationType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerificationType) SetTo(v VerificationType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerificationType) Get() (v VerificationType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerificationType) Or(d VerificationType) VerificationType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -16900,6 +17677,190 @@ func (o OptVerifiedNumberResponse) Get() (v VerifiedNumberResponse, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptVerifiedNumberResponse) Or(d VerifiedNumberResponse) VerifiedNumberResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifyProfileCallResponse returns new OptVerifyProfileCallResponse with value set to v.
+func NewOptVerifyProfileCallResponse(v VerifyProfileCallResponse) OptVerifyProfileCallResponse {
+	return OptVerifyProfileCallResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifyProfileCallResponse is optional VerifyProfileCallResponse.
+type OptVerifyProfileCallResponse struct {
+	Value VerifyProfileCallResponse
+	Set   bool
+}
+
+// IsSet returns true if OptVerifyProfileCallResponse was set.
+func (o OptVerifyProfileCallResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifyProfileCallResponse) Reset() {
+	var v VerifyProfileCallResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifyProfileCallResponse) SetTo(v VerifyProfileCallResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifyProfileCallResponse) Get() (v VerifyProfileCallResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifyProfileCallResponse) Or(d VerifyProfileCallResponse) VerifyProfileCallResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifyProfileFlashcallResponse returns new OptVerifyProfileFlashcallResponse with value set to v.
+func NewOptVerifyProfileFlashcallResponse(v VerifyProfileFlashcallResponse) OptVerifyProfileFlashcallResponse {
+	return OptVerifyProfileFlashcallResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifyProfileFlashcallResponse is optional VerifyProfileFlashcallResponse.
+type OptVerifyProfileFlashcallResponse struct {
+	Value VerifyProfileFlashcallResponse
+	Set   bool
+}
+
+// IsSet returns true if OptVerifyProfileFlashcallResponse was set.
+func (o OptVerifyProfileFlashcallResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifyProfileFlashcallResponse) Reset() {
+	var v VerifyProfileFlashcallResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifyProfileFlashcallResponse) SetTo(v VerifyProfileFlashcallResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifyProfileFlashcallResponse) Get() (v VerifyProfileFlashcallResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifyProfileFlashcallResponse) Or(d VerifyProfileFlashcallResponse) VerifyProfileFlashcallResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifyProfileResponse returns new OptVerifyProfileResponse with value set to v.
+func NewOptVerifyProfileResponse(v VerifyProfileResponse) OptVerifyProfileResponse {
+	return OptVerifyProfileResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifyProfileResponse is optional VerifyProfileResponse.
+type OptVerifyProfileResponse struct {
+	Value VerifyProfileResponse
+	Set   bool
+}
+
+// IsSet returns true if OptVerifyProfileResponse was set.
+func (o OptVerifyProfileResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifyProfileResponse) Reset() {
+	var v VerifyProfileResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifyProfileResponse) SetTo(v VerifyProfileResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifyProfileResponse) Get() (v VerifyProfileResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifyProfileResponse) Or(d VerifyProfileResponse) VerifyProfileResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVerifyProfileSMSResponse returns new OptVerifyProfileSMSResponse with value set to v.
+func NewOptVerifyProfileSMSResponse(v VerifyProfileSMSResponse) OptVerifyProfileSMSResponse {
+	return OptVerifyProfileSMSResponse{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVerifyProfileSMSResponse is optional VerifyProfileSMSResponse.
+type OptVerifyProfileSMSResponse struct {
+	Value VerifyProfileSMSResponse
+	Set   bool
+}
+
+// IsSet returns true if OptVerifyProfileSMSResponse was set.
+func (o OptVerifyProfileSMSResponse) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVerifyProfileSMSResponse) Reset() {
+	var v VerifyProfileSMSResponse
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVerifyProfileSMSResponse) SetTo(v VerifyProfileSMSResponse) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVerifyProfileSMSResponse) Get() (v VerifyProfileSMSResponse, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVerifyProfileSMSResponse) Or(d VerifyProfileSMSResponse) VerifyProfileSMSResponse {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -18358,6 +19319,23 @@ func (s *RetrieveCallStatusResponse) SetData(val OptCall) {
 
 func (*RetrieveCallStatusResponse) dialCallRes()           {}
 func (*RetrieveCallStatusResponse) retrieveCallStatusRes() {}
+
+// Ref: #/components/schemas/RetrieveVerificationResponse
+type RetrieveVerificationResponse struct {
+	Data Verification `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *RetrieveVerificationResponse) GetData() Verification {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *RetrieveVerificationResponse) SetData(val Verification) {
+	s.Data = val
+}
+
+func (*RetrieveVerificationResponse) retrieveVerificationRes() {}
 
 // Ref: #/components/schemas/SendDTMFRequest
 type SendDTMFRequest struct {
@@ -23162,6 +24140,240 @@ type UpdateTexmlApplicationUnprocessableEntity ErrorResponse
 
 func (*UpdateTexmlApplicationUnprocessableEntity) updateTexmlApplicationRes() {}
 
+// Ref: #/components/schemas/UpdateVerifyProfileCallRequest
+type UpdateVerifyProfileCallRequest struct {
+	// The message template identifier selected from /verify_profiles/templates.
+	MessagingTemplateID OptUUID `json:"messaging_template_id"`
+	// The name that identifies the application requesting 2fa in the verification message.
+	AppName OptString `json:"app_name"`
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetMessagingTemplateID returns the value of MessagingTemplateID.
+func (s *UpdateVerifyProfileCallRequest) GetMessagingTemplateID() OptUUID {
+	return s.MessagingTemplateID
+}
+
+// GetAppName returns the value of AppName.
+func (s *UpdateVerifyProfileCallRequest) GetAppName() OptString {
+	return s.AppName
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *UpdateVerifyProfileCallRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *UpdateVerifyProfileCallRequest) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetMessagingTemplateID sets the value of MessagingTemplateID.
+func (s *UpdateVerifyProfileCallRequest) SetMessagingTemplateID(val OptUUID) {
+	s.MessagingTemplateID = val
+}
+
+// SetAppName sets the value of AppName.
+func (s *UpdateVerifyProfileCallRequest) SetAppName(val OptString) {
+	s.AppName = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *UpdateVerifyProfileCallRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *UpdateVerifyProfileCallRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
+// Ref: #/components/schemas/UpdateVerifyProfileFlashcallRequest
+type UpdateVerifyProfileFlashcallRequest struct {
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *UpdateVerifyProfileFlashcallRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *UpdateVerifyProfileFlashcallRequest) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *UpdateVerifyProfileFlashcallRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *UpdateVerifyProfileFlashcallRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
+type UpdateVerifyProfileReq struct {
+	Name               OptString                              `json:"name"`
+	WebhookURL         OptString                              `json:"webhook_url"`
+	WebhookFailoverURL OptString                              `json:"webhook_failover_url"`
+	SMS                OptUpdateVerifyProfileSMSRequest       `json:"sms"`
+	Call               OptUpdateVerifyProfileCallRequest      `json:"call"`
+	Flashcall          OptUpdateVerifyProfileFlashcallRequest `json:"flashcall"`
+	Language           OptString                              `json:"language"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateVerifyProfileReq) GetName() OptString {
+	return s.Name
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *UpdateVerifyProfileReq) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *UpdateVerifyProfileReq) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetSMS returns the value of SMS.
+func (s *UpdateVerifyProfileReq) GetSMS() OptUpdateVerifyProfileSMSRequest {
+	return s.SMS
+}
+
+// GetCall returns the value of Call.
+func (s *UpdateVerifyProfileReq) GetCall() OptUpdateVerifyProfileCallRequest {
+	return s.Call
+}
+
+// GetFlashcall returns the value of Flashcall.
+func (s *UpdateVerifyProfileReq) GetFlashcall() OptUpdateVerifyProfileFlashcallRequest {
+	return s.Flashcall
+}
+
+// GetLanguage returns the value of Language.
+func (s *UpdateVerifyProfileReq) GetLanguage() OptString {
+	return s.Language
+}
+
+// SetName sets the value of Name.
+func (s *UpdateVerifyProfileReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *UpdateVerifyProfileReq) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *UpdateVerifyProfileReq) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetSMS sets the value of SMS.
+func (s *UpdateVerifyProfileReq) SetSMS(val OptUpdateVerifyProfileSMSRequest) {
+	s.SMS = val
+}
+
+// SetCall sets the value of Call.
+func (s *UpdateVerifyProfileReq) SetCall(val OptUpdateVerifyProfileCallRequest) {
+	s.Call = val
+}
+
+// SetFlashcall sets the value of Flashcall.
+func (s *UpdateVerifyProfileReq) SetFlashcall(val OptUpdateVerifyProfileFlashcallRequest) {
+	s.Flashcall = val
+}
+
+// SetLanguage sets the value of Language.
+func (s *UpdateVerifyProfileReq) SetLanguage(val OptString) {
+	s.Language = val
+}
+
+// Ref: #/components/schemas/UpdateVerifyProfileSMSRequest
+type UpdateVerifyProfileSMSRequest struct {
+	// The message template identifier selected from /verify_profiles/templates.
+	MessagingTemplateID OptUUID `json:"messaging_template_id"`
+	// The name that identifies the application requesting 2fa in the verification message.
+	AppName OptString `json:"app_name"`
+	// The alphanumeric sender ID to use when sending to destinations that require an alphanumeric sender
+	// ID.
+	AlphaSender OptNilString `json:"alpha_sender"`
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetMessagingTemplateID returns the value of MessagingTemplateID.
+func (s *UpdateVerifyProfileSMSRequest) GetMessagingTemplateID() OptUUID {
+	return s.MessagingTemplateID
+}
+
+// GetAppName returns the value of AppName.
+func (s *UpdateVerifyProfileSMSRequest) GetAppName() OptString {
+	return s.AppName
+}
+
+// GetAlphaSender returns the value of AlphaSender.
+func (s *UpdateVerifyProfileSMSRequest) GetAlphaSender() OptNilString {
+	return s.AlphaSender
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *UpdateVerifyProfileSMSRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *UpdateVerifyProfileSMSRequest) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetMessagingTemplateID sets the value of MessagingTemplateID.
+func (s *UpdateVerifyProfileSMSRequest) SetMessagingTemplateID(val OptUUID) {
+	s.MessagingTemplateID = val
+}
+
+// SetAppName sets the value of AppName.
+func (s *UpdateVerifyProfileSMSRequest) SetAppName(val OptString) {
+	s.AppName = val
+}
+
+// SetAlphaSender sets the value of AlphaSender.
+func (s *UpdateVerifyProfileSMSRequest) SetAlphaSender(val OptNilString) {
+	s.AlphaSender = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *UpdateVerifyProfileSMSRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *UpdateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
 type UpdatedAt string
 
 // An object following one of the schemas published in https://developers.telnyx.
@@ -23277,6 +24489,300 @@ func (s *UsageReportsResponseDataItem) init() UsageReportsResponseDataItem {
 	return m
 }
 
+// Ref: #/components/schemas/Verification
+type Verification struct {
+	ID         OptUUID                   `json:"id"`
+	Type       OptVerificationType       `json:"type"`
+	RecordType OptVerificationRecordType `json:"record_type"`
+	// +E164 formatted phone number.
+	PhoneNumber OptString `json:"phone_number"`
+	// The identifier of the associated Verify profile.
+	VerifyProfileID OptUUID `json:"verify_profile_id"`
+	// This is the number of seconds before the code of the request is expired. Once this request has
+	// expired, the code will no longer verify the user. Note: this will override the
+	// `default_verification_timeout_secs` on the Verify profile.
+	TimeoutSecs OptInt                `json:"timeout_secs"`
+	Status      OptVerificationStatus `json:"status"`
+	CreatedAt   OptString             `json:"created_at"`
+	UpdatedAt   OptString             `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *Verification) GetID() OptUUID {
+	return s.ID
+}
+
+// GetType returns the value of Type.
+func (s *Verification) GetType() OptVerificationType {
+	return s.Type
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *Verification) GetRecordType() OptVerificationRecordType {
+	return s.RecordType
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *Verification) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetVerifyProfileID returns the value of VerifyProfileID.
+func (s *Verification) GetVerifyProfileID() OptUUID {
+	return s.VerifyProfileID
+}
+
+// GetTimeoutSecs returns the value of TimeoutSecs.
+func (s *Verification) GetTimeoutSecs() OptInt {
+	return s.TimeoutSecs
+}
+
+// GetStatus returns the value of Status.
+func (s *Verification) GetStatus() OptVerificationStatus {
+	return s.Status
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *Verification) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *Verification) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *Verification) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetType sets the value of Type.
+func (s *Verification) SetType(val OptVerificationType) {
+	s.Type = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *Verification) SetRecordType(val OptVerificationRecordType) {
+	s.RecordType = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *Verification) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetVerifyProfileID sets the value of VerifyProfileID.
+func (s *Verification) SetVerifyProfileID(val OptUUID) {
+	s.VerifyProfileID = val
+}
+
+// SetTimeoutSecs sets the value of TimeoutSecs.
+func (s *Verification) SetTimeoutSecs(val OptInt) {
+	s.TimeoutSecs = val
+}
+
+// SetStatus sets the value of Status.
+func (s *Verification) SetStatus(val OptVerificationStatus) {
+	s.Status = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *Verification) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *Verification) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// The possible verification profile record types.
+// Ref: #/components/schemas/VerificationProfileRecordType
+type VerificationProfileRecordType string
+
+const (
+	VerificationProfileRecordTypeVerificationProfile VerificationProfileRecordType = "verification_profile"
+)
+
+// AllValues returns all VerificationProfileRecordType values.
+func (VerificationProfileRecordType) AllValues() []VerificationProfileRecordType {
+	return []VerificationProfileRecordType{
+		VerificationProfileRecordTypeVerificationProfile,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerificationProfileRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case VerificationProfileRecordTypeVerificationProfile:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerificationProfileRecordType) UnmarshalText(data []byte) error {
+	switch VerificationProfileRecordType(data) {
+	case VerificationProfileRecordTypeVerificationProfile:
+		*s = VerificationProfileRecordTypeVerificationProfile
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The possible verification record types.
+// Ref: #/components/schemas/VerificationRecordType
+type VerificationRecordType string
+
+const (
+	VerificationRecordTypeVerification VerificationRecordType = "verification"
+)
+
+// AllValues returns all VerificationRecordType values.
+func (VerificationRecordType) AllValues() []VerificationRecordType {
+	return []VerificationRecordType{
+		VerificationRecordTypeVerification,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerificationRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case VerificationRecordTypeVerification:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerificationRecordType) UnmarshalText(data []byte) error {
+	switch VerificationRecordType(data) {
+	case VerificationRecordTypeVerification:
+		*s = VerificationRecordTypeVerification
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The possible statuses of the verification request.
+// Ref: #/components/schemas/VerificationStatus
+type VerificationStatus string
+
+const (
+	VerificationStatusPending  VerificationStatus = "pending"
+	VerificationStatusAccepted VerificationStatus = "accepted"
+	VerificationStatusInvalid  VerificationStatus = "invalid"
+	VerificationStatusExpired  VerificationStatus = "expired"
+	VerificationStatusError    VerificationStatus = "error"
+)
+
+// AllValues returns all VerificationStatus values.
+func (VerificationStatus) AllValues() []VerificationStatus {
+	return []VerificationStatus{
+		VerificationStatusPending,
+		VerificationStatusAccepted,
+		VerificationStatusInvalid,
+		VerificationStatusExpired,
+		VerificationStatusError,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerificationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case VerificationStatusPending:
+		return []byte(s), nil
+	case VerificationStatusAccepted:
+		return []byte(s), nil
+	case VerificationStatusInvalid:
+		return []byte(s), nil
+	case VerificationStatusExpired:
+		return []byte(s), nil
+	case VerificationStatusError:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerificationStatus) UnmarshalText(data []byte) error {
+	switch VerificationStatus(data) {
+	case VerificationStatusPending:
+		*s = VerificationStatusPending
+		return nil
+	case VerificationStatusAccepted:
+		*s = VerificationStatusAccepted
+		return nil
+	case VerificationStatusInvalid:
+		*s = VerificationStatusInvalid
+		return nil
+	case VerificationStatusExpired:
+		*s = VerificationStatusExpired
+		return nil
+	case VerificationStatusError:
+		*s = VerificationStatusError
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The possible types of verification.
+// Ref: #/components/schemas/VerificationType
+type VerificationType string
+
+const (
+	VerificationTypeSMS       VerificationType = "sms"
+	VerificationTypeCall      VerificationType = "call"
+	VerificationTypeFlashcall VerificationType = "flashcall"
+)
+
+// AllValues returns all VerificationType values.
+func (VerificationType) AllValues() []VerificationType {
+	return []VerificationType{
+		VerificationTypeSMS,
+		VerificationTypeCall,
+		VerificationTypeFlashcall,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerificationType) MarshalText() ([]byte, error) {
+	switch s {
+	case VerificationTypeSMS:
+		return []byte(s), nil
+	case VerificationTypeCall:
+		return []byte(s), nil
+	case VerificationTypeFlashcall:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerificationType) UnmarshalText(data []byte) error {
+	switch VerificationType(data) {
+	case VerificationTypeSMS:
+		*s = VerificationTypeSMS
+		return nil
+	case VerificationTypeCall:
+		*s = VerificationTypeCall
+		return nil
+	case VerificationTypeFlashcall:
+		*s = VerificationTypeFlashcall
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // The possible verified numbers record types.
 // Ref: #/components/schemas/VerifiedNumberRecordType
 type VerifiedNumberRecordType string
@@ -23369,6 +24875,317 @@ func (*VerifiedNumberResponseDataWrapper) deleteVerifiedNumberRes()   {}
 func (*VerifiedNumberResponseDataWrapper) getVerifiedNumberRes()      {}
 func (*VerifiedNumberResponseDataWrapper) verifyVerificationCodeRes() {}
 
+// Ref: #/components/schemas/VerifyProfileCallResponse
+type VerifyProfileCallResponse struct {
+	// The message template identifier selected from /verify_profiles/templates.
+	MessagingTemplateID OptUUID `json:"messaging_template_id"`
+	// The name that identifies the application requesting 2fa in the verification message.
+	AppName OptString `json:"app_name"`
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetMessagingTemplateID returns the value of MessagingTemplateID.
+func (s *VerifyProfileCallResponse) GetMessagingTemplateID() OptUUID {
+	return s.MessagingTemplateID
+}
+
+// GetAppName returns the value of AppName.
+func (s *VerifyProfileCallResponse) GetAppName() OptString {
+	return s.AppName
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *VerifyProfileCallResponse) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *VerifyProfileCallResponse) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetMessagingTemplateID sets the value of MessagingTemplateID.
+func (s *VerifyProfileCallResponse) SetMessagingTemplateID(val OptUUID) {
+	s.MessagingTemplateID = val
+}
+
+// SetAppName sets the value of AppName.
+func (s *VerifyProfileCallResponse) SetAppName(val OptString) {
+	s.AppName = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *VerifyProfileCallResponse) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *VerifyProfileCallResponse) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
+// Ref: #/components/schemas/VerifyProfileFlashcallResponse
+type VerifyProfileFlashcallResponse struct {
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *VerifyProfileFlashcallResponse) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *VerifyProfileFlashcallResponse) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
+// Ref: #/components/schemas/VerifyProfileMessageTemplateResponse
+type VerifyProfileMessageTemplateResponse struct {
+	ID   OptUUID   `json:"id"`
+	Text OptString `json:"text"`
+}
+
+// GetID returns the value of ID.
+func (s *VerifyProfileMessageTemplateResponse) GetID() OptUUID {
+	return s.ID
+}
+
+// GetText returns the value of Text.
+func (s *VerifyProfileMessageTemplateResponse) GetText() OptString {
+	return s.Text
+}
+
+// SetID sets the value of ID.
+func (s *VerifyProfileMessageTemplateResponse) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetText sets the value of Text.
+func (s *VerifyProfileMessageTemplateResponse) SetText(val OptString) {
+	s.Text = val
+}
+
+// Ref: #/components/schemas/VerifyProfileResponse
+type VerifyProfileResponse struct {
+	ID                 OptUUID                           `json:"id"`
+	Name               OptString                         `json:"name"`
+	WebhookURL         OptString                         `json:"webhook_url"`
+	WebhookFailoverURL OptString                         `json:"webhook_failover_url"`
+	RecordType         OptVerificationProfileRecordType  `json:"record_type"`
+	CreatedAt          OptString                         `json:"created_at"`
+	UpdatedAt          OptString                         `json:"updated_at"`
+	SMS                OptVerifyProfileSMSResponse       `json:"sms"`
+	Call               OptVerifyProfileCallResponse      `json:"call"`
+	Flashcall          OptVerifyProfileFlashcallResponse `json:"flashcall"`
+	Language           OptString                         `json:"language"`
+}
+
+// GetID returns the value of ID.
+func (s *VerifyProfileResponse) GetID() OptUUID {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *VerifyProfileResponse) GetName() OptString {
+	return s.Name
+}
+
+// GetWebhookURL returns the value of WebhookURL.
+func (s *VerifyProfileResponse) GetWebhookURL() OptString {
+	return s.WebhookURL
+}
+
+// GetWebhookFailoverURL returns the value of WebhookFailoverURL.
+func (s *VerifyProfileResponse) GetWebhookFailoverURL() OptString {
+	return s.WebhookFailoverURL
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *VerifyProfileResponse) GetRecordType() OptVerificationProfileRecordType {
+	return s.RecordType
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *VerifyProfileResponse) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *VerifyProfileResponse) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetSMS returns the value of SMS.
+func (s *VerifyProfileResponse) GetSMS() OptVerifyProfileSMSResponse {
+	return s.SMS
+}
+
+// GetCall returns the value of Call.
+func (s *VerifyProfileResponse) GetCall() OptVerifyProfileCallResponse {
+	return s.Call
+}
+
+// GetFlashcall returns the value of Flashcall.
+func (s *VerifyProfileResponse) GetFlashcall() OptVerifyProfileFlashcallResponse {
+	return s.Flashcall
+}
+
+// GetLanguage returns the value of Language.
+func (s *VerifyProfileResponse) GetLanguage() OptString {
+	return s.Language
+}
+
+// SetID sets the value of ID.
+func (s *VerifyProfileResponse) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *VerifyProfileResponse) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetWebhookURL sets the value of WebhookURL.
+func (s *VerifyProfileResponse) SetWebhookURL(val OptString) {
+	s.WebhookURL = val
+}
+
+// SetWebhookFailoverURL sets the value of WebhookFailoverURL.
+func (s *VerifyProfileResponse) SetWebhookFailoverURL(val OptString) {
+	s.WebhookFailoverURL = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *VerifyProfileResponse) SetRecordType(val OptVerificationProfileRecordType) {
+	s.RecordType = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *VerifyProfileResponse) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *VerifyProfileResponse) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetSMS sets the value of SMS.
+func (s *VerifyProfileResponse) SetSMS(val OptVerifyProfileSMSResponse) {
+	s.SMS = val
+}
+
+// SetCall sets the value of Call.
+func (s *VerifyProfileResponse) SetCall(val OptVerifyProfileCallResponse) {
+	s.Call = val
+}
+
+// SetFlashcall sets the value of Flashcall.
+func (s *VerifyProfileResponse) SetFlashcall(val OptVerifyProfileFlashcallResponse) {
+	s.Flashcall = val
+}
+
+// SetLanguage sets the value of Language.
+func (s *VerifyProfileResponse) SetLanguage(val OptString) {
+	s.Language = val
+}
+
+// Ref: #/components/schemas/VerifyProfileResponseDataWrapper
+type VerifyProfileResponseDataWrapper struct {
+	Data OptVerifyProfileResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *VerifyProfileResponseDataWrapper) GetData() OptVerifyProfileResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *VerifyProfileResponseDataWrapper) SetData(val OptVerifyProfileResponse) {
+	s.Data = val
+}
+
+func (*VerifyProfileResponseDataWrapper) deleteProfileRes()       {}
+func (*VerifyProfileResponseDataWrapper) getVerifyProfileRes()    {}
+func (*VerifyProfileResponseDataWrapper) updateVerifyProfileRes() {}
+
+// Ref: #/components/schemas/VerifyProfileSMSResponse
+type VerifyProfileSMSResponse struct {
+	// The message template identifier selected from /verify_profiles/templates.
+	MessagingTemplateID OptUUID `json:"messaging_template_id"`
+	// The name that identifies the application requesting 2fa in the verification message.
+	AppName OptString `json:"app_name"`
+	// The alphanumeric sender ID to use when sending to destinations that require an alphanumeric sender
+	// ID.
+	AlphaSender OptNilString `json:"alpha_sender"`
+	// Enabled country destinations to send verification codes. The elements in the list must be valid
+	// ISO 3166-1 alpha-2 country codes. If set to `["*"]`, all destinations will be allowed.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// For every request that is initiated via this Verify profile, this sets the number of seconds
+	// before a verification request code expires. Once the verification request expires, the user cannot
+	// use the code to verify their identity.
+	DefaultVerificationTimeoutSecs OptInt `json:"default_verification_timeout_secs"`
+}
+
+// GetMessagingTemplateID returns the value of MessagingTemplateID.
+func (s *VerifyProfileSMSResponse) GetMessagingTemplateID() OptUUID {
+	return s.MessagingTemplateID
+}
+
+// GetAppName returns the value of AppName.
+func (s *VerifyProfileSMSResponse) GetAppName() OptString {
+	return s.AppName
+}
+
+// GetAlphaSender returns the value of AlphaSender.
+func (s *VerifyProfileSMSResponse) GetAlphaSender() OptNilString {
+	return s.AlphaSender
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *VerifyProfileSMSResponse) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetDefaultVerificationTimeoutSecs returns the value of DefaultVerificationTimeoutSecs.
+func (s *VerifyProfileSMSResponse) GetDefaultVerificationTimeoutSecs() OptInt {
+	return s.DefaultVerificationTimeoutSecs
+}
+
+// SetMessagingTemplateID sets the value of MessagingTemplateID.
+func (s *VerifyProfileSMSResponse) SetMessagingTemplateID(val OptUUID) {
+	s.MessagingTemplateID = val
+}
+
+// SetAppName sets the value of AppName.
+func (s *VerifyProfileSMSResponse) SetAppName(val OptString) {
+	s.AppName = val
+}
+
+// SetAlphaSender sets the value of AlphaSender.
+func (s *VerifyProfileSMSResponse) SetAlphaSender(val OptNilString) {
+	s.AlphaSender = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *VerifyProfileSMSResponse) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetDefaultVerificationTimeoutSecs sets the value of DefaultVerificationTimeoutSecs.
+func (s *VerifyProfileSMSResponse) SetDefaultVerificationTimeoutSecs(val OptInt) {
+	s.DefaultVerificationTimeoutSecs = val
+}
+
 type VerifyVerificationCodeNotFound Errors
 
 func (*VerifyVerificationCodeNotFound) verifyVerificationCodeRes() {}
@@ -23387,10 +25204,120 @@ func (s *VerifyVerificationCodeReq) SetVerificationCode(val string) {
 	s.VerificationCode = val
 }
 
+// Ref: #/components/schemas/VerifyVerificationCodeRequest
+type VerifyVerificationCodeRequest struct {
+	// This is the code the user submits for verification.
+	Code string `json:"code"`
+	// The identifier of the associated Verify profile.
+	VerifyProfileID uuid.UUID `json:"verify_profile_id"`
+}
+
+// GetCode returns the value of Code.
+func (s *VerifyVerificationCodeRequest) GetCode() string {
+	return s.Code
+}
+
+// GetVerifyProfileID returns the value of VerifyProfileID.
+func (s *VerifyVerificationCodeRequest) GetVerifyProfileID() uuid.UUID {
+	return s.VerifyProfileID
+}
+
+// SetCode sets the value of Code.
+func (s *VerifyVerificationCodeRequest) SetCode(val string) {
+	s.Code = val
+}
+
+// SetVerifyProfileID sets the value of VerifyProfileID.
+func (s *VerifyVerificationCodeRequest) SetVerifyProfileID(val uuid.UUID) {
+	s.VerifyProfileID = val
+}
+
+// Ref: #/components/schemas/VerifyVerificationCodeResponse
+type VerifyVerificationCodeResponse struct {
+	Data VerifyVerificationCodeResponseData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *VerifyVerificationCodeResponse) GetData() VerifyVerificationCodeResponseData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *VerifyVerificationCodeResponse) SetData(val VerifyVerificationCodeResponseData) {
+	s.Data = val
+}
+
+func (*VerifyVerificationCodeResponse) verifyVerificationCodeByPhoneNumberRes() {}
+
+type VerifyVerificationCodeResponseData struct {
+	// +E164 formatted phone number.
+	PhoneNumber string `json:"phone_number"`
+	// Identifies if the verification code has been accepted or rejected.
+	ResponseCode VerifyVerificationCodeResponseDataResponseCode `json:"response_code"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *VerifyVerificationCodeResponseData) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// GetResponseCode returns the value of ResponseCode.
+func (s *VerifyVerificationCodeResponseData) GetResponseCode() VerifyVerificationCodeResponseDataResponseCode {
+	return s.ResponseCode
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *VerifyVerificationCodeResponseData) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// SetResponseCode sets the value of ResponseCode.
+func (s *VerifyVerificationCodeResponseData) SetResponseCode(val VerifyVerificationCodeResponseDataResponseCode) {
+	s.ResponseCode = val
+}
+
+// Identifies if the verification code has been accepted or rejected.
+type VerifyVerificationCodeResponseDataResponseCode string
+
+const (
+	VerifyVerificationCodeResponseDataResponseCodeAccepted VerifyVerificationCodeResponseDataResponseCode = "accepted"
+	VerifyVerificationCodeResponseDataResponseCodeRejected VerifyVerificationCodeResponseDataResponseCode = "rejected"
+)
+
+// AllValues returns all VerifyVerificationCodeResponseDataResponseCode values.
+func (VerifyVerificationCodeResponseDataResponseCode) AllValues() []VerifyVerificationCodeResponseDataResponseCode {
+	return []VerifyVerificationCodeResponseDataResponseCode{
+		VerifyVerificationCodeResponseDataResponseCodeAccepted,
+		VerifyVerificationCodeResponseDataResponseCodeRejected,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VerifyVerificationCodeResponseDataResponseCode) MarshalText() ([]byte, error) {
+	switch s {
+	case VerifyVerificationCodeResponseDataResponseCodeAccepted:
+		return []byte(s), nil
+	case VerifyVerificationCodeResponseDataResponseCodeRejected:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VerifyVerificationCodeResponseDataResponseCode) UnmarshalText(data []byte) error {
+	switch VerifyVerificationCodeResponseDataResponseCode(data) {
+	case VerifyVerificationCodeResponseDataResponseCodeAccepted:
+		*s = VerifyVerificationCodeResponseDataResponseCodeAccepted
+		return nil
+	case VerifyVerificationCodeResponseDataResponseCodeRejected:
+		*s = VerifyVerificationCodeResponseDataResponseCodeRejected
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type VerifyVerificationCodeUnauthorized Errors
 
 func (*VerifyVerificationCodeUnauthorized) verifyVerificationCodeRes() {}
-
-type VerifyVerificationCodeUnprocessableEntityApplicationJSON jx.Raw
-
-func (*VerifyVerificationCodeUnprocessableEntityApplicationJSON) verifyVerificationCodeRes() {}
