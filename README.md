@@ -12,28 +12,28 @@ type Authorizor struct {
 }
 
 func (a *Authorizor) BearerAuth(_ context.Context, operationName string) (telnyx.BearerAuth, error) {
-	return telnyx.BearerAuth{
-		Token: a.token,
-	}, nil
+  return telnyx.BearerAuth{
+    Token: a.token,
+  }, nil
 }
 
 func do() error {
   auth := &Authorizor{token: os.Getenv("TELNYX_API_KEY")}
 
-	client, err := telnyx.NewClient(arg.BaseURL, auth)
-	if err != nil {
-		return fmt.Errorf("create client: %w", err)
-	}
+  client, err := telnyx.NewClient(arg.BaseURL, auth)
+  if err != nil {
+    return fmt.Errorf("create client: %w", err)
+  }
 
-	resp, err := client.ListCallControlApplications(ctx, telnyx.ListCallControlApplicationsParams{})
-	if err != nil {
-		return err
-	}
+  resp, err := client.ListCallControlApplications(ctx, telnyx.ListCallControlApplicationsParams{})
+  if err != nil {
+    return err
+  }
 
-	switch p := resp.(type) {
-	case *telnyx.ListCallControlApplicationsResponse:
+  switch p := resp.(type) {
+  case *telnyx.ListCallControlApplicationsResponse:
     // p.Data
-	case *telnyx.ListCallControlApplicationsNotFound:
-		return errors.New("not found")
-	}
+  case *telnyx.ListCallControlApplicationsNotFound:
+    return errors.New("not found")
+  }
 }
