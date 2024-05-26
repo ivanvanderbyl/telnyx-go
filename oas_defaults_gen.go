@@ -613,6 +613,45 @@ func (s *NoiseSuppressionStart) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *OutboundCallRecording) setDefaults() {
+	{
+		val := OutboundCallRecordingCallRecordingChannels("single")
+		s.CallRecordingChannels.SetTo(val)
+	}
+	{
+		val := OutboundCallRecordingCallRecordingFormat("wav")
+		s.CallRecordingFormat.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *OutboundVoiceProfile) setDefaults() {
+	{
+		val := TrafficType("conversational")
+		s.TrafficType.SetTo(val)
+	}
+	{
+		val := ServicePlan("global")
+		s.ServicePlan.SetTo(val)
+	}
+	{
+		val := bool(true)
+		s.Enabled.SetTo(val)
+	}
+	{
+		val := UsagePaymentMethod("rate-deck")
+		s.UsagePaymentMethod.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.DailySpendLimitEnabled.SetTo(val)
+	}
+	{
+		s.BillingGroupID.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *PhoneNumberDeletedDetailed) setDefaults() {
 	{
 		val := bool(true)
@@ -995,6 +1034,33 @@ func (s *UpdateCallControlApplicationRequest) setDefaults() {
 	}
 	{
 		s.WebhookTimeoutSecs.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UpdateOutboundVoiceProfileRequest) setDefaults() {
+	{
+		val := TrafficType("conversational")
+		s.TrafficType.SetTo(val)
+	}
+	{
+		val := ServicePlan("global")
+		s.ServicePlan.SetTo(val)
+	}
+	{
+		val := bool(true)
+		s.Enabled.SetTo(val)
+	}
+	{
+		val := UsagePaymentMethod("rate-deck")
+		s.UsagePaymentMethod.SetTo(val)
+	}
+	{
+		val := bool(false)
+		s.DailySpendLimitEnabled.SetTo(val)
+	}
+	{
+		s.BillingGroupID.Null = true
 	}
 }
 

@@ -34255,6 +34255,57 @@ func (s *OptNilURI) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes uuid.UUID as json.
+func (o OptNilUUID) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	json.EncodeUUID(e, o.Value)
+}
+
+// Decode decodes uuid.UUID from json.
+func (o *OptNilUUID) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilUUID to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v uuid.UUID
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	v, err := json.DecodeUUID(d)
+	if err != nil {
+		return err
+	}
+	o.Value = v
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilUUID) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilUUID) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes NoiseSuppressionDirection as json.
 func (o OptNoiseSuppressionDirection) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -34519,6 +34570,138 @@ func (s *OptNumberOrderPhoneNumberStatus) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes OutboundCallRecording as json.
+func (o OptOutboundCallRecording) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes OutboundCallRecording from json.
+func (o *OptOutboundCallRecording) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptOutboundCallRecording to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptOutboundCallRecording) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptOutboundCallRecording) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundCallRecordingCallRecordingChannels as json.
+func (o OptOutboundCallRecordingCallRecordingChannels) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes OutboundCallRecordingCallRecordingChannels from json.
+func (o *OptOutboundCallRecordingCallRecordingChannels) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptOutboundCallRecordingCallRecordingChannels to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptOutboundCallRecordingCallRecordingChannels) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptOutboundCallRecordingCallRecordingChannels) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundCallRecordingCallRecordingFormat as json.
+func (o OptOutboundCallRecordingCallRecordingFormat) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes OutboundCallRecordingCallRecordingFormat from json.
+func (o *OptOutboundCallRecordingCallRecordingFormat) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptOutboundCallRecordingCallRecordingFormat to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptOutboundCallRecordingCallRecordingFormat) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptOutboundCallRecordingCallRecordingFormat) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundCallRecordingCallRecordingType as json.
+func (o OptOutboundCallRecordingCallRecordingType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes OutboundCallRecordingCallRecordingType from json.
+func (o *OptOutboundCallRecordingCallRecordingType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptOutboundCallRecordingCallRecordingType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptOutboundCallRecordingCallRecordingType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptOutboundCallRecordingCallRecordingType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes OutboundMessagePayload as json.
 func (o OptOutboundMessagePayload) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -34779,6 +34962,39 @@ func (s OptOutboundMessagePayloadType) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptOutboundMessagePayloadType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundVoiceProfile as json.
+func (o OptOutboundVoiceProfile) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes OutboundVoiceProfile from json.
+func (o *OptOutboundVoiceProfile) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptOutboundVoiceProfile to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptOutboundVoiceProfile) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptOutboundVoiceProfile) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -36631,6 +36847,105 @@ func (s *OptRoomRecordingType) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes ServicePlan as json.
+func (o OptServicePlan) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes ServicePlan from json.
+func (o *OptServicePlan) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptServicePlan to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptServicePlan) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptServicePlan) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes SimplifiedOTAUpdateStatus as json.
+func (o OptSimplifiedOTAUpdateStatus) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes SimplifiedOTAUpdateStatus from json.
+func (o *OptSimplifiedOTAUpdateStatus) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptSimplifiedOTAUpdateStatus to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptSimplifiedOTAUpdateStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptSimplifiedOTAUpdateStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes SimplifiedOTAUpdateType as json.
+func (o OptSimplifiedOTAUpdateType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes SimplifiedOTAUpdateType from json.
+func (o *OptSimplifiedOTAUpdateType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptSimplifiedOTAUpdateType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptSimplifiedOTAUpdateType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptSimplifiedOTAUpdateType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes SlimPhoneNumberDetailedInboundCallScreening as json.
 func (o OptSlimPhoneNumberDetailedInboundCallScreening) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -37623,6 +37938,39 @@ func (s OptTexmlSid) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptTexmlSid) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes TrafficType as json.
+func (o OptTrafficType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes TrafficType from json.
+func (o *OptTrafficType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptTrafficType to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptTrafficType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptTrafficType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -38754,6 +39102,39 @@ func (s *OptUpdatedAt) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes UsagePaymentMethod as json.
+func (o OptUsagePaymentMethod) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes UsagePaymentMethod from json.
+func (o *OptUsagePaymentMethod) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptUsagePaymentMethod to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptUsagePaymentMethod) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptUsagePaymentMethod) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes UserBalance as json.
 func (o OptUserBalance) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -39477,6 +39858,256 @@ func (s OptWebhookDeliveryWebhookRecordType) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptWebhookDeliveryWebhookRecordType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *OutboundCallRecording) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *OutboundCallRecording) encodeFields(e *jx.Encoder) {
+	{
+		if s.CallRecordingType.Set {
+			e.FieldStart("call_recording_type")
+			s.CallRecordingType.Encode(e)
+		}
+	}
+	{
+		if s.CallRecordingCallerPhoneNumbers != nil {
+			e.FieldStart("call_recording_caller_phone_numbers")
+			e.ArrStart()
+			for _, elem := range s.CallRecordingCallerPhoneNumbers {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.CallRecordingChannels.Set {
+			e.FieldStart("call_recording_channels")
+			s.CallRecordingChannels.Encode(e)
+		}
+	}
+	{
+		if s.CallRecordingFormat.Set {
+			e.FieldStart("call_recording_format")
+			s.CallRecordingFormat.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfOutboundCallRecording = [4]string{
+	0: "call_recording_type",
+	1: "call_recording_caller_phone_numbers",
+	2: "call_recording_channels",
+	3: "call_recording_format",
+}
+
+// Decode decodes OutboundCallRecording from json.
+func (s *OutboundCallRecording) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OutboundCallRecording to nil")
+	}
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "call_recording_type":
+			if err := func() error {
+				s.CallRecordingType.Reset()
+				if err := s.CallRecordingType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call_recording_type\"")
+			}
+		case "call_recording_caller_phone_numbers":
+			if err := func() error {
+				s.CallRecordingCallerPhoneNumbers = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.CallRecordingCallerPhoneNumbers = append(s.CallRecordingCallerPhoneNumbers, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call_recording_caller_phone_numbers\"")
+			}
+		case "call_recording_channels":
+			if err := func() error {
+				s.CallRecordingChannels.Reset()
+				if err := s.CallRecordingChannels.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call_recording_channels\"")
+			}
+		case "call_recording_format":
+			if err := func() error {
+				s.CallRecordingFormat.Reset()
+				if err := s.CallRecordingFormat.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call_recording_format\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode OutboundCallRecording")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *OutboundCallRecording) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OutboundCallRecording) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundCallRecordingCallRecordingChannels as json.
+func (s OutboundCallRecordingCallRecordingChannels) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes OutboundCallRecordingCallRecordingChannels from json.
+func (s *OutboundCallRecordingCallRecordingChannels) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OutboundCallRecordingCallRecordingChannels to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch OutboundCallRecordingCallRecordingChannels(v) {
+	case OutboundCallRecordingCallRecordingChannelsSingle:
+		*s = OutboundCallRecordingCallRecordingChannelsSingle
+	case OutboundCallRecordingCallRecordingChannelsDual:
+		*s = OutboundCallRecordingCallRecordingChannelsDual
+	default:
+		*s = OutboundCallRecordingCallRecordingChannels(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OutboundCallRecordingCallRecordingChannels) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OutboundCallRecordingCallRecordingChannels) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundCallRecordingCallRecordingFormat as json.
+func (s OutboundCallRecordingCallRecordingFormat) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes OutboundCallRecordingCallRecordingFormat from json.
+func (s *OutboundCallRecordingCallRecordingFormat) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OutboundCallRecordingCallRecordingFormat to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch OutboundCallRecordingCallRecordingFormat(v) {
+	case OutboundCallRecordingCallRecordingFormatWav:
+		*s = OutboundCallRecordingCallRecordingFormatWav
+	case OutboundCallRecordingCallRecordingFormatMp3:
+		*s = OutboundCallRecordingCallRecordingFormatMp3
+	default:
+		*s = OutboundCallRecordingCallRecordingFormat(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OutboundCallRecordingCallRecordingFormat) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OutboundCallRecordingCallRecordingFormat) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OutboundCallRecordingCallRecordingType as json.
+func (s OutboundCallRecordingCallRecordingType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes OutboundCallRecordingCallRecordingType from json.
+func (s *OutboundCallRecordingCallRecordingType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OutboundCallRecordingCallRecordingType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch OutboundCallRecordingCallRecordingType(v) {
+	case OutboundCallRecordingCallRecordingTypeAll:
+		*s = OutboundCallRecordingCallRecordingTypeAll
+	case OutboundCallRecordingCallRecordingTypeNone:
+		*s = OutboundCallRecordingCallRecordingTypeNone
+	case OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber:
+		*s = OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber
+	default:
+		*s = OutboundCallRecordingCallRecordingType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OutboundCallRecordingCallRecordingType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OutboundCallRecordingCallRecordingType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -40616,6 +41247,420 @@ func (s *OutboundMessagePayloadType) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *OutboundVoiceProfile) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *OutboundVoiceProfile) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		if s.ConnectionsCount.Set {
+			e.FieldStart("connections_count")
+			s.ConnectionsCount.Encode(e)
+		}
+	}
+	{
+		if s.TrafficType.Set {
+			e.FieldStart("traffic_type")
+			s.TrafficType.Encode(e)
+		}
+	}
+	{
+		if s.ServicePlan.Set {
+			e.FieldStart("service_plan")
+			s.ServicePlan.Encode(e)
+		}
+	}
+	{
+		if s.ConcurrentCallLimit.Set {
+			e.FieldStart("concurrent_call_limit")
+			s.ConcurrentCallLimit.Encode(e)
+		}
+	}
+	{
+		if s.Enabled.Set {
+			e.FieldStart("enabled")
+			s.Enabled.Encode(e)
+		}
+	}
+	{
+		if s.Tags != nil {
+			e.FieldStart("tags")
+			e.ArrStart()
+			for _, elem := range s.Tags {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.UsagePaymentMethod.Set {
+			e.FieldStart("usage_payment_method")
+			s.UsagePaymentMethod.Encode(e)
+		}
+	}
+	{
+		if s.WhitelistedDestinations != nil {
+			e.FieldStart("whitelisted_destinations")
+			e.ArrStart()
+			for _, elem := range s.WhitelistedDestinations {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.MaxDestinationRate.Set {
+			e.FieldStart("max_destination_rate")
+			s.MaxDestinationRate.Encode(e)
+		}
+	}
+	{
+		if s.DailySpendLimit.Set {
+			e.FieldStart("daily_spend_limit")
+			s.DailySpendLimit.Encode(e)
+		}
+	}
+	{
+		if s.DailySpendLimitEnabled.Set {
+			e.FieldStart("daily_spend_limit_enabled")
+			s.DailySpendLimitEnabled.Encode(e)
+		}
+	}
+	{
+		if s.CallRecording.Set {
+			e.FieldStart("call_recording")
+			s.CallRecording.Encode(e)
+		}
+	}
+	{
+		if s.BillingGroupID.Set {
+			e.FieldStart("billing_group_id")
+			s.BillingGroupID.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfOutboundVoiceProfile = [18]string{
+	0:  "id",
+	1:  "record_type",
+	2:  "name",
+	3:  "connections_count",
+	4:  "traffic_type",
+	5:  "service_plan",
+	6:  "concurrent_call_limit",
+	7:  "enabled",
+	8:  "tags",
+	9:  "usage_payment_method",
+	10: "whitelisted_destinations",
+	11: "max_destination_rate",
+	12: "daily_spend_limit",
+	13: "daily_spend_limit_enabled",
+	14: "call_recording",
+	15: "billing_group_id",
+	16: "created_at",
+	17: "updated_at",
+}
+
+// Decode decodes OutboundVoiceProfile from json.
+func (s *OutboundVoiceProfile) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OutboundVoiceProfile to nil")
+	}
+	var requiredBitSet [3]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "name":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "connections_count":
+			if err := func() error {
+				s.ConnectionsCount.Reset()
+				if err := s.ConnectionsCount.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"connections_count\"")
+			}
+		case "traffic_type":
+			if err := func() error {
+				s.TrafficType.Reset()
+				if err := s.TrafficType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"traffic_type\"")
+			}
+		case "service_plan":
+			if err := func() error {
+				s.ServicePlan.Reset()
+				if err := s.ServicePlan.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"service_plan\"")
+			}
+		case "concurrent_call_limit":
+			if err := func() error {
+				s.ConcurrentCallLimit.Reset()
+				if err := s.ConcurrentCallLimit.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"concurrent_call_limit\"")
+			}
+		case "enabled":
+			if err := func() error {
+				s.Enabled.Reset()
+				if err := s.Enabled.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"enabled\"")
+			}
+		case "tags":
+			if err := func() error {
+				s.Tags = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.Tags = append(s.Tags, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"tags\"")
+			}
+		case "usage_payment_method":
+			if err := func() error {
+				s.UsagePaymentMethod.Reset()
+				if err := s.UsagePaymentMethod.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"usage_payment_method\"")
+			}
+		case "whitelisted_destinations":
+			if err := func() error {
+				s.WhitelistedDestinations = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.WhitelistedDestinations = append(s.WhitelistedDestinations, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"whitelisted_destinations\"")
+			}
+		case "max_destination_rate":
+			if err := func() error {
+				s.MaxDestinationRate.Reset()
+				if err := s.MaxDestinationRate.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_destination_rate\"")
+			}
+		case "daily_spend_limit":
+			if err := func() error {
+				s.DailySpendLimit.Reset()
+				if err := s.DailySpendLimit.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"daily_spend_limit\"")
+			}
+		case "daily_spend_limit_enabled":
+			if err := func() error {
+				s.DailySpendLimitEnabled.Reset()
+				if err := s.DailySpendLimitEnabled.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"daily_spend_limit_enabled\"")
+			}
+		case "call_recording":
+			if err := func() error {
+				s.CallRecording.Reset()
+				if err := s.CallRecording.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call_recording\"")
+			}
+		case "billing_group_id":
+			if err := func() error {
+				s.BillingGroupID.Reset()
+				if err := s.BillingGroupID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"billing_group_id\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode OutboundVoiceProfile")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [3]uint8{
+		0b00000100,
+		0b00000000,
+		0b00000000,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfOutboundVoiceProfile) {
+					name = jsonFieldsNameOfOutboundVoiceProfile[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *OutboundVoiceProfile) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OutboundVoiceProfile) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes OutboundVoiceProfileId as json.
 func (s OutboundVoiceProfileId) Encode(e *jx.Encoder) {
 	unwrapped := int64(s)
@@ -40652,6 +41697,69 @@ func (s OutboundVoiceProfileId) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OutboundVoiceProfileId) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *OutboundVoiceProfileResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *OutboundVoiceProfileResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfOutboundVoiceProfileResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes OutboundVoiceProfileResponse from json.
+func (s *OutboundVoiceProfileResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OutboundVoiceProfileResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode OutboundVoiceProfileResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *OutboundVoiceProfileResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OutboundVoiceProfileResponse) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -51723,6 +52831,97 @@ func (s *SearchMobileNetworkOperatorsResponse) UnmarshalJSON(data []byte) error 
 }
 
 // Encode implements json.Marshaler.
+func (s *SearchOTAUpdateResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *SearchOTAUpdateResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Meta.Set {
+			e.FieldStart("meta")
+			s.Meta.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfSearchOTAUpdateResponse = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes SearchOTAUpdateResponse from json.
+func (s *SearchOTAUpdateResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode SearchOTAUpdateResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]SimplifiedOTAUpdate, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem SimplifiedOTAUpdate
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			if err := func() error {
+				s.Meta.Reset()
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode SearchOTAUpdateResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *SearchOTAUpdateResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *SearchOTAUpdateResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *SendDTMFRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -51866,6 +53065,289 @@ func (s *SendDTMFRequest) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *SendDTMFRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ServicePlan as json.
+func (s ServicePlan) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes ServicePlan from json.
+func (s *ServicePlan) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ServicePlan to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch ServicePlan(v) {
+	case ServicePlanGlobal:
+		*s = ServicePlanGlobal
+	default:
+		*s = ServicePlan(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ServicePlan) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ServicePlan) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *SimplifiedOTAUpdate) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *SimplifiedOTAUpdate) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		if s.SimCardID.Set {
+			e.FieldStart("sim_card_id")
+			s.SimCardID.Encode(e)
+		}
+	}
+	{
+		if s.Type.Set {
+			e.FieldStart("type")
+			s.Type.Encode(e)
+		}
+	}
+	{
+		if s.Status.Set {
+			e.FieldStart("status")
+			s.Status.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfSimplifiedOTAUpdate = [7]string{
+	0: "id",
+	1: "record_type",
+	2: "sim_card_id",
+	3: "type",
+	4: "status",
+	5: "created_at",
+	6: "updated_at",
+}
+
+// Decode decodes SimplifiedOTAUpdate from json.
+func (s *SimplifiedOTAUpdate) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode SimplifiedOTAUpdate to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "sim_card_id":
+			if err := func() error {
+				s.SimCardID.Reset()
+				if err := s.SimCardID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"sim_card_id\"")
+			}
+		case "type":
+			if err := func() error {
+				s.Type.Reset()
+				if err := s.Type.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "status":
+			if err := func() error {
+				s.Status.Reset()
+				if err := s.Status.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"status\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode SimplifiedOTAUpdate")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *SimplifiedOTAUpdate) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *SimplifiedOTAUpdate) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes SimplifiedOTAUpdateStatus as json.
+func (s SimplifiedOTAUpdateStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes SimplifiedOTAUpdateStatus from json.
+func (s *SimplifiedOTAUpdateStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode SimplifiedOTAUpdateStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch SimplifiedOTAUpdateStatus(v) {
+	case SimplifiedOTAUpdateStatusInProgress:
+		*s = SimplifiedOTAUpdateStatusInProgress
+	case SimplifiedOTAUpdateStatusCompleted:
+		*s = SimplifiedOTAUpdateStatusCompleted
+	case SimplifiedOTAUpdateStatusFailed:
+		*s = SimplifiedOTAUpdateStatusFailed
+	default:
+		*s = SimplifiedOTAUpdateStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s SimplifiedOTAUpdateStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *SimplifiedOTAUpdateStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes SimplifiedOTAUpdateType as json.
+func (s SimplifiedOTAUpdateType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes SimplifiedOTAUpdateType from json.
+func (s *SimplifiedOTAUpdateType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode SimplifiedOTAUpdateType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch SimplifiedOTAUpdateType(v) {
+	case SimplifiedOTAUpdateTypeSimCardNetworkPreferences:
+		*s = SimplifiedOTAUpdateTypeSimCardNetworkPreferences
+	default:
+		*s = SimplifiedOTAUpdateType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s SimplifiedOTAUpdateType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *SimplifiedOTAUpdateType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -57577,6 +59059,44 @@ func (s *ToNumber) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes TrafficType as json.
+func (s TrafficType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes TrafficType from json.
+func (s *TrafficType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode TrafficType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch TrafficType(v) {
+	case TrafficTypeConversational:
+		*s = TrafficTypeConversational
+	default:
+		*s = TrafficType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s TrafficType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *TrafficType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *TranscriptionStartRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -60727,6 +62247,334 @@ func (s *UpdateOutboundChannelsReq) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *UpdateOutboundVoiceProfileRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *UpdateOutboundVoiceProfileRequest) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		if s.TrafficType.Set {
+			e.FieldStart("traffic_type")
+			s.TrafficType.Encode(e)
+		}
+	}
+	{
+		if s.ServicePlan.Set {
+			e.FieldStart("service_plan")
+			s.ServicePlan.Encode(e)
+		}
+	}
+	{
+		if s.ConcurrentCallLimit.Set {
+			e.FieldStart("concurrent_call_limit")
+			s.ConcurrentCallLimit.Encode(e)
+		}
+	}
+	{
+		if s.Enabled.Set {
+			e.FieldStart("enabled")
+			s.Enabled.Encode(e)
+		}
+	}
+	{
+		if s.Tags != nil {
+			e.FieldStart("tags")
+			e.ArrStart()
+			for _, elem := range s.Tags {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.UsagePaymentMethod.Set {
+			e.FieldStart("usage_payment_method")
+			s.UsagePaymentMethod.Encode(e)
+		}
+	}
+	{
+		if s.WhitelistedDestinations != nil {
+			e.FieldStart("whitelisted_destinations")
+			e.ArrStart()
+			for _, elem := range s.WhitelistedDestinations {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.MaxDestinationRate.Set {
+			e.FieldStart("max_destination_rate")
+			s.MaxDestinationRate.Encode(e)
+		}
+	}
+	{
+		if s.DailySpendLimit.Set {
+			e.FieldStart("daily_spend_limit")
+			s.DailySpendLimit.Encode(e)
+		}
+	}
+	{
+		if s.DailySpendLimitEnabled.Set {
+			e.FieldStart("daily_spend_limit_enabled")
+			s.DailySpendLimitEnabled.Encode(e)
+		}
+	}
+	{
+		if s.CallRecording.Set {
+			e.FieldStart("call_recording")
+			s.CallRecording.Encode(e)
+		}
+	}
+	{
+		if s.BillingGroupID.Set {
+			e.FieldStart("billing_group_id")
+			s.BillingGroupID.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfUpdateOutboundVoiceProfileRequest = [13]string{
+	0:  "name",
+	1:  "traffic_type",
+	2:  "service_plan",
+	3:  "concurrent_call_limit",
+	4:  "enabled",
+	5:  "tags",
+	6:  "usage_payment_method",
+	7:  "whitelisted_destinations",
+	8:  "max_destination_rate",
+	9:  "daily_spend_limit",
+	10: "daily_spend_limit_enabled",
+	11: "call_recording",
+	12: "billing_group_id",
+}
+
+// Decode decodes UpdateOutboundVoiceProfileRequest from json.
+func (s *UpdateOutboundVoiceProfileRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode UpdateOutboundVoiceProfileRequest to nil")
+	}
+	var requiredBitSet [2]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "traffic_type":
+			if err := func() error {
+				s.TrafficType.Reset()
+				if err := s.TrafficType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"traffic_type\"")
+			}
+		case "service_plan":
+			if err := func() error {
+				s.ServicePlan.Reset()
+				if err := s.ServicePlan.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"service_plan\"")
+			}
+		case "concurrent_call_limit":
+			if err := func() error {
+				s.ConcurrentCallLimit.Reset()
+				if err := s.ConcurrentCallLimit.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"concurrent_call_limit\"")
+			}
+		case "enabled":
+			if err := func() error {
+				s.Enabled.Reset()
+				if err := s.Enabled.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"enabled\"")
+			}
+		case "tags":
+			if err := func() error {
+				s.Tags = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.Tags = append(s.Tags, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"tags\"")
+			}
+		case "usage_payment_method":
+			if err := func() error {
+				s.UsagePaymentMethod.Reset()
+				if err := s.UsagePaymentMethod.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"usage_payment_method\"")
+			}
+		case "whitelisted_destinations":
+			if err := func() error {
+				s.WhitelistedDestinations = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.WhitelistedDestinations = append(s.WhitelistedDestinations, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"whitelisted_destinations\"")
+			}
+		case "max_destination_rate":
+			if err := func() error {
+				s.MaxDestinationRate.Reset()
+				if err := s.MaxDestinationRate.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_destination_rate\"")
+			}
+		case "daily_spend_limit":
+			if err := func() error {
+				s.DailySpendLimit.Reset()
+				if err := s.DailySpendLimit.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"daily_spend_limit\"")
+			}
+		case "daily_spend_limit_enabled":
+			if err := func() error {
+				s.DailySpendLimitEnabled.Reset()
+				if err := s.DailySpendLimitEnabled.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"daily_spend_limit_enabled\"")
+			}
+		case "call_recording":
+			if err := func() error {
+				s.CallRecording.Reset()
+				if err := s.CallRecording.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"call_recording\"")
+			}
+		case "billing_group_id":
+			if err := func() error {
+				s.BillingGroupID.Reset()
+				if err := s.BillingGroupID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"billing_group_id\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode UpdateOutboundVoiceProfileRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [2]uint8{
+		0b00000001,
+		0b00000000,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfUpdateOutboundVoiceProfileRequest) {
+					name = jsonFieldsNameOfUpdateOutboundVoiceProfileRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *UpdateOutboundVoiceProfileRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *UpdateOutboundVoiceProfileRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *UpdatePhoneNumberMessagingSettingsRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -62938,6 +64786,44 @@ func (s UpdatedAt) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *UpdatedAt) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes UsagePaymentMethod as json.
+func (s UsagePaymentMethod) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes UsagePaymentMethod from json.
+func (s *UsagePaymentMethod) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode UsagePaymentMethod to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch UsagePaymentMethod(v) {
+	case UsagePaymentMethodRateDeck:
+		*s = UsagePaymentMethodRateDeck
+	default:
+		*s = UsagePaymentMethod(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s UsagePaymentMethod) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *UsagePaymentMethod) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

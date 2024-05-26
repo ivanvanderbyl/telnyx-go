@@ -8636,6 +8636,21 @@ func (s *DeleteNotificationChannelOK) SetData(val OptNotificationChannel) {
 
 func (*DeleteNotificationChannelOK) deleteNotificationChannelRes() {}
 
+// DeleteOutboundVoiceProfileNotFound is response for DeleteOutboundVoiceProfile operation.
+type DeleteOutboundVoiceProfileNotFound struct{}
+
+func (*DeleteOutboundVoiceProfileNotFound) deleteOutboundVoiceProfileRes() {}
+
+// DeleteOutboundVoiceProfileUnauthorized is response for DeleteOutboundVoiceProfile operation.
+type DeleteOutboundVoiceProfileUnauthorized struct{}
+
+func (*DeleteOutboundVoiceProfileUnauthorized) deleteOutboundVoiceProfileRes() {}
+
+// DeleteOutboundVoiceProfileUnprocessableEntity is response for DeleteOutboundVoiceProfile operation.
+type DeleteOutboundVoiceProfileUnprocessableEntity struct{}
+
+func (*DeleteOutboundVoiceProfileUnprocessableEntity) deleteOutboundVoiceProfileRes() {}
+
 type DeletePhoneNumberResponse struct {
 	Data OptPhoneNumberDeletedDetailed `json:"data"`
 }
@@ -10540,6 +10555,54 @@ func (s *Feature) SetName(val OptString) {
 	s.Name = val
 }
 
+type FilterBasicStatusLifecycle string
+
+const (
+	FilterBasicStatusLifecycleInProgress FilterBasicStatusLifecycle = "in-progress"
+	FilterBasicStatusLifecycleCompleted  FilterBasicStatusLifecycle = "completed"
+	FilterBasicStatusLifecycleFailed     FilterBasicStatusLifecycle = "failed"
+)
+
+// AllValues returns all FilterBasicStatusLifecycle values.
+func (FilterBasicStatusLifecycle) AllValues() []FilterBasicStatusLifecycle {
+	return []FilterBasicStatusLifecycle{
+		FilterBasicStatusLifecycleInProgress,
+		FilterBasicStatusLifecycleCompleted,
+		FilterBasicStatusLifecycleFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s FilterBasicStatusLifecycle) MarshalText() ([]byte, error) {
+	switch s {
+	case FilterBasicStatusLifecycleInProgress:
+		return []byte(s), nil
+	case FilterBasicStatusLifecycleCompleted:
+		return []byte(s), nil
+	case FilterBasicStatusLifecycleFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *FilterBasicStatusLifecycle) UnmarshalText(data []byte) error {
+	switch FilterBasicStatusLifecycle(data) {
+	case FilterBasicStatusLifecycleInProgress:
+		*s = FilterBasicStatusLifecycleInProgress
+		return nil
+	case FilterBasicStatusLifecycleCompleted:
+		*s = FilterBasicStatusLifecycleCompleted
+		return nil
+	case FilterBasicStatusLifecycleFailed:
+		*s = FilterBasicStatusLifecycleFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // FindPortoutCommentsNotFound is response for FindPortoutComments operation.
 type FindPortoutCommentsNotFound struct{}
 
@@ -11669,6 +11732,7 @@ func (*GenericErrorResponseStatusCode) listMessagingUrlDomainsRes()             
 func (*GenericErrorResponseStatusCode) listNetworkInterfacesRes()                        {}
 func (*GenericErrorResponseStatusCode) listNetworksRes()                                 {}
 func (*GenericErrorResponseStatusCode) listNotificationChannelsRes()                     {}
+func (*GenericErrorResponseStatusCode) listOtaUpdatesRes()                               {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersJobsRes()                         {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersRes()                             {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersWithMessagingSettingsRes()        {}
@@ -11950,6 +12014,21 @@ func (s *GetNotificationChannelOK) SetData(val OptNotificationChannel) {
 }
 
 func (*GetNotificationChannelOK) getNotificationChannelRes() {}
+
+// GetOutboundVoiceProfileNotFound is response for GetOutboundVoiceProfile operation.
+type GetOutboundVoiceProfileNotFound struct{}
+
+func (*GetOutboundVoiceProfileNotFound) getOutboundVoiceProfileRes() {}
+
+// GetOutboundVoiceProfileUnauthorized is response for GetOutboundVoiceProfile operation.
+type GetOutboundVoiceProfileUnauthorized struct{}
+
+func (*GetOutboundVoiceProfileUnauthorized) getOutboundVoiceProfileRes() {}
+
+// GetOutboundVoiceProfileUnprocessableEntity is response for GetOutboundVoiceProfile operation.
+type GetOutboundVoiceProfileUnprocessableEntity struct{}
+
+func (*GetOutboundVoiceProfileUnprocessableEntity) getOutboundVoiceProfileRes() {}
 
 type GetParticipantResponse struct {
 	Data OptParticipantResource `json:"data"`
@@ -13840,6 +13919,40 @@ func (s *ListNumberOrderPhoneNumbersResponse) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListNumberOrderPhoneNumbersResponse) retrieveOrderPhoneNumbersRes() {}
+
+type ListOtaUpdatesFilterType string
+
+const (
+	ListOtaUpdatesFilterTypeSimCardNetworkPreferences ListOtaUpdatesFilterType = "sim_card_network_preferences"
+)
+
+// AllValues returns all ListOtaUpdatesFilterType values.
+func (ListOtaUpdatesFilterType) AllValues() []ListOtaUpdatesFilterType {
+	return []ListOtaUpdatesFilterType{
+		ListOtaUpdatesFilterTypeSimCardNetworkPreferences,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListOtaUpdatesFilterType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListOtaUpdatesFilterTypeSimCardNetworkPreferences:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListOtaUpdatesFilterType) UnmarshalText(data []byte) error {
+	switch ListOtaUpdatesFilterType(data) {
+	case ListOtaUpdatesFilterTypeSimCardNetworkPreferences:
+		*s = ListOtaUpdatesFilterTypeSimCardNetworkPreferences
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 type ListPhoneNumbersFilterStatus string
 
@@ -22656,6 +22769,52 @@ func (o OptExternalConnectionPhoneNumber) Or(d ExternalConnectionPhoneNumber) Ex
 	return d
 }
 
+// NewOptFilterBasicStatusLifecycle returns new OptFilterBasicStatusLifecycle with value set to v.
+func NewOptFilterBasicStatusLifecycle(v FilterBasicStatusLifecycle) OptFilterBasicStatusLifecycle {
+	return OptFilterBasicStatusLifecycle{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptFilterBasicStatusLifecycle is optional FilterBasicStatusLifecycle.
+type OptFilterBasicStatusLifecycle struct {
+	Value FilterBasicStatusLifecycle
+	Set   bool
+}
+
+// IsSet returns true if OptFilterBasicStatusLifecycle was set.
+func (o OptFilterBasicStatusLifecycle) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptFilterBasicStatusLifecycle) Reset() {
+	var v FilterBasicStatusLifecycle
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptFilterBasicStatusLifecycle) SetTo(v FilterBasicStatusLifecycle) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptFilterBasicStatusLifecycle) Get() (v FilterBasicStatusLifecycle, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptFilterBasicStatusLifecycle) Or(d FilterBasicStatusLifecycle) FilterBasicStatusLifecycle {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptFirstCommandTimeout returns new OptFirstCommandTimeout with value set to v.
 func NewOptFirstCommandTimeout(v FirstCommandTimeout) OptFirstCommandTimeout {
 	return OptFirstCommandTimeout{
@@ -23938,6 +24097,52 @@ func (o OptListInboundChannelsOKData) Get() (v ListInboundChannelsOKData, ok boo
 
 // Or returns value if set, or given parameter if does not.
 func (o OptListInboundChannelsOKData) Or(d ListInboundChannelsOKData) ListInboundChannelsOKData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListOtaUpdatesFilterType returns new OptListOtaUpdatesFilterType with value set to v.
+func NewOptListOtaUpdatesFilterType(v ListOtaUpdatesFilterType) OptListOtaUpdatesFilterType {
+	return OptListOtaUpdatesFilterType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListOtaUpdatesFilterType is optional ListOtaUpdatesFilterType.
+type OptListOtaUpdatesFilterType struct {
+	Value ListOtaUpdatesFilterType
+	Set   bool
+}
+
+// IsSet returns true if OptListOtaUpdatesFilterType was set.
+func (o OptListOtaUpdatesFilterType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListOtaUpdatesFilterType) Reset() {
+	var v ListOtaUpdatesFilterType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListOtaUpdatesFilterType) SetTo(v ListOtaUpdatesFilterType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListOtaUpdatesFilterType) Get() (v ListOtaUpdatesFilterType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListOtaUpdatesFilterType) Or(d ListOtaUpdatesFilterType) ListOtaUpdatesFilterType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -25712,6 +25917,69 @@ func (o OptNilURI) Or(d url.URL) url.URL {
 	return d
 }
 
+// NewOptNilUUID returns new OptNilUUID with value set to v.
+func NewOptNilUUID(v uuid.UUID) OptNilUUID {
+	return OptNilUUID{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilUUID is optional nullable uuid.UUID.
+type OptNilUUID struct {
+	Value uuid.UUID
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilUUID was set.
+func (o OptNilUUID) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilUUID) Reset() {
+	var v uuid.UUID
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilUUID) SetTo(v uuid.UUID) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilUUID) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilUUID) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v uuid.UUID
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilUUID) Get() (v uuid.UUID, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilUUID) Or(d uuid.UUID) uuid.UUID {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNoiseSuppressionDirection returns new OptNoiseSuppressionDirection with value set to v.
 func NewOptNoiseSuppressionDirection(v NoiseSuppressionDirection) OptNoiseSuppressionDirection {
 	return OptNoiseSuppressionDirection{
@@ -26126,6 +26394,190 @@ func (o OptNumberOrderPhoneNumberStatus) Or(d NumberOrderPhoneNumberStatus) Numb
 	return d
 }
 
+// NewOptOutboundCallRecording returns new OptOutboundCallRecording with value set to v.
+func NewOptOutboundCallRecording(v OutboundCallRecording) OptOutboundCallRecording {
+	return OptOutboundCallRecording{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundCallRecording is optional OutboundCallRecording.
+type OptOutboundCallRecording struct {
+	Value OutboundCallRecording
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundCallRecording was set.
+func (o OptOutboundCallRecording) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundCallRecording) Reset() {
+	var v OutboundCallRecording
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundCallRecording) SetTo(v OutboundCallRecording) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundCallRecording) Get() (v OutboundCallRecording, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundCallRecording) Or(d OutboundCallRecording) OutboundCallRecording {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundCallRecordingCallRecordingChannels returns new OptOutboundCallRecordingCallRecordingChannels with value set to v.
+func NewOptOutboundCallRecordingCallRecordingChannels(v OutboundCallRecordingCallRecordingChannels) OptOutboundCallRecordingCallRecordingChannels {
+	return OptOutboundCallRecordingCallRecordingChannels{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundCallRecordingCallRecordingChannels is optional OutboundCallRecordingCallRecordingChannels.
+type OptOutboundCallRecordingCallRecordingChannels struct {
+	Value OutboundCallRecordingCallRecordingChannels
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundCallRecordingCallRecordingChannels was set.
+func (o OptOutboundCallRecordingCallRecordingChannels) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundCallRecordingCallRecordingChannels) Reset() {
+	var v OutboundCallRecordingCallRecordingChannels
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundCallRecordingCallRecordingChannels) SetTo(v OutboundCallRecordingCallRecordingChannels) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundCallRecordingCallRecordingChannels) Get() (v OutboundCallRecordingCallRecordingChannels, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundCallRecordingCallRecordingChannels) Or(d OutboundCallRecordingCallRecordingChannels) OutboundCallRecordingCallRecordingChannels {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundCallRecordingCallRecordingFormat returns new OptOutboundCallRecordingCallRecordingFormat with value set to v.
+func NewOptOutboundCallRecordingCallRecordingFormat(v OutboundCallRecordingCallRecordingFormat) OptOutboundCallRecordingCallRecordingFormat {
+	return OptOutboundCallRecordingCallRecordingFormat{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundCallRecordingCallRecordingFormat is optional OutboundCallRecordingCallRecordingFormat.
+type OptOutboundCallRecordingCallRecordingFormat struct {
+	Value OutboundCallRecordingCallRecordingFormat
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundCallRecordingCallRecordingFormat was set.
+func (o OptOutboundCallRecordingCallRecordingFormat) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundCallRecordingCallRecordingFormat) Reset() {
+	var v OutboundCallRecordingCallRecordingFormat
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundCallRecordingCallRecordingFormat) SetTo(v OutboundCallRecordingCallRecordingFormat) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundCallRecordingCallRecordingFormat) Get() (v OutboundCallRecordingCallRecordingFormat, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundCallRecordingCallRecordingFormat) Or(d OutboundCallRecordingCallRecordingFormat) OutboundCallRecordingCallRecordingFormat {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundCallRecordingCallRecordingType returns new OptOutboundCallRecordingCallRecordingType with value set to v.
+func NewOptOutboundCallRecordingCallRecordingType(v OutboundCallRecordingCallRecordingType) OptOutboundCallRecordingCallRecordingType {
+	return OptOutboundCallRecordingCallRecordingType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundCallRecordingCallRecordingType is optional OutboundCallRecordingCallRecordingType.
+type OptOutboundCallRecordingCallRecordingType struct {
+	Value OutboundCallRecordingCallRecordingType
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundCallRecordingCallRecordingType was set.
+func (o OptOutboundCallRecordingCallRecordingType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundCallRecordingCallRecordingType) Reset() {
+	var v OutboundCallRecordingCallRecordingType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundCallRecordingCallRecordingType) SetTo(v OutboundCallRecordingCallRecordingType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundCallRecordingCallRecordingType) Get() (v OutboundCallRecordingCallRecordingType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundCallRecordingCallRecordingType) Or(d OutboundCallRecordingCallRecordingType) OutboundCallRecordingCallRecordingType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptOutboundMessagePayload returns new OptOutboundMessagePayload with value set to v.
 func NewOptOutboundMessagePayload(v OutboundMessagePayload) OptOutboundMessagePayload {
 	return OptOutboundMessagePayload{
@@ -26488,6 +26940,52 @@ func (o OptOutboundMessagePayloadType) Get() (v OutboundMessagePayloadType, ok b
 
 // Or returns value if set, or given parameter if does not.
 func (o OptOutboundMessagePayloadType) Or(d OutboundMessagePayloadType) OutboundMessagePayloadType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptOutboundVoiceProfile returns new OptOutboundVoiceProfile with value set to v.
+func NewOptOutboundVoiceProfile(v OutboundVoiceProfile) OptOutboundVoiceProfile {
+	return OptOutboundVoiceProfile{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOutboundVoiceProfile is optional OutboundVoiceProfile.
+type OptOutboundVoiceProfile struct {
+	Value OutboundVoiceProfile
+	Set   bool
+}
+
+// IsSet returns true if OptOutboundVoiceProfile was set.
+func (o OptOutboundVoiceProfile) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOutboundVoiceProfile) Reset() {
+	var v OutboundVoiceProfile
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOutboundVoiceProfile) SetTo(v OutboundVoiceProfile) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOutboundVoiceProfile) Get() (v OutboundVoiceProfile, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOutboundVoiceProfile) Or(d OutboundVoiceProfile) OutboundVoiceProfile {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -29164,6 +29662,144 @@ func (o OptRoomRecordingType) Or(d RoomRecordingType) RoomRecordingType {
 	return d
 }
 
+// NewOptServicePlan returns new OptServicePlan with value set to v.
+func NewOptServicePlan(v ServicePlan) OptServicePlan {
+	return OptServicePlan{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptServicePlan is optional ServicePlan.
+type OptServicePlan struct {
+	Value ServicePlan
+	Set   bool
+}
+
+// IsSet returns true if OptServicePlan was set.
+func (o OptServicePlan) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptServicePlan) Reset() {
+	var v ServicePlan
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptServicePlan) SetTo(v ServicePlan) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptServicePlan) Get() (v ServicePlan, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptServicePlan) Or(d ServicePlan) ServicePlan {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptSimplifiedOTAUpdateStatus returns new OptSimplifiedOTAUpdateStatus with value set to v.
+func NewOptSimplifiedOTAUpdateStatus(v SimplifiedOTAUpdateStatus) OptSimplifiedOTAUpdateStatus {
+	return OptSimplifiedOTAUpdateStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSimplifiedOTAUpdateStatus is optional SimplifiedOTAUpdateStatus.
+type OptSimplifiedOTAUpdateStatus struct {
+	Value SimplifiedOTAUpdateStatus
+	Set   bool
+}
+
+// IsSet returns true if OptSimplifiedOTAUpdateStatus was set.
+func (o OptSimplifiedOTAUpdateStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSimplifiedOTAUpdateStatus) Reset() {
+	var v SimplifiedOTAUpdateStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSimplifiedOTAUpdateStatus) SetTo(v SimplifiedOTAUpdateStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSimplifiedOTAUpdateStatus) Get() (v SimplifiedOTAUpdateStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSimplifiedOTAUpdateStatus) Or(d SimplifiedOTAUpdateStatus) SimplifiedOTAUpdateStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptSimplifiedOTAUpdateType returns new OptSimplifiedOTAUpdateType with value set to v.
+func NewOptSimplifiedOTAUpdateType(v SimplifiedOTAUpdateType) OptSimplifiedOTAUpdateType {
+	return OptSimplifiedOTAUpdateType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSimplifiedOTAUpdateType is optional SimplifiedOTAUpdateType.
+type OptSimplifiedOTAUpdateType struct {
+	Value SimplifiedOTAUpdateType
+	Set   bool
+}
+
+// IsSet returns true if OptSimplifiedOTAUpdateType was set.
+func (o OptSimplifiedOTAUpdateType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSimplifiedOTAUpdateType) Reset() {
+	var v SimplifiedOTAUpdateType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSimplifiedOTAUpdateType) SetTo(v SimplifiedOTAUpdateType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSimplifiedOTAUpdateType) Get() (v SimplifiedOTAUpdateType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSimplifiedOTAUpdateType) Or(d SimplifiedOTAUpdateType) SimplifiedOTAUpdateType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptSlimListPhoneNumbersFilterStatus returns new OptSlimListPhoneNumbersFilterStatus with value set to v.
 func NewOptSlimListPhoneNumbersFilterStatus(v SlimListPhoneNumbersFilterStatus) OptSlimListPhoneNumbersFilterStatus {
 	return OptSlimListPhoneNumbersFilterStatus{
@@ -31096,6 +31732,52 @@ func (o OptTexmlUpdateCallRecordingRequestBodyStatus) Or(d TexmlUpdateCallRecord
 	return d
 }
 
+// NewOptTrafficType returns new OptTrafficType with value set to v.
+func NewOptTrafficType(v TrafficType) OptTrafficType {
+	return OptTrafficType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTrafficType is optional TrafficType.
+type OptTrafficType struct {
+	Value TrafficType
+	Set   bool
+}
+
+// IsSet returns true if OptTrafficType was set.
+func (o OptTrafficType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTrafficType) Reset() {
+	var v TrafficType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTrafficType) SetTo(v TrafficType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTrafficType) Get() (v TrafficType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTrafficType) Or(d TrafficType) TrafficType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptTranscriptionStartRequestLanguage returns new OptTranscriptionStartRequestLanguage with value set to v.
 func NewOptTranscriptionStartRequestLanguage(v TranscriptionStartRequestLanguage) OptTranscriptionStartRequestLanguage {
 	return OptTranscriptionStartRequestLanguage{
@@ -32800,6 +33482,52 @@ func (o OptUpdatedAt) Or(d UpdatedAt) UpdatedAt {
 	return d
 }
 
+// NewOptUsagePaymentMethod returns new OptUsagePaymentMethod with value set to v.
+func NewOptUsagePaymentMethod(v UsagePaymentMethod) OptUsagePaymentMethod {
+	return OptUsagePaymentMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUsagePaymentMethod is optional UsagePaymentMethod.
+type OptUsagePaymentMethod struct {
+	Value UsagePaymentMethod
+	Set   bool
+}
+
+// IsSet returns true if OptUsagePaymentMethod was set.
+func (o OptUsagePaymentMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUsagePaymentMethod) Reset() {
+	var v UsagePaymentMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUsagePaymentMethod) SetTo(v UsagePaymentMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUsagePaymentMethod) Get() (v UsagePaymentMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUsagePaymentMethod) Or(d UsagePaymentMethod) UsagePaymentMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUserBalance returns new OptUserBalance with value set to v.
 func NewOptUserBalance(v UserBalance) OptUserBalance {
 	return OptUserBalance{
@@ -33816,6 +34544,194 @@ func (o OptWebhookDeliveryWebhookRecordType) Or(d WebhookDeliveryWebhookRecordTy
 	return d
 }
 
+// Ref: #/components/schemas/OutboundCallRecording
+type OutboundCallRecording struct {
+	// Specifies which calls are recorded.
+	CallRecordingType OptOutboundCallRecordingCallRecordingType `json:"call_recording_type"`
+	// When call_recording_type is 'by_caller_phone_number', only outbound calls using one of these
+	// numbers will be recorded. Numbers must be specified in E164 format.
+	CallRecordingCallerPhoneNumbers []string `json:"call_recording_caller_phone_numbers"`
+	// When using 'dual' channels, the final audio file will be a stereo recording with the first leg on
+	// channel A, and the rest on channel B.
+	CallRecordingChannels OptOutboundCallRecordingCallRecordingChannels `json:"call_recording_channels"`
+	// The audio file format for calls being recorded.
+	CallRecordingFormat OptOutboundCallRecordingCallRecordingFormat `json:"call_recording_format"`
+}
+
+// GetCallRecordingType returns the value of CallRecordingType.
+func (s *OutboundCallRecording) GetCallRecordingType() OptOutboundCallRecordingCallRecordingType {
+	return s.CallRecordingType
+}
+
+// GetCallRecordingCallerPhoneNumbers returns the value of CallRecordingCallerPhoneNumbers.
+func (s *OutboundCallRecording) GetCallRecordingCallerPhoneNumbers() []string {
+	return s.CallRecordingCallerPhoneNumbers
+}
+
+// GetCallRecordingChannels returns the value of CallRecordingChannels.
+func (s *OutboundCallRecording) GetCallRecordingChannels() OptOutboundCallRecordingCallRecordingChannels {
+	return s.CallRecordingChannels
+}
+
+// GetCallRecordingFormat returns the value of CallRecordingFormat.
+func (s *OutboundCallRecording) GetCallRecordingFormat() OptOutboundCallRecordingCallRecordingFormat {
+	return s.CallRecordingFormat
+}
+
+// SetCallRecordingType sets the value of CallRecordingType.
+func (s *OutboundCallRecording) SetCallRecordingType(val OptOutboundCallRecordingCallRecordingType) {
+	s.CallRecordingType = val
+}
+
+// SetCallRecordingCallerPhoneNumbers sets the value of CallRecordingCallerPhoneNumbers.
+func (s *OutboundCallRecording) SetCallRecordingCallerPhoneNumbers(val []string) {
+	s.CallRecordingCallerPhoneNumbers = val
+}
+
+// SetCallRecordingChannels sets the value of CallRecordingChannels.
+func (s *OutboundCallRecording) SetCallRecordingChannels(val OptOutboundCallRecordingCallRecordingChannels) {
+	s.CallRecordingChannels = val
+}
+
+// SetCallRecordingFormat sets the value of CallRecordingFormat.
+func (s *OutboundCallRecording) SetCallRecordingFormat(val OptOutboundCallRecordingCallRecordingFormat) {
+	s.CallRecordingFormat = val
+}
+
+// When using 'dual' channels, the final audio file will be a stereo recording with the first leg on
+// channel A, and the rest on channel B.
+type OutboundCallRecordingCallRecordingChannels string
+
+const (
+	OutboundCallRecordingCallRecordingChannelsSingle OutboundCallRecordingCallRecordingChannels = "single"
+	OutboundCallRecordingCallRecordingChannelsDual   OutboundCallRecordingCallRecordingChannels = "dual"
+)
+
+// AllValues returns all OutboundCallRecordingCallRecordingChannels values.
+func (OutboundCallRecordingCallRecordingChannels) AllValues() []OutboundCallRecordingCallRecordingChannels {
+	return []OutboundCallRecordingCallRecordingChannels{
+		OutboundCallRecordingCallRecordingChannelsSingle,
+		OutboundCallRecordingCallRecordingChannelsDual,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundCallRecordingCallRecordingChannels) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundCallRecordingCallRecordingChannelsSingle:
+		return []byte(s), nil
+	case OutboundCallRecordingCallRecordingChannelsDual:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundCallRecordingCallRecordingChannels) UnmarshalText(data []byte) error {
+	switch OutboundCallRecordingCallRecordingChannels(data) {
+	case OutboundCallRecordingCallRecordingChannelsSingle:
+		*s = OutboundCallRecordingCallRecordingChannelsSingle
+		return nil
+	case OutboundCallRecordingCallRecordingChannelsDual:
+		*s = OutboundCallRecordingCallRecordingChannelsDual
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The audio file format for calls being recorded.
+type OutboundCallRecordingCallRecordingFormat string
+
+const (
+	OutboundCallRecordingCallRecordingFormatWav OutboundCallRecordingCallRecordingFormat = "wav"
+	OutboundCallRecordingCallRecordingFormatMp3 OutboundCallRecordingCallRecordingFormat = "mp3"
+)
+
+// AllValues returns all OutboundCallRecordingCallRecordingFormat values.
+func (OutboundCallRecordingCallRecordingFormat) AllValues() []OutboundCallRecordingCallRecordingFormat {
+	return []OutboundCallRecordingCallRecordingFormat{
+		OutboundCallRecordingCallRecordingFormatWav,
+		OutboundCallRecordingCallRecordingFormatMp3,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundCallRecordingCallRecordingFormat) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundCallRecordingCallRecordingFormatWav:
+		return []byte(s), nil
+	case OutboundCallRecordingCallRecordingFormatMp3:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundCallRecordingCallRecordingFormat) UnmarshalText(data []byte) error {
+	switch OutboundCallRecordingCallRecordingFormat(data) {
+	case OutboundCallRecordingCallRecordingFormatWav:
+		*s = OutboundCallRecordingCallRecordingFormatWav
+		return nil
+	case OutboundCallRecordingCallRecordingFormatMp3:
+		*s = OutboundCallRecordingCallRecordingFormatMp3
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Specifies which calls are recorded.
+type OutboundCallRecordingCallRecordingType string
+
+const (
+	OutboundCallRecordingCallRecordingTypeAll                 OutboundCallRecordingCallRecordingType = "all"
+	OutboundCallRecordingCallRecordingTypeNone                OutboundCallRecordingCallRecordingType = "none"
+	OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber OutboundCallRecordingCallRecordingType = "by_caller_phone_number"
+)
+
+// AllValues returns all OutboundCallRecordingCallRecordingType values.
+func (OutboundCallRecordingCallRecordingType) AllValues() []OutboundCallRecordingCallRecordingType {
+	return []OutboundCallRecordingCallRecordingType{
+		OutboundCallRecordingCallRecordingTypeAll,
+		OutboundCallRecordingCallRecordingTypeNone,
+		OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OutboundCallRecordingCallRecordingType) MarshalText() ([]byte, error) {
+	switch s {
+	case OutboundCallRecordingCallRecordingTypeAll:
+		return []byte(s), nil
+	case OutboundCallRecordingCallRecordingTypeNone:
+		return []byte(s), nil
+	case OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OutboundCallRecordingCallRecordingType) UnmarshalText(data []byte) error {
+	switch OutboundCallRecordingCallRecordingType(data) {
+	case OutboundCallRecordingCallRecordingTypeAll:
+		*s = OutboundCallRecordingCallRecordingTypeAll
+		return nil
+	case OutboundCallRecordingCallRecordingTypeNone:
+		*s = OutboundCallRecordingCallRecordingTypeNone
+		return nil
+	case OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber:
+		*s = OutboundCallRecordingCallRecordingTypeByCallerPhoneNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/OutboundMessagePayload
 type OutboundMessagePayload struct {
 	// Identifies the type of the resource.
@@ -34589,7 +35505,244 @@ func (s *OutboundMessagePayloadType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/OutboundVoiceProfile
+type OutboundVoiceProfile struct {
+	// Identifies the resource.
+	ID OptStringInt64 `json:"id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// A user-supplied name to help with organization.
+	Name string `json:"name"`
+	// Amount of connections associated with this outbound voice profile.
+	ConnectionsCount OptInt         `json:"connections_count"`
+	TrafficType      OptTrafficType `json:"traffic_type"`
+	ServicePlan      OptServicePlan `json:"service_plan"`
+	// Must be no more than your global concurrent call limit. Null means no limit.
+	ConcurrentCallLimit OptNilInt `json:"concurrent_call_limit"`
+	// Specifies whether the outbound voice profile can be used. Disabled profiles will result in
+	// outbound calls being blocked for the associated Connections.
+	Enabled            OptBool               `json:"enabled"`
+	Tags               []string              `json:"tags"`
+	UsagePaymentMethod OptUsagePaymentMethod `json:"usage_payment_method"`
+	// The list of destinations you want to be able to call using this outbound voice profile formatted
+	// in alpha2.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// Maximum rate (price per minute) for a Destination to be allowed when making outbound calls.
+	MaxDestinationRate OptFloat64 `json:"max_destination_rate"`
+	// The maximum amount of usage charges, in USD, you want Telnyx to allow on this outbound voice
+	// profile in a day before disallowing new calls.
+	DailySpendLimit OptString `json:"daily_spend_limit"`
+	// Specifies whether to enforce the daily_spend_limit on this outbound voice profile.
+	DailySpendLimitEnabled OptBool                  `json:"daily_spend_limit_enabled"`
+	CallRecording          OptOutboundCallRecording `json:"call_recording"`
+	// The ID of the billing group associated with the outbound proflile. Defaults to null (for no group
+	// assigned).
+	BillingGroupID OptNilUUID `json:"billing_group_id"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *OutboundVoiceProfile) GetID() OptStringInt64 {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *OutboundVoiceProfile) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetName returns the value of Name.
+func (s *OutboundVoiceProfile) GetName() string {
+	return s.Name
+}
+
+// GetConnectionsCount returns the value of ConnectionsCount.
+func (s *OutboundVoiceProfile) GetConnectionsCount() OptInt {
+	return s.ConnectionsCount
+}
+
+// GetTrafficType returns the value of TrafficType.
+func (s *OutboundVoiceProfile) GetTrafficType() OptTrafficType {
+	return s.TrafficType
+}
+
+// GetServicePlan returns the value of ServicePlan.
+func (s *OutboundVoiceProfile) GetServicePlan() OptServicePlan {
+	return s.ServicePlan
+}
+
+// GetConcurrentCallLimit returns the value of ConcurrentCallLimit.
+func (s *OutboundVoiceProfile) GetConcurrentCallLimit() OptNilInt {
+	return s.ConcurrentCallLimit
+}
+
+// GetEnabled returns the value of Enabled.
+func (s *OutboundVoiceProfile) GetEnabled() OptBool {
+	return s.Enabled
+}
+
+// GetTags returns the value of Tags.
+func (s *OutboundVoiceProfile) GetTags() []string {
+	return s.Tags
+}
+
+// GetUsagePaymentMethod returns the value of UsagePaymentMethod.
+func (s *OutboundVoiceProfile) GetUsagePaymentMethod() OptUsagePaymentMethod {
+	return s.UsagePaymentMethod
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *OutboundVoiceProfile) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetMaxDestinationRate returns the value of MaxDestinationRate.
+func (s *OutboundVoiceProfile) GetMaxDestinationRate() OptFloat64 {
+	return s.MaxDestinationRate
+}
+
+// GetDailySpendLimit returns the value of DailySpendLimit.
+func (s *OutboundVoiceProfile) GetDailySpendLimit() OptString {
+	return s.DailySpendLimit
+}
+
+// GetDailySpendLimitEnabled returns the value of DailySpendLimitEnabled.
+func (s *OutboundVoiceProfile) GetDailySpendLimitEnabled() OptBool {
+	return s.DailySpendLimitEnabled
+}
+
+// GetCallRecording returns the value of CallRecording.
+func (s *OutboundVoiceProfile) GetCallRecording() OptOutboundCallRecording {
+	return s.CallRecording
+}
+
+// GetBillingGroupID returns the value of BillingGroupID.
+func (s *OutboundVoiceProfile) GetBillingGroupID() OptNilUUID {
+	return s.BillingGroupID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *OutboundVoiceProfile) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *OutboundVoiceProfile) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *OutboundVoiceProfile) SetID(val OptStringInt64) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *OutboundVoiceProfile) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetName sets the value of Name.
+func (s *OutboundVoiceProfile) SetName(val string) {
+	s.Name = val
+}
+
+// SetConnectionsCount sets the value of ConnectionsCount.
+func (s *OutboundVoiceProfile) SetConnectionsCount(val OptInt) {
+	s.ConnectionsCount = val
+}
+
+// SetTrafficType sets the value of TrafficType.
+func (s *OutboundVoiceProfile) SetTrafficType(val OptTrafficType) {
+	s.TrafficType = val
+}
+
+// SetServicePlan sets the value of ServicePlan.
+func (s *OutboundVoiceProfile) SetServicePlan(val OptServicePlan) {
+	s.ServicePlan = val
+}
+
+// SetConcurrentCallLimit sets the value of ConcurrentCallLimit.
+func (s *OutboundVoiceProfile) SetConcurrentCallLimit(val OptNilInt) {
+	s.ConcurrentCallLimit = val
+}
+
+// SetEnabled sets the value of Enabled.
+func (s *OutboundVoiceProfile) SetEnabled(val OptBool) {
+	s.Enabled = val
+}
+
+// SetTags sets the value of Tags.
+func (s *OutboundVoiceProfile) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetUsagePaymentMethod sets the value of UsagePaymentMethod.
+func (s *OutboundVoiceProfile) SetUsagePaymentMethod(val OptUsagePaymentMethod) {
+	s.UsagePaymentMethod = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *OutboundVoiceProfile) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetMaxDestinationRate sets the value of MaxDestinationRate.
+func (s *OutboundVoiceProfile) SetMaxDestinationRate(val OptFloat64) {
+	s.MaxDestinationRate = val
+}
+
+// SetDailySpendLimit sets the value of DailySpendLimit.
+func (s *OutboundVoiceProfile) SetDailySpendLimit(val OptString) {
+	s.DailySpendLimit = val
+}
+
+// SetDailySpendLimitEnabled sets the value of DailySpendLimitEnabled.
+func (s *OutboundVoiceProfile) SetDailySpendLimitEnabled(val OptBool) {
+	s.DailySpendLimitEnabled = val
+}
+
+// SetCallRecording sets the value of CallRecording.
+func (s *OutboundVoiceProfile) SetCallRecording(val OptOutboundCallRecording) {
+	s.CallRecording = val
+}
+
+// SetBillingGroupID sets the value of BillingGroupID.
+func (s *OutboundVoiceProfile) SetBillingGroupID(val OptNilUUID) {
+	s.BillingGroupID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *OutboundVoiceProfile) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *OutboundVoiceProfile) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
 type OutboundVoiceProfileId int64
+
+type OutboundVoiceProfileResponse struct {
+	Data OptOutboundVoiceProfile `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *OutboundVoiceProfileResponse) GetData() OptOutboundVoiceProfile {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *OutboundVoiceProfileResponse) SetData(val OptOutboundVoiceProfile) {
+	s.Data = val
+}
+
+func (*OutboundVoiceProfileResponse) deleteOutboundVoiceProfileRes() {}
+func (*OutboundVoiceProfileResponse) getOutboundVoiceProfileRes()    {}
+func (*OutboundVoiceProfileResponse) updateOutboundVoiceProfileRes() {}
 
 // Ref: #/components/schemas/PaginationMeta
 type PaginationMeta struct {
@@ -41120,6 +42273,33 @@ func (s *SearchMobileNetworkOperatorsResponse) SetMeta(val OptPaginationMeta) {
 
 func (*SearchMobileNetworkOperatorsResponse) getMobileNetworkOperatorsRes() {}
 
+type SearchOTAUpdateResponse struct {
+	Data []SimplifiedOTAUpdate `json:"data"`
+	Meta OptPaginationMeta     `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *SearchOTAUpdateResponse) GetData() []SimplifiedOTAUpdate {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *SearchOTAUpdateResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *SearchOTAUpdateResponse) SetData(val []SimplifiedOTAUpdate) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *SearchOTAUpdateResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*SearchOTAUpdateResponse) listOtaUpdatesRes() {}
+
 // Ref: #/components/schemas/SendDTMFRequest
 type SendDTMFRequest struct {
 	// DTMF digits to send. Valid digits are 0-9, A-D, *, and #. Pauses can be added using w (0.5s) and W
@@ -41173,6 +42353,215 @@ func (s *SendDTMFRequest) SetClientState(val OptString) {
 // SetCommandID sets the value of CommandID.
 func (s *SendDTMFRequest) SetCommandID(val OptString) {
 	s.CommandID = val
+}
+
+// Indicates the coverage of the termination regions.
+// Ref: #/components/schemas/ServicePlan
+type ServicePlan string
+
+const (
+	ServicePlanGlobal ServicePlan = "global"
+)
+
+// AllValues returns all ServicePlan values.
+func (ServicePlan) AllValues() []ServicePlan {
+	return []ServicePlan{
+		ServicePlanGlobal,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ServicePlan) MarshalText() ([]byte, error) {
+	switch s {
+	case ServicePlanGlobal:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ServicePlan) UnmarshalText(data []byte) error {
+	switch ServicePlan(data) {
+	case ServicePlanGlobal:
+		*s = ServicePlanGlobal
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// This object represents an Over the Air (OTA) update request. It allows tracking the current status
+// of a operation that apply settings in a particular SIM card. <br/><br/>.
+// Ref: #/components/schemas/SimplifiedOTAUpdate
+type SimplifiedOTAUpdate struct {
+	// Identifies the resource.
+	ID         OptUUID   `json:"id"`
+	RecordType OptString `json:"record_type"`
+	// The identification UUID of the related SIM card resource.
+	SimCardID OptUUID `json:"sim_card_id"`
+	// Represents the type of the operation requested. This will relate directly to the source of the
+	// request.
+	Type   OptSimplifiedOTAUpdateType   `json:"type"`
+	Status OptSimplifiedOTAUpdateStatus `json:"status"`
+	// ISO 8601 formatted date-time indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date-time indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *SimplifiedOTAUpdate) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *SimplifiedOTAUpdate) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetSimCardID returns the value of SimCardID.
+func (s *SimplifiedOTAUpdate) GetSimCardID() OptUUID {
+	return s.SimCardID
+}
+
+// GetType returns the value of Type.
+func (s *SimplifiedOTAUpdate) GetType() OptSimplifiedOTAUpdateType {
+	return s.Type
+}
+
+// GetStatus returns the value of Status.
+func (s *SimplifiedOTAUpdate) GetStatus() OptSimplifiedOTAUpdateStatus {
+	return s.Status
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *SimplifiedOTAUpdate) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *SimplifiedOTAUpdate) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *SimplifiedOTAUpdate) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *SimplifiedOTAUpdate) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetSimCardID sets the value of SimCardID.
+func (s *SimplifiedOTAUpdate) SetSimCardID(val OptUUID) {
+	s.SimCardID = val
+}
+
+// SetType sets the value of Type.
+func (s *SimplifiedOTAUpdate) SetType(val OptSimplifiedOTAUpdateType) {
+	s.Type = val
+}
+
+// SetStatus sets the value of Status.
+func (s *SimplifiedOTAUpdate) SetStatus(val OptSimplifiedOTAUpdateStatus) {
+	s.Status = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *SimplifiedOTAUpdate) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *SimplifiedOTAUpdate) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+type SimplifiedOTAUpdateStatus string
+
+const (
+	SimplifiedOTAUpdateStatusInProgress SimplifiedOTAUpdateStatus = "in-progress"
+	SimplifiedOTAUpdateStatusCompleted  SimplifiedOTAUpdateStatus = "completed"
+	SimplifiedOTAUpdateStatusFailed     SimplifiedOTAUpdateStatus = "failed"
+)
+
+// AllValues returns all SimplifiedOTAUpdateStatus values.
+func (SimplifiedOTAUpdateStatus) AllValues() []SimplifiedOTAUpdateStatus {
+	return []SimplifiedOTAUpdateStatus{
+		SimplifiedOTAUpdateStatusInProgress,
+		SimplifiedOTAUpdateStatusCompleted,
+		SimplifiedOTAUpdateStatusFailed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SimplifiedOTAUpdateStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case SimplifiedOTAUpdateStatusInProgress:
+		return []byte(s), nil
+	case SimplifiedOTAUpdateStatusCompleted:
+		return []byte(s), nil
+	case SimplifiedOTAUpdateStatusFailed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SimplifiedOTAUpdateStatus) UnmarshalText(data []byte) error {
+	switch SimplifiedOTAUpdateStatus(data) {
+	case SimplifiedOTAUpdateStatusInProgress:
+		*s = SimplifiedOTAUpdateStatusInProgress
+		return nil
+	case SimplifiedOTAUpdateStatusCompleted:
+		*s = SimplifiedOTAUpdateStatusCompleted
+		return nil
+	case SimplifiedOTAUpdateStatusFailed:
+		*s = SimplifiedOTAUpdateStatusFailed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Represents the type of the operation requested. This will relate directly to the source of the
+// request.
+type SimplifiedOTAUpdateType string
+
+const (
+	SimplifiedOTAUpdateTypeSimCardNetworkPreferences SimplifiedOTAUpdateType = "sim_card_network_preferences"
+)
+
+// AllValues returns all SimplifiedOTAUpdateType values.
+func (SimplifiedOTAUpdateType) AllValues() []SimplifiedOTAUpdateType {
+	return []SimplifiedOTAUpdateType{
+		SimplifiedOTAUpdateTypeSimCardNetworkPreferences,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SimplifiedOTAUpdateType) MarshalText() ([]byte, error) {
+	switch s {
+	case SimplifiedOTAUpdateTypeSimCardNetworkPreferences:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SimplifiedOTAUpdateType) UnmarshalText(data []byte) error {
+	switch SimplifiedOTAUpdateType(data) {
+	case SimplifiedOTAUpdateTypeSimCardNetworkPreferences:
+		*s = SimplifiedOTAUpdateTypeSimCardNetworkPreferences
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/SipHeader
@@ -45273,6 +46662,42 @@ func (s *TexmlUpdateCallRecordingRequestBodyStatus) UnmarshalText(data []byte) e
 
 type ToNumber string
 
+// Specifies the type of traffic allowed in this profile.
+// Ref: #/components/schemas/TrafficType
+type TrafficType string
+
+const (
+	TrafficTypeConversational TrafficType = "conversational"
+)
+
+// AllValues returns all TrafficType values.
+func (TrafficType) AllValues() []TrafficType {
+	return []TrafficType{
+		TrafficTypeConversational,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TrafficType) MarshalText() ([]byte, error) {
+	switch s {
+	case TrafficTypeConversational:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TrafficType) UnmarshalText(data []byte) error {
+	switch TrafficType(data) {
+	case TrafficTypeConversational:
+		*s = TrafficTypeConversational
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/TranscriptionStartRequest
 type TranscriptionStartRequest struct {
 	// Engine to use for speech recognition. `A` - `google`, `B` - `telnyx`.
@@ -47351,6 +48776,180 @@ func (s *UpdateOutboundChannelsReq) SetChannels(val int) {
 	s.Channels = val
 }
 
+// UpdateOutboundVoiceProfileNotFound is response for UpdateOutboundVoiceProfile operation.
+type UpdateOutboundVoiceProfileNotFound struct{}
+
+func (*UpdateOutboundVoiceProfileNotFound) updateOutboundVoiceProfileRes() {}
+
+// Ref: #/components/schemas/UpdateOutboundVoiceProfileRequest
+type UpdateOutboundVoiceProfileRequest struct {
+	// A user-supplied name to help with organization.
+	Name        string         `json:"name"`
+	TrafficType OptTrafficType `json:"traffic_type"`
+	ServicePlan OptServicePlan `json:"service_plan"`
+	// Must be no more than your global concurrent call limit. Null means no limit.
+	ConcurrentCallLimit OptNilInt `json:"concurrent_call_limit"`
+	// Specifies whether the outbound voice profile can be used. Disabled profiles will result in
+	// outbound calls being blocked for the associated Connections.
+	Enabled            OptBool               `json:"enabled"`
+	Tags               []string              `json:"tags"`
+	UsagePaymentMethod OptUsagePaymentMethod `json:"usage_payment_method"`
+	// The list of destinations you want to be able to call using this outbound voice profile formatted
+	// in alpha2.
+	WhitelistedDestinations []string `json:"whitelisted_destinations"`
+	// Maximum rate (price per minute) for a Destination to be allowed when making outbound calls.
+	MaxDestinationRate OptFloat64 `json:"max_destination_rate"`
+	// The maximum amount of usage charges, in USD, you want Telnyx to allow on this outbound voice
+	// profile in a day before disallowing new calls.
+	DailySpendLimit OptString `json:"daily_spend_limit"`
+	// Specifies whether to enforce the daily_spend_limit on this outbound voice profile.
+	DailySpendLimitEnabled OptBool                  `json:"daily_spend_limit_enabled"`
+	CallRecording          OptOutboundCallRecording `json:"call_recording"`
+	// The ID of the billing group associated with the outbound proflile. Defaults to null (for no group
+	// assigned).
+	BillingGroupID OptNilUUID `json:"billing_group_id"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateOutboundVoiceProfileRequest) GetName() string {
+	return s.Name
+}
+
+// GetTrafficType returns the value of TrafficType.
+func (s *UpdateOutboundVoiceProfileRequest) GetTrafficType() OptTrafficType {
+	return s.TrafficType
+}
+
+// GetServicePlan returns the value of ServicePlan.
+func (s *UpdateOutboundVoiceProfileRequest) GetServicePlan() OptServicePlan {
+	return s.ServicePlan
+}
+
+// GetConcurrentCallLimit returns the value of ConcurrentCallLimit.
+func (s *UpdateOutboundVoiceProfileRequest) GetConcurrentCallLimit() OptNilInt {
+	return s.ConcurrentCallLimit
+}
+
+// GetEnabled returns the value of Enabled.
+func (s *UpdateOutboundVoiceProfileRequest) GetEnabled() OptBool {
+	return s.Enabled
+}
+
+// GetTags returns the value of Tags.
+func (s *UpdateOutboundVoiceProfileRequest) GetTags() []string {
+	return s.Tags
+}
+
+// GetUsagePaymentMethod returns the value of UsagePaymentMethod.
+func (s *UpdateOutboundVoiceProfileRequest) GetUsagePaymentMethod() OptUsagePaymentMethod {
+	return s.UsagePaymentMethod
+}
+
+// GetWhitelistedDestinations returns the value of WhitelistedDestinations.
+func (s *UpdateOutboundVoiceProfileRequest) GetWhitelistedDestinations() []string {
+	return s.WhitelistedDestinations
+}
+
+// GetMaxDestinationRate returns the value of MaxDestinationRate.
+func (s *UpdateOutboundVoiceProfileRequest) GetMaxDestinationRate() OptFloat64 {
+	return s.MaxDestinationRate
+}
+
+// GetDailySpendLimit returns the value of DailySpendLimit.
+func (s *UpdateOutboundVoiceProfileRequest) GetDailySpendLimit() OptString {
+	return s.DailySpendLimit
+}
+
+// GetDailySpendLimitEnabled returns the value of DailySpendLimitEnabled.
+func (s *UpdateOutboundVoiceProfileRequest) GetDailySpendLimitEnabled() OptBool {
+	return s.DailySpendLimitEnabled
+}
+
+// GetCallRecording returns the value of CallRecording.
+func (s *UpdateOutboundVoiceProfileRequest) GetCallRecording() OptOutboundCallRecording {
+	return s.CallRecording
+}
+
+// GetBillingGroupID returns the value of BillingGroupID.
+func (s *UpdateOutboundVoiceProfileRequest) GetBillingGroupID() OptNilUUID {
+	return s.BillingGroupID
+}
+
+// SetName sets the value of Name.
+func (s *UpdateOutboundVoiceProfileRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetTrafficType sets the value of TrafficType.
+func (s *UpdateOutboundVoiceProfileRequest) SetTrafficType(val OptTrafficType) {
+	s.TrafficType = val
+}
+
+// SetServicePlan sets the value of ServicePlan.
+func (s *UpdateOutboundVoiceProfileRequest) SetServicePlan(val OptServicePlan) {
+	s.ServicePlan = val
+}
+
+// SetConcurrentCallLimit sets the value of ConcurrentCallLimit.
+func (s *UpdateOutboundVoiceProfileRequest) SetConcurrentCallLimit(val OptNilInt) {
+	s.ConcurrentCallLimit = val
+}
+
+// SetEnabled sets the value of Enabled.
+func (s *UpdateOutboundVoiceProfileRequest) SetEnabled(val OptBool) {
+	s.Enabled = val
+}
+
+// SetTags sets the value of Tags.
+func (s *UpdateOutboundVoiceProfileRequest) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetUsagePaymentMethod sets the value of UsagePaymentMethod.
+func (s *UpdateOutboundVoiceProfileRequest) SetUsagePaymentMethod(val OptUsagePaymentMethod) {
+	s.UsagePaymentMethod = val
+}
+
+// SetWhitelistedDestinations sets the value of WhitelistedDestinations.
+func (s *UpdateOutboundVoiceProfileRequest) SetWhitelistedDestinations(val []string) {
+	s.WhitelistedDestinations = val
+}
+
+// SetMaxDestinationRate sets the value of MaxDestinationRate.
+func (s *UpdateOutboundVoiceProfileRequest) SetMaxDestinationRate(val OptFloat64) {
+	s.MaxDestinationRate = val
+}
+
+// SetDailySpendLimit sets the value of DailySpendLimit.
+func (s *UpdateOutboundVoiceProfileRequest) SetDailySpendLimit(val OptString) {
+	s.DailySpendLimit = val
+}
+
+// SetDailySpendLimitEnabled sets the value of DailySpendLimitEnabled.
+func (s *UpdateOutboundVoiceProfileRequest) SetDailySpendLimitEnabled(val OptBool) {
+	s.DailySpendLimitEnabled = val
+}
+
+// SetCallRecording sets the value of CallRecording.
+func (s *UpdateOutboundVoiceProfileRequest) SetCallRecording(val OptOutboundCallRecording) {
+	s.CallRecording = val
+}
+
+// SetBillingGroupID sets the value of BillingGroupID.
+func (s *UpdateOutboundVoiceProfileRequest) SetBillingGroupID(val OptNilUUID) {
+	s.BillingGroupID = val
+}
+
+// UpdateOutboundVoiceProfileUnauthorized is response for UpdateOutboundVoiceProfile operation.
+type UpdateOutboundVoiceProfileUnauthorized struct{}
+
+func (*UpdateOutboundVoiceProfileUnauthorized) updateOutboundVoiceProfileRes() {}
+
+// UpdateOutboundVoiceProfileUnprocessableEntity is response for UpdateOutboundVoiceProfile operation.
+type UpdateOutboundVoiceProfileUnprocessableEntity struct{}
+
+func (*UpdateOutboundVoiceProfileUnprocessableEntity) updateOutboundVoiceProfileRes() {}
+
 // Ref: #/components/schemas/UpdatePhoneNumberMessagingSettingsRequest
 type UpdatePhoneNumberMessagingSettingsRequest struct {
 	// Unique identifier for a messaging profile.
@@ -48501,6 +50100,42 @@ func (s *UpdateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val Op
 }
 
 type UpdatedAt string
+
+// Setting for how costs for outbound profile are calculated.
+// Ref: #/components/schemas/UsagePaymentMethod
+type UsagePaymentMethod string
+
+const (
+	UsagePaymentMethodRateDeck UsagePaymentMethod = "rate-deck"
+)
+
+// AllValues returns all UsagePaymentMethod values.
+func (UsagePaymentMethod) AllValues() []UsagePaymentMethod {
+	return []UsagePaymentMethod{
+		UsagePaymentMethodRateDeck,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UsagePaymentMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case UsagePaymentMethodRateDeck:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UsagePaymentMethod) UnmarshalText(data []byte) error {
+	switch UsagePaymentMethod(data) {
+	case UsagePaymentMethodRateDeck:
+		*s = UsagePaymentMethodRateDeck
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/UserBalance
 type UserBalance struct {

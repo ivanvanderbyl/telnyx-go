@@ -149,6 +149,10 @@ type DeleteNotificationChannelRes interface {
 	deleteNotificationChannelRes()
 }
 
+type DeleteOutboundVoiceProfileRes interface {
+	deleteOutboundVoiceProfileRes()
+}
+
 type DeletePhoneNumberRes interface {
 	deletePhoneNumberRes()
 }
@@ -313,6 +317,10 @@ type GetOtaUpdateRes interface {
 	getOtaUpdateRes()
 }
 
+type GetOutboundVoiceProfileRes interface {
+	getOutboundVoiceProfileRes()
+}
+
 type GetPhoneNumberMessagingSettingsRes interface {
 	getPhoneNumberMessagingSettingsRes()
 }
@@ -467,6 +475,10 @@ type ListNetworksRes interface {
 
 type ListNotificationChannelsRes interface {
 	listNotificationChannelsRes()
+}
+
+type ListOtaUpdatesRes interface {
+	listOtaUpdatesRes()
 }
 
 type ListPhoneNumbersJobsRes interface {
@@ -703,6 +715,10 @@ type UpdateNumberOrderPhoneNumberRes interface {
 
 type UpdateOutboundChannelsRes interface {
 	updateOutboundChannelsRes()
+}
+
+type UpdateOutboundVoiceProfileRes interface {
+	updateOutboundVoiceProfileRes()
 }
 
 type UpdatePhoneNumberMessagingSettingsRes interface {

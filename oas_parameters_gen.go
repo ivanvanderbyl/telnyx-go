@@ -93,6 +93,12 @@ type DeleteNotificationChannelParams struct {
 	ID uuid.UUID
 }
 
+// DeleteOutboundVoiceProfileParams is parameters of DeleteOutboundVoiceProfile operation.
+type DeleteOutboundVoiceProfileParams struct {
+	// Identifies the resource.
+	ID int64
+}
+
 // DeletePhoneNumberParams is parameters of DeletePhoneNumber operation.
 type DeletePhoneNumberParams struct {
 	// Identifies the resource.
@@ -420,6 +426,12 @@ type GetNumberOrderPhoneNumberParams struct {
 type GetOtaUpdateParams struct {
 	// Identifies the resource.
 	ID uuid.UUID
+}
+
+// GetOutboundVoiceProfileParams is parameters of GetOutboundVoiceProfile operation.
+type GetOutboundVoiceProfileParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // GetPhoneNumberMessagingSettingsParams is parameters of GetPhoneNumberMessagingSettings operation.
@@ -866,6 +878,20 @@ type ListNotificationChannelsParams struct {
 	PageSize OptInt
 	// Filter by the id of a channel type.
 	FilterChannelTypeIDEq OptChannelTypeId
+}
+
+// ListOtaUpdatesParams is parameters of ListOtaUpdates operation.
+type ListOtaUpdatesParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter by a specific status of the resource's lifecycle.
+	FilterStatus OptFilterBasicStatusLifecycle
+	// The SIM card identification UUID.
+	FilterSimCardID OptString
+	// Filter by type.
+	FilterType OptListOtaUpdatesFilterType
 }
 
 // ListPhoneNumbersParams is parameters of ListPhoneNumbers operation.
@@ -1381,6 +1407,12 @@ type UpdateNotificationChannelParams struct {
 type UpdateNumberOrderPhoneNumberParams struct {
 	// The number order phone number ID.
 	NumberOrderPhoneNumberID string
+}
+
+// UpdateOutboundVoiceProfileParams is parameters of UpdateOutboundVoiceProfile operation.
+type UpdateOutboundVoiceProfileParams struct {
+	// Identifies the resource.
+	ID int64
 }
 
 // UpdatePhoneNumberParams is parameters of UpdatePhoneNumber operation.

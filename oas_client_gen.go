@@ -258,6 +258,12 @@ type Invoker interface {
 	//
 	// DELETE /notification_channels/{id}
 	DeleteNotificationChannel(ctx context.Context, params DeleteNotificationChannelParams) (DeleteNotificationChannelRes, error)
+	// DeleteOutboundVoiceProfile invokes DeleteOutboundVoiceProfile operation.
+	//
+	// Deletes an existing outbound voice profile.
+	//
+	// DELETE /outbound_voice_profiles/{id}
+	DeleteOutboundVoiceProfile(ctx context.Context, params DeleteOutboundVoiceProfileParams) (DeleteOutboundVoiceProfileRes, error)
 	// DeletePhoneNumber invokes DeletePhoneNumber operation.
 	//
 	// Delete a phone number.
@@ -543,6 +549,12 @@ type Invoker interface {
 	//
 	// GET /ota_updates/{id}
 	GetOtaUpdate(ctx context.Context, params GetOtaUpdateParams) (GetOtaUpdateRes, error)
+	// GetOutboundVoiceProfile invokes GetOutboundVoiceProfile operation.
+	//
+	// Retrieves the details of an existing outbound voice profile.
+	//
+	// GET /outbound_voice_profiles/{id}
+	GetOutboundVoiceProfile(ctx context.Context, params GetOutboundVoiceProfileParams) (GetOutboundVoiceProfileRes, error)
 	// GetPhoneNumberMessagingSettings invokes GetPhoneNumberMessagingSettings operation.
 	//
 	// Retrieve a phone number with messaging settings.
@@ -805,6 +817,12 @@ type Invoker interface {
 	//
 	// GET /notification_channels
 	ListNotificationChannels(ctx context.Context, params ListNotificationChannelsParams) (ListNotificationChannelsRes, error)
+	// ListOtaUpdates invokes ListOtaUpdates operation.
+	//
+	// List OTA updates.
+	//
+	// GET /ota_updates
+	ListOtaUpdates(ctx context.Context, params ListOtaUpdatesParams) (ListOtaUpdatesRes, error)
 	// ListPhoneNumbers invokes ListPhoneNumbers operation.
 	//
 	// List phone numbers.
@@ -1427,6 +1445,12 @@ type Invoker interface {
 	//
 	// PATCH /phone_numbers/inbound_channels
 	UpdateOutboundChannels(ctx context.Context, request *UpdateOutboundChannelsReq) (UpdateOutboundChannelsRes, error)
+	// UpdateOutboundVoiceProfile invokes UpdateOutboundVoiceProfile operation.
+	//
+	// Updates an existing outbound voice profile.
+	//
+	// PATCH /outbound_voice_profiles/{id}
+	UpdateOutboundVoiceProfile(ctx context.Context, request *UpdateOutboundVoiceProfileRequest, params UpdateOutboundVoiceProfileParams) (UpdateOutboundVoiceProfileRes, error)
 	// UpdatePhoneNumber invokes UpdatePhoneNumber operation.
 	//
 	// Update a phone number.
@@ -4689,6 +4713,93 @@ func (c *Client) sendDeleteNotificationChannel(ctx context.Context, params Delet
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteNotificationChannelResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteOutboundVoiceProfile invokes DeleteOutboundVoiceProfile operation.
+//
+// Deletes an existing outbound voice profile.
+//
+// DELETE /outbound_voice_profiles/{id}
+func (c *Client) DeleteOutboundVoiceProfile(ctx context.Context, params DeleteOutboundVoiceProfileParams) (DeleteOutboundVoiceProfileRes, error) {
+	res, err := c.sendDeleteOutboundVoiceProfile(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteOutboundVoiceProfile(ctx context.Context, params DeleteOutboundVoiceProfileParams) (res DeleteOutboundVoiceProfileRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/outbound_voice_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteOutboundVoiceProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteOutboundVoiceProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9068,6 +9179,93 @@ func (c *Client) sendGetOtaUpdate(ctx context.Context, params GetOtaUpdateParams
 	defer resp.Body.Close()
 
 	result, err := decodeGetOtaUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetOutboundVoiceProfile invokes GetOutboundVoiceProfile operation.
+//
+// Retrieves the details of an existing outbound voice profile.
+//
+// GET /outbound_voice_profiles/{id}
+func (c *Client) GetOutboundVoiceProfile(ctx context.Context, params GetOutboundVoiceProfileParams) (GetOutboundVoiceProfileRes, error) {
+	res, err := c.sendGetOutboundVoiceProfile(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetOutboundVoiceProfile(ctx context.Context, params GetOutboundVoiceProfileParams) (res GetOutboundVoiceProfileRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/outbound_voice_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetOutboundVoiceProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetOutboundVoiceProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -14359,6 +14557,163 @@ func (c *Client) sendListNotificationChannels(ctx context.Context, params ListNo
 	defer resp.Body.Close()
 
 	result, err := decodeListNotificationChannelsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListOtaUpdates invokes ListOtaUpdates operation.
+//
+// List OTA updates.
+//
+// GET /ota_updates
+func (c *Client) ListOtaUpdates(ctx context.Context, params ListOtaUpdatesParams) (ListOtaUpdatesRes, error) {
+	res, err := c.sendListOtaUpdates(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListOtaUpdates(ctx context.Context, params ListOtaUpdatesParams) (res ListOtaUpdatesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/ota_updates"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[sim_card_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[sim_card_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterSimCardID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterType.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListOtaUpdates", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListOtaUpdatesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -21623,6 +21978,105 @@ func (c *Client) sendUpdateOutboundChannels(ctx context.Context, request *Update
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateOutboundChannelsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateOutboundVoiceProfile invokes UpdateOutboundVoiceProfile operation.
+//
+// Updates an existing outbound voice profile.
+//
+// PATCH /outbound_voice_profiles/{id}
+func (c *Client) UpdateOutboundVoiceProfile(ctx context.Context, request *UpdateOutboundVoiceProfileRequest, params UpdateOutboundVoiceProfileParams) (UpdateOutboundVoiceProfileRes, error) {
+	res, err := c.sendUpdateOutboundVoiceProfile(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateOutboundVoiceProfile(ctx context.Context, request *UpdateOutboundVoiceProfileRequest, params UpdateOutboundVoiceProfileParams) (res UpdateOutboundVoiceProfileRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/outbound_voice_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateOutboundVoiceProfileRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateOutboundVoiceProfile", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateOutboundVoiceProfileResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
