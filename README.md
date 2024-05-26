@@ -8,7 +8,7 @@ Code generated using [Ogen](https://github.com/ogen-go/ogen)
 
 ```go
 type Authorizor struct {
-	token string
+  token string
 }
 
 func (a *Authorizor) BearerAuth(_ context.Context, operationName string) (telnyx.BearerAuth, error) {
@@ -37,5 +37,6 @@ func do() error {
     return errors.New("not found")
   }
 }
+```
 
 Also see [cmd](./cmd) for more examples.
