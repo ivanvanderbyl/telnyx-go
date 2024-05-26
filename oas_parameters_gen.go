@@ -12,6 +12,12 @@ type AnswerCallParams struct {
 	CallControlID string
 }
 
+// AssignPhoneNumberParams is parameters of AssignPhoneNumber operation.
+type AssignPhoneNumberParams struct {
+	// Channel zone identifier.
+	ChannelZoneID string
+}
+
 // BridgeCallParams is parameters of BridgeCall operation.
 type BridgeCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -410,6 +416,16 @@ type GetPhoneNumberVoiceSettingsParams struct {
 	ID int64
 }
 
+// GetPhoneNumbersParams is parameters of GetPhoneNumbers operation.
+type GetPhoneNumbersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Channel zone identifier.
+	ChannelZoneID string
+}
+
 // GetRecordingParams is parameters of GetRecording operation.
 type GetRecordingParams struct {
 	// Uniquely identifies the recording by id.
@@ -655,6 +671,45 @@ type LeaveQueueParams struct {
 	CallControlID string
 }
 
+// ListAvailablePhoneNumbersParams is parameters of ListAvailablePhoneNumbers operation.
+type ListAvailablePhoneNumbersParams struct {
+	// Filter numbers starting with a pattern (exclude NDC from start of this filter if used with
+	// `national_destination_code` filter).
+	FilterPhoneNumberStartsWith OptString
+	// Filter numbers ending with a pattern (max length of 4 digits if used with
+	// `national_destination_code` filter).
+	FilterPhoneNumberEndsWith OptString
+	// Filter numbers containing a pattern (must be used with `national_destination_code` filter and only
+	// searches within last 4 digits).
+	FilterPhoneNumberContains OptString
+	// Filter phone numbers by city.
+	FilterLocality OptString
+	// Filter phone numbers by US state/CA province.
+	FilterAdministrativeArea OptString
+	// Filter phone numbers by ISO alpha-2 country code.
+	FilterCountryCode OptString
+	// Filter by the national destination code of the number. This filter is only applicable to North
+	// American numbers.
+	FilterNationalDestinationCode OptString
+	// Filter phone numbers by NANP rate center. This filter is only applicable to North American numbers.
+	FilterRateCenter OptString
+	// Filter phone numbers by number type.
+	FilterPhoneNumberType OptListAvailablePhoneNumbersFilterPhoneNumberType
+	// Filter if the phone number should be used for voice, fax, mms, sms, emergency.
+	FilterFeatures []ListAvailablePhoneNumbersFilterFeaturesItem
+	// Limits the number of results.
+	FilterLimit OptInt
+	// Filter to determine if best effort results should be included. Only available in NANPA countries.
+	FilterBestEffort OptBool
+	// Filter to exclude phone numbers that need additional time after to purchase to receive phone calls.
+	//  Only available for toll-free numbers.
+	FilterQuickship OptBool
+	// Filter to exclude phone numbers that cannot be reserved before purchase.
+	FilterReservable OptBool
+	// Filter to exclude phone numbers that are currently on hold for your account.
+	FilterExcludeHeldNumbers OptBool
+}
+
 // ListCallControlApplicationsParams is parameters of ListCallControlApplications operation.
 type ListCallControlApplicationsParams struct {
 	// The page number to load.
@@ -716,6 +771,27 @@ type ListExternalConnectionLogMessagesParams struct {
 	FilterTelephoneNumberEq OptString
 }
 
+// ListExternalConnectionPhoneNumbersParams is parameters of ListExternalConnectionPhoneNumbers operation.
+type ListExternalConnectionPhoneNumbersParams struct {
+	// Identifies the resource.
+	ID int64
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The phone number to filter by.
+	FilterPhoneNumberEq OptString
+	// The partial phone number to filter by. Requires 3-15 digits.
+	FilterPhoneNumberContains OptString
+	// If present, connections associated with the given phone_number will be returned. A full match is
+	// necessary with a e164 format.
+	FilterPhoneNumber OptNilString
+	// The civic address ID to filter by.
+	FilterCivicAddressIDEq OptUUID
+	// The location ID to filter by.
+	FilterLocationIDEq OptUUID
+}
+
 // ListMessagingHostedNumberOrdersParams is parameters of ListMessagingHostedNumberOrders operation.
 type ListMessagingHostedNumberOrdersParams struct {
 	// The page number to load.
@@ -768,6 +844,45 @@ type ListNotificationChannelsParams struct {
 	FilterChannelTypeIDEq OptChannelTypeId
 }
 
+// ListPhoneNumbersParams is parameters of ListPhoneNumbers operation.
+type ListPhoneNumbersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter by phone number tags.
+	FilterTag OptString
+	// Filter by phone number. Requires at least three digits.
+	// Non-numerical characters will result in no values being returned.
+	FilterPhoneNumber OptString
+	// Filter by phone number status.
+	FilterStatus OptListPhoneNumbersFilterStatus
+	// Filter by connection_id.
+	FilterConnectionID OptStringInt64
+	// Filter contains connection name. Requires at least three characters.
+	FilterVoiceConnectionNameContains OptString
+	// Filter starts with connection name. Requires at least three characters.
+	FilterVoiceConnectionNameStartsWith OptString
+	// Filter ends with connection name. Requires at least three characters.
+	FilterVoiceConnectionNameEndsWith OptString
+	// Filter by connection name.
+	FilterVoiceConnectionNameEq OptString
+	// Filter by usage_payment_method.
+	FilterVoiceUsagePaymentMethod OptListPhoneNumbersFilterVoiceUsagePaymentMethod
+	// Filter by the billing_group_id associated with phone numbers. To filter to only phone numbers that
+	// have no billing group associated them, set the value of this filter to the string 'null'.
+	FilterBillingGroupID OptString
+	// Filter by the emergency_address_id associated with phone numbers. To filter only phone numbers
+	// that have no emergency address associated with them, set the value of this filter to the string
+	// 'null'.
+	FilterEmergencyAddressID OptStringInt64
+	// Filter numbers via the customer_reference set.
+	FilterCustomerReference OptString
+	// Specifies the sort order for results. If not given, results are sorted by created_at in descending
+	// order.
+	Sort OptListPhoneNumbersSort
+}
+
 // ListPhoneNumbersJobsParams is parameters of ListPhoneNumbersJobs operation.
 type ListPhoneNumbersJobsParams struct {
 	// Filter the phone number jobs by type.
@@ -809,6 +924,42 @@ type ListPhoneNumbersWithVoiceSettingsParams struct {
 	Sort OptListPhoneNumbersWithVoiceSettingsSort
 }
 
+// ListPortingPhoneNumbersParams is parameters of ListPortingPhoneNumbers operation.
+type ListPortingPhoneNumbersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// Filter results by porting order id.
+	FilterPortingOrderID OptUUID
+	// Filter results by a list of porting order ids.
+	FilterPortingOrderIDIn []uuid.UUID
+	// Filter results by support key.
+	FilterSupportKeyEq OptString
+	// Filter results by a list of support keys.
+	FilterSupportKeyIn []string
+	// Filter results by phone number.
+	FilterPhoneNumber OptString
+	// Filter results by a list of phone numbers.
+	FilterPhoneNumberIn []string
+	// Filter results by porting order status.
+	FilterPortingOrderStatus OptListPortingPhoneNumbersFilterPortingOrderStatus
+	// Filter results by activation status.
+	FilterActivationStatus OptPortingOrderActivationStatus
+	// Filter results by portability status.
+	FilterPortabilityStatus OptPortabilityStatus
+}
+
+// ListProfilePhoneNumbersParams is parameters of ListProfilePhoneNumbers operation.
+type ListProfilePhoneNumbersParams struct {
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The id of the messaging profile to retrieve.
+	ID uuid.UUID
+}
+
 // ListProfilesParams is parameters of ListProfiles operation.
 type ListProfilesParams struct {
 	FilterName OptString
@@ -824,6 +975,12 @@ type ListQueueCallsParams struct {
 	PageNumber OptInt
 	// The size of the page.
 	PageSize OptInt
+}
+
+// ListRegulatoryRequirementsParams is parameters of ListRegulatoryRequirements operation.
+type ListRegulatoryRequirementsParams struct {
+	// Record type phone number/ phone numbers.
+	FilterPhoneNumber string
 }
 
 // ListRoomRecordingsParams is parameters of ListRoomRecordings operation.
@@ -888,6 +1045,14 @@ type ListVerifiedCallDisplayProfilesParams struct {
 type ListVerifiedNumbersParams struct {
 	PageSize   OptInt
 	PageNumber OptInt
+}
+
+// LookupNumberParams is parameters of LookupNumber operation.
+type LookupNumberParams struct {
+	// The phone number to be looked up.
+	PhoneNumber string
+	// Specifies the type of number lookup to be performed.
+	Type OptNumberLookupType
 }
 
 // NoiseSuppressionStartParams is parameters of noiseSuppressionStart operation.

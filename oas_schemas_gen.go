@@ -533,6 +533,20 @@ func (s *AnswerRequestWebhookURLMethod) UnmarshalText(data []byte) error {
 
 type ApplicationName string
 
+type AssignPhoneNumberReq struct {
+	PhoneNumber string `json:"phone_number"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *AssignPhoneNumberReq) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *AssignPhoneNumberReq) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
 // Webhook delivery attempt details.
 // Ref: #/components/schemas/attempt
 type Attempt struct {
@@ -898,6 +912,172 @@ func (s *AudioTranscriptionResponseSegments) SetEnd(val float64) {
 // SetText sets the value of Text.
 func (s *AudioTranscriptionResponseSegments) SetText(val string) {
 	s.Text = val
+}
+
+// Ref: #/components/schemas/AvailablePhoneNumber
+type AvailablePhoneNumber struct {
+	RecordType   OptAvailablePhoneNumberRecordType `json:"record_type"`
+	PhoneNumber  OptString                         `json:"phone_number"`
+	VanityFormat OptString                         `json:"vanity_format"`
+	// Specifies whether the phone number is an exact match based on the search criteria or not.
+	BestEffort OptBool `json:"best_effort"`
+	// Specifies whether the phone number can receive calls immediately after purchase or not.
+	Quickship OptBool `json:"quickship"`
+	// Specifies whether the phone number can be reserved before purchase or not.
+	Reservable        OptBool             `json:"reservable"`
+	RegionInformation []RegionInformation `json:"region_information"`
+	CostInformation   OptCostInformation  `json:"cost_information"`
+	Features          []Feature           `json:"features"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *AvailablePhoneNumber) GetRecordType() OptAvailablePhoneNumberRecordType {
+	return s.RecordType
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *AvailablePhoneNumber) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetVanityFormat returns the value of VanityFormat.
+func (s *AvailablePhoneNumber) GetVanityFormat() OptString {
+	return s.VanityFormat
+}
+
+// GetBestEffort returns the value of BestEffort.
+func (s *AvailablePhoneNumber) GetBestEffort() OptBool {
+	return s.BestEffort
+}
+
+// GetQuickship returns the value of Quickship.
+func (s *AvailablePhoneNumber) GetQuickship() OptBool {
+	return s.Quickship
+}
+
+// GetReservable returns the value of Reservable.
+func (s *AvailablePhoneNumber) GetReservable() OptBool {
+	return s.Reservable
+}
+
+// GetRegionInformation returns the value of RegionInformation.
+func (s *AvailablePhoneNumber) GetRegionInformation() []RegionInformation {
+	return s.RegionInformation
+}
+
+// GetCostInformation returns the value of CostInformation.
+func (s *AvailablePhoneNumber) GetCostInformation() OptCostInformation {
+	return s.CostInformation
+}
+
+// GetFeatures returns the value of Features.
+func (s *AvailablePhoneNumber) GetFeatures() []Feature {
+	return s.Features
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *AvailablePhoneNumber) SetRecordType(val OptAvailablePhoneNumberRecordType) {
+	s.RecordType = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *AvailablePhoneNumber) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetVanityFormat sets the value of VanityFormat.
+func (s *AvailablePhoneNumber) SetVanityFormat(val OptString) {
+	s.VanityFormat = val
+}
+
+// SetBestEffort sets the value of BestEffort.
+func (s *AvailablePhoneNumber) SetBestEffort(val OptBool) {
+	s.BestEffort = val
+}
+
+// SetQuickship sets the value of Quickship.
+func (s *AvailablePhoneNumber) SetQuickship(val OptBool) {
+	s.Quickship = val
+}
+
+// SetReservable sets the value of Reservable.
+func (s *AvailablePhoneNumber) SetReservable(val OptBool) {
+	s.Reservable = val
+}
+
+// SetRegionInformation sets the value of RegionInformation.
+func (s *AvailablePhoneNumber) SetRegionInformation(val []RegionInformation) {
+	s.RegionInformation = val
+}
+
+// SetCostInformation sets the value of CostInformation.
+func (s *AvailablePhoneNumber) SetCostInformation(val OptCostInformation) {
+	s.CostInformation = val
+}
+
+// SetFeatures sets the value of Features.
+func (s *AvailablePhoneNumber) SetFeatures(val []Feature) {
+	s.Features = val
+}
+
+type AvailablePhoneNumberRecordType string
+
+const (
+	AvailablePhoneNumberRecordTypeAvailablePhoneNumber AvailablePhoneNumberRecordType = "available_phone_number"
+)
+
+// AllValues returns all AvailablePhoneNumberRecordType values.
+func (AvailablePhoneNumberRecordType) AllValues() []AvailablePhoneNumberRecordType {
+	return []AvailablePhoneNumberRecordType{
+		AvailablePhoneNumberRecordTypeAvailablePhoneNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AvailablePhoneNumberRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case AvailablePhoneNumberRecordTypeAvailablePhoneNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AvailablePhoneNumberRecordType) UnmarshalText(data []byte) error {
+	switch AvailablePhoneNumberRecordType(data) {
+	case AvailablePhoneNumberRecordTypeAvailablePhoneNumber:
+		*s = AvailablePhoneNumberRecordTypeAvailablePhoneNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/AvailablePhoneNumbersMetadata
+type AvailablePhoneNumbersMetadata struct {
+	TotalResults      OptInt `json:"total_results"`
+	BestEffortResults OptInt `json:"best_effort_results"`
+}
+
+// GetTotalResults returns the value of TotalResults.
+func (s *AvailablePhoneNumbersMetadata) GetTotalResults() OptInt {
+	return s.TotalResults
+}
+
+// GetBestEffortResults returns the value of BestEffortResults.
+func (s *AvailablePhoneNumbersMetadata) GetBestEffortResults() OptInt {
+	return s.BestEffortResults
+}
+
+// SetTotalResults sets the value of TotalResults.
+func (s *AvailablePhoneNumbersMetadata) SetTotalResults(val OptInt) {
+	s.TotalResults = val
+}
+
+// SetBestEffortResults sets the value of BestEffortResults.
+func (s *AvailablePhoneNumbersMetadata) SetBestEffortResults(val OptInt) {
+	s.BestEffortResults = val
 }
 
 type AwsAccessKeyId string
@@ -4136,6 +4316,225 @@ func (s *CallResourceStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/CallerName
+type CallerName struct {
+	// The name of the requested phone number's owner as per the CNAM database.
+	CallerName OptString `json:"caller_name"`
+	// A caller-name lookup specific error code, expressed as a stringified 5-digit integer.
+	ErrorCode OptString `json:"error_code"`
+}
+
+// GetCallerName returns the value of CallerName.
+func (s *CallerName) GetCallerName() OptString {
+	return s.CallerName
+}
+
+// GetErrorCode returns the value of ErrorCode.
+func (s *CallerName) GetErrorCode() OptString {
+	return s.ErrorCode
+}
+
+// SetCallerName sets the value of CallerName.
+func (s *CallerName) SetCallerName(val OptString) {
+	s.CallerName = val
+}
+
+// SetErrorCode sets the value of ErrorCode.
+func (s *CallerName) SetErrorCode(val OptString) {
+	s.ErrorCode = val
+}
+
+// Ref: #/components/schemas/Carrier
+type Carrier struct {
+	// Region code that matches the specific country calling code if the requested phone number type is
+	// mobile.
+	MobileCountryCode OptString `json:"mobile_country_code"`
+	// National destination code (NDC), with a 0 prefix, if an NDC is found and the requested phone
+	// number type is mobile.
+	MobileNetworkCode OptString `json:"mobile_network_code"`
+	// SPID (Service Provider ID) name, if the requested phone number has been ported; otherwise, the
+	// name of carrier who owns the phone number block.
+	Name OptString `json:"name"`
+	// A phone number type that identifies the type of service associated with the requested phone number.
+	Type OptCarrierType `json:"type"`
+	// Unused.
+	ErrorCode OptString `json:"error_code"`
+	// If known to Telnyx and applicable, the primary network carrier.
+	NormalizedCarrier OptString `json:"normalized_carrier"`
+}
+
+// GetMobileCountryCode returns the value of MobileCountryCode.
+func (s *Carrier) GetMobileCountryCode() OptString {
+	return s.MobileCountryCode
+}
+
+// GetMobileNetworkCode returns the value of MobileNetworkCode.
+func (s *Carrier) GetMobileNetworkCode() OptString {
+	return s.MobileNetworkCode
+}
+
+// GetName returns the value of Name.
+func (s *Carrier) GetName() OptString {
+	return s.Name
+}
+
+// GetType returns the value of Type.
+func (s *Carrier) GetType() OptCarrierType {
+	return s.Type
+}
+
+// GetErrorCode returns the value of ErrorCode.
+func (s *Carrier) GetErrorCode() OptString {
+	return s.ErrorCode
+}
+
+// GetNormalizedCarrier returns the value of NormalizedCarrier.
+func (s *Carrier) GetNormalizedCarrier() OptString {
+	return s.NormalizedCarrier
+}
+
+// SetMobileCountryCode sets the value of MobileCountryCode.
+func (s *Carrier) SetMobileCountryCode(val OptString) {
+	s.MobileCountryCode = val
+}
+
+// SetMobileNetworkCode sets the value of MobileNetworkCode.
+func (s *Carrier) SetMobileNetworkCode(val OptString) {
+	s.MobileNetworkCode = val
+}
+
+// SetName sets the value of Name.
+func (s *Carrier) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetType sets the value of Type.
+func (s *Carrier) SetType(val OptCarrierType) {
+	s.Type = val
+}
+
+// SetErrorCode sets the value of ErrorCode.
+func (s *Carrier) SetErrorCode(val OptString) {
+	s.ErrorCode = val
+}
+
+// SetNormalizedCarrier sets the value of NormalizedCarrier.
+func (s *Carrier) SetNormalizedCarrier(val OptString) {
+	s.NormalizedCarrier = val
+}
+
+// A phone number type that identifies the type of service associated with the requested phone number.
+type CarrierType string
+
+const (
+	CarrierTypeFixedLine         CarrierType = "fixed line"
+	CarrierTypeMobile            CarrierType = "mobile"
+	CarrierTypeVoip              CarrierType = "voip"
+	CarrierTypeFixedLineOrMobile CarrierType = "fixed line or mobile"
+	CarrierTypeTollFree          CarrierType = "toll free"
+	CarrierTypePremiumRate       CarrierType = "premium rate"
+	CarrierTypeSharedCost        CarrierType = "shared cost"
+	CarrierTypePersonalNumber    CarrierType = "personal number"
+	CarrierTypePager             CarrierType = "pager"
+	CarrierTypeUan               CarrierType = "uan"
+	CarrierTypeVoicemail         CarrierType = "voicemail"
+	CarrierTypeUnknown           CarrierType = "unknown"
+)
+
+// AllValues returns all CarrierType values.
+func (CarrierType) AllValues() []CarrierType {
+	return []CarrierType{
+		CarrierTypeFixedLine,
+		CarrierTypeMobile,
+		CarrierTypeVoip,
+		CarrierTypeFixedLineOrMobile,
+		CarrierTypeTollFree,
+		CarrierTypePremiumRate,
+		CarrierTypeSharedCost,
+		CarrierTypePersonalNumber,
+		CarrierTypePager,
+		CarrierTypeUan,
+		CarrierTypeVoicemail,
+		CarrierTypeUnknown,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CarrierType) MarshalText() ([]byte, error) {
+	switch s {
+	case CarrierTypeFixedLine:
+		return []byte(s), nil
+	case CarrierTypeMobile:
+		return []byte(s), nil
+	case CarrierTypeVoip:
+		return []byte(s), nil
+	case CarrierTypeFixedLineOrMobile:
+		return []byte(s), nil
+	case CarrierTypeTollFree:
+		return []byte(s), nil
+	case CarrierTypePremiumRate:
+		return []byte(s), nil
+	case CarrierTypeSharedCost:
+		return []byte(s), nil
+	case CarrierTypePersonalNumber:
+		return []byte(s), nil
+	case CarrierTypePager:
+		return []byte(s), nil
+	case CarrierTypeUan:
+		return []byte(s), nil
+	case CarrierTypeVoicemail:
+		return []byte(s), nil
+	case CarrierTypeUnknown:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CarrierType) UnmarshalText(data []byte) error {
+	switch CarrierType(data) {
+	case CarrierTypeFixedLine:
+		*s = CarrierTypeFixedLine
+		return nil
+	case CarrierTypeMobile:
+		*s = CarrierTypeMobile
+		return nil
+	case CarrierTypeVoip:
+		*s = CarrierTypeVoip
+		return nil
+	case CarrierTypeFixedLineOrMobile:
+		*s = CarrierTypeFixedLineOrMobile
+		return nil
+	case CarrierTypeTollFree:
+		*s = CarrierTypeTollFree
+		return nil
+	case CarrierTypePremiumRate:
+		*s = CarrierTypePremiumRate
+		return nil
+	case CarrierTypeSharedCost:
+		*s = CarrierTypeSharedCost
+		return nil
+	case CarrierTypePersonalNumber:
+		*s = CarrierTypePersonalNumber
+		return nil
+	case CarrierTypePager:
+		*s = CarrierTypePager
+		return nil
+	case CarrierTypeUan:
+		*s = CarrierTypeUan
+		return nil
+	case CarrierTypeVoicemail:
+		*s = CarrierTypeVoicemail
+		return nil
+	case CarrierTypeUnknown:
+		*s = CarrierTypeUnknown
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type ChannelTypeId string
 
 const (
@@ -5081,6 +5480,44 @@ func (s *ConferenceStatus) UnmarshalText(data []byte) error {
 }
 
 type ConnectionActive bool
+
+// Ref: #/components/schemas/CostInformation
+type CostInformation struct {
+	UpfrontCost OptString `json:"upfront_cost"`
+	MonthlyCost OptString `json:"monthly_cost"`
+	// The ISO 4217 code for the currency.
+	Currency OptString `json:"currency"`
+}
+
+// GetUpfrontCost returns the value of UpfrontCost.
+func (s *CostInformation) GetUpfrontCost() OptString {
+	return s.UpfrontCost
+}
+
+// GetMonthlyCost returns the value of MonthlyCost.
+func (s *CostInformation) GetMonthlyCost() OptString {
+	return s.MonthlyCost
+}
+
+// GetCurrency returns the value of Currency.
+func (s *CostInformation) GetCurrency() OptString {
+	return s.Currency
+}
+
+// SetUpfrontCost sets the value of UpfrontCost.
+func (s *CostInformation) SetUpfrontCost(val OptString) {
+	s.UpfrontCost = val
+}
+
+// SetMonthlyCost sets the value of MonthlyCost.
+func (s *CostInformation) SetMonthlyCost(val OptString) {
+	s.MonthlyCost = val
+}
+
+// SetCurrency sets the value of Currency.
+func (s *CostInformation) SetCurrency(val OptString) {
+	s.Currency = val
+}
 
 // CreateBulkTelephonyCredentialsUnprocessableEntity is response for CreateBulkTelephonyCredentials operation.
 type CreateBulkTelephonyCredentialsUnprocessableEntity struct{}
@@ -9717,6 +10154,7 @@ func (*Errors) createVerifiedNumberRes()                         {}
 func (*Errors) deleteRoomRecordingsRes()                         {}
 func (*Errors) listPhoneNumbersJobsRes()                         {}
 func (*Errors) listVerifiedNumbersRes()                          {}
+func (*Errors) lookupNumberRes()                                 {}
 func (*Errors) retrievePhoneNumbersJobRes()                      {}
 
 // Ref: #/components/schemas/ExternalConnectionPhoneNumber
@@ -9867,6 +10305,21 @@ func (s *ExternalConnectionPhoneNumberAcquiredCapabilitiesItem) UnmarshalText(da
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// Ref: #/components/schemas/Feature
+type Feature struct {
+	Name OptString `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *Feature) GetName() OptString {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *Feature) SetName(val OptString) {
+	s.Name = val
 }
 
 // FindTelephonyCredentialsBadRequest is response for FindTelephonyCredentials operation.
@@ -10776,6 +11229,102 @@ func (s *GatherUsingSpeakRequestVoice) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/GcbPhoneNumber
+type GcbPhoneNumber struct {
+	RecordType    GcbPhoneNumberRecordType `json:"record_type"`
+	ChannelZoneID string                   `json:"channel_zone_id"`
+	ID            OptString                `json:"id"`
+	PhoneNumber   string                   `json:"phone_number"`
+	// ISO 8601 formatted date of when the phone number was created.
+	CreatedAt OptString `json:"created_at"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *GcbPhoneNumber) GetRecordType() GcbPhoneNumberRecordType {
+	return s.RecordType
+}
+
+// GetChannelZoneID returns the value of ChannelZoneID.
+func (s *GcbPhoneNumber) GetChannelZoneID() string {
+	return s.ChannelZoneID
+}
+
+// GetID returns the value of ID.
+func (s *GcbPhoneNumber) GetID() OptString {
+	return s.ID
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *GcbPhoneNumber) GetPhoneNumber() string {
+	return s.PhoneNumber
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *GcbPhoneNumber) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *GcbPhoneNumber) SetRecordType(val GcbPhoneNumberRecordType) {
+	s.RecordType = val
+}
+
+// SetChannelZoneID sets the value of ChannelZoneID.
+func (s *GcbPhoneNumber) SetChannelZoneID(val string) {
+	s.ChannelZoneID = val
+}
+
+// SetID sets the value of ID.
+func (s *GcbPhoneNumber) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *GcbPhoneNumber) SetPhoneNumber(val string) {
+	s.PhoneNumber = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *GcbPhoneNumber) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+func (*GcbPhoneNumber) assignPhoneNumberRes() {}
+
+type GcbPhoneNumberRecordType string
+
+const (
+	GcbPhoneNumberRecordTypeChannelZonePhoneNumber GcbPhoneNumberRecordType = "channel_zone_phone_number"
+)
+
+// AllValues returns all GcbPhoneNumberRecordType values.
+func (GcbPhoneNumberRecordType) AllValues() []GcbPhoneNumberRecordType {
+	return []GcbPhoneNumberRecordType{
+		GcbPhoneNumberRecordTypeChannelZonePhoneNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GcbPhoneNumberRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case GcbPhoneNumberRecordTypeChannelZonePhoneNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GcbPhoneNumberRecordType) UnmarshalText(data []byte) error {
+	switch GcbPhoneNumberRecordType(data) {
+	case GcbPhoneNumberRecordTypeChannelZonePhoneNumber:
+		*s = GcbPhoneNumberRecordTypeChannelZonePhoneNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // GenericErrorResponseStatusCode wraps Errors with StatusCode.
 type GenericErrorResponseStatusCode struct {
 	StatusCode int
@@ -10803,6 +11352,7 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 }
 
 func (*GenericErrorResponseStatusCode) answerCallRes()                                   {}
+func (*GenericErrorResponseStatusCode) assignPhoneNumberRes()                            {}
 func (*GenericErrorResponseStatusCode) bridgeCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) createCsvDownloadRes()                            {}
 func (*GenericErrorResponseStatusCode) createCustomStorageCredentialsRes()               {}
@@ -10862,6 +11412,7 @@ func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()                   
 func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                             {}
 func (*GenericErrorResponseStatusCode) hangupCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) leaveQueueRes()                                   {}
+func (*GenericErrorResponseStatusCode) listAvailablePhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) listConnectionActiveCallsRes()                    {}
 func (*GenericErrorResponseStatusCode) listCsvDownloadsRes()                             {}
 func (*GenericErrorResponseStatusCode) listMessagingHostedNumberOrdersRes()              {}
@@ -10870,12 +11421,16 @@ func (*GenericErrorResponseStatusCode) listNetworkInterfacesRes()               
 func (*GenericErrorResponseStatusCode) listNetworksRes()                                 {}
 func (*GenericErrorResponseStatusCode) listNotificationChannelsRes()                     {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersJobsRes()                         {}
+func (*GenericErrorResponseStatusCode) listPhoneNumbersRes()                             {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersWithMessagingSettingsRes()        {}
 func (*GenericErrorResponseStatusCode) listPhoneNumbersWithVoiceSettingsRes()            {}
+func (*GenericErrorResponseStatusCode) listProfilePhoneNumbersRes()                      {}
 func (*GenericErrorResponseStatusCode) listProfilesRes()                                 {}
+func (*GenericErrorResponseStatusCode) listRegulatoryRequirementsRes()                   {}
 func (*GenericErrorResponseStatusCode) listVerificationsRes()                            {}
 func (*GenericErrorResponseStatusCode) listVerifiedCallDisplayProfilesRes()              {}
 func (*GenericErrorResponseStatusCode) listVerifiedNumbersRes()                          {}
+func (*GenericErrorResponseStatusCode) lookupNumberRes()                                 {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStartRes()                        {}
 func (*GenericErrorResponseStatusCode) noiseSuppressionStopRes()                         {}
 func (*GenericErrorResponseStatusCode) pauseCallRecordingRes()                           {}
@@ -10884,6 +11439,7 @@ func (*GenericErrorResponseStatusCode) registerCallRes()                        
 func (*GenericErrorResponseStatusCode) rejectCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                          {}
 func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                           {}
+func (*GenericErrorResponseStatusCode) retrieveOrderPhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumberRes()                          {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumbersJobRes()                      {}
 func (*GenericErrorResponseStatusCode) retrieveVerificationRes()                         {}
@@ -11088,6 +11644,31 @@ func (*GetExternalConnectionPhoneNumberResponse) updateExternalConnectionPhoneNu
 type GetExternalConnectionPhoneNumberUnauthorized struct{}
 
 func (*GetExternalConnectionPhoneNumberUnauthorized) getExternalConnectionPhoneNumberRes() {}
+
+type GetGcbPhoneNumbersRequestResponse struct {
+	Data []GcbPhoneNumber  `json:"data"`
+	Meta OptPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *GetGcbPhoneNumbersRequestResponse) GetData() []GcbPhoneNumber {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *GetGcbPhoneNumbersRequestResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *GetGcbPhoneNumbersRequestResponse) SetData(val []GcbPhoneNumber) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *GetGcbPhoneNumbersRequestResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
 
 type GetLogMessageResponse struct {
 	LogMessages []LogMessage `json:"log_messages"`
@@ -12506,6 +13087,164 @@ func (s *LeaveQueueRequest) SetCommandID(val OptString) {
 	s.CommandID = val
 }
 
+type ListAvailablePhoneNumbersFilterFeaturesItem string
+
+const (
+	ListAvailablePhoneNumbersFilterFeaturesItemSMS       ListAvailablePhoneNumbersFilterFeaturesItem = "sms"
+	ListAvailablePhoneNumbersFilterFeaturesItemMms       ListAvailablePhoneNumbersFilterFeaturesItem = "mms"
+	ListAvailablePhoneNumbersFilterFeaturesItemVoice     ListAvailablePhoneNumbersFilterFeaturesItem = "voice"
+	ListAvailablePhoneNumbersFilterFeaturesItemFax       ListAvailablePhoneNumbersFilterFeaturesItem = "fax"
+	ListAvailablePhoneNumbersFilterFeaturesItemEmergency ListAvailablePhoneNumbersFilterFeaturesItem = "emergency"
+)
+
+// AllValues returns all ListAvailablePhoneNumbersFilterFeaturesItem values.
+func (ListAvailablePhoneNumbersFilterFeaturesItem) AllValues() []ListAvailablePhoneNumbersFilterFeaturesItem {
+	return []ListAvailablePhoneNumbersFilterFeaturesItem{
+		ListAvailablePhoneNumbersFilterFeaturesItemSMS,
+		ListAvailablePhoneNumbersFilterFeaturesItemMms,
+		ListAvailablePhoneNumbersFilterFeaturesItemVoice,
+		ListAvailablePhoneNumbersFilterFeaturesItemFax,
+		ListAvailablePhoneNumbersFilterFeaturesItemEmergency,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListAvailablePhoneNumbersFilterFeaturesItem) MarshalText() ([]byte, error) {
+	switch s {
+	case ListAvailablePhoneNumbersFilterFeaturesItemSMS:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemMms:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemVoice:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemFax:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemEmergency:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListAvailablePhoneNumbersFilterFeaturesItem) UnmarshalText(data []byte) error {
+	switch ListAvailablePhoneNumbersFilterFeaturesItem(data) {
+	case ListAvailablePhoneNumbersFilterFeaturesItemSMS:
+		*s = ListAvailablePhoneNumbersFilterFeaturesItemSMS
+		return nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemMms:
+		*s = ListAvailablePhoneNumbersFilterFeaturesItemMms
+		return nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemVoice:
+		*s = ListAvailablePhoneNumbersFilterFeaturesItemVoice
+		return nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemFax:
+		*s = ListAvailablePhoneNumbersFilterFeaturesItemFax
+		return nil
+	case ListAvailablePhoneNumbersFilterFeaturesItemEmergency:
+		*s = ListAvailablePhoneNumbersFilterFeaturesItemEmergency
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListAvailablePhoneNumbersFilterPhoneNumberType string
+
+const (
+	ListAvailablePhoneNumbersFilterPhoneNumberTypeLocal      ListAvailablePhoneNumbersFilterPhoneNumberType = "local"
+	ListAvailablePhoneNumbersFilterPhoneNumberTypeTollFree   ListAvailablePhoneNumbersFilterPhoneNumberType = "toll_free"
+	ListAvailablePhoneNumbersFilterPhoneNumberTypeMobile     ListAvailablePhoneNumbersFilterPhoneNumberType = "mobile"
+	ListAvailablePhoneNumbersFilterPhoneNumberTypeNational   ListAvailablePhoneNumbersFilterPhoneNumberType = "national"
+	ListAvailablePhoneNumbersFilterPhoneNumberTypeSharedCost ListAvailablePhoneNumbersFilterPhoneNumberType = "shared_cost"
+	ListAvailablePhoneNumbersFilterPhoneNumberTypeLandline   ListAvailablePhoneNumbersFilterPhoneNumberType = "landline"
+)
+
+// AllValues returns all ListAvailablePhoneNumbersFilterPhoneNumberType values.
+func (ListAvailablePhoneNumbersFilterPhoneNumberType) AllValues() []ListAvailablePhoneNumbersFilterPhoneNumberType {
+	return []ListAvailablePhoneNumbersFilterPhoneNumberType{
+		ListAvailablePhoneNumbersFilterPhoneNumberTypeLocal,
+		ListAvailablePhoneNumbersFilterPhoneNumberTypeTollFree,
+		ListAvailablePhoneNumbersFilterPhoneNumberTypeMobile,
+		ListAvailablePhoneNumbersFilterPhoneNumberTypeNational,
+		ListAvailablePhoneNumbersFilterPhoneNumberTypeSharedCost,
+		ListAvailablePhoneNumbersFilterPhoneNumberTypeLandline,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListAvailablePhoneNumbersFilterPhoneNumberType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeLocal:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeTollFree:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeMobile:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeNational:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeSharedCost:
+		return []byte(s), nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeLandline:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListAvailablePhoneNumbersFilterPhoneNumberType) UnmarshalText(data []byte) error {
+	switch ListAvailablePhoneNumbersFilterPhoneNumberType(data) {
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeLocal:
+		*s = ListAvailablePhoneNumbersFilterPhoneNumberTypeLocal
+		return nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeTollFree:
+		*s = ListAvailablePhoneNumbersFilterPhoneNumberTypeTollFree
+		return nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeMobile:
+		*s = ListAvailablePhoneNumbersFilterPhoneNumberTypeMobile
+		return nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeNational:
+		*s = ListAvailablePhoneNumbersFilterPhoneNumberTypeNational
+		return nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeSharedCost:
+		*s = ListAvailablePhoneNumbersFilterPhoneNumberTypeSharedCost
+		return nil
+	case ListAvailablePhoneNumbersFilterPhoneNumberTypeLandline:
+		*s = ListAvailablePhoneNumbersFilterPhoneNumberTypeLandline
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListAvailablePhoneNumbersResponse struct {
+	Data []AvailablePhoneNumber           `json:"data"`
+	Meta OptAvailablePhoneNumbersMetadata `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListAvailablePhoneNumbersResponse) GetData() []AvailablePhoneNumber {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListAvailablePhoneNumbersResponse) GetMeta() OptAvailablePhoneNumbersMetadata {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListAvailablePhoneNumbersResponse) SetData(val []AvailablePhoneNumber) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListAvailablePhoneNumbersResponse) SetMeta(val OptAvailablePhoneNumbersMetadata) {
+	s.Meta = val
+}
+
+func (*ListAvailablePhoneNumbersResponse) listAvailablePhoneNumbersRes() {}
+
 // ListCallControlApplicationsBadRequest is response for ListCallControlApplications operation.
 type ListCallControlApplicationsBadRequest struct{}
 
@@ -12579,6 +13318,49 @@ func (*ListExternalConnectionLogMessagesUnauthorized) listExternalConnectionLogM
 type ListExternalConnectionLogMessagesUnprocessableEntity struct{}
 
 func (*ListExternalConnectionLogMessagesUnprocessableEntity) listExternalConnectionLogMessagesRes() {}
+
+// ListExternalConnectionPhoneNumbersNotFound is response for ListExternalConnectionPhoneNumbers operation.
+type ListExternalConnectionPhoneNumbersNotFound struct{}
+
+func (*ListExternalConnectionPhoneNumbersNotFound) listExternalConnectionPhoneNumbersRes() {}
+
+type ListExternalConnectionPhoneNumbersResponse struct {
+	Data []ExternalConnectionPhoneNumber `json:"data"`
+	Meta OptPaginationMeta               `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListExternalConnectionPhoneNumbersResponse) GetData() []ExternalConnectionPhoneNumber {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListExternalConnectionPhoneNumbersResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListExternalConnectionPhoneNumbersResponse) SetData(val []ExternalConnectionPhoneNumber) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListExternalConnectionPhoneNumbersResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListExternalConnectionPhoneNumbersResponse) listExternalConnectionPhoneNumbersRes() {}
+
+// ListExternalConnectionPhoneNumbersUnauthorized is response for ListExternalConnectionPhoneNumbers operation.
+type ListExternalConnectionPhoneNumbersUnauthorized struct{}
+
+func (*ListExternalConnectionPhoneNumbersUnauthorized) listExternalConnectionPhoneNumbersRes() {}
+
+// ListExternalConnectionPhoneNumbersUnprocessableEntity is response for ListExternalConnectionPhoneNumbers operation.
+type ListExternalConnectionPhoneNumbersUnprocessableEntity struct{}
+
+func (*ListExternalConnectionPhoneNumbersUnprocessableEntity) listExternalConnectionPhoneNumbersRes() {
+}
 
 // ListInboundChannelsNotFound is response for ListInboundChannels operation.
 type ListInboundChannelsNotFound struct{}
@@ -12692,6 +13474,33 @@ func (s *ListMessagingHostedNumberOrdersResponse) SetMeta(val OptPaginationMeta)
 
 func (*ListMessagingHostedNumberOrdersResponse) listMessagingHostedNumberOrdersRes() {}
 
+type ListMessagingProfilePhoneNumbersResponse struct {
+	Data []PhoneNumberWithMessagingSettings `json:"data"`
+	Meta OptPaginationMeta                  `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListMessagingProfilePhoneNumbersResponse) GetData() []PhoneNumberWithMessagingSettings {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListMessagingProfilePhoneNumbersResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListMessagingProfilePhoneNumbersResponse) SetData(val []PhoneNumberWithMessagingSettings) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListMessagingProfilePhoneNumbersResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListMessagingProfilePhoneNumbersResponse) listProfilePhoneNumbersRes() {}
+
 type ListMessagingUrlDomains struct {
 	Data []MessagingUrlDomain `json:"data"`
 	Meta OptPaginationMeta    `json:"meta"`
@@ -12745,6 +13554,164 @@ func (s *ListNotificationChannelsOK) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListNotificationChannelsOK) listNotificationChannelsRes() {}
+
+type ListNumberOrderPhoneNumbersResponse struct {
+	Data []NumberOrderPhoneNumber `json:"data"`
+	Meta OptPaginationMeta        `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListNumberOrderPhoneNumbersResponse) GetData() []NumberOrderPhoneNumber {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListNumberOrderPhoneNumbersResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListNumberOrderPhoneNumbersResponse) SetData(val []NumberOrderPhoneNumber) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListNumberOrderPhoneNumbersResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListNumberOrderPhoneNumbersResponse) retrieveOrderPhoneNumbersRes() {}
+
+type ListPhoneNumbersFilterStatus string
+
+const (
+	ListPhoneNumbersFilterStatusPurchasePending ListPhoneNumbersFilterStatus = "purchase_pending"
+	ListPhoneNumbersFilterStatusPurchaseFailed  ListPhoneNumbersFilterStatus = "purchase_failed"
+	ListPhoneNumbersFilterStatusPortPending     ListPhoneNumbersFilterStatus = "port_pending"
+	ListPhoneNumbersFilterStatusActive          ListPhoneNumbersFilterStatus = "active"
+	ListPhoneNumbersFilterStatusDeleted         ListPhoneNumbersFilterStatus = "deleted"
+	ListPhoneNumbersFilterStatusPortFailed      ListPhoneNumbersFilterStatus = "port_failed"
+	ListPhoneNumbersFilterStatusEmergencyOnly   ListPhoneNumbersFilterStatus = "emergency_only"
+	ListPhoneNumbersFilterStatusPortedOut       ListPhoneNumbersFilterStatus = "ported_out"
+	ListPhoneNumbersFilterStatusPortOutPending  ListPhoneNumbersFilterStatus = "port_out_pending"
+)
+
+// AllValues returns all ListPhoneNumbersFilterStatus values.
+func (ListPhoneNumbersFilterStatus) AllValues() []ListPhoneNumbersFilterStatus {
+	return []ListPhoneNumbersFilterStatus{
+		ListPhoneNumbersFilterStatusPurchasePending,
+		ListPhoneNumbersFilterStatusPurchaseFailed,
+		ListPhoneNumbersFilterStatusPortPending,
+		ListPhoneNumbersFilterStatusActive,
+		ListPhoneNumbersFilterStatusDeleted,
+		ListPhoneNumbersFilterStatusPortFailed,
+		ListPhoneNumbersFilterStatusEmergencyOnly,
+		ListPhoneNumbersFilterStatusPortedOut,
+		ListPhoneNumbersFilterStatusPortOutPending,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPhoneNumbersFilterStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPhoneNumbersFilterStatusPurchasePending:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusPurchaseFailed:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusPortPending:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusActive:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusDeleted:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusPortFailed:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusEmergencyOnly:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusPortedOut:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterStatusPortOutPending:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPhoneNumbersFilterStatus) UnmarshalText(data []byte) error {
+	switch ListPhoneNumbersFilterStatus(data) {
+	case ListPhoneNumbersFilterStatusPurchasePending:
+		*s = ListPhoneNumbersFilterStatusPurchasePending
+		return nil
+	case ListPhoneNumbersFilterStatusPurchaseFailed:
+		*s = ListPhoneNumbersFilterStatusPurchaseFailed
+		return nil
+	case ListPhoneNumbersFilterStatusPortPending:
+		*s = ListPhoneNumbersFilterStatusPortPending
+		return nil
+	case ListPhoneNumbersFilterStatusActive:
+		*s = ListPhoneNumbersFilterStatusActive
+		return nil
+	case ListPhoneNumbersFilterStatusDeleted:
+		*s = ListPhoneNumbersFilterStatusDeleted
+		return nil
+	case ListPhoneNumbersFilterStatusPortFailed:
+		*s = ListPhoneNumbersFilterStatusPortFailed
+		return nil
+	case ListPhoneNumbersFilterStatusEmergencyOnly:
+		*s = ListPhoneNumbersFilterStatusEmergencyOnly
+		return nil
+	case ListPhoneNumbersFilterStatusPortedOut:
+		*s = ListPhoneNumbersFilterStatusPortedOut
+		return nil
+	case ListPhoneNumbersFilterStatusPortOutPending:
+		*s = ListPhoneNumbersFilterStatusPortOutPending
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListPhoneNumbersFilterVoiceUsagePaymentMethod string
+
+const (
+	ListPhoneNumbersFilterVoiceUsagePaymentMethodPayPerMinute ListPhoneNumbersFilterVoiceUsagePaymentMethod = "pay-per-minute"
+	ListPhoneNumbersFilterVoiceUsagePaymentMethodChannel      ListPhoneNumbersFilterVoiceUsagePaymentMethod = "channel"
+)
+
+// AllValues returns all ListPhoneNumbersFilterVoiceUsagePaymentMethod values.
+func (ListPhoneNumbersFilterVoiceUsagePaymentMethod) AllValues() []ListPhoneNumbersFilterVoiceUsagePaymentMethod {
+	return []ListPhoneNumbersFilterVoiceUsagePaymentMethod{
+		ListPhoneNumbersFilterVoiceUsagePaymentMethodPayPerMinute,
+		ListPhoneNumbersFilterVoiceUsagePaymentMethodChannel,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPhoneNumbersFilterVoiceUsagePaymentMethod) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPhoneNumbersFilterVoiceUsagePaymentMethodPayPerMinute:
+		return []byte(s), nil
+	case ListPhoneNumbersFilterVoiceUsagePaymentMethodChannel:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPhoneNumbersFilterVoiceUsagePaymentMethod) UnmarshalText(data []byte) error {
+	switch ListPhoneNumbersFilterVoiceUsagePaymentMethod(data) {
+	case ListPhoneNumbersFilterVoiceUsagePaymentMethodPayPerMinute:
+		*s = ListPhoneNumbersFilterVoiceUsagePaymentMethodPayPerMinute
+		return nil
+	case ListPhoneNumbersFilterVoiceUsagePaymentMethodChannel:
+		*s = ListPhoneNumbersFilterVoiceUsagePaymentMethodChannel
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Identifies the type of the background job.
 type ListPhoneNumbersJobsFilterType string
@@ -12850,6 +13817,88 @@ func (s *ListPhoneNumbersJobsSort) UnmarshalText(data []byte) error {
 	switch ListPhoneNumbersJobsSort(data) {
 	case ListPhoneNumbersJobsSortCreatedAt:
 		*s = ListPhoneNumbersJobsSortCreatedAt
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListPhoneNumbersResponse struct {
+	Data []PhoneNumberDetailed `json:"data"`
+	Meta OptPaginationMeta     `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPhoneNumbersResponse) GetData() []PhoneNumberDetailed {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPhoneNumbersResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPhoneNumbersResponse) SetData(val []PhoneNumberDetailed) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPhoneNumbersResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListPhoneNumbersResponse) listPhoneNumbersRes() {}
+
+type ListPhoneNumbersSort string
+
+const (
+	ListPhoneNumbersSortPurchasedAt        ListPhoneNumbersSort = "purchased_at"
+	ListPhoneNumbersSortPhoneNumber        ListPhoneNumbersSort = "phone_number"
+	ListPhoneNumbersSortConnectionName     ListPhoneNumbersSort = "connection_name"
+	ListPhoneNumbersSortUsagePaymentMethod ListPhoneNumbersSort = "usage_payment_method"
+)
+
+// AllValues returns all ListPhoneNumbersSort values.
+func (ListPhoneNumbersSort) AllValues() []ListPhoneNumbersSort {
+	return []ListPhoneNumbersSort{
+		ListPhoneNumbersSortPurchasedAt,
+		ListPhoneNumbersSortPhoneNumber,
+		ListPhoneNumbersSortConnectionName,
+		ListPhoneNumbersSortUsagePaymentMethod,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPhoneNumbersSort) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPhoneNumbersSortPurchasedAt:
+		return []byte(s), nil
+	case ListPhoneNumbersSortPhoneNumber:
+		return []byte(s), nil
+	case ListPhoneNumbersSortConnectionName:
+		return []byte(s), nil
+	case ListPhoneNumbersSortUsagePaymentMethod:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPhoneNumbersSort) UnmarshalText(data []byte) error {
+	switch ListPhoneNumbersSort(data) {
+	case ListPhoneNumbersSortPurchasedAt:
+		*s = ListPhoneNumbersSortPurchasedAt
+		return nil
+	case ListPhoneNumbersSortPhoneNumber:
+		*s = ListPhoneNumbersSortPhoneNumber
+		return nil
+	case ListPhoneNumbersSortConnectionName:
+		*s = ListPhoneNumbersSortConnectionName
+		return nil
+	case ListPhoneNumbersSortUsagePaymentMethod:
+		*s = ListPhoneNumbersSortUsagePaymentMethod
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -13006,6 +14055,142 @@ func (s *ListPhoneNumbersWithVoiceSettingsSort) UnmarshalText(data []byte) error
 	}
 }
 
+type ListPortingPhoneNumbersApplicationJSON struct {
+	Data []PortingPhoneNumber `json:"data"`
+	Meta OptPaginationMeta    `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPortingPhoneNumbersApplicationJSON) GetData() []PortingPhoneNumber {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPortingPhoneNumbersApplicationJSON) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPortingPhoneNumbersApplicationJSON) SetData(val []PortingPhoneNumber) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPortingPhoneNumbersApplicationJSON) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListPortingPhoneNumbersApplicationJSON) listPortingPhoneNumbersRes() {}
+
+type ListPortingPhoneNumbersFilterPortingOrderStatus string
+
+const (
+	ListPortingPhoneNumbersFilterPortingOrderStatusDraft            ListPortingPhoneNumbersFilterPortingOrderStatus = "draft"
+	ListPortingPhoneNumbersFilterPortingOrderStatusInProcess        ListPortingPhoneNumbersFilterPortingOrderStatus = "in-process"
+	ListPortingPhoneNumbersFilterPortingOrderStatusSubmitted        ListPortingPhoneNumbersFilterPortingOrderStatus = "submitted"
+	ListPortingPhoneNumbersFilterPortingOrderStatusException        ListPortingPhoneNumbersFilterPortingOrderStatus = "exception"
+	ListPortingPhoneNumbersFilterPortingOrderStatusFocDateConfirmed ListPortingPhoneNumbersFilterPortingOrderStatus = "foc-date-confirmed"
+	ListPortingPhoneNumbersFilterPortingOrderStatusCancelPending    ListPortingPhoneNumbersFilterPortingOrderStatus = "cancel-pending"
+	ListPortingPhoneNumbersFilterPortingOrderStatusPorted           ListPortingPhoneNumbersFilterPortingOrderStatus = "ported"
+	ListPortingPhoneNumbersFilterPortingOrderStatusCancelled        ListPortingPhoneNumbersFilterPortingOrderStatus = "cancelled"
+)
+
+// AllValues returns all ListPortingPhoneNumbersFilterPortingOrderStatus values.
+func (ListPortingPhoneNumbersFilterPortingOrderStatus) AllValues() []ListPortingPhoneNumbersFilterPortingOrderStatus {
+	return []ListPortingPhoneNumbersFilterPortingOrderStatus{
+		ListPortingPhoneNumbersFilterPortingOrderStatusDraft,
+		ListPortingPhoneNumbersFilterPortingOrderStatusInProcess,
+		ListPortingPhoneNumbersFilterPortingOrderStatusSubmitted,
+		ListPortingPhoneNumbersFilterPortingOrderStatusException,
+		ListPortingPhoneNumbersFilterPortingOrderStatusFocDateConfirmed,
+		ListPortingPhoneNumbersFilterPortingOrderStatusCancelPending,
+		ListPortingPhoneNumbersFilterPortingOrderStatusPorted,
+		ListPortingPhoneNumbersFilterPortingOrderStatusCancelled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListPortingPhoneNumbersFilterPortingOrderStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ListPortingPhoneNumbersFilterPortingOrderStatusDraft:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusInProcess:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusSubmitted:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusException:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusFocDateConfirmed:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusCancelPending:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusPorted:
+		return []byte(s), nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusCancelled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListPortingPhoneNumbersFilterPortingOrderStatus) UnmarshalText(data []byte) error {
+	switch ListPortingPhoneNumbersFilterPortingOrderStatus(data) {
+	case ListPortingPhoneNumbersFilterPortingOrderStatusDraft:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusDraft
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusInProcess:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusInProcess
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusSubmitted:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusSubmitted
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusException:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusException
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusFocDateConfirmed:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusFocDateConfirmed
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusCancelPending:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusCancelPending
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusPorted:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusPorted
+		return nil
+	case ListPortingPhoneNumbersFilterPortingOrderStatusCancelled:
+		*s = ListPortingPhoneNumbersFilterPortingOrderStatusCancelled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListPortingPhoneNumbersTextCsv struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s ListPortingPhoneNumbersTextCsv) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*ListPortingPhoneNumbersTextCsv) listPortingPhoneNumbersRes() {}
+
+// ListPortingPhoneNumbersUnauthorized is response for ListPortingPhoneNumbers operation.
+type ListPortingPhoneNumbersUnauthorized struct{}
+
+func (*ListPortingPhoneNumbersUnauthorized) listPortingPhoneNumbersRes() {}
+
+// ListPortingPhoneNumbersUnprocessableEntity is response for ListPortingPhoneNumbers operation.
+type ListPortingPhoneNumbersUnprocessableEntity struct{}
+
+func (*ListPortingPhoneNumbersUnprocessableEntity) listPortingPhoneNumbersRes() {}
+
 type ListQueueCallsResponse struct {
 	Data []QueueCall       `json:"data"`
 	Meta OptPaginationMeta `json:"meta"`
@@ -13059,6 +14244,33 @@ func (s *ListRecordingTranscriptionsResponse) SetMeta(val OptCursorPaginationMet
 }
 
 func (*ListRecordingTranscriptionsResponse) getRecordingTranscriptionsRes() {}
+
+type ListRegulatoryRequirements struct {
+	Data []RegulatoryRequirements `json:"data"`
+	Meta OptPaginationMeta        `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListRegulatoryRequirements) GetData() []RegulatoryRequirements {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListRegulatoryRequirements) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListRegulatoryRequirements) SetData(val []RegulatoryRequirements) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListRegulatoryRequirements) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
+
+func (*ListRegulatoryRequirements) listRegulatoryRequirementsRes() {}
 
 type ListRoomRecordingsResponse struct {
 	Data []RoomRecording   `json:"data"`
@@ -14775,6 +15987,161 @@ func (s *NumberHealthMetrics) SetSpamRatio(val float32) {
 	s.SpamRatio = val
 }
 
+// Ref: #/components/schemas/NumberLookupRecord
+type NumberLookupRecord struct {
+	// Identifies the type of record.
+	RecordType OptString `json:"record_type"`
+	// Region code that matches the specific country calling code.
+	CountryCode OptString `json:"country_code"`
+	// Hyphen-separated national number, preceded by the national destination code (NDC), with a 0 prefix,
+	//  if an NDC is found.
+	NationalFormat OptString `json:"national_format"`
+	// E164-formatted phone number.
+	PhoneNumber OptString `json:"phone_number"`
+	// Unused.
+	Fraud       OptString      `json:"fraud"`
+	Carrier     OptCarrier     `json:"carrier"`
+	CallerName  OptCallerName  `json:"caller_name"`
+	Portability OptPortability `json:"portability"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *NumberLookupRecord) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetCountryCode returns the value of CountryCode.
+func (s *NumberLookupRecord) GetCountryCode() OptString {
+	return s.CountryCode
+}
+
+// GetNationalFormat returns the value of NationalFormat.
+func (s *NumberLookupRecord) GetNationalFormat() OptString {
+	return s.NationalFormat
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *NumberLookupRecord) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetFraud returns the value of Fraud.
+func (s *NumberLookupRecord) GetFraud() OptString {
+	return s.Fraud
+}
+
+// GetCarrier returns the value of Carrier.
+func (s *NumberLookupRecord) GetCarrier() OptCarrier {
+	return s.Carrier
+}
+
+// GetCallerName returns the value of CallerName.
+func (s *NumberLookupRecord) GetCallerName() OptCallerName {
+	return s.CallerName
+}
+
+// GetPortability returns the value of Portability.
+func (s *NumberLookupRecord) GetPortability() OptPortability {
+	return s.Portability
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *NumberLookupRecord) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetCountryCode sets the value of CountryCode.
+func (s *NumberLookupRecord) SetCountryCode(val OptString) {
+	s.CountryCode = val
+}
+
+// SetNationalFormat sets the value of NationalFormat.
+func (s *NumberLookupRecord) SetNationalFormat(val OptString) {
+	s.NationalFormat = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *NumberLookupRecord) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetFraud sets the value of Fraud.
+func (s *NumberLookupRecord) SetFraud(val OptString) {
+	s.Fraud = val
+}
+
+// SetCarrier sets the value of Carrier.
+func (s *NumberLookupRecord) SetCarrier(val OptCarrier) {
+	s.Carrier = val
+}
+
+// SetCallerName sets the value of CallerName.
+func (s *NumberLookupRecord) SetCallerName(val OptCallerName) {
+	s.CallerName = val
+}
+
+// SetPortability sets the value of Portability.
+func (s *NumberLookupRecord) SetPortability(val OptPortability) {
+	s.Portability = val
+}
+
+type NumberLookupResponse struct {
+	Data OptNumberLookupRecord `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *NumberLookupResponse) GetData() OptNumberLookupRecord {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *NumberLookupResponse) SetData(val OptNumberLookupRecord) {
+	s.Data = val
+}
+
+func (*NumberLookupResponse) lookupNumberRes() {}
+
+type NumberLookupType string
+
+const (
+	NumberLookupTypeCarrier    NumberLookupType = "carrier"
+	NumberLookupTypeCallerName NumberLookupType = "caller-name"
+)
+
+// AllValues returns all NumberLookupType values.
+func (NumberLookupType) AllValues() []NumberLookupType {
+	return []NumberLookupType{
+		NumberLookupTypeCarrier,
+		NumberLookupTypeCallerName,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NumberLookupType) MarshalText() ([]byte, error) {
+	switch s {
+	case NumberLookupTypeCarrier:
+		return []byte(s), nil
+	case NumberLookupTypeCallerName:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NumberLookupType) UnmarshalText(data []byte) error {
+	switch NumberLookupType(data) {
+	case NumberLookupTypeCarrier:
+		*s = NumberLookupTypeCarrier
+		return nil
+	case NumberLookupTypeCallerName:
+		*s = NumberLookupTypeCallerName
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/NumberOrderPhoneNumber
 type NumberOrderPhoneNumber struct {
 	ID                     OptUUID                                        `json:"id"`
@@ -15434,6 +16801,98 @@ func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Get() (v Au
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Or(d AudioTranscriptionRequestMultipartTimestampGranularities) AudioTranscriptionRequestMultipartTimestampGranularities {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAvailablePhoneNumberRecordType returns new OptAvailablePhoneNumberRecordType with value set to v.
+func NewOptAvailablePhoneNumberRecordType(v AvailablePhoneNumberRecordType) OptAvailablePhoneNumberRecordType {
+	return OptAvailablePhoneNumberRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAvailablePhoneNumberRecordType is optional AvailablePhoneNumberRecordType.
+type OptAvailablePhoneNumberRecordType struct {
+	Value AvailablePhoneNumberRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptAvailablePhoneNumberRecordType was set.
+func (o OptAvailablePhoneNumberRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAvailablePhoneNumberRecordType) Reset() {
+	var v AvailablePhoneNumberRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAvailablePhoneNumberRecordType) SetTo(v AvailablePhoneNumberRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAvailablePhoneNumberRecordType) Get() (v AvailablePhoneNumberRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAvailablePhoneNumberRecordType) Or(d AvailablePhoneNumberRecordType) AvailablePhoneNumberRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAvailablePhoneNumbersMetadata returns new OptAvailablePhoneNumbersMetadata with value set to v.
+func NewOptAvailablePhoneNumbersMetadata(v AvailablePhoneNumbersMetadata) OptAvailablePhoneNumbersMetadata {
+	return OptAvailablePhoneNumbersMetadata{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAvailablePhoneNumbersMetadata is optional AvailablePhoneNumbersMetadata.
+type OptAvailablePhoneNumbersMetadata struct {
+	Value AvailablePhoneNumbersMetadata
+	Set   bool
+}
+
+// IsSet returns true if OptAvailablePhoneNumbersMetadata was set.
+func (o OptAvailablePhoneNumbersMetadata) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAvailablePhoneNumbersMetadata) Reset() {
+	var v AvailablePhoneNumbersMetadata
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAvailablePhoneNumbersMetadata) SetTo(v AvailablePhoneNumbersMetadata) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAvailablePhoneNumbersMetadata) Get() (v AvailablePhoneNumbersMetadata, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAvailablePhoneNumbersMetadata) Or(d AvailablePhoneNumbersMetadata) AvailablePhoneNumbersMetadata {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -17372,6 +18831,144 @@ func (o OptCallResourceStatus) Or(d CallResourceStatus) CallResourceStatus {
 	return d
 }
 
+// NewOptCallerName returns new OptCallerName with value set to v.
+func NewOptCallerName(v CallerName) OptCallerName {
+	return OptCallerName{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCallerName is optional CallerName.
+type OptCallerName struct {
+	Value CallerName
+	Set   bool
+}
+
+// IsSet returns true if OptCallerName was set.
+func (o OptCallerName) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCallerName) Reset() {
+	var v CallerName
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCallerName) SetTo(v CallerName) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCallerName) Get() (v CallerName, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCallerName) Or(d CallerName) CallerName {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCarrier returns new OptCarrier with value set to v.
+func NewOptCarrier(v Carrier) OptCarrier {
+	return OptCarrier{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCarrier is optional Carrier.
+type OptCarrier struct {
+	Value Carrier
+	Set   bool
+}
+
+// IsSet returns true if OptCarrier was set.
+func (o OptCarrier) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCarrier) Reset() {
+	var v Carrier
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCarrier) SetTo(v Carrier) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCarrier) Get() (v Carrier, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCarrier) Or(d Carrier) Carrier {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCarrierType returns new OptCarrierType with value set to v.
+func NewOptCarrierType(v CarrierType) OptCarrierType {
+	return OptCarrierType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCarrierType is optional CarrierType.
+type OptCarrierType struct {
+	Value CarrierType
+	Set   bool
+}
+
+// IsSet returns true if OptCarrierType was set.
+func (o OptCarrierType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCarrierType) Reset() {
+	var v CarrierType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCarrierType) SetTo(v CarrierType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCarrierType) Get() (v CarrierType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCarrierType) Or(d CarrierType) CarrierType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptChannelTypeId returns new OptChannelTypeId with value set to v.
 func NewOptChannelTypeId(v ChannelTypeId) OptChannelTypeId {
 	return OptChannelTypeId{
@@ -17964,6 +19561,52 @@ func (o OptConnectionActive) Get() (v ConnectionActive, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptConnectionActive) Or(d ConnectionActive) ConnectionActive {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCostInformation returns new OptCostInformation with value set to v.
+func NewOptCostInformation(v CostInformation) OptCostInformation {
+	return OptCostInformation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCostInformation is optional CostInformation.
+type OptCostInformation struct {
+	Value CostInformation
+	Set   bool
+}
+
+// IsSet returns true if OptCostInformation was set.
+func (o OptCostInformation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCostInformation) Reset() {
+	var v CostInformation
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCostInformation) SetTo(v CostInformation) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCostInformation) Get() (v CostInformation, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCostInformation) Or(d CostInformation) CostInformation {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -21516,6 +23159,52 @@ func (o OptInterfaceStatus) Or(d InterfaceStatus) InterfaceStatus {
 	return d
 }
 
+// NewOptListAvailablePhoneNumbersFilterPhoneNumberType returns new OptListAvailablePhoneNumbersFilterPhoneNumberType with value set to v.
+func NewOptListAvailablePhoneNumbersFilterPhoneNumberType(v ListAvailablePhoneNumbersFilterPhoneNumberType) OptListAvailablePhoneNumbersFilterPhoneNumberType {
+	return OptListAvailablePhoneNumbersFilterPhoneNumberType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListAvailablePhoneNumbersFilterPhoneNumberType is optional ListAvailablePhoneNumbersFilterPhoneNumberType.
+type OptListAvailablePhoneNumbersFilterPhoneNumberType struct {
+	Value ListAvailablePhoneNumbersFilterPhoneNumberType
+	Set   bool
+}
+
+// IsSet returns true if OptListAvailablePhoneNumbersFilterPhoneNumberType was set.
+func (o OptListAvailablePhoneNumbersFilterPhoneNumberType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListAvailablePhoneNumbersFilterPhoneNumberType) Reset() {
+	var v ListAvailablePhoneNumbersFilterPhoneNumberType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListAvailablePhoneNumbersFilterPhoneNumberType) SetTo(v ListAvailablePhoneNumbersFilterPhoneNumberType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListAvailablePhoneNumbersFilterPhoneNumberType) Get() (v ListAvailablePhoneNumbersFilterPhoneNumberType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListAvailablePhoneNumbersFilterPhoneNumberType) Or(d ListAvailablePhoneNumbersFilterPhoneNumberType) ListAvailablePhoneNumbersFilterPhoneNumberType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptListInboundChannelsOKData returns new OptListInboundChannelsOKData with value set to v.
 func NewOptListInboundChannelsOKData(v ListInboundChannelsOKData) OptListInboundChannelsOKData {
 	return OptListInboundChannelsOKData{
@@ -21556,6 +23245,98 @@ func (o OptListInboundChannelsOKData) Get() (v ListInboundChannelsOKData, ok boo
 
 // Or returns value if set, or given parameter if does not.
 func (o OptListInboundChannelsOKData) Or(d ListInboundChannelsOKData) ListInboundChannelsOKData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListPhoneNumbersFilterStatus returns new OptListPhoneNumbersFilterStatus with value set to v.
+func NewOptListPhoneNumbersFilterStatus(v ListPhoneNumbersFilterStatus) OptListPhoneNumbersFilterStatus {
+	return OptListPhoneNumbersFilterStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPhoneNumbersFilterStatus is optional ListPhoneNumbersFilterStatus.
+type OptListPhoneNumbersFilterStatus struct {
+	Value ListPhoneNumbersFilterStatus
+	Set   bool
+}
+
+// IsSet returns true if OptListPhoneNumbersFilterStatus was set.
+func (o OptListPhoneNumbersFilterStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPhoneNumbersFilterStatus) Reset() {
+	var v ListPhoneNumbersFilterStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPhoneNumbersFilterStatus) SetTo(v ListPhoneNumbersFilterStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPhoneNumbersFilterStatus) Get() (v ListPhoneNumbersFilterStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPhoneNumbersFilterStatus) Or(d ListPhoneNumbersFilterStatus) ListPhoneNumbersFilterStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListPhoneNumbersFilterVoiceUsagePaymentMethod returns new OptListPhoneNumbersFilterVoiceUsagePaymentMethod with value set to v.
+func NewOptListPhoneNumbersFilterVoiceUsagePaymentMethod(v ListPhoneNumbersFilterVoiceUsagePaymentMethod) OptListPhoneNumbersFilterVoiceUsagePaymentMethod {
+	return OptListPhoneNumbersFilterVoiceUsagePaymentMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPhoneNumbersFilterVoiceUsagePaymentMethod is optional ListPhoneNumbersFilterVoiceUsagePaymentMethod.
+type OptListPhoneNumbersFilterVoiceUsagePaymentMethod struct {
+	Value ListPhoneNumbersFilterVoiceUsagePaymentMethod
+	Set   bool
+}
+
+// IsSet returns true if OptListPhoneNumbersFilterVoiceUsagePaymentMethod was set.
+func (o OptListPhoneNumbersFilterVoiceUsagePaymentMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPhoneNumbersFilterVoiceUsagePaymentMethod) Reset() {
+	var v ListPhoneNumbersFilterVoiceUsagePaymentMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPhoneNumbersFilterVoiceUsagePaymentMethod) SetTo(v ListPhoneNumbersFilterVoiceUsagePaymentMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPhoneNumbersFilterVoiceUsagePaymentMethod) Get() (v ListPhoneNumbersFilterVoiceUsagePaymentMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPhoneNumbersFilterVoiceUsagePaymentMethod) Or(d ListPhoneNumbersFilterVoiceUsagePaymentMethod) ListPhoneNumbersFilterVoiceUsagePaymentMethod {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -21654,6 +23435,52 @@ func (o OptListPhoneNumbersJobsSort) Or(d ListPhoneNumbersJobsSort) ListPhoneNum
 	return d
 }
 
+// NewOptListPhoneNumbersSort returns new OptListPhoneNumbersSort with value set to v.
+func NewOptListPhoneNumbersSort(v ListPhoneNumbersSort) OptListPhoneNumbersSort {
+	return OptListPhoneNumbersSort{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPhoneNumbersSort is optional ListPhoneNumbersSort.
+type OptListPhoneNumbersSort struct {
+	Value ListPhoneNumbersSort
+	Set   bool
+}
+
+// IsSet returns true if OptListPhoneNumbersSort was set.
+func (o OptListPhoneNumbersSort) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPhoneNumbersSort) Reset() {
+	var v ListPhoneNumbersSort
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPhoneNumbersSort) SetTo(v ListPhoneNumbersSort) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPhoneNumbersSort) Get() (v ListPhoneNumbersSort, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPhoneNumbersSort) Or(d ListPhoneNumbersSort) ListPhoneNumbersSort {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod returns new OptListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod with value set to v.
 func NewOptListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod(v ListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod) OptListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod {
 	return OptListPhoneNumbersWithVoiceSettingsFilterVoiceUsagePaymentMethod{
@@ -21740,6 +23567,52 @@ func (o OptListPhoneNumbersWithVoiceSettingsSort) Get() (v ListPhoneNumbersWithV
 
 // Or returns value if set, or given parameter if does not.
 func (o OptListPhoneNumbersWithVoiceSettingsSort) Or(d ListPhoneNumbersWithVoiceSettingsSort) ListPhoneNumbersWithVoiceSettingsSort {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListPortingPhoneNumbersFilterPortingOrderStatus returns new OptListPortingPhoneNumbersFilterPortingOrderStatus with value set to v.
+func NewOptListPortingPhoneNumbersFilterPortingOrderStatus(v ListPortingPhoneNumbersFilterPortingOrderStatus) OptListPortingPhoneNumbersFilterPortingOrderStatus {
+	return OptListPortingPhoneNumbersFilterPortingOrderStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListPortingPhoneNumbersFilterPortingOrderStatus is optional ListPortingPhoneNumbersFilterPortingOrderStatus.
+type OptListPortingPhoneNumbersFilterPortingOrderStatus struct {
+	Value ListPortingPhoneNumbersFilterPortingOrderStatus
+	Set   bool
+}
+
+// IsSet returns true if OptListPortingPhoneNumbersFilterPortingOrderStatus was set.
+func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListPortingPhoneNumbersFilterPortingOrderStatus) Reset() {
+	var v ListPortingPhoneNumbersFilterPortingOrderStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListPortingPhoneNumbersFilterPortingOrderStatus) SetTo(v ListPortingPhoneNumbersFilterPortingOrderStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) Get() (v ListPortingPhoneNumbersFilterPortingOrderStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListPortingPhoneNumbersFilterPortingOrderStatus) Or(d ListPortingPhoneNumbersFilterPortingOrderStatus) ListPortingPhoneNumbersFilterPortingOrderStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -23232,6 +25105,98 @@ func (o OptNumberHealthMetrics) Get() (v NumberHealthMetrics, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNumberHealthMetrics) Or(d NumberHealthMetrics) NumberHealthMetrics {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNumberLookupRecord returns new OptNumberLookupRecord with value set to v.
+func NewOptNumberLookupRecord(v NumberLookupRecord) OptNumberLookupRecord {
+	return OptNumberLookupRecord{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNumberLookupRecord is optional NumberLookupRecord.
+type OptNumberLookupRecord struct {
+	Value NumberLookupRecord
+	Set   bool
+}
+
+// IsSet returns true if OptNumberLookupRecord was set.
+func (o OptNumberLookupRecord) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNumberLookupRecord) Reset() {
+	var v NumberLookupRecord
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNumberLookupRecord) SetTo(v NumberLookupRecord) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNumberLookupRecord) Get() (v NumberLookupRecord, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNumberLookupRecord) Or(d NumberLookupRecord) NumberLookupRecord {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNumberLookupType returns new OptNumberLookupType with value set to v.
+func NewOptNumberLookupType(v NumberLookupType) OptNumberLookupType {
+	return OptNumberLookupType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNumberLookupType is optional NumberLookupType.
+type OptNumberLookupType struct {
+	Value NumberLookupType
+	Set   bool
+}
+
+// IsSet returns true if OptNumberLookupType was set.
+func (o OptNumberLookupType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNumberLookupType) Reset() {
+	var v NumberLookupType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNumberLookupType) SetTo(v NumberLookupType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNumberLookupType) Get() (v NumberLookupType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNumberLookupType) Or(d NumberLookupType) NumberLookupType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -25032,6 +26997,328 @@ func (o OptPlayBeep) Or(d PlayBeep) PlayBeep {
 	return d
 }
 
+// NewOptPortability returns new OptPortability with value set to v.
+func NewOptPortability(v Portability) OptPortability {
+	return OptPortability{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortability is optional Portability.
+type OptPortability struct {
+	Value Portability
+	Set   bool
+}
+
+// IsSet returns true if OptPortability was set.
+func (o OptPortability) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortability) Reset() {
+	var v Portability
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortability) SetTo(v Portability) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortability) Get() (v Portability, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortability) Or(d Portability) Portability {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortabilityPortedStatus returns new OptPortabilityPortedStatus with value set to v.
+func NewOptPortabilityPortedStatus(v PortabilityPortedStatus) OptPortabilityPortedStatus {
+	return OptPortabilityPortedStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortabilityPortedStatus is optional PortabilityPortedStatus.
+type OptPortabilityPortedStatus struct {
+	Value PortabilityPortedStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortabilityPortedStatus was set.
+func (o OptPortabilityPortedStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortabilityPortedStatus) Reset() {
+	var v PortabilityPortedStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortabilityPortedStatus) SetTo(v PortabilityPortedStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortabilityPortedStatus) Get() (v PortabilityPortedStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortabilityPortedStatus) Or(d PortabilityPortedStatus) PortabilityPortedStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortabilityStatus returns new OptPortabilityStatus with value set to v.
+func NewOptPortabilityStatus(v PortabilityStatus) OptPortabilityStatus {
+	return OptPortabilityStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortabilityStatus is optional PortabilityStatus.
+type OptPortabilityStatus struct {
+	Value PortabilityStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortabilityStatus was set.
+func (o OptPortabilityStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortabilityStatus) Reset() {
+	var v PortabilityStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortabilityStatus) SetTo(v PortabilityStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortabilityStatus) Get() (v PortabilityStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortabilityStatus) Or(d PortabilityStatus) PortabilityStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingOrderActivationStatus returns new OptPortingOrderActivationStatus with value set to v.
+func NewOptPortingOrderActivationStatus(v PortingOrderActivationStatus) OptPortingOrderActivationStatus {
+	return OptPortingOrderActivationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingOrderActivationStatus is optional PortingOrderActivationStatus.
+type OptPortingOrderActivationStatus struct {
+	Value PortingOrderActivationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortingOrderActivationStatus was set.
+func (o OptPortingOrderActivationStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingOrderActivationStatus) Reset() {
+	var v PortingOrderActivationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingOrderActivationStatus) SetTo(v PortingOrderActivationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingOrderActivationStatus) Get() (v PortingOrderActivationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingOrderActivationStatus) Or(d PortingOrderActivationStatus) PortingOrderActivationStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingPhoneNumberPhoneNumberType returns new OptPortingPhoneNumberPhoneNumberType with value set to v.
+func NewOptPortingPhoneNumberPhoneNumberType(v PortingPhoneNumberPhoneNumberType) OptPortingPhoneNumberPhoneNumberType {
+	return OptPortingPhoneNumberPhoneNumberType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingPhoneNumberPhoneNumberType is optional PortingPhoneNumberPhoneNumberType.
+type OptPortingPhoneNumberPhoneNumberType struct {
+	Value PortingPhoneNumberPhoneNumberType
+	Set   bool
+}
+
+// IsSet returns true if OptPortingPhoneNumberPhoneNumberType was set.
+func (o OptPortingPhoneNumberPhoneNumberType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingPhoneNumberPhoneNumberType) Reset() {
+	var v PortingPhoneNumberPhoneNumberType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingPhoneNumberPhoneNumberType) SetTo(v PortingPhoneNumberPhoneNumberType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingPhoneNumberPhoneNumberType) Get() (v PortingPhoneNumberPhoneNumberType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingPhoneNumberPhoneNumberType) Or(d PortingPhoneNumberPhoneNumberType) PortingPhoneNumberPhoneNumberType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingPhoneNumberPortingOrderStatus returns new OptPortingPhoneNumberPortingOrderStatus with value set to v.
+func NewOptPortingPhoneNumberPortingOrderStatus(v PortingPhoneNumberPortingOrderStatus) OptPortingPhoneNumberPortingOrderStatus {
+	return OptPortingPhoneNumberPortingOrderStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingPhoneNumberPortingOrderStatus is optional PortingPhoneNumberPortingOrderStatus.
+type OptPortingPhoneNumberPortingOrderStatus struct {
+	Value PortingPhoneNumberPortingOrderStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortingPhoneNumberPortingOrderStatus was set.
+func (o OptPortingPhoneNumberPortingOrderStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingPhoneNumberPortingOrderStatus) Reset() {
+	var v PortingPhoneNumberPortingOrderStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingPhoneNumberPortingOrderStatus) SetTo(v PortingPhoneNumberPortingOrderStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingPhoneNumberPortingOrderStatus) Get() (v PortingPhoneNumberPortingOrderStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingPhoneNumberPortingOrderStatus) Or(d PortingPhoneNumberPortingOrderStatus) PortingPhoneNumberPortingOrderStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortingPhoneNumberRequirementsStatus returns new OptPortingPhoneNumberRequirementsStatus with value set to v.
+func NewOptPortingPhoneNumberRequirementsStatus(v PortingPhoneNumberRequirementsStatus) OptPortingPhoneNumberRequirementsStatus {
+	return OptPortingPhoneNumberRequirementsStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortingPhoneNumberRequirementsStatus is optional PortingPhoneNumberRequirementsStatus.
+type OptPortingPhoneNumberRequirementsStatus struct {
+	Value PortingPhoneNumberRequirementsStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortingPhoneNumberRequirementsStatus was set.
+func (o OptPortingPhoneNumberRequirementsStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortingPhoneNumberRequirementsStatus) Reset() {
+	var v PortingPhoneNumberRequirementsStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortingPhoneNumberRequirementsStatus) SetTo(v PortingPhoneNumberRequirementsStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortingPhoneNumberRequirementsStatus) Get() (v PortingPhoneNumberRequirementsStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortingPhoneNumberRequirementsStatus) Or(d PortingPhoneNumberRequirementsStatus) PortingPhoneNumberRequirementsStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptQueueCall returns new OptQueueCall with value set to v.
 func NewOptQueueCall(v QueueCall) OptQueueCall {
 	return OptQueueCall{
@@ -25676,6 +27963,52 @@ func (o OptRegion) Or(d Region) Region {
 	return d
 }
 
+// NewOptRegionInformationRegionType returns new OptRegionInformationRegionType with value set to v.
+func NewOptRegionInformationRegionType(v RegionInformationRegionType) OptRegionInformationRegionType {
+	return OptRegionInformationRegionType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRegionInformationRegionType is optional RegionInformationRegionType.
+type OptRegionInformationRegionType struct {
+	Value RegionInformationRegionType
+	Set   bool
+}
+
+// IsSet returns true if OptRegionInformationRegionType was set.
+func (o OptRegionInformationRegionType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRegionInformationRegionType) Reset() {
+	var v RegionInformationRegionType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRegionInformationRegionType) SetTo(v RegionInformationRegionType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRegionInformationRegionType) Get() (v RegionInformationRegionType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRegionInformationRegionType) Or(d RegionInformationRegionType) RegionInformationRegionType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptRegisterCallResponseData returns new OptRegisterCallResponseData with value set to v.
 func NewOptRegisterCallResponseData(v RegisterCallResponseData) OptRegisterCallResponseData {
 	return OptRegisterCallResponseData{
@@ -25716,6 +28049,54 @@ func (o OptRegisterCallResponseData) Get() (v RegisterCallResponseData, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRegisterCallResponseData) Or(d RegisterCallResponseData) RegisterCallResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria returns new OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria with value set to v.
+func NewOptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria(v RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria {
+	return OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria is optional RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria.
+type OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria struct {
+	Value RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria
+	Set   bool
+}
+
+// IsSet returns true if OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria was set.
+func (o OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) Reset() {
+	var v RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) SetTo(v RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) Get() (v RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) Or(d RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -26820,6 +29201,52 @@ func (o OptString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStringInt returns new OptStringInt with value set to v.
+func NewOptStringInt(v int) OptStringInt {
+	return OptStringInt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStringInt is optional int.
+type OptStringInt struct {
+	Value int
+	Set   bool
+}
+
+// IsSet returns true if OptStringInt was set.
+func (o OptStringInt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStringInt) Reset() {
+	var v int
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStringInt) SetTo(v int) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStringInt) Get() (v int, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStringInt) Or(d int) int {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -28200,6 +30627,98 @@ func (o OptUUID) Get() (v uuid.UUID, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptUUID) Or(d uuid.UUID) uuid.UUID {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUnprocessableEntityErrorMeta returns new OptUnprocessableEntityErrorMeta with value set to v.
+func NewOptUnprocessableEntityErrorMeta(v UnprocessableEntityErrorMeta) OptUnprocessableEntityErrorMeta {
+	return OptUnprocessableEntityErrorMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUnprocessableEntityErrorMeta is optional UnprocessableEntityErrorMeta.
+type OptUnprocessableEntityErrorMeta struct {
+	Value UnprocessableEntityErrorMeta
+	Set   bool
+}
+
+// IsSet returns true if OptUnprocessableEntityErrorMeta was set.
+func (o OptUnprocessableEntityErrorMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUnprocessableEntityErrorMeta) Reset() {
+	var v UnprocessableEntityErrorMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUnprocessableEntityErrorMeta) SetTo(v UnprocessableEntityErrorMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUnprocessableEntityErrorMeta) Get() (v UnprocessableEntityErrorMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUnprocessableEntityErrorMeta) Or(d UnprocessableEntityErrorMeta) UnprocessableEntityErrorMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUnprocessableEntityErrorSource returns new OptUnprocessableEntityErrorSource with value set to v.
+func NewOptUnprocessableEntityErrorSource(v UnprocessableEntityErrorSource) OptUnprocessableEntityErrorSource {
+	return OptUnprocessableEntityErrorSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUnprocessableEntityErrorSource is optional UnprocessableEntityErrorSource.
+type OptUnprocessableEntityErrorSource struct {
+	Value UnprocessableEntityErrorSource
+	Set   bool
+}
+
+// IsSet returns true if OptUnprocessableEntityErrorSource was set.
+func (o OptUnprocessableEntityErrorSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUnprocessableEntityErrorSource) Reset() {
+	var v UnprocessableEntityErrorSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUnprocessableEntityErrorSource) SetTo(v UnprocessableEntityErrorSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUnprocessableEntityErrorSource) Get() (v UnprocessableEntityErrorSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUnprocessableEntityErrorSource) Or(d UnprocessableEntityErrorSource) UnprocessableEntityErrorSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -34289,6 +36808,706 @@ func (s *PlaybackStopRequest) SetCommandID(val OptString) {
 	s.CommandID = val
 }
 
+// Ref: #/components/schemas/Portability
+type Portability struct {
+	// Local Routing Number, if assigned to the requested phone number.
+	Lrn OptString `json:"lrn"`
+	// Indicates whether or not the requested phone number has been ported.
+	PortedStatus OptPortabilityPortedStatus `json:"ported_status"`
+	// ISO-formatted date when the requested phone number has been ported.
+	PortedDate OptString `json:"ported_date"`
+	// Operating Company Name (OCN) as per the Local Exchange Routing Guide (LERG) database.
+	Ocn OptString `json:"ocn"`
+	// Type of number.
+	LineType OptString `json:"line_type"`
+	// SPID (Service Provider ID).
+	Spid OptString `json:"spid"`
+	// Service provider name.
+	SpidCarrierName OptString `json:"spid_carrier_name"`
+	// Service provider type.
+	SpidCarrierType OptString `json:"spid_carrier_type"`
+	// Alternative SPID (Service Provider ID). Often used when a carrier is using a number from another
+	// carrier.
+	Altspid OptString `json:"altspid"`
+	// Alternative service provider name.
+	AltspidCarrierName OptString `json:"altspid_carrier_name"`
+	// Alternative service provider type.
+	AltspidCarrierType OptString `json:"altspid_carrier_type"`
+	// City name extracted from the locality in the Local Exchange Routing Guide (LERG) database.
+	City  OptString `json:"city"`
+	State OptString `json:"state"`
+}
+
+// GetLrn returns the value of Lrn.
+func (s *Portability) GetLrn() OptString {
+	return s.Lrn
+}
+
+// GetPortedStatus returns the value of PortedStatus.
+func (s *Portability) GetPortedStatus() OptPortabilityPortedStatus {
+	return s.PortedStatus
+}
+
+// GetPortedDate returns the value of PortedDate.
+func (s *Portability) GetPortedDate() OptString {
+	return s.PortedDate
+}
+
+// GetOcn returns the value of Ocn.
+func (s *Portability) GetOcn() OptString {
+	return s.Ocn
+}
+
+// GetLineType returns the value of LineType.
+func (s *Portability) GetLineType() OptString {
+	return s.LineType
+}
+
+// GetSpid returns the value of Spid.
+func (s *Portability) GetSpid() OptString {
+	return s.Spid
+}
+
+// GetSpidCarrierName returns the value of SpidCarrierName.
+func (s *Portability) GetSpidCarrierName() OptString {
+	return s.SpidCarrierName
+}
+
+// GetSpidCarrierType returns the value of SpidCarrierType.
+func (s *Portability) GetSpidCarrierType() OptString {
+	return s.SpidCarrierType
+}
+
+// GetAltspid returns the value of Altspid.
+func (s *Portability) GetAltspid() OptString {
+	return s.Altspid
+}
+
+// GetAltspidCarrierName returns the value of AltspidCarrierName.
+func (s *Portability) GetAltspidCarrierName() OptString {
+	return s.AltspidCarrierName
+}
+
+// GetAltspidCarrierType returns the value of AltspidCarrierType.
+func (s *Portability) GetAltspidCarrierType() OptString {
+	return s.AltspidCarrierType
+}
+
+// GetCity returns the value of City.
+func (s *Portability) GetCity() OptString {
+	return s.City
+}
+
+// GetState returns the value of State.
+func (s *Portability) GetState() OptString {
+	return s.State
+}
+
+// SetLrn sets the value of Lrn.
+func (s *Portability) SetLrn(val OptString) {
+	s.Lrn = val
+}
+
+// SetPortedStatus sets the value of PortedStatus.
+func (s *Portability) SetPortedStatus(val OptPortabilityPortedStatus) {
+	s.PortedStatus = val
+}
+
+// SetPortedDate sets the value of PortedDate.
+func (s *Portability) SetPortedDate(val OptString) {
+	s.PortedDate = val
+}
+
+// SetOcn sets the value of Ocn.
+func (s *Portability) SetOcn(val OptString) {
+	s.Ocn = val
+}
+
+// SetLineType sets the value of LineType.
+func (s *Portability) SetLineType(val OptString) {
+	s.LineType = val
+}
+
+// SetSpid sets the value of Spid.
+func (s *Portability) SetSpid(val OptString) {
+	s.Spid = val
+}
+
+// SetSpidCarrierName sets the value of SpidCarrierName.
+func (s *Portability) SetSpidCarrierName(val OptString) {
+	s.SpidCarrierName = val
+}
+
+// SetSpidCarrierType sets the value of SpidCarrierType.
+func (s *Portability) SetSpidCarrierType(val OptString) {
+	s.SpidCarrierType = val
+}
+
+// SetAltspid sets the value of Altspid.
+func (s *Portability) SetAltspid(val OptString) {
+	s.Altspid = val
+}
+
+// SetAltspidCarrierName sets the value of AltspidCarrierName.
+func (s *Portability) SetAltspidCarrierName(val OptString) {
+	s.AltspidCarrierName = val
+}
+
+// SetAltspidCarrierType sets the value of AltspidCarrierType.
+func (s *Portability) SetAltspidCarrierType(val OptString) {
+	s.AltspidCarrierType = val
+}
+
+// SetCity sets the value of City.
+func (s *Portability) SetCity(val OptString) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *Portability) SetState(val OptString) {
+	s.State = val
+}
+
+// Indicates whether or not the requested phone number has been ported.
+type PortabilityPortedStatus string
+
+const (
+	PortabilityPortedStatusY     PortabilityPortedStatus = "Y"
+	PortabilityPortedStatusN     PortabilityPortedStatus = "N"
+	PortabilityPortedStatusEmpty PortabilityPortedStatus = ""
+)
+
+// AllValues returns all PortabilityPortedStatus values.
+func (PortabilityPortedStatus) AllValues() []PortabilityPortedStatus {
+	return []PortabilityPortedStatus{
+		PortabilityPortedStatusY,
+		PortabilityPortedStatusN,
+		PortabilityPortedStatusEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortabilityPortedStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortabilityPortedStatusY:
+		return []byte(s), nil
+	case PortabilityPortedStatusN:
+		return []byte(s), nil
+	case PortabilityPortedStatusEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortabilityPortedStatus) UnmarshalText(data []byte) error {
+	switch PortabilityPortedStatus(data) {
+	case PortabilityPortedStatusY:
+		*s = PortabilityPortedStatusY
+		return nil
+	case PortabilityPortedStatusN:
+		*s = PortabilityPortedStatusN
+		return nil
+	case PortabilityPortedStatusEmpty:
+		*s = PortabilityPortedStatusEmpty
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Specifies whether Telnyx is able to confirm portability this number in the United States & Canada.
+// International phone numbers are provisional by default.
+// Ref: #/components/schemas/PortabilityStatus
+type PortabilityStatus string
+
+const (
+	PortabilityStatusPending     PortabilityStatus = "pending"
+	PortabilityStatusConfirmed   PortabilityStatus = "confirmed"
+	PortabilityStatusProvisional PortabilityStatus = "provisional"
+)
+
+// AllValues returns all PortabilityStatus values.
+func (PortabilityStatus) AllValues() []PortabilityStatus {
+	return []PortabilityStatus{
+		PortabilityStatusPending,
+		PortabilityStatusConfirmed,
+		PortabilityStatusProvisional,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortabilityStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortabilityStatusPending:
+		return []byte(s), nil
+	case PortabilityStatusConfirmed:
+		return []byte(s), nil
+	case PortabilityStatusProvisional:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortabilityStatus) UnmarshalText(data []byte) error {
+	switch PortabilityStatus(data) {
+	case PortabilityStatusPending:
+		*s = PortabilityStatusPending
+		return nil
+	case PortabilityStatusConfirmed:
+		*s = PortabilityStatusConfirmed
+		return nil
+	case PortabilityStatusProvisional:
+		*s = PortabilityStatusProvisional
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Activation status.
+// Ref: #/components/schemas/PortingOrderActivationStatus
+type PortingOrderActivationStatus string
+
+const (
+	PortingOrderActivationStatusNew               PortingOrderActivationStatus = "New"
+	PortingOrderActivationStatusPending           PortingOrderActivationStatus = "Pending"
+	PortingOrderActivationStatusConflict          PortingOrderActivationStatus = "Conflict"
+	PortingOrderActivationStatusCancelPending     PortingOrderActivationStatus = "Cancel Pending"
+	PortingOrderActivationStatusFailed            PortingOrderActivationStatus = "Failed"
+	PortingOrderActivationStatusConcurred         PortingOrderActivationStatus = "Concurred"
+	PortingOrderActivationStatusActivateRDY       PortingOrderActivationStatus = "Activate RDY"
+	PortingOrderActivationStatusDisconnectPending PortingOrderActivationStatus = "Disconnect Pending"
+	PortingOrderActivationStatusConcurrenceSent   PortingOrderActivationStatus = "Concurrence Sent"
+	PortingOrderActivationStatusOld               PortingOrderActivationStatus = "Old"
+	PortingOrderActivationStatusSending           PortingOrderActivationStatus = "Sending"
+	PortingOrderActivationStatusActive            PortingOrderActivationStatus = "Active"
+	PortingOrderActivationStatusCanceled          PortingOrderActivationStatus = "Canceled"
+)
+
+// AllValues returns all PortingOrderActivationStatus values.
+func (PortingOrderActivationStatus) AllValues() []PortingOrderActivationStatus {
+	return []PortingOrderActivationStatus{
+		PortingOrderActivationStatusNew,
+		PortingOrderActivationStatusPending,
+		PortingOrderActivationStatusConflict,
+		PortingOrderActivationStatusCancelPending,
+		PortingOrderActivationStatusFailed,
+		PortingOrderActivationStatusConcurred,
+		PortingOrderActivationStatusActivateRDY,
+		PortingOrderActivationStatusDisconnectPending,
+		PortingOrderActivationStatusConcurrenceSent,
+		PortingOrderActivationStatusOld,
+		PortingOrderActivationStatusSending,
+		PortingOrderActivationStatusActive,
+		PortingOrderActivationStatusCanceled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingOrderActivationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingOrderActivationStatusNew:
+		return []byte(s), nil
+	case PortingOrderActivationStatusPending:
+		return []byte(s), nil
+	case PortingOrderActivationStatusConflict:
+		return []byte(s), nil
+	case PortingOrderActivationStatusCancelPending:
+		return []byte(s), nil
+	case PortingOrderActivationStatusFailed:
+		return []byte(s), nil
+	case PortingOrderActivationStatusConcurred:
+		return []byte(s), nil
+	case PortingOrderActivationStatusActivateRDY:
+		return []byte(s), nil
+	case PortingOrderActivationStatusDisconnectPending:
+		return []byte(s), nil
+	case PortingOrderActivationStatusConcurrenceSent:
+		return []byte(s), nil
+	case PortingOrderActivationStatusOld:
+		return []byte(s), nil
+	case PortingOrderActivationStatusSending:
+		return []byte(s), nil
+	case PortingOrderActivationStatusActive:
+		return []byte(s), nil
+	case PortingOrderActivationStatusCanceled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingOrderActivationStatus) UnmarshalText(data []byte) error {
+	switch PortingOrderActivationStatus(data) {
+	case PortingOrderActivationStatusNew:
+		*s = PortingOrderActivationStatusNew
+		return nil
+	case PortingOrderActivationStatusPending:
+		*s = PortingOrderActivationStatusPending
+		return nil
+	case PortingOrderActivationStatusConflict:
+		*s = PortingOrderActivationStatusConflict
+		return nil
+	case PortingOrderActivationStatusCancelPending:
+		*s = PortingOrderActivationStatusCancelPending
+		return nil
+	case PortingOrderActivationStatusFailed:
+		*s = PortingOrderActivationStatusFailed
+		return nil
+	case PortingOrderActivationStatusConcurred:
+		*s = PortingOrderActivationStatusConcurred
+		return nil
+	case PortingOrderActivationStatusActivateRDY:
+		*s = PortingOrderActivationStatusActivateRDY
+		return nil
+	case PortingOrderActivationStatusDisconnectPending:
+		*s = PortingOrderActivationStatusDisconnectPending
+		return nil
+	case PortingOrderActivationStatusConcurrenceSent:
+		*s = PortingOrderActivationStatusConcurrenceSent
+		return nil
+	case PortingOrderActivationStatusOld:
+		*s = PortingOrderActivationStatusOld
+		return nil
+	case PortingOrderActivationStatusSending:
+		*s = PortingOrderActivationStatusSending
+		return nil
+	case PortingOrderActivationStatusActive:
+		*s = PortingOrderActivationStatusActive
+		return nil
+	case PortingOrderActivationStatusCanceled:
+		*s = PortingOrderActivationStatusCanceled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/PortingPhoneNumber
+type PortingPhoneNumber struct {
+	// The current status of the porting order.
+	PortingOrderStatus OptPortingPhoneNumberPortingOrderStatus `json:"porting_order_status"`
+	// The type of the phone number.
+	PhoneNumberType OptPortingPhoneNumberPhoneNumberType `json:"phone_number_type"`
+	// E164 formatted phone number.
+	PhoneNumber OptString `json:"phone_number"`
+	// Identifies the associated port request.
+	PortingOrderID OptUUID `json:"porting_order_id"`
+	// A key to reference this porting order when contacting Telnyx customer support.
+	SupportKey        OptString                       `json:"support_key"`
+	ActivationStatus  OptPortingOrderActivationStatus `json:"activation_status"`
+	PortabilityStatus OptPortabilityStatus            `json:"portability_status"`
+	// The current status of the requirements in a INTL porting order.
+	RequirementsStatus OptPortingPhoneNumberRequirementsStatus `json:"requirements_status"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+}
+
+// GetPortingOrderStatus returns the value of PortingOrderStatus.
+func (s *PortingPhoneNumber) GetPortingOrderStatus() OptPortingPhoneNumberPortingOrderStatus {
+	return s.PortingOrderStatus
+}
+
+// GetPhoneNumberType returns the value of PhoneNumberType.
+func (s *PortingPhoneNumber) GetPhoneNumberType() OptPortingPhoneNumberPhoneNumberType {
+	return s.PhoneNumberType
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *PortingPhoneNumber) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetPortingOrderID returns the value of PortingOrderID.
+func (s *PortingPhoneNumber) GetPortingOrderID() OptUUID {
+	return s.PortingOrderID
+}
+
+// GetSupportKey returns the value of SupportKey.
+func (s *PortingPhoneNumber) GetSupportKey() OptString {
+	return s.SupportKey
+}
+
+// GetActivationStatus returns the value of ActivationStatus.
+func (s *PortingPhoneNumber) GetActivationStatus() OptPortingOrderActivationStatus {
+	return s.ActivationStatus
+}
+
+// GetPortabilityStatus returns the value of PortabilityStatus.
+func (s *PortingPhoneNumber) GetPortabilityStatus() OptPortabilityStatus {
+	return s.PortabilityStatus
+}
+
+// GetRequirementsStatus returns the value of RequirementsStatus.
+func (s *PortingPhoneNumber) GetRequirementsStatus() OptPortingPhoneNumberRequirementsStatus {
+	return s.RequirementsStatus
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortingPhoneNumber) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// SetPortingOrderStatus sets the value of PortingOrderStatus.
+func (s *PortingPhoneNumber) SetPortingOrderStatus(val OptPortingPhoneNumberPortingOrderStatus) {
+	s.PortingOrderStatus = val
+}
+
+// SetPhoneNumberType sets the value of PhoneNumberType.
+func (s *PortingPhoneNumber) SetPhoneNumberType(val OptPortingPhoneNumberPhoneNumberType) {
+	s.PhoneNumberType = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *PortingPhoneNumber) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetPortingOrderID sets the value of PortingOrderID.
+func (s *PortingPhoneNumber) SetPortingOrderID(val OptUUID) {
+	s.PortingOrderID = val
+}
+
+// SetSupportKey sets the value of SupportKey.
+func (s *PortingPhoneNumber) SetSupportKey(val OptString) {
+	s.SupportKey = val
+}
+
+// SetActivationStatus sets the value of ActivationStatus.
+func (s *PortingPhoneNumber) SetActivationStatus(val OptPortingOrderActivationStatus) {
+	s.ActivationStatus = val
+}
+
+// SetPortabilityStatus sets the value of PortabilityStatus.
+func (s *PortingPhoneNumber) SetPortabilityStatus(val OptPortabilityStatus) {
+	s.PortabilityStatus = val
+}
+
+// SetRequirementsStatus sets the value of RequirementsStatus.
+func (s *PortingPhoneNumber) SetRequirementsStatus(val OptPortingPhoneNumberRequirementsStatus) {
+	s.RequirementsStatus = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortingPhoneNumber) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// The type of the phone number.
+type PortingPhoneNumberPhoneNumberType string
+
+const (
+	PortingPhoneNumberPhoneNumberTypeLandline   PortingPhoneNumberPhoneNumberType = "landline"
+	PortingPhoneNumberPhoneNumberTypeLocal      PortingPhoneNumberPhoneNumberType = "local"
+	PortingPhoneNumberPhoneNumberTypeMobile     PortingPhoneNumberPhoneNumberType = "mobile"
+	PortingPhoneNumberPhoneNumberTypeNational   PortingPhoneNumberPhoneNumberType = "national"
+	PortingPhoneNumberPhoneNumberTypeSharedCost PortingPhoneNumberPhoneNumberType = "shared_cost"
+	PortingPhoneNumberPhoneNumberTypeTollFree   PortingPhoneNumberPhoneNumberType = "toll_free"
+)
+
+// AllValues returns all PortingPhoneNumberPhoneNumberType values.
+func (PortingPhoneNumberPhoneNumberType) AllValues() []PortingPhoneNumberPhoneNumberType {
+	return []PortingPhoneNumberPhoneNumberType{
+		PortingPhoneNumberPhoneNumberTypeLandline,
+		PortingPhoneNumberPhoneNumberTypeLocal,
+		PortingPhoneNumberPhoneNumberTypeMobile,
+		PortingPhoneNumberPhoneNumberTypeNational,
+		PortingPhoneNumberPhoneNumberTypeSharedCost,
+		PortingPhoneNumberPhoneNumberTypeTollFree,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingPhoneNumberPhoneNumberType) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingPhoneNumberPhoneNumberTypeLandline:
+		return []byte(s), nil
+	case PortingPhoneNumberPhoneNumberTypeLocal:
+		return []byte(s), nil
+	case PortingPhoneNumberPhoneNumberTypeMobile:
+		return []byte(s), nil
+	case PortingPhoneNumberPhoneNumberTypeNational:
+		return []byte(s), nil
+	case PortingPhoneNumberPhoneNumberTypeSharedCost:
+		return []byte(s), nil
+	case PortingPhoneNumberPhoneNumberTypeTollFree:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingPhoneNumberPhoneNumberType) UnmarshalText(data []byte) error {
+	switch PortingPhoneNumberPhoneNumberType(data) {
+	case PortingPhoneNumberPhoneNumberTypeLandline:
+		*s = PortingPhoneNumberPhoneNumberTypeLandline
+		return nil
+	case PortingPhoneNumberPhoneNumberTypeLocal:
+		*s = PortingPhoneNumberPhoneNumberTypeLocal
+		return nil
+	case PortingPhoneNumberPhoneNumberTypeMobile:
+		*s = PortingPhoneNumberPhoneNumberTypeMobile
+		return nil
+	case PortingPhoneNumberPhoneNumberTypeNational:
+		*s = PortingPhoneNumberPhoneNumberTypeNational
+		return nil
+	case PortingPhoneNumberPhoneNumberTypeSharedCost:
+		*s = PortingPhoneNumberPhoneNumberTypeSharedCost
+		return nil
+	case PortingPhoneNumberPhoneNumberTypeTollFree:
+		*s = PortingPhoneNumberPhoneNumberTypeTollFree
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The current status of the porting order.
+type PortingPhoneNumberPortingOrderStatus string
+
+const (
+	PortingPhoneNumberPortingOrderStatusDraft            PortingPhoneNumberPortingOrderStatus = "draft"
+	PortingPhoneNumberPortingOrderStatusInProcess        PortingPhoneNumberPortingOrderStatus = "in-process"
+	PortingPhoneNumberPortingOrderStatusSubmitted        PortingPhoneNumberPortingOrderStatus = "submitted"
+	PortingPhoneNumberPortingOrderStatusException        PortingPhoneNumberPortingOrderStatus = "exception"
+	PortingPhoneNumberPortingOrderStatusFocDateConfirmed PortingPhoneNumberPortingOrderStatus = "foc-date-confirmed"
+	PortingPhoneNumberPortingOrderStatusCancelPending    PortingPhoneNumberPortingOrderStatus = "cancel-pending"
+	PortingPhoneNumberPortingOrderStatusPorted           PortingPhoneNumberPortingOrderStatus = "ported"
+	PortingPhoneNumberPortingOrderStatusCancelled        PortingPhoneNumberPortingOrderStatus = "cancelled"
+)
+
+// AllValues returns all PortingPhoneNumberPortingOrderStatus values.
+func (PortingPhoneNumberPortingOrderStatus) AllValues() []PortingPhoneNumberPortingOrderStatus {
+	return []PortingPhoneNumberPortingOrderStatus{
+		PortingPhoneNumberPortingOrderStatusDraft,
+		PortingPhoneNumberPortingOrderStatusInProcess,
+		PortingPhoneNumberPortingOrderStatusSubmitted,
+		PortingPhoneNumberPortingOrderStatusException,
+		PortingPhoneNumberPortingOrderStatusFocDateConfirmed,
+		PortingPhoneNumberPortingOrderStatusCancelPending,
+		PortingPhoneNumberPortingOrderStatusPorted,
+		PortingPhoneNumberPortingOrderStatusCancelled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingPhoneNumberPortingOrderStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingPhoneNumberPortingOrderStatusDraft:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusInProcess:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusSubmitted:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusException:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusFocDateConfirmed:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusCancelPending:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusPorted:
+		return []byte(s), nil
+	case PortingPhoneNumberPortingOrderStatusCancelled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingPhoneNumberPortingOrderStatus) UnmarshalText(data []byte) error {
+	switch PortingPhoneNumberPortingOrderStatus(data) {
+	case PortingPhoneNumberPortingOrderStatusDraft:
+		*s = PortingPhoneNumberPortingOrderStatusDraft
+		return nil
+	case PortingPhoneNumberPortingOrderStatusInProcess:
+		*s = PortingPhoneNumberPortingOrderStatusInProcess
+		return nil
+	case PortingPhoneNumberPortingOrderStatusSubmitted:
+		*s = PortingPhoneNumberPortingOrderStatusSubmitted
+		return nil
+	case PortingPhoneNumberPortingOrderStatusException:
+		*s = PortingPhoneNumberPortingOrderStatusException
+		return nil
+	case PortingPhoneNumberPortingOrderStatusFocDateConfirmed:
+		*s = PortingPhoneNumberPortingOrderStatusFocDateConfirmed
+		return nil
+	case PortingPhoneNumberPortingOrderStatusCancelPending:
+		*s = PortingPhoneNumberPortingOrderStatusCancelPending
+		return nil
+	case PortingPhoneNumberPortingOrderStatusPorted:
+		*s = PortingPhoneNumberPortingOrderStatusPorted
+		return nil
+	case PortingPhoneNumberPortingOrderStatusCancelled:
+		*s = PortingPhoneNumberPortingOrderStatusCancelled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The current status of the requirements in a INTL porting order.
+type PortingPhoneNumberRequirementsStatus string
+
+const (
+	PortingPhoneNumberRequirementsStatusRequirementInfoPending     PortingPhoneNumberRequirementsStatus = "requirement-info-pending"
+	PortingPhoneNumberRequirementsStatusRequirementInfoUnderReview PortingPhoneNumberRequirementsStatus = "requirement-info-under-review"
+	PortingPhoneNumberRequirementsStatusRequirementInfoException   PortingPhoneNumberRequirementsStatus = "requirement-info-exception"
+	PortingPhoneNumberRequirementsStatusApproved                   PortingPhoneNumberRequirementsStatus = "approved"
+)
+
+// AllValues returns all PortingPhoneNumberRequirementsStatus values.
+func (PortingPhoneNumberRequirementsStatus) AllValues() []PortingPhoneNumberRequirementsStatus {
+	return []PortingPhoneNumberRequirementsStatus{
+		PortingPhoneNumberRequirementsStatusRequirementInfoPending,
+		PortingPhoneNumberRequirementsStatusRequirementInfoUnderReview,
+		PortingPhoneNumberRequirementsStatusRequirementInfoException,
+		PortingPhoneNumberRequirementsStatusApproved,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortingPhoneNumberRequirementsStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortingPhoneNumberRequirementsStatusRequirementInfoPending:
+		return []byte(s), nil
+	case PortingPhoneNumberRequirementsStatusRequirementInfoUnderReview:
+		return []byte(s), nil
+	case PortingPhoneNumberRequirementsStatusRequirementInfoException:
+		return []byte(s), nil
+	case PortingPhoneNumberRequirementsStatusApproved:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortingPhoneNumberRequirementsStatus) UnmarshalText(data []byte) error {
+	switch PortingPhoneNumberRequirementsStatus(data) {
+	case PortingPhoneNumberRequirementsStatusRequirementInfoPending:
+		*s = PortingPhoneNumberRequirementsStatusRequirementInfoPending
+		return nil
+	case PortingPhoneNumberRequirementsStatusRequirementInfoUnderReview:
+		*s = PortingPhoneNumberRequirementsStatusRequirementInfoUnderReview
+		return nil
+	case PortingPhoneNumberRequirementsStatusRequirementInfoException:
+		*s = PortingPhoneNumberRequirementsStatusRequirementInfoException
+		return nil
+	case PortingPhoneNumberRequirementsStatusApproved:
+		*s = PortingPhoneNumberRequirementsStatusApproved
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/QueueCall
 type QueueCall struct {
 	RecordType QueueCallRecordType `json:"record_type"`
@@ -35344,6 +38563,87 @@ func (s *ReferRequest) SetSipHeaders(val []SipHeader) {
 
 type Region string
 
+// Ref: #/components/schemas/RegionInformation
+type RegionInformation struct {
+	RegionType OptRegionInformationRegionType `json:"region_type"`
+	RegionName OptString                      `json:"region_name"`
+}
+
+// GetRegionType returns the value of RegionType.
+func (s *RegionInformation) GetRegionType() OptRegionInformationRegionType {
+	return s.RegionType
+}
+
+// GetRegionName returns the value of RegionName.
+func (s *RegionInformation) GetRegionName() OptString {
+	return s.RegionName
+}
+
+// SetRegionType sets the value of RegionType.
+func (s *RegionInformation) SetRegionType(val OptRegionInformationRegionType) {
+	s.RegionType = val
+}
+
+// SetRegionName sets the value of RegionName.
+func (s *RegionInformation) SetRegionName(val OptString) {
+	s.RegionName = val
+}
+
+type RegionInformationRegionType string
+
+const (
+	RegionInformationRegionTypeCountryCode RegionInformationRegionType = "country_code"
+	RegionInformationRegionTypeRateCenter  RegionInformationRegionType = "rate_center"
+	RegionInformationRegionTypeState       RegionInformationRegionType = "state"
+	RegionInformationRegionTypeLocation    RegionInformationRegionType = "location"
+)
+
+// AllValues returns all RegionInformationRegionType values.
+func (RegionInformationRegionType) AllValues() []RegionInformationRegionType {
+	return []RegionInformationRegionType{
+		RegionInformationRegionTypeCountryCode,
+		RegionInformationRegionTypeRateCenter,
+		RegionInformationRegionTypeState,
+		RegionInformationRegionTypeLocation,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegionInformationRegionType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegionInformationRegionTypeCountryCode:
+		return []byte(s), nil
+	case RegionInformationRegionTypeRateCenter:
+		return []byte(s), nil
+	case RegionInformationRegionTypeState:
+		return []byte(s), nil
+	case RegionInformationRegionTypeLocation:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegionInformationRegionType) UnmarshalText(data []byte) error {
+	switch RegionInformationRegionType(data) {
+	case RegionInformationRegionTypeCountryCode:
+		*s = RegionInformationRegionTypeCountryCode
+		return nil
+	case RegionInformationRegionTypeRateCenter:
+		*s = RegionInformationRegionTypeRateCenter
+		return nil
+	case RegionInformationRegionTypeState:
+		*s = RegionInformationRegionTypeState
+		return nil
+	case RegionInformationRegionTypeLocation:
+		*s = RegionInformationRegionTypeLocation
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/RegisterCallRequest
 type RegisterCallRequest struct {
 	// The DID that you will dial out from.
@@ -35412,6 +38712,206 @@ func (s *RegisterCallResponseData) GetResult() OptString {
 // SetResult sets the value of Result.
 func (s *RegisterCallResponseData) SetResult(val OptString) {
 	s.Result = val
+}
+
+// Ref: #/components/schemas/RegulatoryRequirements
+type RegulatoryRequirements struct {
+	PhoneNumber            OptString                                          `json:"phone_number"`
+	PhoneNumberType        OptString                                          `json:"phone_number_type"`
+	RegionInformation      []RegulatoryRequirementsRegionInformationItem      `json:"region_information"`
+	RecordType             OptString                                          `json:"record_type"`
+	RegulatoryRequirements []RegulatoryRequirementsRegulatoryRequirementsItem `json:"regulatory_requirements"`
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *RegulatoryRequirements) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetPhoneNumberType returns the value of PhoneNumberType.
+func (s *RegulatoryRequirements) GetPhoneNumberType() OptString {
+	return s.PhoneNumberType
+}
+
+// GetRegionInformation returns the value of RegionInformation.
+func (s *RegulatoryRequirements) GetRegionInformation() []RegulatoryRequirementsRegionInformationItem {
+	return s.RegionInformation
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *RegulatoryRequirements) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetRegulatoryRequirements returns the value of RegulatoryRequirements.
+func (s *RegulatoryRequirements) GetRegulatoryRequirements() []RegulatoryRequirementsRegulatoryRequirementsItem {
+	return s.RegulatoryRequirements
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *RegulatoryRequirements) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetPhoneNumberType sets the value of PhoneNumberType.
+func (s *RegulatoryRequirements) SetPhoneNumberType(val OptString) {
+	s.PhoneNumberType = val
+}
+
+// SetRegionInformation sets the value of RegionInformation.
+func (s *RegulatoryRequirements) SetRegionInformation(val []RegulatoryRequirementsRegionInformationItem) {
+	s.RegionInformation = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *RegulatoryRequirements) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetRegulatoryRequirements sets the value of RegulatoryRequirements.
+func (s *RegulatoryRequirements) SetRegulatoryRequirements(val []RegulatoryRequirementsRegulatoryRequirementsItem) {
+	s.RegulatoryRequirements = val
+}
+
+type RegulatoryRequirementsRegionInformationItem struct {
+	RegionName OptString `json:"region_name"`
+	RegionType OptString `json:"region_type"`
+}
+
+// GetRegionName returns the value of RegionName.
+func (s *RegulatoryRequirementsRegionInformationItem) GetRegionName() OptString {
+	return s.RegionName
+}
+
+// GetRegionType returns the value of RegionType.
+func (s *RegulatoryRequirementsRegionInformationItem) GetRegionType() OptString {
+	return s.RegionType
+}
+
+// SetRegionName sets the value of RegionName.
+func (s *RegulatoryRequirementsRegionInformationItem) SetRegionName(val OptString) {
+	s.RegionName = val
+}
+
+// SetRegionType sets the value of RegionType.
+func (s *RegulatoryRequirementsRegionInformationItem) SetRegionType(val OptString) {
+	s.RegionType = val
+}
+
+type RegulatoryRequirementsRegulatoryRequirementsItem struct {
+	Description        OptString                                                             `json:"description"`
+	ID                 OptUUID                                                               `json:"id"`
+	Example            OptString                                                             `json:"example"`
+	Label              OptString                                                             `json:"label"`
+	FieldType          OptString                                                             `json:"field_type"`
+	AcceptanceCriteria OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria `json:"acceptance_criteria"`
+	RecordType         OptString                                                             `json:"record_type"`
+}
+
+// GetDescription returns the value of Description.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetDescription() OptString {
+	return s.Description
+}
+
+// GetID returns the value of ID.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetID() OptUUID {
+	return s.ID
+}
+
+// GetExample returns the value of Example.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetExample() OptString {
+	return s.Example
+}
+
+// GetLabel returns the value of Label.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetLabel() OptString {
+	return s.Label
+}
+
+// GetFieldType returns the value of FieldType.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetFieldType() OptString {
+	return s.FieldType
+}
+
+// GetAcceptanceCriteria returns the value of AcceptanceCriteria.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetAcceptanceCriteria() OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria {
+	return s.AcceptanceCriteria
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// SetDescription sets the value of Description.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetID sets the value of ID.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetExample sets the value of Example.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetExample(val OptString) {
+	s.Example = val
+}
+
+// SetLabel sets the value of Label.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetLabel(val OptString) {
+	s.Label = val
+}
+
+// SetFieldType sets the value of FieldType.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetFieldType(val OptString) {
+	s.FieldType = val
+}
+
+// SetAcceptanceCriteria sets the value of AcceptanceCriteria.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetAcceptanceCriteria(val OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) {
+	s.AcceptanceCriteria = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItem) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+type RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria struct {
+	LocalityLimit OptString `json:"locality_limit"`
+	FieldValue    OptString `json:"field_value"`
+	FieldType     OptString `json:"field_type"`
+}
+
+// GetLocalityLimit returns the value of LocalityLimit.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) GetLocalityLimit() OptString {
+	return s.LocalityLimit
+}
+
+// GetFieldValue returns the value of FieldValue.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) GetFieldValue() OptString {
+	return s.FieldValue
+}
+
+// GetFieldType returns the value of FieldType.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) GetFieldType() OptString {
+	return s.FieldType
+}
+
+// SetLocalityLimit sets the value of LocalityLimit.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) SetLocalityLimit(val OptString) {
+	s.LocalityLimit = val
+}
+
+// SetFieldValue sets the value of FieldValue.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) SetFieldValue(val OptString) {
+	s.FieldValue = val
+}
+
+// SetFieldType sets the value of FieldType.
+func (s *RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) SetFieldType(val OptString) {
+	s.FieldType = val
 }
 
 // Ref: #/components/schemas/RejectRequest
@@ -40967,7 +44467,85 @@ func (*UnauthorizedResponse) retrievePhoneNumbersJobRes()                      {
 func (*UnauthorizedResponse) updateCallControlApplicationRes()                 {}
 func (*UnauthorizedResponse) updateTexmlApplicationRes()                       {}
 
-type UnprocessableEntityError jx.Raw
+// Merged schema.
+// Ref: #/components/schemas/UnprocessableEntityError
+type UnprocessableEntityError struct {
+	// Merged property.
+	Code OptStringInt `json:"code"`
+	// Merged property.
+	Title OptString `json:"title"`
+	// Merged property.
+	Detail OptString `json:"detail"`
+	// Merged property.
+	Source OptUnprocessableEntityErrorSource `json:"source"`
+	// Merged property.
+	Meta OptUnprocessableEntityErrorMeta `json:"meta"`
+}
+
+// GetCode returns the value of Code.
+func (s *UnprocessableEntityError) GetCode() OptStringInt {
+	return s.Code
+}
+
+// GetTitle returns the value of Title.
+func (s *UnprocessableEntityError) GetTitle() OptString {
+	return s.Title
+}
+
+// GetDetail returns the value of Detail.
+func (s *UnprocessableEntityError) GetDetail() OptString {
+	return s.Detail
+}
+
+// GetSource returns the value of Source.
+func (s *UnprocessableEntityError) GetSource() OptUnprocessableEntityErrorSource {
+	return s.Source
+}
+
+// GetMeta returns the value of Meta.
+func (s *UnprocessableEntityError) GetMeta() OptUnprocessableEntityErrorMeta {
+	return s.Meta
+}
+
+// SetCode sets the value of Code.
+func (s *UnprocessableEntityError) SetCode(val OptStringInt) {
+	s.Code = val
+}
+
+// SetTitle sets the value of Title.
+func (s *UnprocessableEntityError) SetTitle(val OptString) {
+	s.Title = val
+}
+
+// SetDetail sets the value of Detail.
+func (s *UnprocessableEntityError) SetDetail(val OptString) {
+	s.Detail = val
+}
+
+// SetSource sets the value of Source.
+func (s *UnprocessableEntityError) SetSource(val OptUnprocessableEntityErrorSource) {
+	s.Source = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *UnprocessableEntityError) SetMeta(val OptUnprocessableEntityErrorMeta) {
+	s.Meta = val
+}
+
+// Merged schema.
+type UnprocessableEntityErrorMeta struct {
+	URL OptString `json:"url"`
+}
+
+// GetURL returns the value of URL.
+func (s *UnprocessableEntityErrorMeta) GetURL() OptString {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *UnprocessableEntityErrorMeta) SetURL(val OptString) {
+	s.URL = val
+}
 
 type UnprocessableEntityErrorResponse struct {
 	Errors []UnprocessableEntityError `json:"errors"`
@@ -40986,6 +44564,34 @@ func (s *UnprocessableEntityErrorResponse) SetErrors(val []UnprocessableEntityEr
 func (*UnprocessableEntityErrorResponse) createVerifiedNumberRes()   {}
 func (*UnprocessableEntityErrorResponse) listVerifiedNumbersRes()    {}
 func (*UnprocessableEntityErrorResponse) verifyVerificationCodeRes() {}
+
+// Merged schema.
+type UnprocessableEntityErrorSource struct {
+	// Merged property.
+	Pointer OptString `json:"pointer"`
+	// Indicates which query parameter caused the error.
+	Parameter OptString `json:"parameter"`
+}
+
+// GetPointer returns the value of Pointer.
+func (s *UnprocessableEntityErrorSource) GetPointer() OptString {
+	return s.Pointer
+}
+
+// GetParameter returns the value of Parameter.
+func (s *UnprocessableEntityErrorSource) GetParameter() OptString {
+	return s.Parameter
+}
+
+// SetPointer sets the value of Pointer.
+func (s *UnprocessableEntityErrorSource) SetPointer(val OptString) {
+	s.Pointer = val
+}
+
+// SetParameter sets the value of Parameter.
+func (s *UnprocessableEntityErrorSource) SetParameter(val OptString) {
+	s.Parameter = val
+}
 
 // UpdateBulkTelephonyCredentialUnprocessableEntity is response for UpdateBulkTelephonyCredential operation.
 type UpdateBulkTelephonyCredentialUnprocessableEntity struct{}

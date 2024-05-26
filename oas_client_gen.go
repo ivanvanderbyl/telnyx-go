@@ -27,6 +27,13 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/answer
 	AnswerCall(ctx context.Context, request *AnswerRequest, params AnswerCallParams) (AnswerCallRes, error)
+	// AssignPhoneNumber invokes AssignPhoneNumber operation.
+	//
+	// You should own the phone number being assigned to the channel zone. Remember that you should
+	// reserve channels in this channel zone, otherwise you won't be able to receive incoming calls.
+	//
+	// POST /channel_zones/{channel_zone_id}/channel_zone_phone_numbers
+	AssignPhoneNumber(ctx context.Context, request *AssignPhoneNumberReq, params AssignPhoneNumberParams) (AssignPhoneNumberRes, error)
 	// AudioPublicAudioTranscriptionsPost invokes audio_public_audio_transcriptions_post operation.
 	//
 	// Transcribe speech to text. This endpoint is consistent with the [OpenAI Transcription
@@ -530,6 +537,14 @@ type Invoker interface {
 	//
 	// GET /phone_numbers/{id}/voice
 	GetPhoneNumberVoiceSettings(ctx context.Context, params GetPhoneNumberVoiceSettingsParams) (GetPhoneNumberVoiceSettingsRes, error)
+	// GetPhoneNumbers invokes GetPhoneNumbers operation.
+	//
+	// Retrieve the assigned phone numbers in a channel zone. Phone numbers assigned to a channel zone
+	// can receive concurrent calls up to the quantity reserved in that channel zone. Additional
+	// concurrent calls are rejected with a busy signal.
+	//
+	// GET /channel_zones/{channel_zone_id}/channel_zone_phone_numbers
+	GetPhoneNumbers(ctx context.Context, params GetPhoneNumbersParams) (*GetGcbPhoneNumbersRequestResponse, error)
 	// GetRecording invokes GetRecording operation.
 	//
 	// Retrieves the details of an existing call recording.
@@ -691,6 +706,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/leave_queue
 	LeaveQueue(ctx context.Context, request *LeaveQueueRequest, params LeaveQueueParams) (LeaveQueueRes, error)
+	// ListAvailablePhoneNumbers invokes ListAvailablePhoneNumbers operation.
+	//
+	// List available phone numbers.
+	//
+	// GET /available_phone_numbers
+	ListAvailablePhoneNumbers(ctx context.Context, params ListAvailablePhoneNumbersParams) (ListAvailablePhoneNumbersRes, error)
 	// ListCallControlApplications invokes ListCallControlApplications operation.
 	//
 	// Return a list of call control applications.
@@ -716,6 +737,12 @@ type Invoker interface {
 	//
 	// GET /external_connections/log_messages
 	ListExternalConnectionLogMessages(ctx context.Context, params ListExternalConnectionLogMessagesParams) (ListExternalConnectionLogMessagesRes, error)
+	// ListExternalConnectionPhoneNumbers invokes ListExternalConnectionPhoneNumbers operation.
+	//
+	// Returns a list of all active phone numbers associated with the given external connection.
+	//
+	// GET /external_connections/{id}/phone_numbers
+	ListExternalConnectionPhoneNumbers(ctx context.Context, params ListExternalConnectionPhoneNumbersParams) (ListExternalConnectionPhoneNumbersRes, error)
 	// ListInboundChannels invokes ListInboundChannels operation.
 	//
 	// Returns the inbound channels for your account. Inbound channels allows you to use Channel Billing
@@ -754,6 +781,12 @@ type Invoker interface {
 	//
 	// GET /notification_channels
 	ListNotificationChannels(ctx context.Context, params ListNotificationChannelsParams) (ListNotificationChannelsRes, error)
+	// ListPhoneNumbers invokes ListPhoneNumbers operation.
+	//
+	// List phone numbers.
+	//
+	// GET /phone_numbers
+	ListPhoneNumbers(ctx context.Context, params ListPhoneNumbersParams) (ListPhoneNumbersRes, error)
 	// ListPhoneNumbersJobs invokes ListPhoneNumbersJobs operation.
 	//
 	// Lists the phone numbers jobs.
@@ -772,12 +805,24 @@ type Invoker interface {
 	//
 	// GET /phone_numbers/voice
 	ListPhoneNumbersWithVoiceSettings(ctx context.Context, params ListPhoneNumbersWithVoiceSettingsParams) (ListPhoneNumbersWithVoiceSettingsRes, error)
+	// ListPortingPhoneNumbers invokes ListPortingPhoneNumbers operation.
+	//
+	// Returns a list of your porting phone numbers.
+	//
+	// GET /porting_phone_numbers
+	ListPortingPhoneNumbers(ctx context.Context, params ListPortingPhoneNumbersParams) (ListPortingPhoneNumbersRes, error)
 	// ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
 	//
 	// List all Verify profile message templates.
 	//
 	// GET /verify_profiles/templates
 	ListProfileMessageTemplates(ctx context.Context) (*ListVerifyProfileMessageTemplateResponse, error)
+	// ListProfilePhoneNumbers invokes ListProfilePhoneNumbers operation.
+	//
+	// List phone numbers associated with a messaging profile.
+	//
+	// GET /messaging_profiles/{id}/phone_numbers
+	ListProfilePhoneNumbers(ctx context.Context, params ListProfilePhoneNumbersParams) (ListProfilePhoneNumbersRes, error)
 	// ListProfiles invokes ListProfiles operation.
 	//
 	// Gets a paginated list of Verify profiles.
@@ -790,6 +835,12 @@ type Invoker interface {
 	//
 	// GET /queues/{queue_name}/calls
 	ListQueueCalls(ctx context.Context, params ListQueueCallsParams) (ListQueueCallsRes, error)
+	// ListRegulatoryRequirements invokes ListRegulatoryRequirements operation.
+	//
+	// Retrieve regulartory requirements.
+	//
+	// GET /phone_numbers_regulatory_requirements
+	ListRegulatoryRequirements(ctx context.Context, params ListRegulatoryRequirementsParams) (ListRegulatoryRequirementsRes, error)
 	// ListRoomRecordings invokes ListRoomRecordings operation.
 	//
 	// View a list of room recordings.
@@ -820,6 +871,12 @@ type Invoker interface {
 	//
 	// GET /verified_numbers
 	ListVerifiedNumbers(ctx context.Context, params ListVerifiedNumbersParams) (ListVerifiedNumbersRes, error)
+	// LookupNumber invokes LookupNumber operation.
+	//
+	// Returns information about the provided phone number.
+	//
+	// GET /number_lookup/{phone_number}
+	LookupNumber(ctx context.Context, params LookupNumberParams) (LookupNumberRes, error)
 	// NoiseSuppressionStart invokes noiseSuppressionStart operation.
 	//
 	// Noise Suppression Start (BETA).
@@ -899,6 +956,12 @@ type Invoker interface {
 	//
 	// GET /calls/{call_control_id}
 	RetrieveCallStatus(ctx context.Context, params RetrieveCallStatusParams) (RetrieveCallStatusRes, error)
+	// RetrieveOrderPhoneNumbers invokes RetrieveOrderPhoneNumbers operation.
+	//
+	// Get a list of phone numbers associated to orders.
+	//
+	// GET /number_order_phone_numbers
+	RetrieveOrderPhoneNumbers(ctx context.Context) (RetrieveOrderPhoneNumbersRes, error)
 	// RetrievePhoneNumber invokes RetrievePhoneNumber operation.
 	//
 	// Retrieve a phone number.
@@ -1564,6 +1627,98 @@ func (c *Client) sendAnswerCall(ctx context.Context, request *AnswerRequest, par
 	defer resp.Body.Close()
 
 	result, err := decodeAnswerCallResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AssignPhoneNumber invokes AssignPhoneNumber operation.
+//
+// You should own the phone number being assigned to the channel zone. Remember that you should
+// reserve channels in this channel zone, otherwise you won't be able to receive incoming calls.
+//
+// POST /channel_zones/{channel_zone_id}/channel_zone_phone_numbers
+func (c *Client) AssignPhoneNumber(ctx context.Context, request *AssignPhoneNumberReq, params AssignPhoneNumberParams) (AssignPhoneNumberRes, error) {
+	res, err := c.sendAssignPhoneNumber(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAssignPhoneNumber(ctx context.Context, request *AssignPhoneNumberReq, params AssignPhoneNumberParams) (res AssignPhoneNumberRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/channel_zones/"
+	{
+		// Encode "channel_zone_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "channel_zone_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ChannelZoneID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/channel_zone_phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAssignPhoneNumberRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "AssignPhoneNumber", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAssignPhoneNumberResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8786,6 +8941,133 @@ func (c *Client) sendGetPhoneNumberVoiceSettings(ctx context.Context, params Get
 	return result, nil
 }
 
+// GetPhoneNumbers invokes GetPhoneNumbers operation.
+//
+// Retrieve the assigned phone numbers in a channel zone. Phone numbers assigned to a channel zone
+// can receive concurrent calls up to the quantity reserved in that channel zone. Additional
+// concurrent calls are rejected with a busy signal.
+//
+// GET /channel_zones/{channel_zone_id}/channel_zone_phone_numbers
+func (c *Client) GetPhoneNumbers(ctx context.Context, params GetPhoneNumbersParams) (*GetGcbPhoneNumbersRequestResponse, error) {
+	res, err := c.sendGetPhoneNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetPhoneNumbers(ctx context.Context, params GetPhoneNumbersParams) (res *GetGcbPhoneNumbersRequestResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/channel_zones/"
+	{
+		// Encode "channel_zone_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "channel_zone_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ChannelZoneID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/channel_zone_phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetPhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetPhoneNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetRecording invokes GetRecording operation.
 //
 // Retrieves the details of an existing call recording.
@@ -11872,6 +12154,342 @@ func (c *Client) sendLeaveQueue(ctx context.Context, request *LeaveQueueRequest,
 	return result, nil
 }
 
+// ListAvailablePhoneNumbers invokes ListAvailablePhoneNumbers operation.
+//
+// List available phone numbers.
+//
+// GET /available_phone_numbers
+func (c *Client) ListAvailablePhoneNumbers(ctx context.Context, params ListAvailablePhoneNumbersParams) (ListAvailablePhoneNumbersRes, error) {
+	res, err := c.sendListAvailablePhoneNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListAvailablePhoneNumbers(ctx context.Context, params ListAvailablePhoneNumbersParams) (res ListAvailablePhoneNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/available_phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[phone_number][starts_with]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number][starts_with]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumberStartsWith.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number][ends_with]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number][ends_with]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumberEndsWith.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumberContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[locality]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[locality]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterLocality.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[administrative_area]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[administrative_area]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterAdministrativeArea.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[country_code]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[country_code]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCountryCode.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[national_destination_code]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[national_destination_code]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterNationalDestinationCode.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[rate_center]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[rate_center]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterRateCenter.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number_type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number_type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumberType.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[features]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[features]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.FilterFeatures != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.FilterFeatures {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[limit]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[limit]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterLimit.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[best_effort]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[best_effort]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterBestEffort.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[quickship]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[quickship]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterQuickship.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[reservable]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[reservable]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterReservable.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[exclude_held_numbers]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[exclude_held_numbers]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterExcludeHeldNumbers.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListAvailablePhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListAvailablePhoneNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListCallControlApplications invokes ListCallControlApplications operation.
 //
 // Return a list of call control applications.
@@ -12428,6 +13046,216 @@ func (c *Client) sendListExternalConnectionLogMessages(ctx context.Context, para
 	defer resp.Body.Close()
 
 	result, err := decodeListExternalConnectionLogMessagesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListExternalConnectionPhoneNumbers invokes ListExternalConnectionPhoneNumbers operation.
+//
+// Returns a list of all active phone numbers associated with the given external connection.
+//
+// GET /external_connections/{id}/phone_numbers
+func (c *Client) ListExternalConnectionPhoneNumbers(ctx context.Context, params ListExternalConnectionPhoneNumbersParams) (ListExternalConnectionPhoneNumbersRes, error) {
+	res, err := c.sendListExternalConnectionPhoneNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListExternalConnectionPhoneNumbers(ctx context.Context, params ListExternalConnectionPhoneNumbersParams) (res ListExternalConnectionPhoneNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/external_connections/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringInt64ToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumberEq.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumberContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumber.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[civic_address_id][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[civic_address_id][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCivicAddressIDEq.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[location_id][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[location_id][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterLocationIDEq.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListExternalConnectionPhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListExternalConnectionPhoneNumbersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13140,6 +13968,333 @@ func (c *Client) sendListNotificationChannels(ctx context.Context, params ListNo
 	return result, nil
 }
 
+// ListPhoneNumbers invokes ListPhoneNumbers operation.
+//
+// List phone numbers.
+//
+// GET /phone_numbers
+func (c *Client) ListPhoneNumbers(ctx context.Context, params ListPhoneNumbersParams) (ListPhoneNumbersRes, error) {
+	res, err := c.sendListPhoneNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListPhoneNumbers(ctx context.Context, params ListPhoneNumbersParams) (res ListPhoneNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[tag]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[tag]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterTag.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumber.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[connection_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[connection_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterConnectionID.Get(); ok {
+				return e.EncodeValue(conv.StringInt64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[voice.connection_name][contains]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[voice.connection_name][contains]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterVoiceConnectionNameContains.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[voice.connection_name][starts_with]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[voice.connection_name][starts_with]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterVoiceConnectionNameStartsWith.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[voice.connection_name][ends_with]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[voice.connection_name][ends_with]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterVoiceConnectionNameEndsWith.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[voice.connection_name][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[voice.connection_name][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterVoiceConnectionNameEq.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[voice.usage_payment_method]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[voice.usage_payment_method]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterVoiceUsagePaymentMethod.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[billing_group_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[billing_group_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterBillingGroupID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[emergency_address_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[emergency_address_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterEmergencyAddressID.Get(); ok {
+				return e.EncodeValue(conv.StringInt64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[customer_reference]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[customer_reference]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCustomerReference.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Sort.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListPhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListPhoneNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListPhoneNumbersJobs invokes ListPhoneNumbersJobs operation.
 //
 // Lists the phone numbers jobs.
@@ -13577,6 +14732,292 @@ func (c *Client) sendListPhoneNumbersWithVoiceSettings(ctx context.Context, para
 	return result, nil
 }
 
+// ListPortingPhoneNumbers invokes ListPortingPhoneNumbers operation.
+//
+// Returns a list of your porting phone numbers.
+//
+// GET /porting_phone_numbers
+func (c *Client) ListPortingPhoneNumbers(ctx context.Context, params ListPortingPhoneNumbersParams) (ListPortingPhoneNumbersRes, error) {
+	res, err := c.sendListPortingPhoneNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListPortingPhoneNumbers(ctx context.Context, params ListPortingPhoneNumbersParams) (res ListPortingPhoneNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/porting_phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[porting_order_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[porting_order_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPortingOrderID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[porting_order_id][in][]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[porting_order_id][in][]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.FilterPortingOrderIDIn != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.FilterPortingOrderIDIn {
+						if err := func() error {
+							return e.EncodeValue(conv.UUIDToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[support_key][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[support_key][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterSupportKeyEq.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[support_key][in][]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[support_key][in][]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.FilterSupportKeyIn != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.FilterSupportKeyIn {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPhoneNumber.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[phone_number][in][]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number][in][]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.FilterPhoneNumberIn != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.FilterPhoneNumberIn {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[porting_order_status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[porting_order_status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPortingOrderStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[activation_status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[activation_status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterActivationStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[portability_status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[portability_status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterPortabilityStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListPortingPhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListPortingPhoneNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListProfileMessageTemplates invokes ListProfileMessageTemplates operation.
 //
 // List all Verify profile message templates.
@@ -13639,6 +15080,131 @@ func (c *Client) sendListProfileMessageTemplates(ctx context.Context) (res *List
 	defer resp.Body.Close()
 
 	result, err := decodeListProfileMessageTemplatesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListProfilePhoneNumbers invokes ListProfilePhoneNumbers operation.
+//
+// List phone numbers associated with a messaging profile.
+//
+// GET /messaging_profiles/{id}/phone_numbers
+func (c *Client) ListProfilePhoneNumbers(ctx context.Context, params ListProfilePhoneNumbersParams) (ListProfilePhoneNumbersRes, error) {
+	res, err := c.sendListProfilePhoneNumbers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListProfilePhoneNumbers(ctx context.Context, params ListProfilePhoneNumbersParams) (res ListProfilePhoneNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/messaging_profiles/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListProfilePhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListProfilePhoneNumbersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13887,6 +15453,92 @@ func (c *Client) sendListQueueCalls(ctx context.Context, params ListQueueCallsPa
 	defer resp.Body.Close()
 
 	result, err := decodeListQueueCallsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListRegulatoryRequirements invokes ListRegulatoryRequirements operation.
+//
+// Retrieve regulartory requirements.
+//
+// GET /phone_numbers_regulatory_requirements
+func (c *Client) ListRegulatoryRequirements(ctx context.Context, params ListRegulatoryRequirementsParams) (ListRegulatoryRequirementsRes, error) {
+	res, err := c.sendListRegulatoryRequirements(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListRegulatoryRequirements(ctx context.Context, params ListRegulatoryRequirementsParams) (res ListRegulatoryRequirementsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/phone_numbers_regulatory_requirements"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[phone_number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[phone_number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterPhoneNumber))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListRegulatoryRequirements", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListRegulatoryRequirementsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -14636,6 +16288,113 @@ func (c *Client) sendListVerifiedNumbers(ctx context.Context, params ListVerifie
 	defer resp.Body.Close()
 
 	result, err := decodeListVerifiedNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// LookupNumber invokes LookupNumber operation.
+//
+// Returns information about the provided phone number.
+//
+// GET /number_lookup/{phone_number}
+func (c *Client) LookupNumber(ctx context.Context, params LookupNumberParams) (LookupNumberRes, error) {
+	res, err := c.sendLookupNumber(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendLookupNumber(ctx context.Context, params LookupNumberParams) (res LookupNumberRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/number_lookup/"
+	{
+		// Encode "phone_number" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "phone_number",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PhoneNumber))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "type" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "type",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Type.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "LookupNumber", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeLookupNumberResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -15680,6 +17439,75 @@ func (c *Client) sendRetrieveCallStatus(ctx context.Context, params RetrieveCall
 	defer resp.Body.Close()
 
 	result, err := decodeRetrieveCallStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveOrderPhoneNumbers invokes RetrieveOrderPhoneNumbers operation.
+//
+// Get a list of phone numbers associated to orders.
+//
+// GET /number_order_phone_numbers
+func (c *Client) RetrieveOrderPhoneNumbers(ctx context.Context) (RetrieveOrderPhoneNumbersRes, error) {
+	res, err := c.sendRetrieveOrderPhoneNumbers(ctx)
+	return res, err
+}
+
+func (c *Client) sendRetrieveOrderPhoneNumbers(ctx context.Context) (res RetrieveOrderPhoneNumbersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/number_order_phone_numbers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveOrderPhoneNumbers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveOrderPhoneNumbersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

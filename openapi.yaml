@@ -21905,6 +21905,7 @@ components:
       schema:
         type: string
         default: null
+        nullable: true
         example: '+15555555555'
     FilterPhoneNumberContains:
       name: filter[phone_number][contains]
@@ -52268,6 +52269,7 @@ components:
           type: string
           example: ashburn-va
     RegionInformation:
+      type: object
       properties:
         region_type:
           type: string

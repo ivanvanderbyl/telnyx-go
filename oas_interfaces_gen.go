@@ -5,6 +5,10 @@ type AnswerCallRes interface {
 	answerCallRes()
 }
 
+type AssignPhoneNumberRes interface {
+	assignPhoneNumberRes()
+}
+
 type AudioPublicAudioTranscriptionsPostRes interface {
 	audioPublicAudioTranscriptionsPostRes()
 }
@@ -401,6 +405,10 @@ type LeaveQueueRes interface {
 	leaveQueueRes()
 }
 
+type ListAvailablePhoneNumbersRes interface {
+	listAvailablePhoneNumbersRes()
+}
+
 type ListCallControlApplicationsRes interface {
 	listCallControlApplicationsRes()
 }
@@ -415,6 +423,10 @@ type ListCsvDownloadsRes interface {
 
 type ListExternalConnectionLogMessagesRes interface {
 	listExternalConnectionLogMessagesRes()
+}
+
+type ListExternalConnectionPhoneNumbersRes interface {
+	listExternalConnectionPhoneNumbersRes()
 }
 
 type ListInboundChannelsRes interface {
@@ -445,6 +457,10 @@ type ListPhoneNumbersJobsRes interface {
 	listPhoneNumbersJobsRes()
 }
 
+type ListPhoneNumbersRes interface {
+	listPhoneNumbersRes()
+}
+
 type ListPhoneNumbersWithMessagingSettingsRes interface {
 	listPhoneNumbersWithMessagingSettingsRes()
 }
@@ -453,12 +469,24 @@ type ListPhoneNumbersWithVoiceSettingsRes interface {
 	listPhoneNumbersWithVoiceSettingsRes()
 }
 
+type ListPortingPhoneNumbersRes interface {
+	listPortingPhoneNumbersRes()
+}
+
+type ListProfilePhoneNumbersRes interface {
+	listProfilePhoneNumbersRes()
+}
+
 type ListProfilesRes interface {
 	listProfilesRes()
 }
 
 type ListQueueCallsRes interface {
 	listQueueCallsRes()
+}
+
+type ListRegulatoryRequirementsRes interface {
+	listRegulatoryRequirementsRes()
 }
 
 type ListTagsRes interface {
@@ -475,6 +503,10 @@ type ListVerifiedCallDisplayProfilesRes interface {
 
 type ListVerifiedNumbersRes interface {
 	listVerifiedNumbersRes()
+}
+
+type LookupNumberRes interface {
+	lookupNumberRes()
 }
 
 type NoiseSuppressionStartRes interface {
@@ -519,6 +551,10 @@ type RetrieveCallFromQueueRes interface {
 
 type RetrieveCallStatusRes interface {
 	retrieveCallStatusRes()
+}
+
+type RetrieveOrderPhoneNumbersRes interface {
+	retrieveOrderPhoneNumbersRes()
 }
 
 type RetrievePhoneNumberRes interface {
