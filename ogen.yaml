@@ -2,7 +2,7 @@ parser:
   infer_types: true
 generator:
   filters:
-    path_regex: /ai/audio|balance|call_control_applications|recordings|custom_storage_credentials|recording_transcriptions|telephony_credentials|calls|texml|verified_numbers|verifications|verify_profiles|webhook_deliveries|messages|messaging_hosted_number_orders|messaging_url_domains|networks|mobile_network_operators|notification_channels|phone_numbers|number_lookup|portouts|ota_updates|outbound_voice_profiles|number_order_documents|comments|portability_checks/
+    path_regex: /ai/audio|balance|call_control_applications|recordings|custom_storage_credentials|recording_transcriptions|telephony_credentials|calls|texml|verified_numbers|verifications|verify_profiles|webhook_deliveries|messages|messaging_hosted_number_orders|messaging_url_domains|networks|mobile_network_operators|notification_channels|phone_numbers|number_lookup|portouts|ota_updates|outbound_voice_profiles|number_order_documents|comments|portability_checks|number_reservations/
   features:
     disable_all: true
     enable:

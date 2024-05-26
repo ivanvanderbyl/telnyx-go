@@ -12431,6 +12431,7 @@ func (*GenericErrorResponseStatusCode) dialCallRes()                            
 func (*GenericErrorResponseStatusCode) displayProfileRes()                               {}
 func (*GenericErrorResponseStatusCode) enablePhoneNumberEmergencyRes()                   {}
 func (*GenericErrorResponseStatusCode) enqueueCallRes()                                  {}
+func (*GenericErrorResponseStatusCode) extendNumberReservationExpiryTimeRes()            {}
 func (*GenericErrorResponseStatusCode) gatherCallRes()                                   {}
 func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()                             {}
 func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()                             {}
@@ -12488,6 +12489,7 @@ func (*GenericErrorResponseStatusCode) resumeCallRecordingRes()                 
 func (*GenericErrorResponseStatusCode) retrieveCallStatusRes()                           {}
 func (*GenericErrorResponseStatusCode) retrieveCommentRes()                              {}
 func (*GenericErrorResponseStatusCode) retrieveNumberOrderDocumentRes()                  {}
+func (*GenericErrorResponseStatusCode) retrieveNumberReservationRes()                    {}
 func (*GenericErrorResponseStatusCode) retrieveOrderPhoneNumbersRes()                    {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumberRes()                          {}
 func (*GenericErrorResponseStatusCode) retrievePhoneNumbersJobRes()                      {}
@@ -18009,6 +18011,157 @@ func (s *NumberOrderPhoneNumberStatus) UnmarshalText(data []byte) error {
 		return nil
 	case NumberOrderPhoneNumberStatusFailure:
 		*s = NumberOrderPhoneNumberStatusFailure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/NumberReservation
+type NumberReservation struct {
+	ID           OptUUID               `json:"id"`
+	RecordType   OptString             `json:"record_type"`
+	PhoneNumbers []ReservedPhoneNumber `json:"phone_numbers"`
+	// The status of the entire reservation.
+	Status OptNumberReservationStatus `json:"status"`
+	// A customer reference string for customer look ups.
+	CustomerReference OptString `json:"customer_reference"`
+	// An ISO 8901 datetime string denoting when the numbers reservation was created.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8901 datetime string for when the number reservation was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *NumberReservation) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *NumberReservation) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *NumberReservation) GetPhoneNumbers() []ReservedPhoneNumber {
+	return s.PhoneNumbers
+}
+
+// GetStatus returns the value of Status.
+func (s *NumberReservation) GetStatus() OptNumberReservationStatus {
+	return s.Status
+}
+
+// GetCustomerReference returns the value of CustomerReference.
+func (s *NumberReservation) GetCustomerReference() OptString {
+	return s.CustomerReference
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *NumberReservation) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *NumberReservation) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *NumberReservation) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *NumberReservation) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *NumberReservation) SetPhoneNumbers(val []ReservedPhoneNumber) {
+	s.PhoneNumbers = val
+}
+
+// SetStatus sets the value of Status.
+func (s *NumberReservation) SetStatus(val OptNumberReservationStatus) {
+	s.Status = val
+}
+
+// SetCustomerReference sets the value of CustomerReference.
+func (s *NumberReservation) SetCustomerReference(val OptString) {
+	s.CustomerReference = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *NumberReservation) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *NumberReservation) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+type NumberReservationResponse struct {
+	Data OptNumberReservation `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *NumberReservationResponse) GetData() OptNumberReservation {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *NumberReservationResponse) SetData(val OptNumberReservation) {
+	s.Data = val
+}
+
+func (*NumberReservationResponse) extendNumberReservationExpiryTimeRes() {}
+func (*NumberReservationResponse) retrieveNumberReservationRes()         {}
+
+// The status of the entire reservation.
+type NumberReservationStatus string
+
+const (
+	NumberReservationStatusPending NumberReservationStatus = "pending"
+	NumberReservationStatusSuccess NumberReservationStatus = "success"
+	NumberReservationStatusFailure NumberReservationStatus = "failure"
+)
+
+// AllValues returns all NumberReservationStatus values.
+func (NumberReservationStatus) AllValues() []NumberReservationStatus {
+	return []NumberReservationStatus{
+		NumberReservationStatusPending,
+		NumberReservationStatusSuccess,
+		NumberReservationStatusFailure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NumberReservationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case NumberReservationStatusPending:
+		return []byte(s), nil
+	case NumberReservationStatusSuccess:
+		return []byte(s), nil
+	case NumberReservationStatusFailure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NumberReservationStatus) UnmarshalText(data []byte) error {
+	switch NumberReservationStatus(data) {
+	case NumberReservationStatusPending:
+		*s = NumberReservationStatusPending
+		return nil
+	case NumberReservationStatusSuccess:
+		*s = NumberReservationStatusSuccess
+		return nil
+	case NumberReservationStatusFailure:
+		*s = NumberReservationStatusFailure
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -27778,6 +27931,98 @@ func (o OptNumberOrderPhoneNumberStatus) Or(d NumberOrderPhoneNumberStatus) Numb
 	return d
 }
 
+// NewOptNumberReservation returns new OptNumberReservation with value set to v.
+func NewOptNumberReservation(v NumberReservation) OptNumberReservation {
+	return OptNumberReservation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNumberReservation is optional NumberReservation.
+type OptNumberReservation struct {
+	Value NumberReservation
+	Set   bool
+}
+
+// IsSet returns true if OptNumberReservation was set.
+func (o OptNumberReservation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNumberReservation) Reset() {
+	var v NumberReservation
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNumberReservation) SetTo(v NumberReservation) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNumberReservation) Get() (v NumberReservation, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNumberReservation) Or(d NumberReservation) NumberReservation {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNumberReservationStatus returns new OptNumberReservationStatus with value set to v.
+func NewOptNumberReservationStatus(v NumberReservationStatus) OptNumberReservationStatus {
+	return OptNumberReservationStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNumberReservationStatus is optional NumberReservationStatus.
+type OptNumberReservationStatus struct {
+	Value NumberReservationStatus
+	Set   bool
+}
+
+// IsSet returns true if OptNumberReservationStatus was set.
+func (o OptNumberReservationStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNumberReservationStatus) Reset() {
+	var v NumberReservationStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNumberReservationStatus) SetTo(v NumberReservationStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNumberReservationStatus) Get() (v NumberReservationStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNumberReservationStatus) Or(d NumberReservationStatus) NumberReservationStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptOutboundCallRecording returns new OptOutboundCallRecording with value set to v.
 func NewOptOutboundCallRecording(v OutboundCallRecording) OptOutboundCallRecording {
 	return OptOutboundCallRecording{
@@ -31132,6 +31377,52 @@ func (o OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) G
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) Or(d RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria) RegulatoryRequirementsRegulatoryRequirementsItemAcceptanceCriteria {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReservedPhoneNumberStatus returns new OptReservedPhoneNumberStatus with value set to v.
+func NewOptReservedPhoneNumberStatus(v ReservedPhoneNumberStatus) OptReservedPhoneNumberStatus {
+	return OptReservedPhoneNumberStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReservedPhoneNumberStatus is optional ReservedPhoneNumberStatus.
+type OptReservedPhoneNumberStatus struct {
+	Value ReservedPhoneNumberStatus
+	Set   bool
+}
+
+// IsSet returns true if OptReservedPhoneNumberStatus was set.
+func (o OptReservedPhoneNumberStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReservedPhoneNumberStatus) Reset() {
+	var v ReservedPhoneNumberStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReservedPhoneNumberStatus) SetTo(v ReservedPhoneNumberStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReservedPhoneNumberStatus) Get() (v ReservedPhoneNumberStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReservedPhoneNumberStatus) Or(d ReservedPhoneNumberStatus) ReservedPhoneNumberStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -40896,6 +41187,86 @@ func (s *Portability) SetState(val OptString) {
 	s.State = val
 }
 
+// Ref: #/components/schemas/PortabilityCheckDetails
+type PortabilityCheckDetails struct {
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// Indicates whether this phone number is FastPort eligible.
+	FastPortable OptBool `json:"fast_portable"`
+	// If this phone number is not portable, explains why. Empty string if the number is portable.
+	NotPortableReason OptString `json:"not_portable_reason"`
+	// The +E.164 formatted phone number this result is about.
+	PhoneNumber OptString `json:"phone_number"`
+	// Indicates whether this phone number is portable.
+	Portable OptBool `json:"portable"`
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortabilityCheckDetails) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetFastPortable returns the value of FastPortable.
+func (s *PortabilityCheckDetails) GetFastPortable() OptBool {
+	return s.FastPortable
+}
+
+// GetNotPortableReason returns the value of NotPortableReason.
+func (s *PortabilityCheckDetails) GetNotPortableReason() OptString {
+	return s.NotPortableReason
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *PortabilityCheckDetails) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetPortable returns the value of Portable.
+func (s *PortabilityCheckDetails) GetPortable() OptBool {
+	return s.Portable
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortabilityCheckDetails) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetFastPortable sets the value of FastPortable.
+func (s *PortabilityCheckDetails) SetFastPortable(val OptBool) {
+	s.FastPortable = val
+}
+
+// SetNotPortableReason sets the value of NotPortableReason.
+func (s *PortabilityCheckDetails) SetNotPortableReason(val OptString) {
+	s.NotPortableReason = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *PortabilityCheckDetails) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetPortable sets the value of Portable.
+func (s *PortabilityCheckDetails) SetPortable(val OptBool) {
+	s.Portable = val
+}
+
+type PortabilityCheckResponse struct {
+	Data []PortabilityCheckDetails `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *PortabilityCheckResponse) GetData() []PortabilityCheckDetails {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *PortabilityCheckResponse) SetData(val []PortabilityCheckDetails) {
+	s.Data = val
+}
+
+func (*PortabilityCheckResponse) postPortabilityCheckRes() {}
+
 // Indicates whether or not the requested phone number has been ported.
 type PortabilityPortedStatus string
 
@@ -42180,6 +42551,31 @@ type PostPortRequestSupportingDocumentsUnprocessableEntity struct{}
 
 func (*PostPortRequestSupportingDocumentsUnprocessableEntity) postPortRequestSupportingDocumentsRes() {
 }
+
+type PostPortabilityCheckReq struct {
+	// The list of +E.164 formatted phone numbers to check for portability.
+	PhoneNumbers []string `json:"phone_numbers"`
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *PostPortabilityCheckReq) GetPhoneNumbers() []string {
+	return s.PhoneNumbers
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *PostPortabilityCheckReq) SetPhoneNumbers(val []string) {
+	s.PhoneNumbers = val
+}
+
+// PostPortabilityCheckUnauthorized is response for PostPortabilityCheck operation.
+type PostPortabilityCheckUnauthorized struct{}
+
+func (*PostPortabilityCheckUnauthorized) postPortabilityCheckRes() {}
+
+// PostPortabilityCheckUnprocessableEntity is response for PostPortabilityCheck operation.
+type PostPortabilityCheckUnprocessableEntity struct{}
+
+func (*PostPortabilityCheckUnprocessableEntity) postPortabilityCheckRes() {}
 
 // Ref: #/components/schemas/QueueCall
 type QueueCall struct {
@@ -43875,6 +44271,140 @@ func (s *RejectRequestCause) UnmarshalText(data []byte) error {
 		return nil
 	case RejectRequestCauseUSERBUSY:
 		*s = RejectRequestCauseUSERBUSY
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/ReservedPhoneNumber
+type ReservedPhoneNumber struct {
+	ID          OptUUID   `json:"id"`
+	RecordType  OptString `json:"record_type"`
+	PhoneNumber OptString `json:"phone_number"`
+	// The status of the phone number's reservation.
+	Status OptReservedPhoneNumberStatus `json:"status"`
+	// An ISO 8901 datetime string denoting when the individual number reservation was created.
+	CreatedAt OptString `json:"created_at"`
+	// An ISO 8901 datetime string for when the the individual number reservation was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// An ISO 8901 datetime string for when the individual number reservation is going to expire.
+	ExpiredAt OptString `json:"expired_at"`
+}
+
+// GetID returns the value of ID.
+func (s *ReservedPhoneNumber) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *ReservedPhoneNumber) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetPhoneNumber returns the value of PhoneNumber.
+func (s *ReservedPhoneNumber) GetPhoneNumber() OptString {
+	return s.PhoneNumber
+}
+
+// GetStatus returns the value of Status.
+func (s *ReservedPhoneNumber) GetStatus() OptReservedPhoneNumberStatus {
+	return s.Status
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReservedPhoneNumber) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReservedPhoneNumber) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetExpiredAt returns the value of ExpiredAt.
+func (s *ReservedPhoneNumber) GetExpiredAt() OptString {
+	return s.ExpiredAt
+}
+
+// SetID sets the value of ID.
+func (s *ReservedPhoneNumber) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *ReservedPhoneNumber) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetPhoneNumber sets the value of PhoneNumber.
+func (s *ReservedPhoneNumber) SetPhoneNumber(val OptString) {
+	s.PhoneNumber = val
+}
+
+// SetStatus sets the value of Status.
+func (s *ReservedPhoneNumber) SetStatus(val OptReservedPhoneNumberStatus) {
+	s.Status = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReservedPhoneNumber) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReservedPhoneNumber) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetExpiredAt sets the value of ExpiredAt.
+func (s *ReservedPhoneNumber) SetExpiredAt(val OptString) {
+	s.ExpiredAt = val
+}
+
+// The status of the phone number's reservation.
+type ReservedPhoneNumberStatus string
+
+const (
+	ReservedPhoneNumberStatusPending ReservedPhoneNumberStatus = "pending"
+	ReservedPhoneNumberStatusSuccess ReservedPhoneNumberStatus = "success"
+	ReservedPhoneNumberStatusFailure ReservedPhoneNumberStatus = "failure"
+)
+
+// AllValues returns all ReservedPhoneNumberStatus values.
+func (ReservedPhoneNumberStatus) AllValues() []ReservedPhoneNumberStatus {
+	return []ReservedPhoneNumberStatus{
+		ReservedPhoneNumberStatusPending,
+		ReservedPhoneNumberStatusSuccess,
+		ReservedPhoneNumberStatusFailure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReservedPhoneNumberStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ReservedPhoneNumberStatusPending:
+		return []byte(s), nil
+	case ReservedPhoneNumberStatusSuccess:
+		return []byte(s), nil
+	case ReservedPhoneNumberStatusFailure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReservedPhoneNumberStatus) UnmarshalText(data []byte) error {
+	switch ReservedPhoneNumberStatus(data) {
+	case ReservedPhoneNumberStatusPending:
+		*s = ReservedPhoneNumberStatusPending
+		return nil
+	case ReservedPhoneNumberStatusSuccess:
+		*s = ReservedPhoneNumberStatusSuccess
+		return nil
+	case ReservedPhoneNumberStatusFailure:
+		*s = ReservedPhoneNumberStatusFailure
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)

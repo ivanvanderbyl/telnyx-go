@@ -245,6 +245,10 @@ type EnqueueCallRes interface {
 	enqueueCallRes()
 }
 
+type ExtendNumberReservationExpiryTimeRes interface {
+	extendNumberReservationExpiryTimeRes()
+}
+
 type FetchTeXMLCallRecordingsRes interface {
 	fetchTeXMLCallRecordingsRes()
 }
@@ -601,6 +605,10 @@ type PostPortRequestSupportingDocumentsRes interface {
 	postPortRequestSupportingDocumentsRes()
 }
 
+type PostPortabilityCheckRes interface {
+	postPortabilityCheckRes()
+}
+
 type ReferCallRes interface {
 	referCallRes()
 }
@@ -635,6 +643,10 @@ type RetrieveCommentRes interface {
 
 type RetrieveNumberOrderDocumentRes interface {
 	retrieveNumberOrderDocumentRes()
+}
+
+type RetrieveNumberReservationRes interface {
+	retrieveNumberReservationRes()
 }
 
 type RetrieveOrderPhoneNumbersRes interface {

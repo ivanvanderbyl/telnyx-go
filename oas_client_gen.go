@@ -415,6 +415,12 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/enqueue
 	EnqueueCall(ctx context.Context, request *EnqueueRequest, params EnqueueCallParams) (EnqueueCallRes, error)
+	// ExtendNumberReservationExpiryTime invokes ExtendNumberReservationExpiryTime operation.
+	//
+	// Extends reservation expiry time on all phone numbers.
+	//
+	// POST /number_reservations/{number_reservation_id}/actions/extend
+	ExtendNumberReservationExpiryTime(ctx context.Context, params ExtendNumberReservationExpiryTimeParams) (ExtendNumberReservationExpiryTimeRes, error)
 	// FetchTeXMLCallRecordings invokes FetchTeXMLCallRecordings operation.
 	//
 	// Returns recordings for a call identified by call_sid.
@@ -1019,6 +1025,12 @@ type Invoker interface {
 	//
 	// POST /portouts/{id}/supporting_documents
 	PostPortRequestSupportingDocuments(ctx context.Context, request *PostPortRequestSupportingDocumentsReq, params PostPortRequestSupportingDocumentsParams) (PostPortRequestSupportingDocumentsRes, error)
+	// PostPortabilityCheck invokes PostPortabilityCheck operation.
+	//
+	// Runs a portability check, returning the results immediately.
+	//
+	// POST /portability_checks
+	PostPortabilityCheck(ctx context.Context, request *PostPortabilityCheckReq) (PostPortabilityCheckRes, error)
 	// ReferCall invokes ReferCall operation.
 	//
 	// Initiate a SIP Refer on a Call Control call. You can initiate a SIP Refer at any point in the
@@ -1082,6 +1094,12 @@ type Invoker interface {
 	//
 	// GET /number_order_documents/{number_order_document_id}
 	RetrieveNumberOrderDocument(ctx context.Context, params RetrieveNumberOrderDocumentParams) (RetrieveNumberOrderDocumentRes, error)
+	// RetrieveNumberReservation invokes RetrieveNumberReservation operation.
+	//
+	// Gets a single phone number reservation.
+	//
+	// GET /number_reservations/{number_reservation_id}
+	RetrieveNumberReservation(ctx context.Context, params RetrieveNumberReservationParams) (RetrieveNumberReservationRes, error)
 	// RetrieveOrderPhoneNumbers invokes RetrieveOrderPhoneNumbers operation.
 	//
 	// Get a list of phone numbers associated to orders.
@@ -7230,6 +7248,94 @@ func (c *Client) sendEnqueueCall(ctx context.Context, request *EnqueueRequest, p
 	defer resp.Body.Close()
 
 	result, err := decodeEnqueueCallResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ExtendNumberReservationExpiryTime invokes ExtendNumberReservationExpiryTime operation.
+//
+// Extends reservation expiry time on all phone numbers.
+//
+// POST /number_reservations/{number_reservation_id}/actions/extend
+func (c *Client) ExtendNumberReservationExpiryTime(ctx context.Context, params ExtendNumberReservationExpiryTimeParams) (ExtendNumberReservationExpiryTimeRes, error) {
+	res, err := c.sendExtendNumberReservationExpiryTime(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendExtendNumberReservationExpiryTime(ctx context.Context, params ExtendNumberReservationExpiryTimeParams) (res ExtendNumberReservationExpiryTimeRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/number_reservations/"
+	{
+		// Encode "number_reservation_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "number_reservation_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NumberReservationID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/actions/extend"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ExtendNumberReservationExpiryTime", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeExtendNumberReservationExpiryTimeResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -18911,6 +19017,78 @@ func (c *Client) sendPostPortRequestSupportingDocuments(ctx context.Context, req
 	return result, nil
 }
 
+// PostPortabilityCheck invokes PostPortabilityCheck operation.
+//
+// Runs a portability check, returning the results immediately.
+//
+// POST /portability_checks
+func (c *Client) PostPortabilityCheck(ctx context.Context, request *PostPortabilityCheckReq) (PostPortabilityCheckRes, error) {
+	res, err := c.sendPostPortabilityCheck(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendPostPortabilityCheck(ctx context.Context, request *PostPortabilityCheckReq) (res PostPortabilityCheckRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/portability_checks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePostPortabilityCheckRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PostPortabilityCheck", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePostPortabilityCheckResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ReferCall invokes ReferCall operation.
 //
 // Initiate a SIP Refer on a Call Control call. You can initiate a SIP Refer at any point in the
@@ -19730,6 +19908,93 @@ func (c *Client) sendRetrieveNumberOrderDocument(ctx context.Context, params Ret
 	defer resp.Body.Close()
 
 	result, err := decodeRetrieveNumberOrderDocumentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RetrieveNumberReservation invokes RetrieveNumberReservation operation.
+//
+// Gets a single phone number reservation.
+//
+// GET /number_reservations/{number_reservation_id}
+func (c *Client) RetrieveNumberReservation(ctx context.Context, params RetrieveNumberReservationParams) (RetrieveNumberReservationRes, error) {
+	res, err := c.sendRetrieveNumberReservation(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRetrieveNumberReservation(ctx context.Context, params RetrieveNumberReservationParams) (res RetrieveNumberReservationRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/number_reservations/"
+	{
+		// Encode "number_reservation_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "number_reservation_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NumberReservationID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RetrieveNumberReservation", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRetrieveNumberReservationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

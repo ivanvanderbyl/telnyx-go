@@ -246,6 +246,12 @@ type EnqueueCallParams struct {
 	CallControlID string
 }
 
+// ExtendNumberReservationExpiryTimeParams is parameters of ExtendNumberReservationExpiryTime operation.
+type ExtendNumberReservationExpiryTimeParams struct {
+	// The number reservation ID.
+	NumberReservationID string
+}
+
 // FetchTeXMLCallRecordingsParams is parameters of FetchTeXMLCallRecordings operation.
 type FetchTeXMLCallRecordingsParams struct {
 	// The id of the account the resource belongs to.
@@ -1273,6 +1279,12 @@ type RetrieveCommentParams struct {
 type RetrieveNumberOrderDocumentParams struct {
 	// The number order document ID.
 	NumberOrderDocumentID string
+}
+
+// RetrieveNumberReservationParams is parameters of RetrieveNumberReservation operation.
+type RetrieveNumberReservationParams struct {
+	// The number reservation ID.
+	NumberReservationID string
 }
 
 // RetrievePhoneNumberParams is parameters of RetrievePhoneNumber operation.
