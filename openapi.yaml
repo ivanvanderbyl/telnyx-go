@@ -39306,6 +39306,7 @@ components:
           description: >-
             Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip
             connection resource.
+          type: string
           schema:
             type: string
         record_type:

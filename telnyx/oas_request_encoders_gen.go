@@ -140,6 +140,20 @@ func encodeCreateCallControlApplicationRequest(
 	return nil
 }
 
+func encodeCreateCustomStorageCredentialsRequest(
+	req *CustomStorageConfiguration,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateFlashcallVerificationRequest(
 	req *CreateVerificationRequestFlashcall,
 	r *http.Request,
@@ -260,6 +274,24 @@ func encodeCreateVerifyProfileRequest(
 	e := new(jx.Encoder)
 	{
 		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeDeleteRecordingsRequest(
+	req []string,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		e.ArrStart()
+		for _, elem := range req {
+			e.Str(elem)
+		}
+		e.ArrEnd()
 	}
 	encoded := e.Bytes()
 	ht.SetBody(r, bytes.NewReader(encoded), contentType)
@@ -1571,6 +1603,20 @@ func encodeUpdateCallControlApplicationRequest(
 
 func encodeUpdateClientStateRequest(
 	req *ClientStateUpdateRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateCustomStorageCredentialsRequest(
+	req *CustomStorageConfiguration,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

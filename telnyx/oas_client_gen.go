@@ -65,6 +65,12 @@ type Invoker interface {
 	//
 	// POST /call_control_applications
 	CreateCallControlApplication(ctx context.Context, request *CreateCallControlApplicationRequest) (CreateCallControlApplicationRes, error)
+	// CreateCustomStorageCredentials invokes CreateCustomStorageCredentials operation.
+	//
+	// Creates a custom storage credentials configuration.
+	//
+	// POST /custom_storage_credentials/{connection_id}
+	CreateCustomStorageCredentials(ctx context.Context, request *CustomStorageConfiguration, params CreateCustomStorageCredentialsParams) (CreateCustomStorageCredentialsRes, error)
 	// CreateFlashcallVerification invokes CreateFlashcallVerification operation.
 	//
 	// Trigger Flash call verification.
@@ -140,12 +146,48 @@ type Invoker interface {
 	//
 	// DELETE /call_control_applications/{id}
 	DeleteCallControlApplication(ctx context.Context, params DeleteCallControlApplicationParams) (DeleteCallControlApplicationRes, error)
+	// DeleteCustomStorageCredentials invokes DeleteCustomStorageCredentials operation.
+	//
+	// Deletes a stored custom credentials configuration.
+	//
+	// DELETE /custom_storage_credentials/{connection_id}
+	DeleteCustomStorageCredentials(ctx context.Context, params DeleteCustomStorageCredentialsParams) (DeleteCustomStorageCredentialsRes, error)
 	// DeleteProfile invokes DeleteProfile operation.
 	//
 	// Delete Verify profile.
 	//
 	// DELETE /verify_profiles/{verify_profile_id}
 	DeleteProfile(ctx context.Context, params DeleteProfileParams) (DeleteProfileRes, error)
+	// DeleteRecording invokes DeleteRecording operation.
+	//
+	// Permanently deletes a call recording.
+	//
+	// DELETE /recordings/{recording_id}
+	DeleteRecording(ctx context.Context, params DeleteRecordingParams) (DeleteRecordingRes, error)
+	// DeleteRecordingTranscription invokes deleteRecordingTranscription operation.
+	//
+	// Permanently deletes a recording transcription.
+	//
+	// DELETE /recording_transcriptions/{recording_transcription_id}
+	DeleteRecordingTranscription(ctx context.Context, params DeleteRecordingTranscriptionParams) (DeleteRecordingTranscriptionRes, error)
+	// DeleteRecordings invokes DeleteRecordings operation.
+	//
+	// Permanently deletes a list of call recordings.
+	//
+	// DELETE /recordings/actions/delete
+	DeleteRecordings(ctx context.Context, request []string) (DeleteRecordingsRes, error)
+	// DeleteRoomRecording invokes DeleteRoomRecording operation.
+	//
+	// Synchronously delete a Room Recording.
+	//
+	// DELETE /room_recordings/{room_recording_id}
+	DeleteRoomRecording(ctx context.Context, params DeleteRoomRecordingParams) (DeleteRoomRecordingRes, error)
+	// DeleteRoomRecordings invokes DeleteRoomRecordings operation.
+	//
+	// Delete several room recordings in a bulk.
+	//
+	// DELETE /room_recordings
+	DeleteRoomRecordings(ctx context.Context, params DeleteRoomRecordingsParams) (DeleteRoomRecordingsRes, error)
 	// DeleteTeXMLCallRecording invokes DeleteTeXMLCallRecording operation.
 	//
 	// Deletes recording resource identified by recording id.
@@ -294,6 +336,36 @@ type Invoker interface {
 	//
 	// POST /calls/{call_control_id}/actions/gather_using_speak
 	GatherUsingSpeak(ctx context.Context, request *GatherUsingSpeakRequest, params GatherUsingSpeakParams) (GatherUsingSpeakRes, error)
+	// GetCustomStorageCredentials invokes GetCustomStorageCredentials operation.
+	//
+	// Returns the information about custom storage credentials.
+	//
+	// GET /custom_storage_credentials/{connection_id}
+	GetCustomStorageCredentials(ctx context.Context, params GetCustomStorageCredentialsParams) (GetCustomStorageCredentialsRes, error)
+	// GetRecording invokes GetRecording operation.
+	//
+	// Retrieves the details of an existing call recording.
+	//
+	// GET /recordings/{recording_id}
+	GetRecording(ctx context.Context, params GetRecordingParams) (GetRecordingRes, error)
+	// GetRecordingTranscription invokes getRecordingTranscription operation.
+	//
+	// Retrieves the details of an existing recording transcription.
+	//
+	// GET /recording_transcriptions/{recording_transcription_id}
+	GetRecordingTranscription(ctx context.Context, params GetRecordingTranscriptionParams) (GetRecordingTranscriptionRes, error)
+	// GetRecordingTranscriptions invokes getRecordingTranscriptions operation.
+	//
+	// Returns a list of your recording transcriptions.
+	//
+	// GET /recording_transcriptions
+	GetRecordingTranscriptions(ctx context.Context) (GetRecordingTranscriptionsRes, error)
+	// GetRecordings invokes GetRecordings operation.
+	//
+	// Returns a list of your call recordings.
+	//
+	// GET /recordings
+	GetRecordings(ctx context.Context, params GetRecordingsParams) (GetRecordingsRes, error)
 	// GetTeXMLCallRecording invokes GetTeXMLCallRecording operation.
 	//
 	// Returns recording resource identified by recording id.
@@ -477,6 +549,12 @@ type Invoker interface {
 	//
 	// GET /queues/{queue_name}/calls
 	ListQueueCalls(ctx context.Context, params ListQueueCallsParams) (ListQueueCallsRes, error)
+	// ListRoomRecordings invokes ListRoomRecordings operation.
+	//
+	// View a list of room recordings.
+	//
+	// GET /room_recordings
+	ListRoomRecordings(ctx context.Context, params ListRoomRecordingsParams) (*ListRoomRecordingsResponse, error)
 	// ListTags invokes ListTags operation.
 	//
 	// Returns a list of tags used on Credentials.
@@ -948,6 +1026,12 @@ type Invoker interface {
 	//
 	// PUT /calls/{call_control_id}/actions/client_state_update
 	UpdateClientState(ctx context.Context, request *ClientStateUpdateRequest, params UpdateClientStateParams) (UpdateClientStateRes, error)
+	// UpdateCustomStorageCredentials invokes UpdateCustomStorageCredentials operation.
+	//
+	// Updates a stored custom credentials configuration.
+	//
+	// PUT /custom_storage_credentials/{connection_id}
+	UpdateCustomStorageCredentials(ctx context.Context, request *CustomStorageConfiguration, params UpdateCustomStorageCredentialsParams) (UpdateCustomStorageCredentialsRes, error)
 	// UpdateProfile invokes UpdateProfile operation.
 	//
 	// Update an existing Verified Calls Display Profile and allows adding/removing nested Call Reasons
@@ -1021,6 +1105,12 @@ type Invoker interface {
 	//
 	// POST /verifications/by_phone_number/{phone_number}/actions/verify
 	VerifyVerificationCodeByPhoneNumber(ctx context.Context, request *VerifyVerificationCodeRequest, params VerifyVerificationCodeByPhoneNumberParams) (VerifyVerificationCodeByPhoneNumberRes, error)
+	// ViewRoomRecording invokes ViewRoomRecording operation.
+	//
+	// View a room recording.
+	//
+	// GET /room_recordings/{room_recording_id}
+	ViewRoomRecording(ctx context.Context, params ViewRoomRecordingParams) (ViewRoomRecordingRes, error)
 }
 
 // Client implements OAS client.
@@ -1604,6 +1694,105 @@ func (c *Client) sendCreateCallControlApplication(ctx context.Context, request *
 	defer resp.Body.Close()
 
 	result, err := decodeCreateCallControlApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateCustomStorageCredentials invokes CreateCustomStorageCredentials operation.
+//
+// Creates a custom storage credentials configuration.
+//
+// POST /custom_storage_credentials/{connection_id}
+func (c *Client) CreateCustomStorageCredentials(ctx context.Context, request *CustomStorageConfiguration, params CreateCustomStorageCredentialsParams) (CreateCustomStorageCredentialsRes, error) {
+	res, err := c.sendCreateCustomStorageCredentials(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateCustomStorageCredentials(ctx context.Context, request *CustomStorageConfiguration, params CreateCustomStorageCredentialsParams) (res CreateCustomStorageCredentialsRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/custom_storage_credentials/"
+	{
+		// Encode "connection_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "connection_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ConnectionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCustomStorageCredentialsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateCustomStorageCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateCustomStorageCredentialsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2561,6 +2750,93 @@ func (c *Client) sendDeleteCallControlApplication(ctx context.Context, params De
 	return result, nil
 }
 
+// DeleteCustomStorageCredentials invokes DeleteCustomStorageCredentials operation.
+//
+// Deletes a stored custom credentials configuration.
+//
+// DELETE /custom_storage_credentials/{connection_id}
+func (c *Client) DeleteCustomStorageCredentials(ctx context.Context, params DeleteCustomStorageCredentialsParams) (DeleteCustomStorageCredentialsRes, error) {
+	res, err := c.sendDeleteCustomStorageCredentials(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteCustomStorageCredentials(ctx context.Context, params DeleteCustomStorageCredentialsParams) (res DeleteCustomStorageCredentialsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/custom_storage_credentials/"
+	{
+		// Encode "connection_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "connection_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ConnectionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteCustomStorageCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteCustomStorageCredentialsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // DeleteProfile invokes DeleteProfile operation.
 //
 // Delete Verify profile.
@@ -2641,6 +2917,692 @@ func (c *Client) sendDeleteProfile(ctx context.Context, params DeleteProfilePara
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteProfileResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRecording invokes DeleteRecording operation.
+//
+// Permanently deletes a call recording.
+//
+// DELETE /recordings/{recording_id}
+func (c *Client) DeleteRecording(ctx context.Context, params DeleteRecordingParams) (DeleteRecordingRes, error) {
+	res, err := c.sendDeleteRecording(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteRecording(ctx context.Context, params DeleteRecordingParams) (res DeleteRecordingRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/recordings/"
+	{
+		// Encode "recording_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "recording_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RecordingID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteRecording", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRecordingTranscription invokes deleteRecordingTranscription operation.
+//
+// Permanently deletes a recording transcription.
+//
+// DELETE /recording_transcriptions/{recording_transcription_id}
+func (c *Client) DeleteRecordingTranscription(ctx context.Context, params DeleteRecordingTranscriptionParams) (DeleteRecordingTranscriptionRes, error) {
+	res, err := c.sendDeleteRecordingTranscription(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteRecordingTranscription(ctx context.Context, params DeleteRecordingTranscriptionParams) (res DeleteRecordingTranscriptionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/recording_transcriptions/"
+	{
+		// Encode "recording_transcription_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "recording_transcription_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.RecordingTranscriptionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteRecordingTranscription", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteRecordingTranscriptionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRecordings invokes DeleteRecordings operation.
+//
+// Permanently deletes a list of call recordings.
+//
+// DELETE /recordings/actions/delete
+func (c *Client) DeleteRecordings(ctx context.Context, request []string) (DeleteRecordingsRes, error) {
+	res, err := c.sendDeleteRecordings(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendDeleteRecordings(ctx context.Context, request []string) (res DeleteRecordingsRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if request == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/recordings/actions/delete"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeDeleteRecordingsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteRecordings", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteRecordingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRoomRecording invokes DeleteRoomRecording operation.
+//
+// Synchronously delete a Room Recording.
+//
+// DELETE /room_recordings/{room_recording_id}
+func (c *Client) DeleteRoomRecording(ctx context.Context, params DeleteRoomRecordingParams) (DeleteRoomRecordingRes, error) {
+	res, err := c.sendDeleteRoomRecording(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteRoomRecording(ctx context.Context, params DeleteRoomRecordingParams) (res DeleteRoomRecordingRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/room_recordings/"
+	{
+		// Encode "room_recording_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "room_recording_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.RoomRecordingID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteRoomRecording", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteRoomRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRoomRecordings invokes DeleteRoomRecordings operation.
+//
+// Delete several room recordings in a bulk.
+//
+// DELETE /room_recordings
+func (c *Client) DeleteRoomRecordings(ctx context.Context, params DeleteRoomRecordingsParams) (DeleteRoomRecordingsRes, error) {
+	res, err := c.sendDeleteRoomRecordings(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteRoomRecordings(ctx context.Context, params DeleteRoomRecordingsParams) (res DeleteRoomRecordingsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/room_recordings"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[date_ended_at][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_ended_at][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateEndedAtEq.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_ended_at][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_ended_at][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateEndedAtGte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_ended_at][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_ended_at][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateEndedAtLte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_started_at][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_started_at][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateStartedAtEq.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_started_at][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_started_at][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateStartedAtGte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_started_at][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_started_at][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateStartedAtLte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[room_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[room_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterRoomID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[participant_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[participant_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterParticipantID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[session_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[session_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterSessionID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterType.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[duration_secs][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[duration_secs][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDurationSecsEq.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[duration_secs][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[duration_secs][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDurationSecsLte.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[duration_secs][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[duration_secs][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDurationSecsGte.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteRoomRecordings", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteRoomRecordingsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4670,6 +5632,578 @@ func (c *Client) sendGatherUsingSpeak(ctx context.Context, request *GatherUsingS
 	defer resp.Body.Close()
 
 	result, err := decodeGatherUsingSpeakResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetCustomStorageCredentials invokes GetCustomStorageCredentials operation.
+//
+// Returns the information about custom storage credentials.
+//
+// GET /custom_storage_credentials/{connection_id}
+func (c *Client) GetCustomStorageCredentials(ctx context.Context, params GetCustomStorageCredentialsParams) (GetCustomStorageCredentialsRes, error) {
+	res, err := c.sendGetCustomStorageCredentials(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetCustomStorageCredentials(ctx context.Context, params GetCustomStorageCredentialsParams) (res GetCustomStorageCredentialsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/custom_storage_credentials/"
+	{
+		// Encode "connection_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "connection_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ConnectionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetCustomStorageCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetCustomStorageCredentialsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetRecording invokes GetRecording operation.
+//
+// Retrieves the details of an existing call recording.
+//
+// GET /recordings/{recording_id}
+func (c *Client) GetRecording(ctx context.Context, params GetRecordingParams) (GetRecordingRes, error) {
+	res, err := c.sendGetRecording(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetRecording(ctx context.Context, params GetRecordingParams) (res GetRecordingRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/recordings/"
+	{
+		// Encode "recording_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "recording_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RecordingID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetRecording", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetRecordingResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetRecordingTranscription invokes getRecordingTranscription operation.
+//
+// Retrieves the details of an existing recording transcription.
+//
+// GET /recording_transcriptions/{recording_transcription_id}
+func (c *Client) GetRecordingTranscription(ctx context.Context, params GetRecordingTranscriptionParams) (GetRecordingTranscriptionRes, error) {
+	res, err := c.sendGetRecordingTranscription(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetRecordingTranscription(ctx context.Context, params GetRecordingTranscriptionParams) (res GetRecordingTranscriptionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/recording_transcriptions/"
+	{
+		// Encode "recording_transcription_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "recording_transcription_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.RecordingTranscriptionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetRecordingTranscription", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetRecordingTranscriptionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetRecordingTranscriptions invokes getRecordingTranscriptions operation.
+//
+// Returns a list of your recording transcriptions.
+//
+// GET /recording_transcriptions
+func (c *Client) GetRecordingTranscriptions(ctx context.Context) (GetRecordingTranscriptionsRes, error) {
+	res, err := c.sendGetRecordingTranscriptions(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetRecordingTranscriptions(ctx context.Context) (res GetRecordingTranscriptionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/recording_transcriptions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetRecordingTranscriptions", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetRecordingTranscriptionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetRecordings invokes GetRecordings operation.
+//
+// Returns a list of your call recordings.
+//
+// GET /recordings
+func (c *Client) GetRecordings(ctx context.Context, params GetRecordingsParams) (GetRecordingsRes, error) {
+	res, err := c.sendGetRecordings(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetRecordings(ctx context.Context, params GetRecordingsParams) (res GetRecordingsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/recordings"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[conference_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[conference_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterConferenceID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAtGte.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[created_at][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[created_at][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCreatedAtLte.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[call_leg_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[call_leg_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCallLegID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[call_session_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[call_session_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterCallSessionID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[from]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[from]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterFrom.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[to]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[to]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterTo.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[connection_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[connection_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterConnectionID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetRecordings", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetRecordingsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8195,6 +9729,350 @@ func (c *Client) sendListQueueCalls(ctx context.Context, params ListQueueCallsPa
 	defer resp.Body.Close()
 
 	result, err := decodeListQueueCallsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListRoomRecordings invokes ListRoomRecordings operation.
+//
+// View a list of room recordings.
+//
+// GET /room_recordings
+func (c *Client) ListRoomRecordings(ctx context.Context, params ListRoomRecordingsParams) (*ListRoomRecordingsResponse, error) {
+	res, err := c.sendListRoomRecordings(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListRoomRecordings(ctx context.Context, params ListRoomRecordingsParams) (res *ListRoomRecordingsResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/room_recordings"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter[date_ended_at][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_ended_at][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateEndedAtEq.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_ended_at][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_ended_at][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateEndedAtGte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_ended_at][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_ended_at][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateEndedAtLte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_started_at][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_started_at][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateStartedAtEq.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_started_at][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_started_at][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateStartedAtGte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[date_started_at][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[date_started_at][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDateStartedAtLte.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[room_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[room_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterRoomID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[participant_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[participant_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterParticipantID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[session_id]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[session_id]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterSessionID.Get(); ok {
+				return e.EncodeValue(conv.UUIDToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[status]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[status]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterStatus.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[type]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[type]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterType.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[duration_secs][eq]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[duration_secs][eq]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDurationSecsEq.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[duration_secs][lte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[duration_secs][lte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDurationSecsLte.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter[duration_secs][gte]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter[duration_secs][gte]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.FilterDurationSecsGte.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[size]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[size]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageSize.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page[number]" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page[number]",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageNumber.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ListRoomRecordings", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeListRoomRecordingsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -11980,6 +13858,105 @@ func (c *Client) sendUpdateClientState(ctx context.Context, request *ClientState
 	return result, nil
 }
 
+// UpdateCustomStorageCredentials invokes UpdateCustomStorageCredentials operation.
+//
+// Updates a stored custom credentials configuration.
+//
+// PUT /custom_storage_credentials/{connection_id}
+func (c *Client) UpdateCustomStorageCredentials(ctx context.Context, request *CustomStorageConfiguration, params UpdateCustomStorageCredentialsParams) (UpdateCustomStorageCredentialsRes, error) {
+	res, err := c.sendUpdateCustomStorageCredentials(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateCustomStorageCredentials(ctx context.Context, request *CustomStorageConfiguration, params UpdateCustomStorageCredentialsParams) (res UpdateCustomStorageCredentialsRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/custom_storage_credentials/"
+	{
+		// Encode "connection_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "connection_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ConnectionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateCustomStorageCredentialsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateCustomStorageCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateCustomStorageCredentialsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateProfile invokes UpdateProfile operation.
 //
 // Update an existing Verified Calls Display Profile and allows adding/removing nested Call Reasons
@@ -13169,6 +15146,93 @@ func (c *Client) sendVerifyVerificationCodeByPhoneNumber(ctx context.Context, re
 	defer resp.Body.Close()
 
 	result, err := decodeVerifyVerificationCodeByPhoneNumberResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ViewRoomRecording invokes ViewRoomRecording operation.
+//
+// View a room recording.
+//
+// GET /room_recordings/{room_recording_id}
+func (c *Client) ViewRoomRecording(ctx context.Context, params ViewRoomRecordingParams) (ViewRoomRecordingRes, error) {
+	res, err := c.sendViewRoomRecording(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendViewRoomRecording(ctx context.Context, params ViewRoomRecordingParams) (res ViewRoomRecordingRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/room_recordings/"
+	{
+		// Encode "room_recording_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "room_recording_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.RoomRecordingID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ViewRoomRecording", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeViewRoomRecordingResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

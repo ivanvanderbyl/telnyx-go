@@ -25,6 +25,10 @@ type CreateCallControlApplicationRes interface {
 	createCallControlApplicationRes()
 }
 
+type CreateCustomStorageCredentialsRes interface {
+	createCustomStorageCredentialsRes()
+}
+
 type CreateFlashcallVerificationRes interface {
 	createFlashcallVerificationRes()
 }
@@ -73,8 +77,32 @@ type DeleteCallControlApplicationRes interface {
 	deleteCallControlApplicationRes()
 }
 
+type DeleteCustomStorageCredentialsRes interface {
+	deleteCustomStorageCredentialsRes()
+}
+
 type DeleteProfileRes interface {
 	deleteProfileRes()
+}
+
+type DeleteRecordingRes interface {
+	deleteRecordingRes()
+}
+
+type DeleteRecordingTranscriptionRes interface {
+	deleteRecordingTranscriptionRes()
+}
+
+type DeleteRecordingsRes interface {
+	deleteRecordingsRes()
+}
+
+type DeleteRoomRecordingRes interface {
+	deleteRoomRecordingRes()
+}
+
+type DeleteRoomRecordingsRes interface {
+	deleteRoomRecordingsRes()
 }
 
 type DeleteTeXMLCallRecordingRes interface {
@@ -151,6 +179,26 @@ type GatherUsingAudioRes interface {
 
 type GatherUsingSpeakRes interface {
 	gatherUsingSpeakRes()
+}
+
+type GetCustomStorageCredentialsRes interface {
+	getCustomStorageCredentialsRes()
+}
+
+type GetRecordingRes interface {
+	getRecordingRes()
+}
+
+type GetRecordingTranscriptionRes interface {
+	getRecordingTranscriptionRes()
+}
+
+type GetRecordingTranscriptionsRes interface {
+	getRecordingTranscriptionsRes()
+}
+
+type GetRecordingsRes interface {
+	getRecordingsRes()
 }
 
 type GetTeXMLCallRecordingRes interface {
@@ -389,6 +437,10 @@ type UpdateClientStateRes interface {
 	updateClientStateRes()
 }
 
+type UpdateCustomStorageCredentialsRes interface {
+	updateCustomStorageCredentialsRes()
+}
+
 type UpdateProfileRes interface {
 	updateProfileRes()
 }
@@ -423,4 +475,8 @@ type VerifyVerificationCodeByPhoneNumberRes interface {
 
 type VerifyVerificationCodeRes interface {
 	verifyVerificationCodeRes()
+}
+
+type ViewRoomRecordingRes interface {
+	viewRoomRecordingRes()
 }

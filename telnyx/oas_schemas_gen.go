@@ -900,6 +900,51 @@ func (s *AudioTranscriptionResponseSegments) SetText(val string) {
 	s.Text = val
 }
 
+type AwsAccessKeyId string
+
+type AwsSecretAccessKey string
+
+type AzureAccountKey string
+
+type AzureAccountName string
+
+// Ref: #/components/schemas/AzureConfigurationData
+type AzureConfigurationData struct {
+	Bucket      OptBucket           `json:"bucket"`
+	AccountName OptAzureAccountName `json:"account_name"`
+	AccountKey  OptAzureAccountKey  `json:"account_key"`
+}
+
+// GetBucket returns the value of Bucket.
+func (s *AzureConfigurationData) GetBucket() OptBucket {
+	return s.Bucket
+}
+
+// GetAccountName returns the value of AccountName.
+func (s *AzureConfigurationData) GetAccountName() OptAzureAccountName {
+	return s.AccountName
+}
+
+// GetAccountKey returns the value of AccountKey.
+func (s *AzureConfigurationData) GetAccountKey() OptAzureAccountKey {
+	return s.AccountKey
+}
+
+// SetBucket sets the value of Bucket.
+func (s *AzureConfigurationData) SetBucket(val OptBucket) {
+	s.Bucket = val
+}
+
+// SetAccountName sets the value of AccountName.
+func (s *AzureConfigurationData) SetAccountName(val OptAzureAccountName) {
+	s.AccountName = val
+}
+
+// SetAccountKey sets the value of AccountKey.
+func (s *AzureConfigurationData) SetAccountKey(val OptAzureAccountKey) {
+	s.AccountKey = val
+}
+
 type BearerAuth struct {
 	Token string
 }
@@ -1023,6 +1068,8 @@ func (s *BridgeRequest) SetParkAfterUnbridge(val OptString) {
 func (s *BridgeRequest) SetPlayRingtone(val OptBool) {
 	s.PlayRingtone = val
 }
+
+type Bucket string
 
 type BulkCredentialActionAction string
 
@@ -1164,6 +1211,37 @@ func (s *BulkCredentialResponseData) GetCredentials() OptInt {
 // SetCredentials sets the value of Credentials.
 func (s *BulkCredentialResponseData) SetCredentials(val OptInt) {
 	s.Credentials = val
+}
+
+type BulkDeleteRoomRecordingsResponse struct {
+	Data OptBulkDeleteRoomRecordingsResponseData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *BulkDeleteRoomRecordingsResponse) GetData() OptBulkDeleteRoomRecordingsResponseData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *BulkDeleteRoomRecordingsResponse) SetData(val OptBulkDeleteRoomRecordingsResponseData) {
+	s.Data = val
+}
+
+func (*BulkDeleteRoomRecordingsResponse) deleteRoomRecordingsRes() {}
+
+type BulkDeleteRoomRecordingsResponseData struct {
+	// Amount of room recordings affected.
+	RoomRecordings OptInt `json:"room_recordings"`
+}
+
+// GetRoomRecordings returns the value of RoomRecordings.
+func (s *BulkDeleteRoomRecordingsResponseData) GetRoomRecordings() OptInt {
+	return s.RoomRecordings
+}
+
+// SetRoomRecordings sets the value of RoomRecordings.
+func (s *BulkDeleteRoomRecordingsResponseData) SetRoomRecordings(val OptInt) {
+	s.RoomRecordings = val
 }
 
 // Ref: #/components/schemas/Call
@@ -6480,6 +6558,50 @@ func (s *CreateVerifyProfileSMSRequest) SetDefaultVerificationTimeoutSecs(val Op
 
 type CreatedAt string
 
+type Credentials string
+
+// Ref: #/components/schemas/CredentialsResponse
+type CredentialsResponse struct {
+	Data CustomStorageConfiguration `json:"data"`
+	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
+	ConnectionID string     `json:"connection_id"`
+	RecordType   RecordType `json:"record_type"`
+}
+
+// GetData returns the value of Data.
+func (s *CredentialsResponse) GetData() CustomStorageConfiguration {
+	return s.Data
+}
+
+// GetConnectionID returns the value of ConnectionID.
+func (s *CredentialsResponse) GetConnectionID() string {
+	return s.ConnectionID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *CredentialsResponse) GetRecordType() RecordType {
+	return s.RecordType
+}
+
+// SetData sets the value of Data.
+func (s *CredentialsResponse) SetData(val CustomStorageConfiguration) {
+	s.Data = val
+}
+
+// SetConnectionID sets the value of ConnectionID.
+func (s *CredentialsResponse) SetConnectionID(val string) {
+	s.ConnectionID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *CredentialsResponse) SetRecordType(val RecordType) {
+	s.RecordType = val
+}
+
+func (*CredentialsResponse) createCustomStorageCredentialsRes() {}
+func (*CredentialsResponse) getCustomStorageCredentialsRes()    {}
+func (*CredentialsResponse) updateCustomStorageCredentialsRes() {}
+
 // Ref: #/components/schemas/Cursor
 type Cursor struct {
 	// Opaque identifier of next page.
@@ -6575,6 +6697,176 @@ func (s *CustomSipHeader) SetValue(val string) {
 	s.Value = val
 }
 
+// Ref: #/components/schemas/CustomStorageConfiguration
+type CustomStorageConfiguration struct {
+	Backend       CustomStorageConfigurationBackend       `json:"backend"`
+	Configuration CustomStorageConfigurationConfiguration `json:"configuration"`
+}
+
+// GetBackend returns the value of Backend.
+func (s *CustomStorageConfiguration) GetBackend() CustomStorageConfigurationBackend {
+	return s.Backend
+}
+
+// GetConfiguration returns the value of Configuration.
+func (s *CustomStorageConfiguration) GetConfiguration() CustomStorageConfigurationConfiguration {
+	return s.Configuration
+}
+
+// SetBackend sets the value of Backend.
+func (s *CustomStorageConfiguration) SetBackend(val CustomStorageConfigurationBackend) {
+	s.Backend = val
+}
+
+// SetConfiguration sets the value of Configuration.
+func (s *CustomStorageConfiguration) SetConfiguration(val CustomStorageConfigurationConfiguration) {
+	s.Configuration = val
+}
+
+type CustomStorageConfigurationBackend string
+
+const (
+	CustomStorageConfigurationBackendGcs   CustomStorageConfigurationBackend = "gcs"
+	CustomStorageConfigurationBackendS3    CustomStorageConfigurationBackend = "s3"
+	CustomStorageConfigurationBackendAzure CustomStorageConfigurationBackend = "azure"
+)
+
+// AllValues returns all CustomStorageConfigurationBackend values.
+func (CustomStorageConfigurationBackend) AllValues() []CustomStorageConfigurationBackend {
+	return []CustomStorageConfigurationBackend{
+		CustomStorageConfigurationBackendGcs,
+		CustomStorageConfigurationBackendS3,
+		CustomStorageConfigurationBackendAzure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CustomStorageConfigurationBackend) MarshalText() ([]byte, error) {
+	switch s {
+	case CustomStorageConfigurationBackendGcs:
+		return []byte(s), nil
+	case CustomStorageConfigurationBackendS3:
+		return []byte(s), nil
+	case CustomStorageConfigurationBackendAzure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CustomStorageConfigurationBackend) UnmarshalText(data []byte) error {
+	switch CustomStorageConfigurationBackend(data) {
+	case CustomStorageConfigurationBackendGcs:
+		*s = CustomStorageConfigurationBackendGcs
+		return nil
+	case CustomStorageConfigurationBackendS3:
+		*s = CustomStorageConfigurationBackendS3
+		return nil
+	case CustomStorageConfigurationBackendAzure:
+		*s = CustomStorageConfigurationBackendAzure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// CustomStorageConfigurationConfiguration represents sum type.
+type CustomStorageConfigurationConfiguration struct {
+	Type                   CustomStorageConfigurationConfigurationType // switch on this field
+	GCSConfigurationData   GCSConfigurationData
+	S3ConfigurationData    S3ConfigurationData
+	AzureConfigurationData AzureConfigurationData
+}
+
+// CustomStorageConfigurationConfigurationType is oneOf type of CustomStorageConfigurationConfiguration.
+type CustomStorageConfigurationConfigurationType string
+
+// Possible values for CustomStorageConfigurationConfigurationType.
+const (
+	GCSConfigurationDataCustomStorageConfigurationConfiguration   CustomStorageConfigurationConfigurationType = "GCSConfigurationData"
+	S3ConfigurationDataCustomStorageConfigurationConfiguration    CustomStorageConfigurationConfigurationType = "S3ConfigurationData"
+	AzureConfigurationDataCustomStorageConfigurationConfiguration CustomStorageConfigurationConfigurationType = "AzureConfigurationData"
+)
+
+// IsGCSConfigurationData reports whether CustomStorageConfigurationConfiguration is GCSConfigurationData.
+func (s CustomStorageConfigurationConfiguration) IsGCSConfigurationData() bool {
+	return s.Type == GCSConfigurationDataCustomStorageConfigurationConfiguration
+}
+
+// IsS3ConfigurationData reports whether CustomStorageConfigurationConfiguration is S3ConfigurationData.
+func (s CustomStorageConfigurationConfiguration) IsS3ConfigurationData() bool {
+	return s.Type == S3ConfigurationDataCustomStorageConfigurationConfiguration
+}
+
+// IsAzureConfigurationData reports whether CustomStorageConfigurationConfiguration is AzureConfigurationData.
+func (s CustomStorageConfigurationConfiguration) IsAzureConfigurationData() bool {
+	return s.Type == AzureConfigurationDataCustomStorageConfigurationConfiguration
+}
+
+// SetGCSConfigurationData sets CustomStorageConfigurationConfiguration to GCSConfigurationData.
+func (s *CustomStorageConfigurationConfiguration) SetGCSConfigurationData(v GCSConfigurationData) {
+	s.Type = GCSConfigurationDataCustomStorageConfigurationConfiguration
+	s.GCSConfigurationData = v
+}
+
+// GetGCSConfigurationData returns GCSConfigurationData and true boolean if CustomStorageConfigurationConfiguration is GCSConfigurationData.
+func (s CustomStorageConfigurationConfiguration) GetGCSConfigurationData() (v GCSConfigurationData, ok bool) {
+	if !s.IsGCSConfigurationData() {
+		return v, false
+	}
+	return s.GCSConfigurationData, true
+}
+
+// NewGCSConfigurationDataCustomStorageConfigurationConfiguration returns new CustomStorageConfigurationConfiguration from GCSConfigurationData.
+func NewGCSConfigurationDataCustomStorageConfigurationConfiguration(v GCSConfigurationData) CustomStorageConfigurationConfiguration {
+	var s CustomStorageConfigurationConfiguration
+	s.SetGCSConfigurationData(v)
+	return s
+}
+
+// SetS3ConfigurationData sets CustomStorageConfigurationConfiguration to S3ConfigurationData.
+func (s *CustomStorageConfigurationConfiguration) SetS3ConfigurationData(v S3ConfigurationData) {
+	s.Type = S3ConfigurationDataCustomStorageConfigurationConfiguration
+	s.S3ConfigurationData = v
+}
+
+// GetS3ConfigurationData returns S3ConfigurationData and true boolean if CustomStorageConfigurationConfiguration is S3ConfigurationData.
+func (s CustomStorageConfigurationConfiguration) GetS3ConfigurationData() (v S3ConfigurationData, ok bool) {
+	if !s.IsS3ConfigurationData() {
+		return v, false
+	}
+	return s.S3ConfigurationData, true
+}
+
+// NewS3ConfigurationDataCustomStorageConfigurationConfiguration returns new CustomStorageConfigurationConfiguration from S3ConfigurationData.
+func NewS3ConfigurationDataCustomStorageConfigurationConfiguration(v S3ConfigurationData) CustomStorageConfigurationConfiguration {
+	var s CustomStorageConfigurationConfiguration
+	s.SetS3ConfigurationData(v)
+	return s
+}
+
+// SetAzureConfigurationData sets CustomStorageConfigurationConfiguration to AzureConfigurationData.
+func (s *CustomStorageConfigurationConfiguration) SetAzureConfigurationData(v AzureConfigurationData) {
+	s.Type = AzureConfigurationDataCustomStorageConfigurationConfiguration
+	s.AzureConfigurationData = v
+}
+
+// GetAzureConfigurationData returns AzureConfigurationData and true boolean if CustomStorageConfigurationConfiguration is AzureConfigurationData.
+func (s CustomStorageConfigurationConfiguration) GetAzureConfigurationData() (v AzureConfigurationData, ok bool) {
+	if !s.IsAzureConfigurationData() {
+		return v, false
+	}
+	return s.AzureConfigurationData, true
+}
+
+// NewAzureConfigurationDataCustomStorageConfigurationConfiguration returns new CustomStorageConfigurationConfiguration from AzureConfigurationData.
+func NewAzureConfigurationDataCustomStorageConfigurationConfiguration(v AzureConfigurationData) CustomStorageConfigurationConfiguration {
+	var s CustomStorageConfigurationConfiguration
+	s.SetAzureConfigurationData(v)
+	return s
+}
+
 type DateTimeRFC2822 string
 
 // DeleteCallControlApplicationNotFound is response for DeleteCallControlApplication operation.
@@ -6586,6 +6878,21 @@ func (*DeleteCallControlApplicationNotFound) deleteCallControlApplicationRes() {
 type DeleteCallControlApplicationUnprocessableEntity struct{}
 
 func (*DeleteCallControlApplicationUnprocessableEntity) deleteCallControlApplicationRes() {}
+
+// DeleteCustomStorageCredentialsNoContent is response for DeleteCustomStorageCredentials operation.
+type DeleteCustomStorageCredentialsNoContent struct{}
+
+func (*DeleteCustomStorageCredentialsNoContent) deleteCustomStorageCredentialsRes() {}
+
+// DeleteRecordingsNoContent is response for DeleteRecordings operation.
+type DeleteRecordingsNoContent struct{}
+
+func (*DeleteRecordingsNoContent) deleteRecordingsRes() {}
+
+// DeleteRoomRecordingNoContent is response for DeleteRoomRecording operation.
+type DeleteRoomRecordingNoContent struct{}
+
+func (*DeleteRoomRecordingNoContent) deleteRoomRecordingRes() {}
 
 // DeleteTeXMLCallRecordingNoContent is response for DeleteTeXMLCallRecording operation.
 type DeleteTeXMLCallRecordingNoContent struct{}
@@ -8000,6 +8307,9 @@ func (s *Error) SetMeta(val OptErrorMeta) {
 	s.Meta = val
 }
 
+func (*Error) deleteRoomRecordingRes() {}
+func (*Error) viewRoomRecordingRes()   {}
+
 type ErrorMeta map[string]jx.Raw
 
 func (s *ErrorMeta) init() ErrorMeta {
@@ -8158,6 +8468,7 @@ func (s *Errors) SetErrors(val []Error) {
 }
 
 func (*Errors) createVerifiedNumberRes() {}
+func (*Errors) deleteRoomRecordingsRes() {}
 func (*Errors) listVerifiedNumbersRes()  {}
 
 // FindTelephonyCredentialsBadRequest is response for FindTelephonyCredentials operation.
@@ -8186,6 +8497,32 @@ func (*FindTexmlApplicationsUnauthorized) findTexmlApplicationsRes() {}
 type FirstCommandTimeout bool
 
 type FirstCommandTimeoutSecs int
+
+// Ref: #/components/schemas/GCSConfigurationData
+type GCSConfigurationData struct {
+	Credentials OptCredentials `json:"credentials"`
+	Bucket      OptBucket      `json:"bucket"`
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *GCSConfigurationData) GetCredentials() OptCredentials {
+	return s.Credentials
+}
+
+// GetBucket returns the value of Bucket.
+func (s *GCSConfigurationData) GetBucket() OptBucket {
+	return s.Bucket
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *GCSConfigurationData) SetCredentials(val OptCredentials) {
+	s.Credentials = val
+}
+
+// SetBucket sets the value of Bucket.
+func (s *GCSConfigurationData) SetBucket(val OptBucket) {
+	s.Bucket = val
+}
 
 // Ref: #/components/schemas/GatherRequest
 type GatherRequest struct {
@@ -9063,6 +9400,7 @@ func (s *GenericErrorResponseStatusCode) SetResponse(val Errors) {
 
 func (*GenericErrorResponseStatusCode) answerCallRes()                          {}
 func (*GenericErrorResponseStatusCode) bridgeCallRes()                          {}
+func (*GenericErrorResponseStatusCode) createCustomStorageCredentialsRes()      {}
 func (*GenericErrorResponseStatusCode) createFlashcallVerificationRes()         {}
 func (*GenericErrorResponseStatusCode) createProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) createProfileVerificationRequestRes()    {}
@@ -9070,7 +9408,11 @@ func (*GenericErrorResponseStatusCode) createVerificationCallRes()              
 func (*GenericErrorResponseStatusCode) createVerificationSmsRes()               {}
 func (*GenericErrorResponseStatusCode) createVerifiedNumberRes()                {}
 func (*GenericErrorResponseStatusCode) createVerifyProfileRes()                 {}
+func (*GenericErrorResponseStatusCode) deleteCustomStorageCredentialsRes()      {}
 func (*GenericErrorResponseStatusCode) deleteProfileRes()                       {}
+func (*GenericErrorResponseStatusCode) deleteRecordingRes()                     {}
+func (*GenericErrorResponseStatusCode) deleteRecordingTranscriptionRes()        {}
+func (*GenericErrorResponseStatusCode) deleteRecordingsRes()                    {}
 func (*GenericErrorResponseStatusCode) deleteVerifiedCallDisplayProfileRes()    {}
 func (*GenericErrorResponseStatusCode) deleteVerifiedNumberRes()                {}
 func (*GenericErrorResponseStatusCode) dialCallRes()                            {}
@@ -9079,6 +9421,11 @@ func (*GenericErrorResponseStatusCode) enqueueCallRes()                         
 func (*GenericErrorResponseStatusCode) gatherCallRes()                          {}
 func (*GenericErrorResponseStatusCode) gatherUsingAudioRes()                    {}
 func (*GenericErrorResponseStatusCode) gatherUsingSpeakRes()                    {}
+func (*GenericErrorResponseStatusCode) getCustomStorageCredentialsRes()         {}
+func (*GenericErrorResponseStatusCode) getRecordingRes()                        {}
+func (*GenericErrorResponseStatusCode) getRecordingTranscriptionRes()           {}
+func (*GenericErrorResponseStatusCode) getRecordingTranscriptionsRes()          {}
+func (*GenericErrorResponseStatusCode) getRecordingsRes()                       {}
 func (*GenericErrorResponseStatusCode) getUserBalanceRes()                      {}
 func (*GenericErrorResponseStatusCode) getVerifiedNumberRes()                   {}
 func (*GenericErrorResponseStatusCode) getVerifyProfileRes()                    {}
@@ -9113,6 +9460,7 @@ func (*GenericErrorResponseStatusCode) stopCallStreamingRes()                   
 func (*GenericErrorResponseStatusCode) stopCallTranscriptionRes()               {}
 func (*GenericErrorResponseStatusCode) transferCallRes()                        {}
 func (*GenericErrorResponseStatusCode) updateClientStateRes()                   {}
+func (*GenericErrorResponseStatusCode) updateCustomStorageCredentialsRes()      {}
 func (*GenericErrorResponseStatusCode) updateProfileRes()                       {}
 func (*GenericErrorResponseStatusCode) updateVerifyProfileRes()                 {}
 func (*GenericErrorResponseStatusCode) verifyVerificationCodeByPhoneNumberRes() {}
@@ -9285,6 +9633,35 @@ func (s *GetParticipantsResponse) SetData(val OptParticipantResourceIndex) {
 }
 
 func (*GetParticipantsResponse) getTexmlConferenceParticipantsRes() {}
+
+type GetRecordingTranscriptionOKApplicationJSON jx.Raw
+
+func (*GetRecordingTranscriptionOKApplicationJSON) deleteRecordingTranscriptionRes() {}
+func (*GetRecordingTranscriptionOKApplicationJSON) getRecordingTranscriptionRes()    {}
+
+type GetRecordingTranscriptionsOKApplicationJSON jx.Raw
+
+func (*GetRecordingTranscriptionsOKApplicationJSON) getRecordingTranscriptionsRes() {}
+
+type GetRecordingsOKApplicationJSON jx.Raw
+
+func (*GetRecordingsOKApplicationJSON) getRecordingsRes() {}
+
+type GetRoomRecordingResponse struct {
+	Data OptRoomRecording `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetRoomRecordingResponse) GetData() OptRoomRecording {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetRoomRecordingResponse) SetData(val OptRoomRecording) {
+	s.Data = val
+}
+
+func (*GetRoomRecordingResponse) viewRoomRecordingRes() {}
 
 // GetTelephonyCredentialBadRequest is response for GetTelephonyCredential operation.
 type GetTelephonyCredentialBadRequest struct{}
@@ -10493,6 +10870,31 @@ func (s *ListQueueCallsResponse) SetMeta(val OptPaginationMeta) {
 }
 
 func (*ListQueueCallsResponse) listQueueCallsRes() {}
+
+type ListRoomRecordingsResponse struct {
+	Data []RoomRecording   `json:"data"`
+	Meta OptPaginationMeta `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListRoomRecordingsResponse) GetData() []RoomRecording {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListRoomRecordingsResponse) GetMeta() OptPaginationMeta {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListRoomRecordingsResponse) SetData(val []RoomRecording) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListRoomRecordingsResponse) SetMeta(val OptPaginationMeta) {
+	s.Meta = val
+}
 
 // ListTagsBadRequest is response for ListTags operation.
 type ListTagsBadRequest struct{}
@@ -11970,6 +12372,190 @@ func (o OptAudioTranscriptionRequestMultipartTimestampGranularities) Or(d AudioT
 	return d
 }
 
+// NewOptAwsAccessKeyId returns new OptAwsAccessKeyId with value set to v.
+func NewOptAwsAccessKeyId(v AwsAccessKeyId) OptAwsAccessKeyId {
+	return OptAwsAccessKeyId{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAwsAccessKeyId is optional AwsAccessKeyId.
+type OptAwsAccessKeyId struct {
+	Value AwsAccessKeyId
+	Set   bool
+}
+
+// IsSet returns true if OptAwsAccessKeyId was set.
+func (o OptAwsAccessKeyId) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAwsAccessKeyId) Reset() {
+	var v AwsAccessKeyId
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAwsAccessKeyId) SetTo(v AwsAccessKeyId) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAwsAccessKeyId) Get() (v AwsAccessKeyId, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAwsAccessKeyId) Or(d AwsAccessKeyId) AwsAccessKeyId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAwsSecretAccessKey returns new OptAwsSecretAccessKey with value set to v.
+func NewOptAwsSecretAccessKey(v AwsSecretAccessKey) OptAwsSecretAccessKey {
+	return OptAwsSecretAccessKey{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAwsSecretAccessKey is optional AwsSecretAccessKey.
+type OptAwsSecretAccessKey struct {
+	Value AwsSecretAccessKey
+	Set   bool
+}
+
+// IsSet returns true if OptAwsSecretAccessKey was set.
+func (o OptAwsSecretAccessKey) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAwsSecretAccessKey) Reset() {
+	var v AwsSecretAccessKey
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAwsSecretAccessKey) SetTo(v AwsSecretAccessKey) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAwsSecretAccessKey) Get() (v AwsSecretAccessKey, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAwsSecretAccessKey) Or(d AwsSecretAccessKey) AwsSecretAccessKey {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAzureAccountKey returns new OptAzureAccountKey with value set to v.
+func NewOptAzureAccountKey(v AzureAccountKey) OptAzureAccountKey {
+	return OptAzureAccountKey{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAzureAccountKey is optional AzureAccountKey.
+type OptAzureAccountKey struct {
+	Value AzureAccountKey
+	Set   bool
+}
+
+// IsSet returns true if OptAzureAccountKey was set.
+func (o OptAzureAccountKey) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAzureAccountKey) Reset() {
+	var v AzureAccountKey
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAzureAccountKey) SetTo(v AzureAccountKey) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAzureAccountKey) Get() (v AzureAccountKey, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAzureAccountKey) Or(d AzureAccountKey) AzureAccountKey {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptAzureAccountName returns new OptAzureAccountName with value set to v.
+func NewOptAzureAccountName(v AzureAccountName) OptAzureAccountName {
+	return OptAzureAccountName{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptAzureAccountName is optional AzureAccountName.
+type OptAzureAccountName struct {
+	Value AzureAccountName
+	Set   bool
+}
+
+// IsSet returns true if OptAzureAccountName was set.
+func (o OptAzureAccountName) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptAzureAccountName) Reset() {
+	var v AzureAccountName
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptAzureAccountName) SetTo(v AzureAccountName) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptAzureAccountName) Get() (v AzureAccountName, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptAzureAccountName) Or(d AzureAccountName) AzureAccountName {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
 	return OptBool{
@@ -12016,6 +12602,52 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
+// NewOptBucket returns new OptBucket with value set to v.
+func NewOptBucket(v Bucket) OptBucket {
+	return OptBucket{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBucket is optional Bucket.
+type OptBucket struct {
+	Value Bucket
+	Set   bool
+}
+
+// IsSet returns true if OptBucket was set.
+func (o OptBucket) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBucket) Reset() {
+	var v Bucket
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBucket) SetTo(v Bucket) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBucket) Get() (v Bucket, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBucket) Or(d Bucket) Bucket {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptBulkCredentialResponseData returns new OptBulkCredentialResponseData with value set to v.
 func NewOptBulkCredentialResponseData(v BulkCredentialResponseData) OptBulkCredentialResponseData {
 	return OptBulkCredentialResponseData{
@@ -12056,6 +12688,52 @@ func (o OptBulkCredentialResponseData) Get() (v BulkCredentialResponseData, ok b
 
 // Or returns value if set, or given parameter if does not.
 func (o OptBulkCredentialResponseData) Or(d BulkCredentialResponseData) BulkCredentialResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptBulkDeleteRoomRecordingsResponseData returns new OptBulkDeleteRoomRecordingsResponseData with value set to v.
+func NewOptBulkDeleteRoomRecordingsResponseData(v BulkDeleteRoomRecordingsResponseData) OptBulkDeleteRoomRecordingsResponseData {
+	return OptBulkDeleteRoomRecordingsResponseData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBulkDeleteRoomRecordingsResponseData is optional BulkDeleteRoomRecordingsResponseData.
+type OptBulkDeleteRoomRecordingsResponseData struct {
+	Value BulkDeleteRoomRecordingsResponseData
+	Set   bool
+}
+
+// IsSet returns true if OptBulkDeleteRoomRecordingsResponseData was set.
+func (o OptBulkDeleteRoomRecordingsResponseData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBulkDeleteRoomRecordingsResponseData) Reset() {
+	var v BulkDeleteRoomRecordingsResponseData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBulkDeleteRoomRecordingsResponseData) SetTo(v BulkDeleteRoomRecordingsResponseData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBulkDeleteRoomRecordingsResponseData) Get() (v BulkDeleteRoomRecordingsResponseData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBulkDeleteRoomRecordingsResponseData) Or(d BulkDeleteRoomRecordingsResponseData) BulkDeleteRoomRecordingsResponseData {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -14824,6 +15502,52 @@ func (o OptCreatedAt) Or(d CreatedAt) CreatedAt {
 	return d
 }
 
+// NewOptCredentials returns new OptCredentials with value set to v.
+func NewOptCredentials(v Credentials) OptCredentials {
+	return OptCredentials{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCredentials is optional Credentials.
+type OptCredentials struct {
+	Value Credentials
+	Set   bool
+}
+
+// IsSet returns true if OptCredentials was set.
+func (o OptCredentials) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCredentials) Reset() {
+	var v Credentials
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCredentials) SetTo(v Credentials) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCredentials) Get() (v Credentials, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCredentials) Or(d Credentials) Credentials {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCursor returns new OptCursor with value set to v.
 func NewOptCursor(v Cursor) OptCursor {
 	return OptCursor{
@@ -14910,6 +15634,52 @@ func (o OptCursorPaginationMeta) Get() (v CursorPaginationMeta, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCursorPaginationMeta) Or(d CursorPaginationMeta) CursorPaginationMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDate returns new OptDate with value set to v.
+func NewOptDate(v time.Time) OptDate {
+	return OptDate{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDate is optional time.Time.
+type OptDate struct {
+	Value time.Time
+	Set   bool
+}
+
+// IsSet returns true if OptDate was set.
+func (o OptDate) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDate) Reset() {
+	var v time.Time
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDate) SetTo(v time.Time) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDate) Get() (v time.Time, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDate) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -15878,6 +16648,52 @@ func (o OptFirstCommandTimeoutSecs) Get() (v FirstCommandTimeoutSecs, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptFirstCommandTimeoutSecs) Or(d FirstCommandTimeoutSecs) FirstCommandTimeoutSecs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptFloat32 returns new OptFloat32 with value set to v.
+func NewOptFloat32(v float32) OptFloat32 {
+	return OptFloat32{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptFloat32 is optional float32.
+type OptFloat32 struct {
+	Value float32
+	Set   bool
+}
+
+// IsSet returns true if OptFloat32 was set.
+func (o OptFloat32) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptFloat32) Reset() {
+	var v float32
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptFloat32) SetTo(v float32) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptFloat32) Get() (v float32, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptFloat32) Or(d float32) float32 {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -18136,6 +18952,282 @@ func (o OptQueueCall) Or(d QueueCall) QueueCall {
 	return d
 }
 
+// NewOptRecordingResponseData returns new OptRecordingResponseData with value set to v.
+func NewOptRecordingResponseData(v RecordingResponseData) OptRecordingResponseData {
+	return OptRecordingResponseData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingResponseData is optional RecordingResponseData.
+type OptRecordingResponseData struct {
+	Value RecordingResponseData
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingResponseData was set.
+func (o OptRecordingResponseData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingResponseData) Reset() {
+	var v RecordingResponseData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingResponseData) SetTo(v RecordingResponseData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingResponseData) Get() (v RecordingResponseData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingResponseData) Or(d RecordingResponseData) RecordingResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingResponseDataChannels returns new OptRecordingResponseDataChannels with value set to v.
+func NewOptRecordingResponseDataChannels(v RecordingResponseDataChannels) OptRecordingResponseDataChannels {
+	return OptRecordingResponseDataChannels{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingResponseDataChannels is optional RecordingResponseDataChannels.
+type OptRecordingResponseDataChannels struct {
+	Value RecordingResponseDataChannels
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingResponseDataChannels was set.
+func (o OptRecordingResponseDataChannels) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingResponseDataChannels) Reset() {
+	var v RecordingResponseDataChannels
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingResponseDataChannels) SetTo(v RecordingResponseDataChannels) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingResponseDataChannels) Get() (v RecordingResponseDataChannels, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingResponseDataChannels) Or(d RecordingResponseDataChannels) RecordingResponseDataChannels {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingResponseDataDownloadUrls returns new OptRecordingResponseDataDownloadUrls with value set to v.
+func NewOptRecordingResponseDataDownloadUrls(v RecordingResponseDataDownloadUrls) OptRecordingResponseDataDownloadUrls {
+	return OptRecordingResponseDataDownloadUrls{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingResponseDataDownloadUrls is optional RecordingResponseDataDownloadUrls.
+type OptRecordingResponseDataDownloadUrls struct {
+	Value RecordingResponseDataDownloadUrls
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingResponseDataDownloadUrls was set.
+func (o OptRecordingResponseDataDownloadUrls) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingResponseDataDownloadUrls) Reset() {
+	var v RecordingResponseDataDownloadUrls
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingResponseDataDownloadUrls) SetTo(v RecordingResponseDataDownloadUrls) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingResponseDataDownloadUrls) Get() (v RecordingResponseDataDownloadUrls, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingResponseDataDownloadUrls) Or(d RecordingResponseDataDownloadUrls) RecordingResponseDataDownloadUrls {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingResponseDataRecordType returns new OptRecordingResponseDataRecordType with value set to v.
+func NewOptRecordingResponseDataRecordType(v RecordingResponseDataRecordType) OptRecordingResponseDataRecordType {
+	return OptRecordingResponseDataRecordType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingResponseDataRecordType is optional RecordingResponseDataRecordType.
+type OptRecordingResponseDataRecordType struct {
+	Value RecordingResponseDataRecordType
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingResponseDataRecordType was set.
+func (o OptRecordingResponseDataRecordType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingResponseDataRecordType) Reset() {
+	var v RecordingResponseDataRecordType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingResponseDataRecordType) SetTo(v RecordingResponseDataRecordType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingResponseDataRecordType) Get() (v RecordingResponseDataRecordType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingResponseDataRecordType) Or(d RecordingResponseDataRecordType) RecordingResponseDataRecordType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingResponseDataSource returns new OptRecordingResponseDataSource with value set to v.
+func NewOptRecordingResponseDataSource(v RecordingResponseDataSource) OptRecordingResponseDataSource {
+	return OptRecordingResponseDataSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingResponseDataSource is optional RecordingResponseDataSource.
+type OptRecordingResponseDataSource struct {
+	Value RecordingResponseDataSource
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingResponseDataSource was set.
+func (o OptRecordingResponseDataSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingResponseDataSource) Reset() {
+	var v RecordingResponseDataSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingResponseDataSource) SetTo(v RecordingResponseDataSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingResponseDataSource) Get() (v RecordingResponseDataSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingResponseDataSource) Or(d RecordingResponseDataSource) RecordingResponseDataSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRecordingResponseDataStatus returns new OptRecordingResponseDataStatus with value set to v.
+func NewOptRecordingResponseDataStatus(v RecordingResponseDataStatus) OptRecordingResponseDataStatus {
+	return OptRecordingResponseDataStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecordingResponseDataStatus is optional RecordingResponseDataStatus.
+type OptRecordingResponseDataStatus struct {
+	Value RecordingResponseDataStatus
+	Set   bool
+}
+
+// IsSet returns true if OptRecordingResponseDataStatus was set.
+func (o OptRecordingResponseDataStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecordingResponseDataStatus) Reset() {
+	var v RecordingResponseDataStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecordingResponseDataStatus) SetTo(v RecordingResponseDataStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecordingResponseDataStatus) Get() (v RecordingResponseDataStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecordingResponseDataStatus) Or(d RecordingResponseDataStatus) RecordingResponseDataStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptRecordingSource returns new OptRecordingSource with value set to v.
 func NewOptRecordingSource(v RecordingSource) OptRecordingSource {
 	return OptRecordingSource{
@@ -18274,6 +19366,52 @@ func (o OptRecordingTrack) Or(d RecordingTrack) RecordingTrack {
 	return d
 }
 
+// NewOptRegion returns new OptRegion with value set to v.
+func NewOptRegion(v Region) OptRegion {
+	return OptRegion{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRegion is optional Region.
+type OptRegion struct {
+	Value Region
+	Set   bool
+}
+
+// IsSet returns true if OptRegion was set.
+func (o OptRegion) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRegion) Reset() {
+	var v Region
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRegion) SetTo(v Region) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRegion) Get() (v Region, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRegion) Or(d Region) Region {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptRegisterCallResponseData returns new OptRegisterCallResponseData with value set to v.
 func NewOptRegisterCallResponseData(v RegisterCallResponseData) OptRegisterCallResponseData {
 	return OptRegisterCallResponseData{
@@ -18314,6 +19452,144 @@ func (o OptRegisterCallResponseData) Get() (v RegisterCallResponseData, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRegisterCallResponseData) Or(d RegisterCallResponseData) RegisterCallResponseData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRoomRecording returns new OptRoomRecording with value set to v.
+func NewOptRoomRecording(v RoomRecording) OptRoomRecording {
+	return OptRoomRecording{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRoomRecording is optional RoomRecording.
+type OptRoomRecording struct {
+	Value RoomRecording
+	Set   bool
+}
+
+// IsSet returns true if OptRoomRecording was set.
+func (o OptRoomRecording) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRoomRecording) Reset() {
+	var v RoomRecording
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRoomRecording) SetTo(v RoomRecording) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRoomRecording) Get() (v RoomRecording, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRoomRecording) Or(d RoomRecording) RoomRecording {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRoomRecordingStatus returns new OptRoomRecordingStatus with value set to v.
+func NewOptRoomRecordingStatus(v RoomRecordingStatus) OptRoomRecordingStatus {
+	return OptRoomRecordingStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRoomRecordingStatus is optional RoomRecordingStatus.
+type OptRoomRecordingStatus struct {
+	Value RoomRecordingStatus
+	Set   bool
+}
+
+// IsSet returns true if OptRoomRecordingStatus was set.
+func (o OptRoomRecordingStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRoomRecordingStatus) Reset() {
+	var v RoomRecordingStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRoomRecordingStatus) SetTo(v RoomRecordingStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRoomRecordingStatus) Get() (v RoomRecordingStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRoomRecordingStatus) Or(d RoomRecordingStatus) RoomRecordingStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRoomRecordingType returns new OptRoomRecordingType with value set to v.
+func NewOptRoomRecordingType(v RoomRecordingType) OptRoomRecordingType {
+	return OptRoomRecordingType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRoomRecordingType is optional RoomRecordingType.
+type OptRoomRecordingType struct {
+	Value RoomRecordingType
+	Set   bool
+}
+
+// IsSet returns true if OptRoomRecordingType was set.
+func (o OptRoomRecordingType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRoomRecordingType) Reset() {
+	var v RoomRecordingType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRoomRecordingType) SetTo(v RoomRecordingType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRoomRecordingType) Get() (v RoomRecordingType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRoomRecordingType) Or(d RoomRecordingType) RoomRecordingType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -23321,6 +24597,390 @@ func (s *RecordType) SetProductMetrics(val []string) {
 	s.ProductMetrics = val
 }
 
+// Ref: #/components/schemas/RecordingResponse
+type RecordingResponse struct {
+	Data OptRecordingResponseData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *RecordingResponse) GetData() OptRecordingResponseData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *RecordingResponse) SetData(val OptRecordingResponseData) {
+	s.Data = val
+}
+
+func (*RecordingResponse) deleteRecordingRes() {}
+func (*RecordingResponse) getRecordingRes()    {}
+
+// Ref: #/components/schemas/RecordingResponseData
+type RecordingResponseData struct {
+	// Unique identifier and token for controlling the call.
+	CallControlID OptString `json:"call_control_id"`
+	// ID that is unique to the call and can be used to correlate webhook events.
+	CallLegID OptString `json:"call_leg_id"`
+	// ID that is unique to the call session and can be used to correlate webhook events. Call session is
+	// a group of related call legs that logically belong to the same phone call, e.g. an inbound and
+	// outbound leg of a transferred call.
+	CallSessionID OptString `json:"call_session_id"`
+	// When `dual`, final audio file has the first leg on channel A, and the rest on channel B.
+	Channels OptRecordingResponseDataChannels `json:"channels"`
+	// Uniquely identifies the conference.
+	ConferenceID OptString `json:"conference_id"`
+	// ISO 8601 formatted date indicating when the resource was created.
+	CreatedAt OptString `json:"created_at"`
+	// The links to download the recording files.
+	DownloadUrls OptRecordingResponseDataDownloadUrls `json:"download_urls"`
+	// The duration of the recording in milliseconds.
+	DurationMillis OptInt32 `json:"duration_millis"`
+	// Uniquely identifies the recording.
+	ID         OptString                          `json:"id"`
+	RecordType OptRecordingResponseDataRecordType `json:"record_type"`
+	// ISO 8601 formatted date of when the recording started.
+	RecordingStartedAt OptString `json:"recording_started_at"`
+	// ISO 8601 formatted date of when the recording ended.
+	RecordingEndedAt OptString `json:"recording_ended_at"`
+	// The kind of event that led to this recording being created.
+	Source OptRecordingResponseDataSource `json:"source"`
+	// The status of the recording. Only resources for `completed` recordings are currently supported.
+	Status OptRecordingResponseDataStatus `json:"status"`
+	// ISO 8601 formatted date indicating when the resource was updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetCallControlID returns the value of CallControlID.
+func (s *RecordingResponseData) GetCallControlID() OptString {
+	return s.CallControlID
+}
+
+// GetCallLegID returns the value of CallLegID.
+func (s *RecordingResponseData) GetCallLegID() OptString {
+	return s.CallLegID
+}
+
+// GetCallSessionID returns the value of CallSessionID.
+func (s *RecordingResponseData) GetCallSessionID() OptString {
+	return s.CallSessionID
+}
+
+// GetChannels returns the value of Channels.
+func (s *RecordingResponseData) GetChannels() OptRecordingResponseDataChannels {
+	return s.Channels
+}
+
+// GetConferenceID returns the value of ConferenceID.
+func (s *RecordingResponseData) GetConferenceID() OptString {
+	return s.ConferenceID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *RecordingResponseData) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetDownloadUrls returns the value of DownloadUrls.
+func (s *RecordingResponseData) GetDownloadUrls() OptRecordingResponseDataDownloadUrls {
+	return s.DownloadUrls
+}
+
+// GetDurationMillis returns the value of DurationMillis.
+func (s *RecordingResponseData) GetDurationMillis() OptInt32 {
+	return s.DurationMillis
+}
+
+// GetID returns the value of ID.
+func (s *RecordingResponseData) GetID() OptString {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *RecordingResponseData) GetRecordType() OptRecordingResponseDataRecordType {
+	return s.RecordType
+}
+
+// GetRecordingStartedAt returns the value of RecordingStartedAt.
+func (s *RecordingResponseData) GetRecordingStartedAt() OptString {
+	return s.RecordingStartedAt
+}
+
+// GetRecordingEndedAt returns the value of RecordingEndedAt.
+func (s *RecordingResponseData) GetRecordingEndedAt() OptString {
+	return s.RecordingEndedAt
+}
+
+// GetSource returns the value of Source.
+func (s *RecordingResponseData) GetSource() OptRecordingResponseDataSource {
+	return s.Source
+}
+
+// GetStatus returns the value of Status.
+func (s *RecordingResponseData) GetStatus() OptRecordingResponseDataStatus {
+	return s.Status
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *RecordingResponseData) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetCallControlID sets the value of CallControlID.
+func (s *RecordingResponseData) SetCallControlID(val OptString) {
+	s.CallControlID = val
+}
+
+// SetCallLegID sets the value of CallLegID.
+func (s *RecordingResponseData) SetCallLegID(val OptString) {
+	s.CallLegID = val
+}
+
+// SetCallSessionID sets the value of CallSessionID.
+func (s *RecordingResponseData) SetCallSessionID(val OptString) {
+	s.CallSessionID = val
+}
+
+// SetChannels sets the value of Channels.
+func (s *RecordingResponseData) SetChannels(val OptRecordingResponseDataChannels) {
+	s.Channels = val
+}
+
+// SetConferenceID sets the value of ConferenceID.
+func (s *RecordingResponseData) SetConferenceID(val OptString) {
+	s.ConferenceID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *RecordingResponseData) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetDownloadUrls sets the value of DownloadUrls.
+func (s *RecordingResponseData) SetDownloadUrls(val OptRecordingResponseDataDownloadUrls) {
+	s.DownloadUrls = val
+}
+
+// SetDurationMillis sets the value of DurationMillis.
+func (s *RecordingResponseData) SetDurationMillis(val OptInt32) {
+	s.DurationMillis = val
+}
+
+// SetID sets the value of ID.
+func (s *RecordingResponseData) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *RecordingResponseData) SetRecordType(val OptRecordingResponseDataRecordType) {
+	s.RecordType = val
+}
+
+// SetRecordingStartedAt sets the value of RecordingStartedAt.
+func (s *RecordingResponseData) SetRecordingStartedAt(val OptString) {
+	s.RecordingStartedAt = val
+}
+
+// SetRecordingEndedAt sets the value of RecordingEndedAt.
+func (s *RecordingResponseData) SetRecordingEndedAt(val OptString) {
+	s.RecordingEndedAt = val
+}
+
+// SetSource sets the value of Source.
+func (s *RecordingResponseData) SetSource(val OptRecordingResponseDataSource) {
+	s.Source = val
+}
+
+// SetStatus sets the value of Status.
+func (s *RecordingResponseData) SetStatus(val OptRecordingResponseDataStatus) {
+	s.Status = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *RecordingResponseData) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// When `dual`, final audio file has the first leg on channel A, and the rest on channel B.
+type RecordingResponseDataChannels string
+
+const (
+	RecordingResponseDataChannelsSingle RecordingResponseDataChannels = "single"
+	RecordingResponseDataChannelsDual   RecordingResponseDataChannels = "dual"
+)
+
+// AllValues returns all RecordingResponseDataChannels values.
+func (RecordingResponseDataChannels) AllValues() []RecordingResponseDataChannels {
+	return []RecordingResponseDataChannels{
+		RecordingResponseDataChannelsSingle,
+		RecordingResponseDataChannelsDual,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RecordingResponseDataChannels) MarshalText() ([]byte, error) {
+	switch s {
+	case RecordingResponseDataChannelsSingle:
+		return []byte(s), nil
+	case RecordingResponseDataChannelsDual:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RecordingResponseDataChannels) UnmarshalText(data []byte) error {
+	switch RecordingResponseDataChannels(data) {
+	case RecordingResponseDataChannelsSingle:
+		*s = RecordingResponseDataChannelsSingle
+		return nil
+	case RecordingResponseDataChannelsDual:
+		*s = RecordingResponseDataChannelsDual
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The links to download the recording files.
+type RecordingResponseDataDownloadUrls struct {
+	// Link to download the recording in mp3 format.
+	Mp3 OptString `json:"mp3"`
+	// Link to download the recording in wav format.
+	Wav OptString `json:"wav"`
+}
+
+// GetMp3 returns the value of Mp3.
+func (s *RecordingResponseDataDownloadUrls) GetMp3() OptString {
+	return s.Mp3
+}
+
+// GetWav returns the value of Wav.
+func (s *RecordingResponseDataDownloadUrls) GetWav() OptString {
+	return s.Wav
+}
+
+// SetMp3 sets the value of Mp3.
+func (s *RecordingResponseDataDownloadUrls) SetMp3(val OptString) {
+	s.Mp3 = val
+}
+
+// SetWav sets the value of Wav.
+func (s *RecordingResponseDataDownloadUrls) SetWav(val OptString) {
+	s.Wav = val
+}
+
+type RecordingResponseDataRecordType string
+
+const (
+	RecordingResponseDataRecordTypeRecording RecordingResponseDataRecordType = "recording"
+)
+
+// AllValues returns all RecordingResponseDataRecordType values.
+func (RecordingResponseDataRecordType) AllValues() []RecordingResponseDataRecordType {
+	return []RecordingResponseDataRecordType{
+		RecordingResponseDataRecordTypeRecording,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RecordingResponseDataRecordType) MarshalText() ([]byte, error) {
+	switch s {
+	case RecordingResponseDataRecordTypeRecording:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RecordingResponseDataRecordType) UnmarshalText(data []byte) error {
+	switch RecordingResponseDataRecordType(data) {
+	case RecordingResponseDataRecordTypeRecording:
+		*s = RecordingResponseDataRecordTypeRecording
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The kind of event that led to this recording being created.
+type RecordingResponseDataSource string
+
+const (
+	RecordingResponseDataSourceConference RecordingResponseDataSource = "conference"
+	RecordingResponseDataSourceCall       RecordingResponseDataSource = "call"
+)
+
+// AllValues returns all RecordingResponseDataSource values.
+func (RecordingResponseDataSource) AllValues() []RecordingResponseDataSource {
+	return []RecordingResponseDataSource{
+		RecordingResponseDataSourceConference,
+		RecordingResponseDataSourceCall,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RecordingResponseDataSource) MarshalText() ([]byte, error) {
+	switch s {
+	case RecordingResponseDataSourceConference:
+		return []byte(s), nil
+	case RecordingResponseDataSourceCall:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RecordingResponseDataSource) UnmarshalText(data []byte) error {
+	switch RecordingResponseDataSource(data) {
+	case RecordingResponseDataSourceConference:
+		*s = RecordingResponseDataSourceConference
+		return nil
+	case RecordingResponseDataSourceCall:
+		*s = RecordingResponseDataSourceCall
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The status of the recording. Only resources for `completed` recordings are currently supported.
+type RecordingResponseDataStatus string
+
+const (
+	RecordingResponseDataStatusCompleted RecordingResponseDataStatus = "completed"
+)
+
+// AllValues returns all RecordingResponseDataStatus values.
+func (RecordingResponseDataStatus) AllValues() []RecordingResponseDataStatus {
+	return []RecordingResponseDataStatus{
+		RecordingResponseDataStatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RecordingResponseDataStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case RecordingResponseDataStatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RecordingResponseDataStatus) UnmarshalText(data []byte) error {
+	switch RecordingResponseDataStatus(data) {
+	case RecordingResponseDataStatusCompleted:
+		*s = RecordingResponseDataStatusCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Defines how the recording was created.
 // Ref: #/components/schemas/RecordingSource
 type RecordingSource string
@@ -23539,6 +25199,8 @@ func (s *ReferRequest) SetSipAuthPassword(val OptString) {
 func (s *ReferRequest) SetSipHeaders(val []SipHeader) {
 	s.SipHeaders = val
 }
+
+type Region string
 
 // Ref: #/components/schemas/RegisterCallRequest
 type RegisterCallRequest struct {
@@ -23875,6 +25537,333 @@ func (s *RetrieveVerificationResponse) SetData(val Verification) {
 }
 
 func (*RetrieveVerificationResponse) retrieveVerificationRes() {}
+
+// Ref: #/components/schemas/RoomRecording
+type RoomRecording struct {
+	// A unique identifier for the room recording.
+	ID OptUUID `json:"id"`
+	// Identify the room associated with the room recording.
+	RoomID OptUUID `json:"room_id"`
+	// Identify the room session associated with the room recording.
+	SessionID OptUUID `json:"session_id"`
+	// Identify the room participant associated with the room recording.
+	ParticipantID OptUUID `json:"participant_id"`
+	// Shows the room recording status.
+	Status OptRoomRecordingStatus `json:"status"`
+	// Shows the room recording type.
+	Type OptRoomRecordingType `json:"type"`
+	// Shows the room recording size in MB.
+	SizeMB OptFloat32 `json:"size_mb"`
+	// Url to download the recording.
+	DownloadURL OptString `json:"download_url"`
+	// Shows the codec used for the room recording.
+	Codec OptString `json:"codec"`
+	// Shows the room recording duration in seconds.
+	DurationSecs OptInt `json:"duration_secs"`
+	// ISO 8601 timestamp when the room recording was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 timestamp when the room recording was updated.
+	UpdatedAt OptString `json:"updated_at"`
+	// ISO 8601 timestamp when the room recording has ended.
+	EndedAt OptString `json:"ended_at"`
+	// ISO 8601 timestamp when the room recording has stated.
+	StartedAt OptString `json:"started_at"`
+	// ISO 8601 timestamp when the room recording has completed.
+	CompletedAt OptString `json:"completed_at"`
+	RecordType  OptString `json:"record_type"`
+}
+
+// GetID returns the value of ID.
+func (s *RoomRecording) GetID() OptUUID {
+	return s.ID
+}
+
+// GetRoomID returns the value of RoomID.
+func (s *RoomRecording) GetRoomID() OptUUID {
+	return s.RoomID
+}
+
+// GetSessionID returns the value of SessionID.
+func (s *RoomRecording) GetSessionID() OptUUID {
+	return s.SessionID
+}
+
+// GetParticipantID returns the value of ParticipantID.
+func (s *RoomRecording) GetParticipantID() OptUUID {
+	return s.ParticipantID
+}
+
+// GetStatus returns the value of Status.
+func (s *RoomRecording) GetStatus() OptRoomRecordingStatus {
+	return s.Status
+}
+
+// GetType returns the value of Type.
+func (s *RoomRecording) GetType() OptRoomRecordingType {
+	return s.Type
+}
+
+// GetSizeMB returns the value of SizeMB.
+func (s *RoomRecording) GetSizeMB() OptFloat32 {
+	return s.SizeMB
+}
+
+// GetDownloadURL returns the value of DownloadURL.
+func (s *RoomRecording) GetDownloadURL() OptString {
+	return s.DownloadURL
+}
+
+// GetCodec returns the value of Codec.
+func (s *RoomRecording) GetCodec() OptString {
+	return s.Codec
+}
+
+// GetDurationSecs returns the value of DurationSecs.
+func (s *RoomRecording) GetDurationSecs() OptInt {
+	return s.DurationSecs
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *RoomRecording) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *RoomRecording) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// GetEndedAt returns the value of EndedAt.
+func (s *RoomRecording) GetEndedAt() OptString {
+	return s.EndedAt
+}
+
+// GetStartedAt returns the value of StartedAt.
+func (s *RoomRecording) GetStartedAt() OptString {
+	return s.StartedAt
+}
+
+// GetCompletedAt returns the value of CompletedAt.
+func (s *RoomRecording) GetCompletedAt() OptString {
+	return s.CompletedAt
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *RoomRecording) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// SetID sets the value of ID.
+func (s *RoomRecording) SetID(val OptUUID) {
+	s.ID = val
+}
+
+// SetRoomID sets the value of RoomID.
+func (s *RoomRecording) SetRoomID(val OptUUID) {
+	s.RoomID = val
+}
+
+// SetSessionID sets the value of SessionID.
+func (s *RoomRecording) SetSessionID(val OptUUID) {
+	s.SessionID = val
+}
+
+// SetParticipantID sets the value of ParticipantID.
+func (s *RoomRecording) SetParticipantID(val OptUUID) {
+	s.ParticipantID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *RoomRecording) SetStatus(val OptRoomRecordingStatus) {
+	s.Status = val
+}
+
+// SetType sets the value of Type.
+func (s *RoomRecording) SetType(val OptRoomRecordingType) {
+	s.Type = val
+}
+
+// SetSizeMB sets the value of SizeMB.
+func (s *RoomRecording) SetSizeMB(val OptFloat32) {
+	s.SizeMB = val
+}
+
+// SetDownloadURL sets the value of DownloadURL.
+func (s *RoomRecording) SetDownloadURL(val OptString) {
+	s.DownloadURL = val
+}
+
+// SetCodec sets the value of Codec.
+func (s *RoomRecording) SetCodec(val OptString) {
+	s.Codec = val
+}
+
+// SetDurationSecs sets the value of DurationSecs.
+func (s *RoomRecording) SetDurationSecs(val OptInt) {
+	s.DurationSecs = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *RoomRecording) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *RoomRecording) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// SetEndedAt sets the value of EndedAt.
+func (s *RoomRecording) SetEndedAt(val OptString) {
+	s.EndedAt = val
+}
+
+// SetStartedAt sets the value of StartedAt.
+func (s *RoomRecording) SetStartedAt(val OptString) {
+	s.StartedAt = val
+}
+
+// SetCompletedAt sets the value of CompletedAt.
+func (s *RoomRecording) SetCompletedAt(val OptString) {
+	s.CompletedAt = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *RoomRecording) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// Shows the room recording status.
+type RoomRecordingStatus string
+
+const (
+	RoomRecordingStatusCompleted  RoomRecordingStatus = "completed"
+	RoomRecordingStatusProcessing RoomRecordingStatus = "processing"
+)
+
+// AllValues returns all RoomRecordingStatus values.
+func (RoomRecordingStatus) AllValues() []RoomRecordingStatus {
+	return []RoomRecordingStatus{
+		RoomRecordingStatusCompleted,
+		RoomRecordingStatusProcessing,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RoomRecordingStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case RoomRecordingStatusCompleted:
+		return []byte(s), nil
+	case RoomRecordingStatusProcessing:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RoomRecordingStatus) UnmarshalText(data []byte) error {
+	switch RoomRecordingStatus(data) {
+	case RoomRecordingStatusCompleted:
+		*s = RoomRecordingStatusCompleted
+		return nil
+	case RoomRecordingStatusProcessing:
+		*s = RoomRecordingStatusProcessing
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Shows the room recording type.
+type RoomRecordingType string
+
+const (
+	RoomRecordingTypeAudio RoomRecordingType = "audio"
+	RoomRecordingTypeVideo RoomRecordingType = "video"
+)
+
+// AllValues returns all RoomRecordingType values.
+func (RoomRecordingType) AllValues() []RoomRecordingType {
+	return []RoomRecordingType{
+		RoomRecordingTypeAudio,
+		RoomRecordingTypeVideo,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RoomRecordingType) MarshalText() ([]byte, error) {
+	switch s {
+	case RoomRecordingTypeAudio:
+		return []byte(s), nil
+	case RoomRecordingTypeVideo:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RoomRecordingType) UnmarshalText(data []byte) error {
+	switch RoomRecordingType(data) {
+	case RoomRecordingTypeAudio:
+		*s = RoomRecordingTypeAudio
+		return nil
+	case RoomRecordingTypeVideo:
+		*s = RoomRecordingTypeVideo
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/S3ConfigurationData
+type S3ConfigurationData struct {
+	Bucket             OptBucket             `json:"bucket"`
+	Region             OptRegion             `json:"region"`
+	AWSAccessKeyID     OptAwsAccessKeyId     `json:"aws_access_key_id"`
+	AWSSecretAccessKey OptAwsSecretAccessKey `json:"aws_secret_access_key"`
+}
+
+// GetBucket returns the value of Bucket.
+func (s *S3ConfigurationData) GetBucket() OptBucket {
+	return s.Bucket
+}
+
+// GetRegion returns the value of Region.
+func (s *S3ConfigurationData) GetRegion() OptRegion {
+	return s.Region
+}
+
+// GetAWSAccessKeyID returns the value of AWSAccessKeyID.
+func (s *S3ConfigurationData) GetAWSAccessKeyID() OptAwsAccessKeyId {
+	return s.AWSAccessKeyID
+}
+
+// GetAWSSecretAccessKey returns the value of AWSSecretAccessKey.
+func (s *S3ConfigurationData) GetAWSSecretAccessKey() OptAwsSecretAccessKey {
+	return s.AWSSecretAccessKey
+}
+
+// SetBucket sets the value of Bucket.
+func (s *S3ConfigurationData) SetBucket(val OptBucket) {
+	s.Bucket = val
+}
+
+// SetRegion sets the value of Region.
+func (s *S3ConfigurationData) SetRegion(val OptRegion) {
+	s.Region = val
+}
+
+// SetAWSAccessKeyID sets the value of AWSAccessKeyID.
+func (s *S3ConfigurationData) SetAWSAccessKeyID(val OptAwsAccessKeyId) {
+	s.AWSAccessKeyID = val
+}
+
+// SetAWSSecretAccessKey sets the value of AWSSecretAccessKey.
+func (s *S3ConfigurationData) SetAWSSecretAccessKey(val OptAwsSecretAccessKey) {
+	s.AWSSecretAccessKey = val
+}
 
 // Ref: #/components/schemas/SendDTMFRequest
 type SendDTMFRequest struct {

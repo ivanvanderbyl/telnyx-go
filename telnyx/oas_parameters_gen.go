@@ -27,6 +27,12 @@ type BulkCredentialActionParams struct {
 	FilterTag string
 }
 
+// CreateCustomStorageCredentialsParams is parameters of CreateCustomStorageCredentials operation.
+type CreateCustomStorageCredentialsParams struct {
+	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
+	ConnectionID string
+}
+
 // CreateProfileVerificationRequestParams is parameters of CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestParams struct {
 	// Identifies the Verified Calls Display Profile.
@@ -45,10 +51,69 @@ type DeleteCallControlApplicationParams struct {
 	ID int64
 }
 
+// DeleteCustomStorageCredentialsParams is parameters of DeleteCustomStorageCredentials operation.
+type DeleteCustomStorageCredentialsParams struct {
+	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
+	ConnectionID string
+}
+
 // DeleteProfileParams is parameters of DeleteProfile operation.
 type DeleteProfileParams struct {
 	// The identifier of the Verify profile to delete.
 	VerifyProfileID uuid.UUID
+}
+
+// DeleteRecordingParams is parameters of DeleteRecording operation.
+type DeleteRecordingParams struct {
+	// Uniquely identifies the recording by id.
+	RecordingID string
+}
+
+// DeleteRecordingTranscriptionParams is parameters of deleteRecordingTranscription operation.
+type DeleteRecordingTranscriptionParams struct {
+	RecordingTranscriptionID uuid.UUID
+}
+
+// DeleteRoomRecordingParams is parameters of DeleteRoomRecording operation.
+type DeleteRoomRecordingParams struct {
+	// The unique identifier of a room recording.
+	RoomRecordingID uuid.UUID
+}
+
+// DeleteRoomRecordingsParams is parameters of DeleteRoomRecordings operation.
+type DeleteRoomRecordingsParams struct {
+	// ISO 8601 date for filtering room recordings ended on that date.
+	FilterDateEndedAtEq OptDate
+	// ISO 8601 date for filtering room recordings ended after that date.
+	FilterDateEndedAtGte OptDate
+	// ISO 8601 date for filtering room recordings ended before that date.
+	FilterDateEndedAtLte OptDate
+	// ISO 8601 date for filtering room recordings started on that date.
+	FilterDateStartedAtEq OptDate
+	// ISO 8601 date for filtering room recordings started after that date.
+	FilterDateStartedAtGte OptDate
+	// ISO 8601 date for filtering room recordings started before that date.
+	FilterDateStartedAtLte OptDate
+	// Room_id for filtering room recordings.
+	FilterRoomID OptUUID
+	// Participant_id for filtering room recordings.
+	FilterParticipantID OptUUID
+	// Session_id for filtering room recordings.
+	FilterSessionID OptUUID
+	// Status for filtering room recordings.
+	FilterStatus OptString
+	// Type for filtering room recordings.
+	FilterType OptString
+	// Duration_secs equal for filtering room recordings.
+	FilterDurationSecsEq OptInt
+	// Duration_secs less or equal for filtering room recordings.
+	FilterDurationSecsLte OptInt
+	// Duration_secs greater or equal for filtering room recordings.
+	FilterDurationSecsGte OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The page number to load.
+	PageNumber OptInt
 }
 
 // DeleteTeXMLCallRecordingParams is parameters of DeleteTeXMLCallRecording operation.
@@ -203,6 +268,50 @@ type GatherUsingAudioParams struct {
 type GatherUsingSpeakParams struct {
 	// Unique identifier and token for controlling the call.
 	CallControlID string
+}
+
+// GetCustomStorageCredentialsParams is parameters of GetCustomStorageCredentials operation.
+type GetCustomStorageCredentialsParams struct {
+	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
+	ConnectionID string
+}
+
+// GetRecordingParams is parameters of GetRecording operation.
+type GetRecordingParams struct {
+	// Uniquely identifies the recording by id.
+	RecordingID string
+}
+
+// GetRecordingTranscriptionParams is parameters of getRecordingTranscription operation.
+type GetRecordingTranscriptionParams struct {
+	RecordingTranscriptionID uuid.UUID
+}
+
+// GetRecordingsParams is parameters of GetRecordings operation.
+type GetRecordingsParams struct {
+	// Returns only recordings associated with a given conference.
+	FilterConferenceID OptString
+	// Returns only recordings created later than or at given ISO 8601 datetime.
+	FilterCreatedAtGte OptString
+	// Returns only recordings created earlier than or at given ISO 8601 datetime.
+	FilterCreatedAtLte OptString
+	// If present, recordings will be filtered to those with a matching call_leg_id.
+	FilterCallLegID OptUUID
+	// If present, recordings will be filtered to those with a matching call_session_id.
+	FilterCallSessionID OptUUID
+	// If present, recordings will be filtered to those with a matching `from` attribute. Matching is
+	// case-sensitive.
+	FilterFrom OptString
+	// If present, recordings will be filtered to those with a matching `to` attribute. Matching is
+	// case-sensitive.
+	FilterTo OptString
+	// If present, recordings will be filtered to those with a matching `connection_id` attribute.
+	// Matching is case-sensitive.
+	FilterConnectionID OptString
+	// The page number to load.
+	PageNumber OptInt
+	// The size of the page.
+	PageSize OptInt
 }
 
 // GetTeXMLCallRecordingParams is parameters of GetTeXMLCallRecording operation.
@@ -487,6 +596,42 @@ type ListQueueCallsParams struct {
 	PageSize OptInt
 }
 
+// ListRoomRecordingsParams is parameters of ListRoomRecordings operation.
+type ListRoomRecordingsParams struct {
+	// ISO 8601 date for filtering room recordings ended on that date.
+	FilterDateEndedAtEq OptDate
+	// ISO 8601 date for filtering room recordings ended after that date.
+	FilterDateEndedAtGte OptDate
+	// ISO 8601 date for filtering room recordings ended before that date.
+	FilterDateEndedAtLte OptDate
+	// ISO 8601 date for filtering room recordings started on that date.
+	FilterDateStartedAtEq OptDate
+	// ISO 8601 date for filtering room recordings started after that date.
+	FilterDateStartedAtGte OptDate
+	// ISO 8601 date for filtering room recordings started before that date.
+	FilterDateStartedAtLte OptDate
+	// Room_id for filtering room recordings.
+	FilterRoomID OptUUID
+	// Participant_id for filtering room recordings.
+	FilterParticipantID OptUUID
+	// Session_id for filtering room recordings.
+	FilterSessionID OptUUID
+	// Status for filtering room recordings.
+	FilterStatus OptString
+	// Type for filtering room recordings.
+	FilterType OptString
+	// Duration_secs equal for filtering room recordings.
+	FilterDurationSecsEq OptInt
+	// Duration_secs less or equal for filtering room recordings.
+	FilterDurationSecsLte OptInt
+	// Duration_secs greater or equal for filtering room recordings.
+	FilterDurationSecsGte OptInt
+	// The size of the page.
+	PageSize OptInt
+	// The page number to load.
+	PageNumber OptInt
+}
+
 // ListTagsParams is parameters of ListTags operation.
 type ListTagsParams struct {
 	// The page number to load.
@@ -711,6 +856,12 @@ type UpdateClientStateParams struct {
 	CallControlID string
 }
 
+// UpdateCustomStorageCredentialsParams is parameters of UpdateCustomStorageCredentials operation.
+type UpdateCustomStorageCredentialsParams struct {
+	// Uniquely identifies a Telnyx application (Call Control, TeXML) or Sip connection resource.
+	ConnectionID string
+}
+
 // UpdateProfileParams is parameters of UpdateProfile operation.
 type UpdateProfileParams struct {
 	// Identifies the Verified Calls Display Profile.
@@ -787,4 +938,10 @@ type VerifyVerificationCodeParams struct {
 type VerifyVerificationCodeByPhoneNumberParams struct {
 	// The phone number associated with the verification code being verified.
 	PhoneNumber string
+}
+
+// ViewRoomRecordingParams is parameters of ViewRoomRecording operation.
+type ViewRoomRecordingParams struct {
+	// The unique identifier of a room recording.
+	RoomRecordingID uuid.UUID
 }

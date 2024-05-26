@@ -1,7 +1,7 @@
 
 generator:
   filters:
-    path_regex: /ai/audio|balance|call_control_applications|telephony_credentials|calls|texml|usage_reports|verified_numbers|verifications|verify_profiles|webhook_deliveries/
+    path_regex: /ai/audio|balance|call_control_applications|recordings|custom_storage_credentials|recording_transcriptions|telephony_credentials|calls|texml|usage_reports|verified_numbers|verifications|verify_profiles|webhook_deliveries/
   features:
     disable_all: true
     enable:
