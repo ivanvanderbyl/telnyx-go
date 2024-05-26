@@ -256,6 +256,18 @@ type FetchTeXMLConferenceRecordingsParams struct {
 	ConferenceSid string
 }
 
+// FindPortoutCommentsParams is parameters of FindPortoutComments operation.
+type FindPortoutCommentsParams struct {
+	// Portout id.
+	ID uuid.UUID
+}
+
+// FindPortoutRequestParams is parameters of FindPortoutRequest operation.
+type FindPortoutRequestParams struct {
+	// Portout id.
+	ID uuid.UUID
+}
+
 // FindTelephonyCredentialsParams is parameters of FindTelephonyCredentials operation.
 type FindTelephonyCredentialsParams struct {
 	// The page number to load.
@@ -424,6 +436,12 @@ type GetPhoneNumbersParams struct {
 	PageSize OptInt
 	// Channel zone identifier.
 	ChannelZoneID string
+}
+
+// GetPortRequestSupportingDocumentsParams is parameters of GetPortRequestSupportingDocuments operation.
+type GetPortRequestSupportingDocumentsParams struct {
+	// Portout id.
+	ID uuid.UUID
 }
 
 // GetRecordingParams is parameters of GetRecording operation.
@@ -1081,6 +1099,18 @@ type PerformCredentialActionParams struct {
 	Action PerformCredentialActionAction
 }
 
+// PostPortRequestCommentParams is parameters of PostPortRequestComment operation.
+type PostPortRequestCommentParams struct {
+	// Portout id.
+	ID uuid.UUID
+}
+
+// PostPortRequestSupportingDocumentsParams is parameters of PostPortRequestSupportingDocuments operation.
+type PostPortRequestSupportingDocumentsParams struct {
+	// Portout id.
+	ID uuid.UUID
+}
+
 // ReferCallParams is parameters of ReferCall operation.
 type ReferCallParams struct {
 	// Unique identifier and token for controlling the call.
@@ -1349,6 +1379,14 @@ type UpdatePhoneNumberMessagingSettingsParams struct {
 type UpdatePhoneNumberVoiceSettingsParams struct {
 	// Identifies the resource.
 	ID int64
+}
+
+// UpdatePortoutStatusParams is parameters of UpdatePortoutStatus operation.
+type UpdatePortoutStatusParams struct {
+	// Portout id.
+	ID uuid.UUID
+	// Updated portout status.
+	Status UpdatePortoutStatusStatus
 }
 
 // UpdateProfileParams is parameters of UpdateProfile operation.

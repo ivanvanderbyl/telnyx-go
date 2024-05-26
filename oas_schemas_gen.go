@@ -6538,6 +6538,22 @@ func (s *CreatePhoneNumbersJobUpdateEmergencySettingsAccepted) SetData(val OptPh
 func (*CreatePhoneNumbersJobUpdateEmergencySettingsAccepted) createPhoneNumbersJobUpdateEmergencySettingsRes() {
 }
 
+type CreatePortOutSupportingDocumentsResponse struct {
+	Data []PortOutSupportingDocument `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreatePortOutSupportingDocumentsResponse) GetData() []PortOutSupportingDocument {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreatePortOutSupportingDocumentsResponse) SetData(val []PortOutSupportingDocument) {
+	s.Data = val
+}
+
+func (*CreatePortOutSupportingDocumentsResponse) postPortRequestSupportingDocumentsRes() {}
+
 // CreateProfileVerificationRequestCreated is response for CreateProfileVerificationRequest operation.
 type CreateProfileVerificationRequestCreated struct{}
 
@@ -10322,6 +10338,36 @@ func (s *Feature) SetName(val OptString) {
 	s.Name = val
 }
 
+// FindPortoutCommentsNotFound is response for FindPortoutComments operation.
+type FindPortoutCommentsNotFound struct{}
+
+func (*FindPortoutCommentsNotFound) findPortoutCommentsRes() {}
+
+// FindPortoutCommentsUnauthorized is response for FindPortoutComments operation.
+type FindPortoutCommentsUnauthorized struct{}
+
+func (*FindPortoutCommentsUnauthorized) findPortoutCommentsRes() {}
+
+// FindPortoutCommentsUnprocessableEntity is response for FindPortoutComments operation.
+type FindPortoutCommentsUnprocessableEntity struct{}
+
+func (*FindPortoutCommentsUnprocessableEntity) findPortoutCommentsRes() {}
+
+// FindPortoutRequestNotFound is response for FindPortoutRequest operation.
+type FindPortoutRequestNotFound struct{}
+
+func (*FindPortoutRequestNotFound) findPortoutRequestRes() {}
+
+// FindPortoutRequestUnauthorized is response for FindPortoutRequest operation.
+type FindPortoutRequestUnauthorized struct{}
+
+func (*FindPortoutRequestUnauthorized) findPortoutRequestRes() {}
+
+// FindPortoutRequestUnprocessableEntity is response for FindPortoutRequest operation.
+type FindPortoutRequestUnprocessableEntity struct{}
+
+func (*FindPortoutRequestUnprocessableEntity) findPortoutRequestRes() {}
+
 // FindTelephonyCredentialsBadRequest is response for FindTelephonyCredentials operation.
 type FindTelephonyCredentialsBadRequest struct{}
 
@@ -11734,6 +11780,16 @@ func (s *GetParticipantsResponse) SetData(val OptParticipantResourceIndex) {
 }
 
 func (*GetParticipantsResponse) getTexmlConferenceParticipantsRes() {}
+
+// GetPortRequestSupportingDocumentsNotFound is response for GetPortRequestSupportingDocuments operation.
+type GetPortRequestSupportingDocumentsNotFound struct{}
+
+func (*GetPortRequestSupportingDocumentsNotFound) getPortRequestSupportingDocumentsRes() {}
+
+// GetPortRequestSupportingDocumentsUnauthorized is response for GetPortRequestSupportingDocuments operation.
+type GetPortRequestSupportingDocumentsUnauthorized struct{}
+
+func (*GetPortRequestSupportingDocumentsUnauthorized) getPortRequestSupportingDocumentsRes() {}
 
 type GetRoomRecordingResponse struct {
 	Data OptRoomRecording `json:"data"`
@@ -14191,6 +14247,33 @@ type ListPortingPhoneNumbersUnprocessableEntity struct{}
 
 func (*ListPortingPhoneNumbersUnprocessableEntity) listPortingPhoneNumbersRes() {}
 
+type ListPortoutComments struct {
+	Data []PortoutComment `json:"data"`
+	Meta OptMetadata      `json:"meta"`
+}
+
+// GetData returns the value of Data.
+func (s *ListPortoutComments) GetData() []PortoutComment {
+	return s.Data
+}
+
+// GetMeta returns the value of Meta.
+func (s *ListPortoutComments) GetMeta() OptMetadata {
+	return s.Meta
+}
+
+// SetData sets the value of Data.
+func (s *ListPortoutComments) SetData(val []PortoutComment) {
+	s.Data = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ListPortoutComments) SetMeta(val OptMetadata) {
+	s.Meta = val
+}
+
+func (*ListPortoutComments) findPortoutCommentsRes() {}
+
 type ListQueueCallsResponse struct {
 	Data []QueueCall       `json:"data"`
 	Meta OptPaginationMeta `json:"meta"`
@@ -15045,6 +15128,59 @@ func (s *MetaResponse) GetURL() OptString {
 // SetURL sets the value of URL.
 func (s *MetaResponse) SetURL(val OptString) {
 	s.URL = val
+}
+
+// Ref: #/components/schemas/Metadata
+type Metadata struct {
+	// Total number of pages based on pagination settings.
+	TotalPages OptFloat64 `json:"total_pages"`
+	// Total number of results.
+	TotalResults OptFloat64 `json:"total_results"`
+	// Current Page based on pagination settings (included when defaults are used.).
+	PageNumber OptFloat64 `json:"page_number"`
+	// Number of results to return per page based on pagination settings (included when defaults are used.
+	// ).
+	PageSize OptFloat64 `json:"page_size"`
+}
+
+// GetTotalPages returns the value of TotalPages.
+func (s *Metadata) GetTotalPages() OptFloat64 {
+	return s.TotalPages
+}
+
+// GetTotalResults returns the value of TotalResults.
+func (s *Metadata) GetTotalResults() OptFloat64 {
+	return s.TotalResults
+}
+
+// GetPageNumber returns the value of PageNumber.
+func (s *Metadata) GetPageNumber() OptFloat64 {
+	return s.PageNumber
+}
+
+// GetPageSize returns the value of PageSize.
+func (s *Metadata) GetPageSize() OptFloat64 {
+	return s.PageSize
+}
+
+// SetTotalPages sets the value of TotalPages.
+func (s *Metadata) SetTotalPages(val OptFloat64) {
+	s.TotalPages = val
+}
+
+// SetTotalResults sets the value of TotalResults.
+func (s *Metadata) SetTotalResults(val OptFloat64) {
+	s.TotalResults = val
+}
+
+// SetPageNumber sets the value of PageNumber.
+func (s *Metadata) SetPageNumber(val OptFloat64) {
+	s.PageNumber = val
+}
+
+// SetPageSize sets the value of PageSize.
+func (s *Metadata) SetPageSize(val OptFloat64) {
+	s.PageSize = val
 }
 
 // Ref: #/components/schemas/MobileNetworkOperator
@@ -23987,6 +24123,52 @@ func (o OptMetaResponse) Or(d MetaResponse) MetaResponse {
 	return d
 }
 
+// NewOptMetadata returns new OptMetadata with value set to v.
+func NewOptMetadata(v Metadata) OptMetadata {
+	return OptMetadata{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMetadata is optional Metadata.
+type OptMetadata struct {
+	Value Metadata
+	Set   bool
+}
+
+// IsSet returns true if OptMetadata was set.
+func (o OptMetadata) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMetadata) Reset() {
+	var v Metadata
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMetadata) SetTo(v Metadata) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMetadata) Get() (v Metadata, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMetadata) Or(d Metadata) Metadata {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNetwork returns new OptNetwork with value set to v.
 func NewOptNetwork(v Network) OptNetwork {
 	return OptNetwork{
@@ -27313,6 +27495,144 @@ func (o OptPortingPhoneNumberRequirementsStatus) Get() (v PortingPhoneNumberRequ
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPortingPhoneNumberRequirementsStatus) Or(d PortingPhoneNumberRequirementsStatus) PortingPhoneNumberRequirementsStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortoutComment returns new OptPortoutComment with value set to v.
+func NewOptPortoutComment(v PortoutComment) OptPortoutComment {
+	return OptPortoutComment{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortoutComment is optional PortoutComment.
+type OptPortoutComment struct {
+	Value PortoutComment
+	Set   bool
+}
+
+// IsSet returns true if OptPortoutComment was set.
+func (o OptPortoutComment) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortoutComment) Reset() {
+	var v PortoutComment
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortoutComment) SetTo(v PortoutComment) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortoutComment) Get() (v PortoutComment, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortoutComment) Or(d PortoutComment) PortoutComment {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortoutDetails returns new OptPortoutDetails with value set to v.
+func NewOptPortoutDetails(v PortoutDetails) OptPortoutDetails {
+	return OptPortoutDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortoutDetails is optional PortoutDetails.
+type OptPortoutDetails struct {
+	Value PortoutDetails
+	Set   bool
+}
+
+// IsSet returns true if OptPortoutDetails was set.
+func (o OptPortoutDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortoutDetails) Reset() {
+	var v PortoutDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortoutDetails) SetTo(v PortoutDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortoutDetails) Get() (v PortoutDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortoutDetails) Or(d PortoutDetails) PortoutDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPortoutDetailsStatus returns new OptPortoutDetailsStatus with value set to v.
+func NewOptPortoutDetailsStatus(v PortoutDetailsStatus) OptPortoutDetailsStatus {
+	return OptPortoutDetailsStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPortoutDetailsStatus is optional PortoutDetailsStatus.
+type OptPortoutDetailsStatus struct {
+	Value PortoutDetailsStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPortoutDetailsStatus was set.
+func (o OptPortoutDetailsStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPortoutDetailsStatus) Reset() {
+	var v PortoutDetailsStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPortoutDetailsStatus) SetTo(v PortoutDetailsStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPortoutDetailsStatus) Get() (v PortoutDetailsStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPortoutDetailsStatus) Or(d PortoutDetailsStatus) PortoutDetailsStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -36808,6 +37128,151 @@ func (s *PlaybackStopRequest) SetCommandID(val OptString) {
 	s.CommandID = val
 }
 
+type PortOutListSupportingDocumentsResponse struct {
+	Data []PortOutSupportingDocument `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *PortOutListSupportingDocumentsResponse) GetData() []PortOutSupportingDocument {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *PortOutListSupportingDocumentsResponse) SetData(val []PortOutSupportingDocument) {
+	s.Data = val
+}
+
+func (*PortOutListSupportingDocumentsResponse) getPortRequestSupportingDocumentsRes() {}
+
+// Ref: #/components/schemas/PortOutSupportingDocument
+type PortOutSupportingDocument struct {
+	ID uuid.UUID `json:"id"`
+	// Identifies the type of the resource.
+	RecordType string `json:"record_type"`
+	// Identifies the type of the document.
+	Type PortOutSupportingDocumentType `json:"type"`
+	// Identifies the associated port request.
+	PortoutID uuid.UUID `json:"portout_id"`
+	// Identifies the associated document.
+	DocumentID uuid.UUID `json:"document_id"`
+	// Supporting document creation timestamp in ISO 8601 format.
+	CreatedAt string `json:"created_at"`
+	// Supporting document last changed timestamp in ISO 8601 format.
+	UpdatedAt string `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *PortOutSupportingDocument) GetID() uuid.UUID {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortOutSupportingDocument) GetRecordType() string {
+	return s.RecordType
+}
+
+// GetType returns the value of Type.
+func (s *PortOutSupportingDocument) GetType() PortOutSupportingDocumentType {
+	return s.Type
+}
+
+// GetPortoutID returns the value of PortoutID.
+func (s *PortOutSupportingDocument) GetPortoutID() uuid.UUID {
+	return s.PortoutID
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *PortOutSupportingDocument) GetDocumentID() uuid.UUID {
+	return s.DocumentID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PortOutSupportingDocument) GetCreatedAt() string {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *PortOutSupportingDocument) GetUpdatedAt() string {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *PortOutSupportingDocument) SetID(val uuid.UUID) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortOutSupportingDocument) SetRecordType(val string) {
+	s.RecordType = val
+}
+
+// SetType sets the value of Type.
+func (s *PortOutSupportingDocument) SetType(val PortOutSupportingDocumentType) {
+	s.Type = val
+}
+
+// SetPortoutID sets the value of PortoutID.
+func (s *PortOutSupportingDocument) SetPortoutID(val uuid.UUID) {
+	s.PortoutID = val
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *PortOutSupportingDocument) SetDocumentID(val uuid.UUID) {
+	s.DocumentID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PortOutSupportingDocument) SetCreatedAt(val string) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *PortOutSupportingDocument) SetUpdatedAt(val string) {
+	s.UpdatedAt = val
+}
+
+// Identifies the type of the document.
+type PortOutSupportingDocumentType string
+
+const (
+	PortOutSupportingDocumentTypeLoa     PortOutSupportingDocumentType = "loa"
+	PortOutSupportingDocumentTypeInvoice PortOutSupportingDocumentType = "invoice"
+)
+
+// AllValues returns all PortOutSupportingDocumentType values.
+func (PortOutSupportingDocumentType) AllValues() []PortOutSupportingDocumentType {
+	return []PortOutSupportingDocumentType{
+		PortOutSupportingDocumentTypeLoa,
+		PortOutSupportingDocumentTypeInvoice,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortOutSupportingDocumentType) MarshalText() ([]byte, error) {
+	switch s {
+	case PortOutSupportingDocumentTypeLoa:
+		return []byte(s), nil
+	case PortOutSupportingDocumentTypeInvoice:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortOutSupportingDocumentType) UnmarshalText(data []byte) error {
+	switch PortOutSupportingDocumentType(data) {
+	case PortOutSupportingDocumentTypeLoa:
+		*s = PortOutSupportingDocumentTypeLoa
+		return nil
+	case PortOutSupportingDocumentTypeInvoice:
+		*s = PortOutSupportingDocumentTypeInvoice
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/Portability
 type Portability struct {
 	// Local Routing Number, if assigned to the requested phone number.
@@ -37506,6 +37971,618 @@ func (s *PortingPhoneNumberRequirementsStatus) UnmarshalText(data []byte) error 
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// Ref: #/components/schemas/PortoutComment
+type PortoutComment struct {
+	ID string `json:"id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// Comment body.
+	Body string `json:"body"`
+	// Identifies the associated port request.
+	PortoutID OptNilString `json:"portout_id"`
+	// Identifies the user who created the comment. Will be null if created by Telnyx Admin.
+	UserID string `json:"user_id"`
+	// Comment creation timestamp in ISO 8601 format.
+	CreatedAt string `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *PortoutComment) GetID() string {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortoutComment) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetBody returns the value of Body.
+func (s *PortoutComment) GetBody() string {
+	return s.Body
+}
+
+// GetPortoutID returns the value of PortoutID.
+func (s *PortoutComment) GetPortoutID() OptNilString {
+	return s.PortoutID
+}
+
+// GetUserID returns the value of UserID.
+func (s *PortoutComment) GetUserID() string {
+	return s.UserID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PortoutComment) GetCreatedAt() string {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *PortoutComment) SetID(val string) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortoutComment) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetBody sets the value of Body.
+func (s *PortoutComment) SetBody(val string) {
+	s.Body = val
+}
+
+// SetPortoutID sets the value of PortoutID.
+func (s *PortoutComment) SetPortoutID(val OptNilString) {
+	s.PortoutID = val
+}
+
+// SetUserID sets the value of UserID.
+func (s *PortoutComment) SetUserID(val string) {
+	s.UserID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PortoutComment) SetCreatedAt(val string) {
+	s.CreatedAt = val
+}
+
+type PortoutCommentResponse struct {
+	Data OptPortoutComment `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *PortoutCommentResponse) GetData() OptPortoutComment {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *PortoutCommentResponse) SetData(val OptPortoutComment) {
+	s.Data = val
+}
+
+func (*PortoutCommentResponse) postPortRequestCommentRes() {}
+
+// Ref: #/components/schemas/PortoutDetails
+type PortoutDetails struct {
+	ID OptString `json:"id"`
+	// Identifies the type of the resource.
+	RecordType OptString `json:"record_type"`
+	// Phone numbers associated with this portout.
+	PhoneNumbers []string `json:"phone_numbers"`
+	// Name of person authorizing the porting order.
+	AuthorizedName OptString `json:"authorized_name"`
+	// Carrier the number will be ported out to.
+	CarrierName OptString `json:"carrier_name"`
+	// The current carrier.
+	CurrentCarrier OptString `json:"current_carrier"`
+	// Person name or company name requesting the port.
+	EndUserName OptString `json:"end_user_name"`
+	// City or municipality of billing address.
+	City OptString `json:"city"`
+	// State, province, or similar of billing address.
+	State OptString `json:"state"`
+	// Postal Code of billing address.
+	Zip OptString `json:"zip"`
+	// The Local Service Request.
+	Lsr []url.URL `json:"lsr"`
+	// Port order number assigned by the carrier the number will be ported out to.
+	Pon OptString `json:"pon"`
+	// The reason why the order is being rejected by the user. If the order is authorized, this field can
+	// be left null.
+	Reason OptString `json:"reason"`
+	// First line of billing address (street address).
+	ServiceAddress OptString `json:"service_address"`
+	// ISO 8601 formatted Date/Time of the FOC date.
+	FocDate OptString `json:"foc_date"`
+	// ISO 8601 formatted Date/Time of the user requested FOC date.
+	RequestedFocDate OptString `json:"requested_foc_date"`
+	// New service provider spid.
+	Spid OptString `json:"spid"`
+	// A key to reference this port out request when contacting Telnyx customer support.
+	SupportKey OptString `json:"support_key"`
+	// Status of portout request.
+	Status OptPortoutDetailsStatus `json:"status"`
+	// Is true when the number is already ported.
+	AlreadyPorted OptBool `json:"already_ported"`
+	// Identifies the user (or organization) who requested the port out.
+	UserID OptUUID `json:"user_id"`
+	// Telnyx partner providing network coverage.
+	Vendor OptUUID `json:"vendor"`
+	// ISO 8601 formatted date of when the portout was created.
+	CreatedAt OptString `json:"created_at"`
+	// ISO 8601 formatted date of when the portout was created.
+	InsertedAt OptString `json:"inserted_at"`
+	// ISO 8601 formatted date of when the portout was last updated.
+	UpdatedAt OptString `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *PortoutDetails) GetID() OptString {
+	return s.ID
+}
+
+// GetRecordType returns the value of RecordType.
+func (s *PortoutDetails) GetRecordType() OptString {
+	return s.RecordType
+}
+
+// GetPhoneNumbers returns the value of PhoneNumbers.
+func (s *PortoutDetails) GetPhoneNumbers() []string {
+	return s.PhoneNumbers
+}
+
+// GetAuthorizedName returns the value of AuthorizedName.
+func (s *PortoutDetails) GetAuthorizedName() OptString {
+	return s.AuthorizedName
+}
+
+// GetCarrierName returns the value of CarrierName.
+func (s *PortoutDetails) GetCarrierName() OptString {
+	return s.CarrierName
+}
+
+// GetCurrentCarrier returns the value of CurrentCarrier.
+func (s *PortoutDetails) GetCurrentCarrier() OptString {
+	return s.CurrentCarrier
+}
+
+// GetEndUserName returns the value of EndUserName.
+func (s *PortoutDetails) GetEndUserName() OptString {
+	return s.EndUserName
+}
+
+// GetCity returns the value of City.
+func (s *PortoutDetails) GetCity() OptString {
+	return s.City
+}
+
+// GetState returns the value of State.
+func (s *PortoutDetails) GetState() OptString {
+	return s.State
+}
+
+// GetZip returns the value of Zip.
+func (s *PortoutDetails) GetZip() OptString {
+	return s.Zip
+}
+
+// GetLsr returns the value of Lsr.
+func (s *PortoutDetails) GetLsr() []url.URL {
+	return s.Lsr
+}
+
+// GetPon returns the value of Pon.
+func (s *PortoutDetails) GetPon() OptString {
+	return s.Pon
+}
+
+// GetReason returns the value of Reason.
+func (s *PortoutDetails) GetReason() OptString {
+	return s.Reason
+}
+
+// GetServiceAddress returns the value of ServiceAddress.
+func (s *PortoutDetails) GetServiceAddress() OptString {
+	return s.ServiceAddress
+}
+
+// GetFocDate returns the value of FocDate.
+func (s *PortoutDetails) GetFocDate() OptString {
+	return s.FocDate
+}
+
+// GetRequestedFocDate returns the value of RequestedFocDate.
+func (s *PortoutDetails) GetRequestedFocDate() OptString {
+	return s.RequestedFocDate
+}
+
+// GetSpid returns the value of Spid.
+func (s *PortoutDetails) GetSpid() OptString {
+	return s.Spid
+}
+
+// GetSupportKey returns the value of SupportKey.
+func (s *PortoutDetails) GetSupportKey() OptString {
+	return s.SupportKey
+}
+
+// GetStatus returns the value of Status.
+func (s *PortoutDetails) GetStatus() OptPortoutDetailsStatus {
+	return s.Status
+}
+
+// GetAlreadyPorted returns the value of AlreadyPorted.
+func (s *PortoutDetails) GetAlreadyPorted() OptBool {
+	return s.AlreadyPorted
+}
+
+// GetUserID returns the value of UserID.
+func (s *PortoutDetails) GetUserID() OptUUID {
+	return s.UserID
+}
+
+// GetVendor returns the value of Vendor.
+func (s *PortoutDetails) GetVendor() OptUUID {
+	return s.Vendor
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PortoutDetails) GetCreatedAt() OptString {
+	return s.CreatedAt
+}
+
+// GetInsertedAt returns the value of InsertedAt.
+func (s *PortoutDetails) GetInsertedAt() OptString {
+	return s.InsertedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *PortoutDetails) GetUpdatedAt() OptString {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *PortoutDetails) SetID(val OptString) {
+	s.ID = val
+}
+
+// SetRecordType sets the value of RecordType.
+func (s *PortoutDetails) SetRecordType(val OptString) {
+	s.RecordType = val
+}
+
+// SetPhoneNumbers sets the value of PhoneNumbers.
+func (s *PortoutDetails) SetPhoneNumbers(val []string) {
+	s.PhoneNumbers = val
+}
+
+// SetAuthorizedName sets the value of AuthorizedName.
+func (s *PortoutDetails) SetAuthorizedName(val OptString) {
+	s.AuthorizedName = val
+}
+
+// SetCarrierName sets the value of CarrierName.
+func (s *PortoutDetails) SetCarrierName(val OptString) {
+	s.CarrierName = val
+}
+
+// SetCurrentCarrier sets the value of CurrentCarrier.
+func (s *PortoutDetails) SetCurrentCarrier(val OptString) {
+	s.CurrentCarrier = val
+}
+
+// SetEndUserName sets the value of EndUserName.
+func (s *PortoutDetails) SetEndUserName(val OptString) {
+	s.EndUserName = val
+}
+
+// SetCity sets the value of City.
+func (s *PortoutDetails) SetCity(val OptString) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *PortoutDetails) SetState(val OptString) {
+	s.State = val
+}
+
+// SetZip sets the value of Zip.
+func (s *PortoutDetails) SetZip(val OptString) {
+	s.Zip = val
+}
+
+// SetLsr sets the value of Lsr.
+func (s *PortoutDetails) SetLsr(val []url.URL) {
+	s.Lsr = val
+}
+
+// SetPon sets the value of Pon.
+func (s *PortoutDetails) SetPon(val OptString) {
+	s.Pon = val
+}
+
+// SetReason sets the value of Reason.
+func (s *PortoutDetails) SetReason(val OptString) {
+	s.Reason = val
+}
+
+// SetServiceAddress sets the value of ServiceAddress.
+func (s *PortoutDetails) SetServiceAddress(val OptString) {
+	s.ServiceAddress = val
+}
+
+// SetFocDate sets the value of FocDate.
+func (s *PortoutDetails) SetFocDate(val OptString) {
+	s.FocDate = val
+}
+
+// SetRequestedFocDate sets the value of RequestedFocDate.
+func (s *PortoutDetails) SetRequestedFocDate(val OptString) {
+	s.RequestedFocDate = val
+}
+
+// SetSpid sets the value of Spid.
+func (s *PortoutDetails) SetSpid(val OptString) {
+	s.Spid = val
+}
+
+// SetSupportKey sets the value of SupportKey.
+func (s *PortoutDetails) SetSupportKey(val OptString) {
+	s.SupportKey = val
+}
+
+// SetStatus sets the value of Status.
+func (s *PortoutDetails) SetStatus(val OptPortoutDetailsStatus) {
+	s.Status = val
+}
+
+// SetAlreadyPorted sets the value of AlreadyPorted.
+func (s *PortoutDetails) SetAlreadyPorted(val OptBool) {
+	s.AlreadyPorted = val
+}
+
+// SetUserID sets the value of UserID.
+func (s *PortoutDetails) SetUserID(val OptUUID) {
+	s.UserID = val
+}
+
+// SetVendor sets the value of Vendor.
+func (s *PortoutDetails) SetVendor(val OptUUID) {
+	s.Vendor = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PortoutDetails) SetCreatedAt(val OptString) {
+	s.CreatedAt = val
+}
+
+// SetInsertedAt sets the value of InsertedAt.
+func (s *PortoutDetails) SetInsertedAt(val OptString) {
+	s.InsertedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *PortoutDetails) SetUpdatedAt(val OptString) {
+	s.UpdatedAt = val
+}
+
+// Status of portout request.
+type PortoutDetailsStatus string
+
+const (
+	PortoutDetailsStatusPending         PortoutDetailsStatus = "pending"
+	PortoutDetailsStatusAuthorized      PortoutDetailsStatus = "authorized"
+	PortoutDetailsStatusPorted          PortoutDetailsStatus = "ported"
+	PortoutDetailsStatusRejected        PortoutDetailsStatus = "rejected"
+	PortoutDetailsStatusRejectedPending PortoutDetailsStatus = "rejected-pending"
+	PortoutDetailsStatusCanceled        PortoutDetailsStatus = "canceled"
+)
+
+// AllValues returns all PortoutDetailsStatus values.
+func (PortoutDetailsStatus) AllValues() []PortoutDetailsStatus {
+	return []PortoutDetailsStatus{
+		PortoutDetailsStatusPending,
+		PortoutDetailsStatusAuthorized,
+		PortoutDetailsStatusPorted,
+		PortoutDetailsStatusRejected,
+		PortoutDetailsStatusRejectedPending,
+		PortoutDetailsStatusCanceled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PortoutDetailsStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PortoutDetailsStatusPending:
+		return []byte(s), nil
+	case PortoutDetailsStatusAuthorized:
+		return []byte(s), nil
+	case PortoutDetailsStatusPorted:
+		return []byte(s), nil
+	case PortoutDetailsStatusRejected:
+		return []byte(s), nil
+	case PortoutDetailsStatusRejectedPending:
+		return []byte(s), nil
+	case PortoutDetailsStatusCanceled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PortoutDetailsStatus) UnmarshalText(data []byte) error {
+	switch PortoutDetailsStatus(data) {
+	case PortoutDetailsStatusPending:
+		*s = PortoutDetailsStatusPending
+		return nil
+	case PortoutDetailsStatusAuthorized:
+		*s = PortoutDetailsStatusAuthorized
+		return nil
+	case PortoutDetailsStatusPorted:
+		*s = PortoutDetailsStatusPorted
+		return nil
+	case PortoutDetailsStatusRejected:
+		*s = PortoutDetailsStatusRejected
+		return nil
+	case PortoutDetailsStatusRejectedPending:
+		*s = PortoutDetailsStatusRejectedPending
+		return nil
+	case PortoutDetailsStatusCanceled:
+		*s = PortoutDetailsStatusCanceled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type PortoutResponse struct {
+	Data OptPortoutDetails `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *PortoutResponse) GetData() OptPortoutDetails {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *PortoutResponse) SetData(val OptPortoutDetails) {
+	s.Data = val
+}
+
+func (*PortoutResponse) findPortoutRequestRes()  {}
+func (*PortoutResponse) updatePortoutStatusRes() {}
+
+// PostPortRequestCommentNotFound is response for PostPortRequestComment operation.
+type PostPortRequestCommentNotFound struct{}
+
+func (*PostPortRequestCommentNotFound) postPortRequestCommentRes() {}
+
+type PostPortRequestCommentReq struct {
+	// Comment to post on this portout request.
+	Body OptString `json:"body"`
+}
+
+// GetBody returns the value of Body.
+func (s *PostPortRequestCommentReq) GetBody() OptString {
+	return s.Body
+}
+
+// SetBody sets the value of Body.
+func (s *PostPortRequestCommentReq) SetBody(val OptString) {
+	s.Body = val
+}
+
+// PostPortRequestCommentUnauthorized is response for PostPortRequestComment operation.
+type PostPortRequestCommentUnauthorized struct{}
+
+func (*PostPortRequestCommentUnauthorized) postPortRequestCommentRes() {}
+
+// PostPortRequestCommentUnprocessableEntity is response for PostPortRequestComment operation.
+type PostPortRequestCommentUnprocessableEntity struct{}
+
+func (*PostPortRequestCommentUnprocessableEntity) postPortRequestCommentRes() {}
+
+// PostPortRequestSupportingDocumentsNotFound is response for PostPortRequestSupportingDocuments operation.
+type PostPortRequestSupportingDocumentsNotFound struct{}
+
+func (*PostPortRequestSupportingDocumentsNotFound) postPortRequestSupportingDocumentsRes() {}
+
+type PostPortRequestSupportingDocumentsReq struct {
+	// List of supporting documents parameters.
+	Documents []PostPortRequestSupportingDocumentsReqDocumentsItem `json:"documents"`
+}
+
+// GetDocuments returns the value of Documents.
+func (s *PostPortRequestSupportingDocumentsReq) GetDocuments() []PostPortRequestSupportingDocumentsReqDocumentsItem {
+	return s.Documents
+}
+
+// SetDocuments sets the value of Documents.
+func (s *PostPortRequestSupportingDocumentsReq) SetDocuments(val []PostPortRequestSupportingDocumentsReqDocumentsItem) {
+	s.Documents = val
+}
+
+type PostPortRequestSupportingDocumentsReqDocumentsItem struct {
+	// Identifies the type of the document.
+	Type PostPortRequestSupportingDocumentsReqDocumentsItemType `json:"type"`
+	// Identifies the associated document.
+	DocumentID uuid.UUID `json:"document_id"`
+}
+
+// GetType returns the value of Type.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) GetType() PostPortRequestSupportingDocumentsReqDocumentsItemType {
+	return s.Type
+}
+
+// GetDocumentID returns the value of DocumentID.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) GetDocumentID() uuid.UUID {
+	return s.DocumentID
+}
+
+// SetType sets the value of Type.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) SetType(val PostPortRequestSupportingDocumentsReqDocumentsItemType) {
+	s.Type = val
+}
+
+// SetDocumentID sets the value of DocumentID.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) SetDocumentID(val uuid.UUID) {
+	s.DocumentID = val
+}
+
+// Identifies the type of the document.
+type PostPortRequestSupportingDocumentsReqDocumentsItemType string
+
+const (
+	PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa     PostPortRequestSupportingDocumentsReqDocumentsItemType = "loa"
+	PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice PostPortRequestSupportingDocumentsReqDocumentsItemType = "invoice"
+)
+
+// AllValues returns all PostPortRequestSupportingDocumentsReqDocumentsItemType values.
+func (PostPortRequestSupportingDocumentsReqDocumentsItemType) AllValues() []PostPortRequestSupportingDocumentsReqDocumentsItemType {
+	return []PostPortRequestSupportingDocumentsReqDocumentsItemType{
+		PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa,
+		PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PostPortRequestSupportingDocumentsReqDocumentsItemType) MarshalText() ([]byte, error) {
+	switch s {
+	case PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa:
+		return []byte(s), nil
+	case PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItemType) UnmarshalText(data []byte) error {
+	switch PostPortRequestSupportingDocumentsReqDocumentsItemType(data) {
+	case PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa:
+		*s = PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa
+		return nil
+	case PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice:
+		*s = PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// PostPortRequestSupportingDocumentsUnauthorized is response for PostPortRequestSupportingDocuments operation.
+type PostPortRequestSupportingDocumentsUnauthorized struct{}
+
+func (*PostPortRequestSupportingDocumentsUnauthorized) postPortRequestSupportingDocumentsRes() {}
+
+// PostPortRequestSupportingDocumentsUnprocessableEntity is response for PostPortRequestSupportingDocuments operation.
+type PostPortRequestSupportingDocumentsUnprocessableEntity struct{}
+
+func (*PostPortRequestSupportingDocumentsUnprocessableEntity) postPortRequestSupportingDocumentsRes() {
 }
 
 // Ref: #/components/schemas/QueueCall
@@ -46044,6 +47121,77 @@ func (s *UpdatePhoneNumberVoiceSettingsRequestUsagePaymentMethod) UnmarshalText(
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+// UpdatePortoutStatusNotFound is response for UpdatePortoutStatus operation.
+type UpdatePortoutStatusNotFound struct{}
+
+func (*UpdatePortoutStatusNotFound) updatePortoutStatusRes() {}
+
+type UpdatePortoutStatusReq struct {
+	// Provide a reason if rejecting the port out request.
+	Reason OptString `json:"reason"`
+}
+
+// GetReason returns the value of Reason.
+func (s *UpdatePortoutStatusReq) GetReason() OptString {
+	return s.Reason
+}
+
+// SetReason sets the value of Reason.
+func (s *UpdatePortoutStatusReq) SetReason(val OptString) {
+	s.Reason = val
+}
+
+type UpdatePortoutStatusStatus string
+
+const (
+	UpdatePortoutStatusStatusAuthorized      UpdatePortoutStatusStatus = "authorized"
+	UpdatePortoutStatusStatusRejectedPending UpdatePortoutStatusStatus = "rejected-pending"
+)
+
+// AllValues returns all UpdatePortoutStatusStatus values.
+func (UpdatePortoutStatusStatus) AllValues() []UpdatePortoutStatusStatus {
+	return []UpdatePortoutStatusStatus{
+		UpdatePortoutStatusStatusAuthorized,
+		UpdatePortoutStatusStatusRejectedPending,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdatePortoutStatusStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdatePortoutStatusStatusAuthorized:
+		return []byte(s), nil
+	case UpdatePortoutStatusStatusRejectedPending:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdatePortoutStatusStatus) UnmarshalText(data []byte) error {
+	switch UpdatePortoutStatusStatus(data) {
+	case UpdatePortoutStatusStatusAuthorized:
+		*s = UpdatePortoutStatusStatusAuthorized
+		return nil
+	case UpdatePortoutStatusStatusRejectedPending:
+		*s = UpdatePortoutStatusStatusRejectedPending
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// UpdatePortoutStatusUnauthorized is response for UpdatePortoutStatus operation.
+type UpdatePortoutStatusUnauthorized struct{}
+
+func (*UpdatePortoutStatusUnauthorized) updatePortoutStatusRes() {}
+
+// UpdatePortoutStatusUnprocessableEntity is response for UpdatePortoutStatus operation.
+type UpdatePortoutStatusUnprocessableEntity struct{}
+
+func (*UpdatePortoutStatusUnprocessableEntity) updatePortoutStatusRes() {}
 
 // UpdateProfileOK is response for UpdateProfile operation.
 type UpdateProfileOK struct{}

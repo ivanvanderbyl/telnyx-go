@@ -403,6 +403,18 @@ type Invoker interface {
 	//
 	// GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings.json
 	FetchTeXMLConferenceRecordings(ctx context.Context, params FetchTeXMLConferenceRecordingsParams) (FetchTeXMLConferenceRecordingsRes, error)
+	// FindPortoutComments invokes FindPortoutComments operation.
+	//
+	// Returns a list of comments for a portout request.
+	//
+	// GET /portouts/{id}/comments
+	FindPortoutComments(ctx context.Context, params FindPortoutCommentsParams) (FindPortoutCommentsRes, error)
+	// FindPortoutRequest invokes FindPortoutRequest operation.
+	//
+	// Returns the portout request based on the ID provided.
+	//
+	// GET /portouts/{id}
+	FindPortoutRequest(ctx context.Context, params FindPortoutRequestParams) (FindPortoutRequestRes, error)
 	// FindTelephonyCredentials invokes FindTelephonyCredentials operation.
 	//
 	// List all On-demand Credentials.
@@ -545,6 +557,12 @@ type Invoker interface {
 	//
 	// GET /channel_zones/{channel_zone_id}/channel_zone_phone_numbers
 	GetPhoneNumbers(ctx context.Context, params GetPhoneNumbersParams) (*GetGcbPhoneNumbersRequestResponse, error)
+	// GetPortRequestSupportingDocuments invokes GetPortRequestSupportingDocuments operation.
+	//
+	// List every supporting documents for a portout request.
+	//
+	// GET /portouts/{id}/supporting_documents
+	GetPortRequestSupportingDocuments(ctx context.Context, params GetPortRequestSupportingDocumentsParams) (GetPortRequestSupportingDocumentsRes, error)
 	// GetRecording invokes GetRecording operation.
 	//
 	// Retrieves the details of an existing call recording.
@@ -905,6 +923,18 @@ type Invoker interface {
 	//
 	// POST /telephony_credentials/{id}/actions/{action}
 	PerformCredentialAction(ctx context.Context, params PerformCredentialActionParams) (PerformCredentialActionRes, error)
+	// PostPortRequestComment invokes PostPortRequestComment operation.
+	//
+	// Creates a comment on a portout request.
+	//
+	// POST /portouts/{id}/comments
+	PostPortRequestComment(ctx context.Context, request *PostPortRequestCommentReq, params PostPortRequestCommentParams) (PostPortRequestCommentRes, error)
+	// PostPortRequestSupportingDocuments invokes PostPortRequestSupportingDocuments operation.
+	//
+	// Creates a list of supporting documents on a portout request.
+	//
+	// POST /portouts/{id}/supporting_documents
+	PostPortRequestSupportingDocuments(ctx context.Context, request *PostPortRequestSupportingDocumentsReq, params PostPortRequestSupportingDocumentsParams) (PostPortRequestSupportingDocumentsRes, error)
 	// ReferCall invokes ReferCall operation.
 	//
 	// Initiate a SIP Refer on a Call Control call. You can initiate a SIP Refer at any point in the
@@ -1403,6 +1433,12 @@ type Invoker interface {
 	//
 	// PATCH /phone_numbers/{id}/voice
 	UpdatePhoneNumberVoiceSettings(ctx context.Context, request *UpdatePhoneNumberVoiceSettingsRequest, params UpdatePhoneNumberVoiceSettingsParams) (UpdatePhoneNumberVoiceSettingsRes, error)
+	// UpdatePortoutStatus invokes UpdatePortoutStatus operation.
+	//
+	// Authorize or reject portout request.
+	//
+	// PATCH /portouts/{id}/{status}
+	UpdatePortoutStatus(ctx context.Context, request *UpdatePortoutStatusReq, params UpdatePortoutStatusParams) (UpdatePortoutStatusRes, error)
 	// UpdateProfile invokes UpdateProfile operation.
 	//
 	// Update an existing Verified Calls Display Profile and allows adding/removing nested Call Reasons
@@ -6977,6 +7013,181 @@ func (c *Client) sendFetchTeXMLConferenceRecordings(ctx context.Context, params 
 	return result, nil
 }
 
+// FindPortoutComments invokes FindPortoutComments operation.
+//
+// Returns a list of comments for a portout request.
+//
+// GET /portouts/{id}/comments
+func (c *Client) FindPortoutComments(ctx context.Context, params FindPortoutCommentsParams) (FindPortoutCommentsRes, error) {
+	res, err := c.sendFindPortoutComments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendFindPortoutComments(ctx context.Context, params FindPortoutCommentsParams) (res FindPortoutCommentsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/portouts/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/comments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "FindPortoutComments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeFindPortoutCommentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// FindPortoutRequest invokes FindPortoutRequest operation.
+//
+// Returns the portout request based on the ID provided.
+//
+// GET /portouts/{id}
+func (c *Client) FindPortoutRequest(ctx context.Context, params FindPortoutRequestParams) (FindPortoutRequestRes, error) {
+	res, err := c.sendFindPortoutRequest(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendFindPortoutRequest(ctx context.Context, params FindPortoutRequestParams) (res FindPortoutRequestRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/portouts/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "FindPortoutRequest", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeFindPortoutRequestResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // FindTelephonyCredentials invokes FindTelephonyCredentials operation.
 //
 // List all On-demand Credentials.
@@ -9061,6 +9272,94 @@ func (c *Client) sendGetPhoneNumbers(ctx context.Context, params GetPhoneNumbers
 	defer resp.Body.Close()
 
 	result, err := decodeGetPhoneNumbersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetPortRequestSupportingDocuments invokes GetPortRequestSupportingDocuments operation.
+//
+// List every supporting documents for a portout request.
+//
+// GET /portouts/{id}/supporting_documents
+func (c *Client) GetPortRequestSupportingDocuments(ctx context.Context, params GetPortRequestSupportingDocumentsParams) (GetPortRequestSupportingDocumentsRes, error) {
+	res, err := c.sendGetPortRequestSupportingDocuments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetPortRequestSupportingDocuments(ctx context.Context, params GetPortRequestSupportingDocumentsParams) (res GetPortRequestSupportingDocumentsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/portouts/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/supporting_documents"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetPortRequestSupportingDocuments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetPortRequestSupportingDocumentsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -16794,6 +17093,197 @@ func (c *Client) sendPerformCredentialAction(ctx context.Context, params Perform
 	return result, nil
 }
 
+// PostPortRequestComment invokes PostPortRequestComment operation.
+//
+// Creates a comment on a portout request.
+//
+// POST /portouts/{id}/comments
+func (c *Client) PostPortRequestComment(ctx context.Context, request *PostPortRequestCommentReq, params PostPortRequestCommentParams) (PostPortRequestCommentRes, error) {
+	res, err := c.sendPostPortRequestComment(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPostPortRequestComment(ctx context.Context, request *PostPortRequestCommentReq, params PostPortRequestCommentParams) (res PostPortRequestCommentRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/portouts/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/comments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePostPortRequestCommentRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PostPortRequestComment", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePostPortRequestCommentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PostPortRequestSupportingDocuments invokes PostPortRequestSupportingDocuments operation.
+//
+// Creates a list of supporting documents on a portout request.
+//
+// POST /portouts/{id}/supporting_documents
+func (c *Client) PostPortRequestSupportingDocuments(ctx context.Context, request *PostPortRequestSupportingDocumentsReq, params PostPortRequestSupportingDocumentsParams) (PostPortRequestSupportingDocumentsRes, error) {
+	res, err := c.sendPostPortRequestSupportingDocuments(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendPostPortRequestSupportingDocuments(ctx context.Context, request *PostPortRequestSupportingDocumentsReq, params PostPortRequestSupportingDocumentsParams) (res PostPortRequestSupportingDocumentsRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/portouts/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/supporting_documents"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePostPortRequestSupportingDocumentsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "PostPortRequestSupportingDocuments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodePostPortRequestSupportingDocumentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ReferCall invokes ReferCall operation.
 //
 // Initiate a SIP Refer on a Call Control call. You can initiate a SIP Refer at any point in the
@@ -21167,6 +21657,115 @@ func (c *Client) sendUpdatePhoneNumberVoiceSettings(ctx context.Context, request
 	defer resp.Body.Close()
 
 	result, err := decodeUpdatePhoneNumberVoiceSettingsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdatePortoutStatus invokes UpdatePortoutStatus operation.
+//
+// Authorize or reject portout request.
+//
+// PATCH /portouts/{id}/{status}
+func (c *Client) UpdatePortoutStatus(ctx context.Context, request *UpdatePortoutStatusReq, params UpdatePortoutStatusParams) (UpdatePortoutStatusRes, error) {
+	res, err := c.sendUpdatePortoutStatus(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdatePortoutStatus(ctx context.Context, request *UpdatePortoutStatusReq, params UpdatePortoutStatusParams) (res UpdatePortoutStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/portouts/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	{
+		// Encode "status" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "status",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(string(params.Status)))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdatePortoutStatusRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdatePortoutStatus", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdatePortoutStatusResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

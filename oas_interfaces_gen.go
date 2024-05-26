@@ -237,6 +237,14 @@ type FetchTeXMLConferenceRecordingsRes interface {
 	fetchTeXMLConferenceRecordingsRes()
 }
 
+type FindPortoutCommentsRes interface {
+	findPortoutCommentsRes()
+}
+
+type FindPortoutRequestRes interface {
+	findPortoutRequestRes()
+}
+
 type FindTelephonyCredentialsRes interface {
 	findTelephonyCredentialsRes()
 }
@@ -307,6 +315,10 @@ type GetPhoneNumberMessagingSettingsRes interface {
 
 type GetPhoneNumberVoiceSettingsRes interface {
 	getPhoneNumberVoiceSettingsRes()
+}
+
+type GetPortRequestSupportingDocumentsRes interface {
+	getPortRequestSupportingDocumentsRes()
 }
 
 type GetRecordingRes interface {
@@ -525,6 +537,14 @@ type PerformCredentialActionRes interface {
 	performCredentialActionRes()
 }
 
+type PostPortRequestCommentRes interface {
+	postPortRequestCommentRes()
+}
+
+type PostPortRequestSupportingDocumentsRes interface {
+	postPortRequestSupportingDocumentsRes()
+}
+
 type ReferCallRes interface {
 	referCallRes()
 }
@@ -687,6 +707,10 @@ type UpdatePhoneNumberRes interface {
 
 type UpdatePhoneNumberVoiceSettingsRes interface {
 	updatePhoneNumberVoiceSettingsRes()
+}
+
+type UpdatePortoutStatusRes interface {
+	updatePortoutStatusRes()
 }
 
 type UpdateProfileRes interface {

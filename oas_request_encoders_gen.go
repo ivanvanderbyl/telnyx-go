@@ -1417,6 +1417,34 @@ func encodePauseCallRecordingRequest(
 	return nil
 }
 
+func encodePostPortRequestCommentRequest(
+	req *PostPortRequestCommentReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePostPortRequestSupportingDocumentsRequest(
+	req *PostPortRequestSupportingDocumentsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeReferCallRequest(
 	req *ReferRequest,
 	r *http.Request,
@@ -1967,6 +1995,20 @@ func encodeUpdatePhoneNumberMessagingSettingsRequest(
 
 func encodeUpdatePhoneNumberVoiceSettingsRequest(
 	req *UpdatePhoneNumberVoiceSettingsRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdatePortoutStatusRequest(
+	req *UpdatePortoutStatusReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

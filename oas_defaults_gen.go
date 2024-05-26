@@ -701,6 +701,13 @@ func (s *PlaybackStopRequest) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *PortoutComment) setDefaults() {
+	{
+		s.PortoutID.Null = true
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *SendDTMFRequest) setDefaults() {
 	{
 		val := int32(250)

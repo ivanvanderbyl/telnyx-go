@@ -5101,6 +5101,124 @@ func decodeFetchTeXMLConferenceRecordingsResponse(resp *http.Response) (res Fetc
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
+func decodeFindPortoutCommentsResponse(resp *http.Response) (res FindPortoutCommentsRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ListPortoutComments
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &FindPortoutCommentsUnauthorized{}, nil
+	case 404:
+		// Code 404.
+		return &FindPortoutCommentsNotFound{}, nil
+	case 422:
+		// Code 422.
+		return &FindPortoutCommentsUnprocessableEntity{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeFindPortoutRequestResponse(resp *http.Response) (res FindPortoutRequestRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PortoutResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &FindPortoutRequestUnauthorized{}, nil
+	case 404:
+		// Code 404.
+		return &FindPortoutRequestNotFound{}, nil
+	case 422:
+		// Code 422.
+		return &FindPortoutRequestUnprocessableEntity{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
 func decodeFindTelephonyCredentialsResponse(resp *http.Response) (res FindTelephonyCredentialsRes, _ error) {
 	switch resp.StatusCode {
 	case 200:
@@ -6675,6 +6793,62 @@ func decodeGetPhoneNumbersResponse(resp *http.Response) (res *GetGcbPhoneNumbers
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeGetPortRequestSupportingDocumentsResponse(resp *http.Response) (res GetPortRequestSupportingDocumentsRes, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PortOutListSupportingDocumentsResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &GetPortRequestSupportingDocumentsUnauthorized{}, nil
+	case 404:
+		// Code 404.
+		return &GetPortRequestSupportingDocumentsNotFound{}, nil
 	}
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
@@ -11554,6 +11728,115 @@ func decodePerformCredentialActionResponse(resp *http.Response) (res PerformCred
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
+func decodePostPortRequestCommentResponse(resp *http.Response) (res PostPortRequestCommentRes, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PortoutCommentResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PostPortRequestCommentUnauthorized{}, nil
+	case 404:
+		// Code 404.
+		return &PostPortRequestCommentNotFound{}, nil
+	case 422:
+		// Code 422.
+		return &PostPortRequestCommentUnprocessableEntity{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodePostPortRequestSupportingDocumentsResponse(resp *http.Response) (res PostPortRequestSupportingDocumentsRes, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response CreatePortOutSupportingDocumentsResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PostPortRequestSupportingDocumentsUnauthorized{}, nil
+	case 404:
+		// Code 404.
+		return &PostPortRequestSupportingDocumentsNotFound{}, nil
+	case 422:
+		// Code 422.
+		return &PostPortRequestSupportingDocumentsUnprocessableEntity{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
 func decodeReferCallResponse(resp *http.Response) (res ReferCallRes, _ error) {
 	switch resp.StatusCode {
 	case 200:
@@ -14967,6 +15250,65 @@ func decodeUpdatePhoneNumberVoiceSettingsResponse(resp *http.Response) (res Upda
 		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
 	}
 	return res, nil
+}
+
+func decodeUpdatePortoutStatusResponse(resp *http.Response) (res UpdatePortoutStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PortoutResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &UpdatePortoutStatusUnauthorized{}, nil
+	case 404:
+		// Code 404.
+		return &UpdatePortoutStatusNotFound{}, nil
+	case 422:
+		// Code 422.
+		return &UpdatePortoutStatusUnprocessableEntity{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
 func decodeUpdateProfileResponse(resp *http.Response) (res UpdateProfileRes, _ error) {

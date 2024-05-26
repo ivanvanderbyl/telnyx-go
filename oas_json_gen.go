@@ -10547,6 +10547,80 @@ func (s *CreatePhoneNumbersJobUpdateEmergencySettingsAccepted) UnmarshalJSON(dat
 }
 
 // Encode implements json.Marshaler.
+func (s *CreatePortOutSupportingDocumentsResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreatePortOutSupportingDocumentsResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+}
+
+var jsonFieldsNameOfCreatePortOutSupportingDocumentsResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes CreatePortOutSupportingDocumentsResponse from json.
+func (s *CreatePortOutSupportingDocumentsResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreatePortOutSupportingDocumentsResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]PortOutSupportingDocument, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem PortOutSupportingDocument
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreatePortOutSupportingDocumentsResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreatePortOutSupportingDocumentsResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreatePortOutSupportingDocumentsResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *CreateShortCodeMessageRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -22956,6 +23030,97 @@ func (s *ListPortingPhoneNumbersApplicationJSON) UnmarshalJSON(data []byte) erro
 }
 
 // Encode implements json.Marshaler.
+func (s *ListPortoutComments) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListPortoutComments) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Meta.Set {
+			e.FieldStart("meta")
+			s.Meta.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfListPortoutComments = [2]string{
+	0: "data",
+	1: "meta",
+}
+
+// Decode decodes ListPortoutComments from json.
+func (s *ListPortoutComments) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListPortoutComments to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]PortoutComment, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem PortoutComment
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "meta":
+			if err := func() error {
+				s.Meta.Reset()
+				if err := s.Meta.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"meta\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListPortoutComments")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListPortoutComments) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListPortoutComments) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListQueueCallsResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -25380,6 +25545,120 @@ func (s *MetaResponse) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *MetaResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *Metadata) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *Metadata) encodeFields(e *jx.Encoder) {
+	{
+		if s.TotalPages.Set {
+			e.FieldStart("total_pages")
+			s.TotalPages.Encode(e)
+		}
+	}
+	{
+		if s.TotalResults.Set {
+			e.FieldStart("total_results")
+			s.TotalResults.Encode(e)
+		}
+	}
+	{
+		if s.PageNumber.Set {
+			e.FieldStart("page_number")
+			s.PageNumber.Encode(e)
+		}
+	}
+	{
+		if s.PageSize.Set {
+			e.FieldStart("page_size")
+			s.PageSize.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfMetadata = [4]string{
+	0: "total_pages",
+	1: "total_results",
+	2: "page_number",
+	3: "page_size",
+}
+
+// Decode decodes Metadata from json.
+func (s *Metadata) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode Metadata to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "total_pages":
+			if err := func() error {
+				s.TotalPages.Reset()
+				if err := s.TotalPages.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"total_pages\"")
+			}
+		case "total_results":
+			if err := func() error {
+				s.TotalResults.Reset()
+				if err := s.TotalResults.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"total_results\"")
+			}
+		case "page_number":
+			if err := func() error {
+				s.PageNumber.Reset()
+				if err := s.PageNumber.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"page_number\"")
+			}
+		case "page_size":
+			if err := func() error {
+				s.PageSize.Reset()
+				if err := s.PageSize.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"page_size\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode Metadata")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *Metadata) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *Metadata) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -32453,6 +32732,39 @@ func (s *OptMetaResponse) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes Metadata as json.
+func (o OptMetadata) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes Metadata from json.
+func (o *OptMetadata) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptMetadata to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptMetadata) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptMetadata) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes Network as json.
 func (o OptNetwork) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -34827,6 +35139,105 @@ func (s OptPortingPhoneNumberRequirementsStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptPortingPhoneNumberRequirementsStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortoutComment as json.
+func (o OptPortoutComment) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes PortoutComment from json.
+func (o *OptPortoutComment) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPortoutComment to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPortoutComment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPortoutComment) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortoutDetails as json.
+func (o OptPortoutDetails) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes PortoutDetails from json.
+func (o *OptPortoutDetails) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPortoutDetails to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPortoutDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPortoutDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortoutDetailsStatus as json.
+func (o OptPortoutDetailsStatus) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes PortoutDetailsStatus from json.
+func (o *OptPortoutDetailsStatus) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPortoutDetailsStatus to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPortoutDetailsStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPortoutDetailsStatus) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -44542,6 +44953,316 @@ func (s *PlaybackStopRequest) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *PortOutListSupportingDocumentsResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortOutListSupportingDocumentsResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data != nil {
+			e.FieldStart("data")
+			e.ArrStart()
+			for _, elem := range s.Data {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+}
+
+var jsonFieldsNameOfPortOutListSupportingDocumentsResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes PortOutListSupportingDocumentsResponse from json.
+func (s *PortOutListSupportingDocumentsResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortOutListSupportingDocumentsResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data = make([]PortOutSupportingDocument, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem PortOutSupportingDocument
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Data = append(s.Data, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortOutListSupportingDocumentsResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortOutListSupportingDocumentsResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortOutListSupportingDocumentsResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PortOutSupportingDocument) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortOutSupportingDocument) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("id")
+		json.EncodeUUID(e, s.ID)
+	}
+	{
+		e.FieldStart("record_type")
+		e.Str(s.RecordType)
+	}
+	{
+		e.FieldStart("type")
+		s.Type.Encode(e)
+	}
+	{
+		e.FieldStart("portout_id")
+		json.EncodeUUID(e, s.PortoutID)
+	}
+	{
+		e.FieldStart("document_id")
+		json.EncodeUUID(e, s.DocumentID)
+	}
+	{
+		e.FieldStart("created_at")
+		e.Str(s.CreatedAt)
+	}
+	{
+		e.FieldStart("updated_at")
+		e.Str(s.UpdatedAt)
+	}
+}
+
+var jsonFieldsNameOfPortOutSupportingDocument = [7]string{
+	0: "id",
+	1: "record_type",
+	2: "type",
+	3: "portout_id",
+	4: "document_id",
+	5: "created_at",
+	6: "updated_at",
+}
+
+// Decode decodes PortOutSupportingDocument from json.
+func (s *PortOutSupportingDocument) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortOutSupportingDocument to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := json.DecodeUUID(d)
+				s.ID = v
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.RecordType = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "type":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				if err := s.Type.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "portout_id":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				v, err := json.DecodeUUID(d)
+				s.PortoutID = v
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"portout_id\"")
+			}
+		case "document_id":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := json.DecodeUUID(d)
+				s.DocumentID = v
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"document_id\"")
+			}
+		case "created_at":
+			requiredBitSet[0] |= 1 << 5
+			if err := func() error {
+				v, err := d.Str()
+				s.CreatedAt = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "updated_at":
+			requiredBitSet[0] |= 1 << 6
+			if err := func() error {
+				v, err := d.Str()
+				s.UpdatedAt = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortOutSupportingDocument")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b01111111,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfPortOutSupportingDocument) {
+					name = jsonFieldsNameOfPortOutSupportingDocument[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortOutSupportingDocument) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortOutSupportingDocument) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortOutSupportingDocumentType as json.
+func (s PortOutSupportingDocumentType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes PortOutSupportingDocumentType from json.
+func (s *PortOutSupportingDocumentType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortOutSupportingDocumentType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch PortOutSupportingDocumentType(v) {
+	case PortOutSupportingDocumentTypeLoa:
+		*s = PortOutSupportingDocumentTypeLoa
+	case PortOutSupportingDocumentTypeInvoice:
+		*s = PortOutSupportingDocumentTypeInvoice
+	default:
+		*s = PortOutSupportingDocumentType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PortOutSupportingDocumentType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortOutSupportingDocumentType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *Portability) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -45293,6 +46014,1147 @@ func (s PortingPhoneNumberRequirementsStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *PortingPhoneNumberRequirementsStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PortoutComment) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortoutComment) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("id")
+		e.Str(s.ID)
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("body")
+		e.Str(s.Body)
+	}
+	{
+		if s.PortoutID.Set {
+			e.FieldStart("portout_id")
+			s.PortoutID.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("user_id")
+		e.Str(s.UserID)
+	}
+	{
+		e.FieldStart("created_at")
+		e.Str(s.CreatedAt)
+	}
+}
+
+var jsonFieldsNameOfPortoutComment = [6]string{
+	0: "id",
+	1: "record_type",
+	2: "body",
+	3: "portout_id",
+	4: "user_id",
+	5: "created_at",
+}
+
+// Decode decodes PortoutComment from json.
+func (s *PortoutComment) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortoutComment to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.ID = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "body":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Str()
+				s.Body = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		case "portout_id":
+			if err := func() error {
+				s.PortoutID.Reset()
+				if err := s.PortoutID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"portout_id\"")
+			}
+		case "user_id":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Str()
+				s.UserID = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"user_id\"")
+			}
+		case "created_at":
+			requiredBitSet[0] |= 1 << 5
+			if err := func() error {
+				v, err := d.Str()
+				s.CreatedAt = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortoutComment")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00110101,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfPortoutComment) {
+					name = jsonFieldsNameOfPortoutComment[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortoutComment) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortoutComment) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PortoutCommentResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortoutCommentResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPortoutCommentResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes PortoutCommentResponse from json.
+func (s *PortoutCommentResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortoutCommentResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortoutCommentResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortoutCommentResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortoutCommentResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PortoutDetails) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortoutDetails) encodeFields(e *jx.Encoder) {
+	{
+		if s.ID.Set {
+			e.FieldStart("id")
+			s.ID.Encode(e)
+		}
+	}
+	{
+		if s.RecordType.Set {
+			e.FieldStart("record_type")
+			s.RecordType.Encode(e)
+		}
+	}
+	{
+		if s.PhoneNumbers != nil {
+			e.FieldStart("phone_numbers")
+			e.ArrStart()
+			for _, elem := range s.PhoneNumbers {
+				e.Str(elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.AuthorizedName.Set {
+			e.FieldStart("authorized_name")
+			s.AuthorizedName.Encode(e)
+		}
+	}
+	{
+		if s.CarrierName.Set {
+			e.FieldStart("carrier_name")
+			s.CarrierName.Encode(e)
+		}
+	}
+	{
+		if s.CurrentCarrier.Set {
+			e.FieldStart("current_carrier")
+			s.CurrentCarrier.Encode(e)
+		}
+	}
+	{
+		if s.EndUserName.Set {
+			e.FieldStart("end_user_name")
+			s.EndUserName.Encode(e)
+		}
+	}
+	{
+		if s.City.Set {
+			e.FieldStart("city")
+			s.City.Encode(e)
+		}
+	}
+	{
+		if s.State.Set {
+			e.FieldStart("state")
+			s.State.Encode(e)
+		}
+	}
+	{
+		if s.Zip.Set {
+			e.FieldStart("zip")
+			s.Zip.Encode(e)
+		}
+	}
+	{
+		if s.Lsr != nil {
+			e.FieldStart("lsr")
+			e.ArrStart()
+			for _, elem := range s.Lsr {
+				json.EncodeURI(e, elem)
+			}
+			e.ArrEnd()
+		}
+	}
+	{
+		if s.Pon.Set {
+			e.FieldStart("pon")
+			s.Pon.Encode(e)
+		}
+	}
+	{
+		if s.Reason.Set {
+			e.FieldStart("reason")
+			s.Reason.Encode(e)
+		}
+	}
+	{
+		if s.ServiceAddress.Set {
+			e.FieldStart("service_address")
+			s.ServiceAddress.Encode(e)
+		}
+	}
+	{
+		if s.FocDate.Set {
+			e.FieldStart("foc_date")
+			s.FocDate.Encode(e)
+		}
+	}
+	{
+		if s.RequestedFocDate.Set {
+			e.FieldStart("requested_foc_date")
+			s.RequestedFocDate.Encode(e)
+		}
+	}
+	{
+		if s.Spid.Set {
+			e.FieldStart("spid")
+			s.Spid.Encode(e)
+		}
+	}
+	{
+		if s.SupportKey.Set {
+			e.FieldStart("support_key")
+			s.SupportKey.Encode(e)
+		}
+	}
+	{
+		if s.Status.Set {
+			e.FieldStart("status")
+			s.Status.Encode(e)
+		}
+	}
+	{
+		if s.AlreadyPorted.Set {
+			e.FieldStart("already_ported")
+			s.AlreadyPorted.Encode(e)
+		}
+	}
+	{
+		if s.UserID.Set {
+			e.FieldStart("user_id")
+			s.UserID.Encode(e)
+		}
+	}
+	{
+		if s.Vendor.Set {
+			e.FieldStart("vendor")
+			s.Vendor.Encode(e)
+		}
+	}
+	{
+		if s.CreatedAt.Set {
+			e.FieldStart("created_at")
+			s.CreatedAt.Encode(e)
+		}
+	}
+	{
+		if s.InsertedAt.Set {
+			e.FieldStart("inserted_at")
+			s.InsertedAt.Encode(e)
+		}
+	}
+	{
+		if s.UpdatedAt.Set {
+			e.FieldStart("updated_at")
+			s.UpdatedAt.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPortoutDetails = [25]string{
+	0:  "id",
+	1:  "record_type",
+	2:  "phone_numbers",
+	3:  "authorized_name",
+	4:  "carrier_name",
+	5:  "current_carrier",
+	6:  "end_user_name",
+	7:  "city",
+	8:  "state",
+	9:  "zip",
+	10: "lsr",
+	11: "pon",
+	12: "reason",
+	13: "service_address",
+	14: "foc_date",
+	15: "requested_foc_date",
+	16: "spid",
+	17: "support_key",
+	18: "status",
+	19: "already_ported",
+	20: "user_id",
+	21: "vendor",
+	22: "created_at",
+	23: "inserted_at",
+	24: "updated_at",
+}
+
+// Decode decodes PortoutDetails from json.
+func (s *PortoutDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortoutDetails to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			if err := func() error {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "record_type":
+			if err := func() error {
+				s.RecordType.Reset()
+				if err := s.RecordType.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"record_type\"")
+			}
+		case "phone_numbers":
+			if err := func() error {
+				s.PhoneNumbers = make([]string, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
+					if err != nil {
+						return err
+					}
+					s.PhoneNumbers = append(s.PhoneNumbers, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"phone_numbers\"")
+			}
+		case "authorized_name":
+			if err := func() error {
+				s.AuthorizedName.Reset()
+				if err := s.AuthorizedName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"authorized_name\"")
+			}
+		case "carrier_name":
+			if err := func() error {
+				s.CarrierName.Reset()
+				if err := s.CarrierName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"carrier_name\"")
+			}
+		case "current_carrier":
+			if err := func() error {
+				s.CurrentCarrier.Reset()
+				if err := s.CurrentCarrier.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"current_carrier\"")
+			}
+		case "end_user_name":
+			if err := func() error {
+				s.EndUserName.Reset()
+				if err := s.EndUserName.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"end_user_name\"")
+			}
+		case "city":
+			if err := func() error {
+				s.City.Reset()
+				if err := s.City.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"city\"")
+			}
+		case "state":
+			if err := func() error {
+				s.State.Reset()
+				if err := s.State.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "zip":
+			if err := func() error {
+				s.Zip.Reset()
+				if err := s.Zip.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"zip\"")
+			}
+		case "lsr":
+			if err := func() error {
+				s.Lsr = make([]url.URL, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem url.URL
+					v, err := json.DecodeURI(d)
+					elem = v
+					if err != nil {
+						return err
+					}
+					s.Lsr = append(s.Lsr, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"lsr\"")
+			}
+		case "pon":
+			if err := func() error {
+				s.Pon.Reset()
+				if err := s.Pon.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"pon\"")
+			}
+		case "reason":
+			if err := func() error {
+				s.Reason.Reset()
+				if err := s.Reason.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"reason\"")
+			}
+		case "service_address":
+			if err := func() error {
+				s.ServiceAddress.Reset()
+				if err := s.ServiceAddress.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"service_address\"")
+			}
+		case "foc_date":
+			if err := func() error {
+				s.FocDate.Reset()
+				if err := s.FocDate.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"foc_date\"")
+			}
+		case "requested_foc_date":
+			if err := func() error {
+				s.RequestedFocDate.Reset()
+				if err := s.RequestedFocDate.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"requested_foc_date\"")
+			}
+		case "spid":
+			if err := func() error {
+				s.Spid.Reset()
+				if err := s.Spid.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"spid\"")
+			}
+		case "support_key":
+			if err := func() error {
+				s.SupportKey.Reset()
+				if err := s.SupportKey.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"support_key\"")
+			}
+		case "status":
+			if err := func() error {
+				s.Status.Reset()
+				if err := s.Status.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"status\"")
+			}
+		case "already_ported":
+			if err := func() error {
+				s.AlreadyPorted.Reset()
+				if err := s.AlreadyPorted.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"already_ported\"")
+			}
+		case "user_id":
+			if err := func() error {
+				s.UserID.Reset()
+				if err := s.UserID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"user_id\"")
+			}
+		case "vendor":
+			if err := func() error {
+				s.Vendor.Reset()
+				if err := s.Vendor.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"vendor\"")
+			}
+		case "created_at":
+			if err := func() error {
+				s.CreatedAt.Reset()
+				if err := s.CreatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		case "inserted_at":
+			if err := func() error {
+				s.InsertedAt.Reset()
+				if err := s.InsertedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"inserted_at\"")
+			}
+		case "updated_at":
+			if err := func() error {
+				s.UpdatedAt.Reset()
+				if err := s.UpdatedAt.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"updated_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortoutDetails")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortoutDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortoutDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PortoutDetailsStatus as json.
+func (s PortoutDetailsStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes PortoutDetailsStatus from json.
+func (s *PortoutDetailsStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortoutDetailsStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch PortoutDetailsStatus(v) {
+	case PortoutDetailsStatusPending:
+		*s = PortoutDetailsStatusPending
+	case PortoutDetailsStatusAuthorized:
+		*s = PortoutDetailsStatusAuthorized
+	case PortoutDetailsStatusPorted:
+		*s = PortoutDetailsStatusPorted
+	case PortoutDetailsStatusRejected:
+		*s = PortoutDetailsStatusRejected
+	case PortoutDetailsStatusRejectedPending:
+		*s = PortoutDetailsStatusRejectedPending
+	case PortoutDetailsStatusCanceled:
+		*s = PortoutDetailsStatusCanceled
+	default:
+		*s = PortoutDetailsStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PortoutDetailsStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortoutDetailsStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PortoutResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PortoutResponse) encodeFields(e *jx.Encoder) {
+	{
+		if s.Data.Set {
+			e.FieldStart("data")
+			s.Data.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPortoutResponse = [1]string{
+	0: "data",
+}
+
+// Decode decodes PortoutResponse from json.
+func (s *PortoutResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PortoutResponse to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "data":
+			if err := func() error {
+				s.Data.Reset()
+				if err := s.Data.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"data\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PortoutResponse")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PortoutResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PortoutResponse) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PostPortRequestCommentReq) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PostPortRequestCommentReq) encodeFields(e *jx.Encoder) {
+	{
+		if s.Body.Set {
+			e.FieldStart("body")
+			s.Body.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPostPortRequestCommentReq = [1]string{
+	0: "body",
+}
+
+// Decode decodes PostPortRequestCommentReq from json.
+func (s *PostPortRequestCommentReq) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PostPortRequestCommentReq to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "body":
+			if err := func() error {
+				s.Body.Reset()
+				if err := s.Body.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"body\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PostPortRequestCommentReq")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PostPortRequestCommentReq) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PostPortRequestCommentReq) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PostPortRequestSupportingDocumentsReq) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PostPortRequestSupportingDocumentsReq) encodeFields(e *jx.Encoder) {
+	{
+		if s.Documents != nil {
+			e.FieldStart("documents")
+			e.ArrStart()
+			for _, elem := range s.Documents {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+}
+
+var jsonFieldsNameOfPostPortRequestSupportingDocumentsReq = [1]string{
+	0: "documents",
+}
+
+// Decode decodes PostPortRequestSupportingDocumentsReq from json.
+func (s *PostPortRequestSupportingDocumentsReq) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PostPortRequestSupportingDocumentsReq to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "documents":
+			if err := func() error {
+				s.Documents = make([]PostPortRequestSupportingDocumentsReqDocumentsItem, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem PostPortRequestSupportingDocumentsReqDocumentsItem
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Documents = append(s.Documents, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"documents\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PostPortRequestSupportingDocumentsReq")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PostPortRequestSupportingDocumentsReq) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PostPortRequestSupportingDocumentsReq) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("type")
+		s.Type.Encode(e)
+	}
+	{
+		e.FieldStart("document_id")
+		json.EncodeUUID(e, s.DocumentID)
+	}
+}
+
+var jsonFieldsNameOfPostPortRequestSupportingDocumentsReqDocumentsItem = [2]string{
+	0: "type",
+	1: "document_id",
+}
+
+// Decode decodes PostPortRequestSupportingDocumentsReqDocumentsItem from json.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PostPortRequestSupportingDocumentsReqDocumentsItem to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "type":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Type.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "document_id":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := json.DecodeUUID(d)
+				s.DocumentID = v
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"document_id\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PostPortRequestSupportingDocumentsReqDocumentsItem")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfPostPortRequestSupportingDocumentsReqDocumentsItem) {
+					name = jsonFieldsNameOfPostPortRequestSupportingDocumentsReqDocumentsItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PostPortRequestSupportingDocumentsReqDocumentsItemType as json.
+func (s PostPortRequestSupportingDocumentsReqDocumentsItemType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes PostPortRequestSupportingDocumentsReqDocumentsItemType from json.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItemType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PostPortRequestSupportingDocumentsReqDocumentsItemType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch PostPortRequestSupportingDocumentsReqDocumentsItemType(v) {
+	case PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa:
+		*s = PostPortRequestSupportingDocumentsReqDocumentsItemTypeLoa
+	case PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice:
+		*s = PostPortRequestSupportingDocumentsReqDocumentsItemTypeInvoice
+	default:
+		*s = PostPortRequestSupportingDocumentsReqDocumentsItemType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PostPortRequestSupportingDocumentsReqDocumentsItemType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PostPortRequestSupportingDocumentsReqDocumentsItemType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -58694,6 +60556,69 @@ func (s UpdatePhoneNumberVoiceSettingsRequestUsagePaymentMethod) MarshalJSON() (
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *UpdatePhoneNumberVoiceSettingsRequestUsagePaymentMethod) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *UpdatePortoutStatusReq) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *UpdatePortoutStatusReq) encodeFields(e *jx.Encoder) {
+	{
+		if s.Reason.Set {
+			e.FieldStart("reason")
+			s.Reason.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfUpdatePortoutStatusReq = [1]string{
+	0: "reason",
+}
+
+// Decode decodes UpdatePortoutStatusReq from json.
+func (s *UpdatePortoutStatusReq) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode UpdatePortoutStatusReq to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "reason":
+			if err := func() error {
+				s.Reason.Reset()
+				if err := s.Reason.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"reason\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode UpdatePortoutStatusReq")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *UpdatePortoutStatusReq) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *UpdatePortoutStatusReq) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
