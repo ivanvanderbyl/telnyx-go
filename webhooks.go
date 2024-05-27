@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	DEFAULT_TOLERANCE = 300 // 5 minutes
+	DefaultSignatureTolerance = 300 // 5 minutes
 )
 
 type VerificationError struct {
@@ -37,7 +37,7 @@ func newSignatureVerificationError(payload, signatureHeader, timestampHeader str
 
 // VerifyWebhookPayload constructs an event from a webhook payload, signature header, timestamp header and public key.
 func VerifyWebhookPayload(payload, signatureHeader, timestampHeader, publicKey string, tolerance ...int) (map[string]interface{}, error) {
-	tol := DEFAULT_TOLERANCE
+	tol := DefaultSignatureTolerance
 	if len(tolerance) > 0 {
 		tol = tolerance[0]
 	}
