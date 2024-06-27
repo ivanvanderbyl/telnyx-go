@@ -20,7 +20,7 @@ func (a *Authorizor) BearerAuth(_ context.Context, operationName string) (telnyx
 func do() error {
   auth := &Authorizor{token: os.Getenv("TELNYX_API_KEY")}
 
-  client, err := telnyx.NewClient(arg.BaseURL, auth)
+  client, err := telnyx.NewClient(telnyx.TelnyxAPIServer, auth)
   if err != nil {
     return fmt.Errorf("create client: %w", err)
   }
